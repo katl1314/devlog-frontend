@@ -1,7 +1,7 @@
-import Searchbar from "../Layout/Searchbar";
-import Profile from "../Profile/Profile";
+import Searchbar from "../Searchbar";
+import Profile from "../../Profile/Profile";
 import style from "./Header.module.css";
-import { SidebarTrigger } from "../ui/sidebar";
+import { SidebarTrigger } from "../../ui/sidebar";
 
 export default function Header() {
   return (
