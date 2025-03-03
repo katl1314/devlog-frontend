@@ -1,6 +1,7 @@
 // import style from "./modal.module.css";
 "use client";
 
+import { useRouter } from "next/navigation";
 import {
   MouseEventHandler,
   PropsWithChildren,
@@ -12,7 +13,7 @@ import { createPortal } from "react-dom";
 
 export default function Modal({ children }: PropsWithChildren) {
   const modalRef = useRef<HTMLDialogElement>(null);
-
+  const router = useRouter();
   // 컴포넌트 마운트 시
   useEffect(() => {
     if (!modalRef.current?.open) {
@@ -21,12 +22,14 @@ export default function Modal({ children }: PropsWithChildren) {
   }, []);
 
   // 이벤트 정의
-  const handleClick: MouseEventHandler = (e) => {
+  const handleClick: MouseEventHandler = () => {
     // 모달 영역 클릭 시
+    modalRef?.current?.close(); // 모달 닫기
   };
 
-  const handleClose: ReactEventHandler = (e) => {
+  const handleClose: ReactEventHandler = () => {
     // esc 버튼 클릭 시 => 모달 종료...
+    router.back();
   };
   const dialog = (
     <dialog

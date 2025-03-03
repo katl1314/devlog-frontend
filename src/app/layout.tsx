@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import SidebarLayout from "@/components/Layout/SidebarLayout/SidebarLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,16 +21,16 @@ export const metadata: Metadata = {
 
 interface RootLayout {
   children: React.ReactNode;
-  modal: React.ReactNode;
 }
 
-export default function RootLayout({ children, modal }: Readonly<RootLayout>) {
+export default function RootLayout({ children }: Readonly<RootLayout>) {
   return (
     <html lang="ko">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <main>{children}</main>
-        {modal}
-        <div id="modal"></div>
+        <SidebarProvider>
+          <SidebarLayout>{children}</SidebarLayout>
+          <div id="modal"></div>
+        </SidebarProvider>
       </body>
     </html>
   );

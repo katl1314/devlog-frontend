@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  align-items: center;
+  max-width: 500px;
+  justify-content: space-between;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #d4d2d2;
+  border-radius: 20px;
+  gap: 10px;
+  margin: 0 auto;
+}
+
+.input {
+  width: 100%;
+  flex: 1;
+  border: 0;
+}

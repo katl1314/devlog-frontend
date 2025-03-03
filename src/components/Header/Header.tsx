@@ -1,20 +1,25 @@
-import Link from "next/link";
+import Searchbar from "../Layout/Searchbar";
+import Profile from "../Profile/Profile";
 import style from "./Header.module.css";
+import { SidebarTrigger } from "../ui/sidebar";
 
 export default function Header() {
   return (
-    <header>
+    <header className="sticky top-[0] z-[9999]">
       <div className={style.container}>
         <div className={style.header}>
           <div className={style.menu}>
-            <div>로고</div>
-            <div>
-              <Link href={"/book"}>도서</Link>
-            </div>
-            <div>프로필</div>
+            <SidebarTrigger />
+            <Searchbar />
+            <Gnb />
+            <Profile />
           </div>
         </div>
       </div>
     </header>
   );
 }
+
+const Gnb = () => {
+  return <div>Gnb</div>;
+};
