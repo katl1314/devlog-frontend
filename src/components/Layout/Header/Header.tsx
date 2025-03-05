@@ -1,7 +1,8 @@
 import Searchbar from "../Searchbar";
 import Profile from "../../Profile/Profile";
 import style from "./Header.module.css";
-import { SidebarTrigger } from "../../ui/sidebar";
+import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function Header() {
   return (
@@ -9,9 +10,10 @@ export default function Header() {
       <div className={style.container}>
         <div className={style.header}>
           <div className={style.menu}>
-            <SidebarTrigger />
+            <h3 className="text-xl font-bold cursor-pointer">
+              <Logo />
+            </h3>
             <Searchbar />
-            <Gnb />
             <Profile />
           </div>
         </div>
@@ -19,7 +21,3 @@ export default function Header() {
     </header>
   );
 }
-
-const Gnb = () => {
-  return <div>Gnb</div>;
-};
