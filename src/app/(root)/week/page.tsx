@@ -1,3 +1,3 @@
 export default function Page() {
-  return <div>AAA</div>;
+  return <div>Week</div>;
 }
