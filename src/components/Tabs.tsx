@@ -1,5 +1,7 @@
+"use client";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   MdOutlineTrendingUp,
   MdOutlineAccessTime,
@@ -14,26 +16,8 @@ export type TabItem = {
 
 interface TabItems {
   items: TabItem[];
-  selectedOption?: string;
+  defaultPath?: string;
   onOptionChange?: (opt: string) => void;
-}
-
-export default function TabItems({ items, selectedOption }: TabItems) {
-  return (
-    <>
-      {items.map((item) => {
-        return (
-          <TabItem
-            key={item.id}
-            {...item}
-            isActive={selectedOption === item.id}
-          >
-            {icons[item.id]}
-          </TabItem>
-        );
-      })}
-    </>
-  );
 }
 
 const icons: { [name: string]: React.ReactNode } = {
@@ -42,7 +26,24 @@ const icons: { [name: string]: React.ReactNode } = {
   feed: <MdOutlineRssFeed size={24} />,
 };
 
-function TabItem({
+export default function Tabs({ items, defaultPath }: TabItems) {
+  let pathname = usePathname();
+  return (
+    <>
+      {items.map((item) => {
+        const target = pathname === "/" ? defaultPath ?? "" : pathname;
+        const isActive = item.href.startsWith(target);
+        return (
+          <Tab key={item.id} {...item} isActive={isActive}>
+            {icons[item.id]}
+          </Tab>
+        );
+      })}
+    </>
+  );
+}
+
+function Tab({
   id,
   text,
   href,
@@ -59,8 +60,9 @@ function TabItem({
     <div
       key={id}
       className={cn(
-        "px-4 py-2 flex gap-2 items-center",
-        isActive && "bg-violet-300"
+        "px-4 py-2 flex gap-2 items-center relative",
+        isActive &&
+          "before:content-[''] before:absolute before:border-1 before:w-full before:left-0 before:top-[40px]"
       )}
     >
       {children}

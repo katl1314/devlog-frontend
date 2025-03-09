@@ -19,7 +19,7 @@ export default function TabView({
   const justifyStart =
     position != "start" && `${flexPosition[position]} flex-auto`;
   return (
-    <div className={cn("flex items-center gap-3", justifyStart)}>
+    <div className={cn("flex items-center", justifyStart)}>
       {showOption && <>{children}</>}
     </div>
   );
