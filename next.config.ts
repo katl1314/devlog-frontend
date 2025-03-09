@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/",
-        destination: "/week",
+        destination: "/trends/week",
       },
     ];
   },
