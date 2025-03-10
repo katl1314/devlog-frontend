@@ -2,11 +2,6 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  MdOutlineTrendingUp,
-  MdOutlineAccessTime,
-  MdOutlineRssFeed,
-} from "react-icons/md";
 
 export type TabItem = {
   id: string;
@@ -16,17 +11,12 @@ export type TabItem = {
 
 interface TabItems {
   items: TabItem[];
+  icons?: { [name: string]: React.ReactNode };
   defaultPath?: string;
   onOptionChange?: (opt: string) => void;
 }
 
-const icons: { [name: string]: React.ReactNode } = {
-  trends: <MdOutlineTrendingUp size={24} />,
-  new: <MdOutlineAccessTime size={24} />,
-  feed: <MdOutlineRssFeed size={24} />,
-};
-
-export default function Tabs({ items, defaultPath }: TabItems) {
+export default function Tabs({ items, icons, defaultPath }: TabItems) {
   const pathname = usePathname();
   return (
     <>
@@ -35,7 +25,7 @@ export default function Tabs({ items, defaultPath }: TabItems) {
         const isActive = item.href.startsWith(target);
         return (
           <Tab key={item.id} {...item} isActive={isActive}>
-            {icons[item.id]}
+            {icons?.[item.id]}
           </Tab>
         );
       })}
@@ -60,9 +50,9 @@ function Tab({
     <div
       key={id}
       className={cn(
-        "px-4 py-2 flex gap-2 items-center relative",
+        "px-4 py-2 flex gap-2 items-center relative text-zinc-400",
         isActive &&
-          "before:content-[''] before:absolute before:border-1 before:w-full before:left-0 before:top-[40px]"
+          "font-bold text-black before:content-[''] before:absolute before:border-1 before:w-[70%] before:left-[calc((100%-70%)/2)] before:bottom-0"
       )}
     >
       {children}
