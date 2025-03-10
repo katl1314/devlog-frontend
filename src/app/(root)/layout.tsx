@@ -1,25 +1,28 @@
 import Header from "@/components/Layout/Header/Header";
 import style from "./page.module.css";
 import PageLayout from "@/components/Layout/PageLayout";
-import { FiMoreVertical } from "react-icons/fi";
 import TabView from "@/components/TabView";
 import TabLayout from "@/components/Layout/TabLayout";
 import Tabs, { TabItem } from "@/components/Tabs";
+import {
+  MdOutlineTrendingUp,
+  MdOutlineAccessTime,
+  MdOutlineRssFeed,
+} from "react-icons/md";
+import LayoutControl from "@/components/LayoutControl";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const items: TabItem[] = [
-    { id: "trends", text: "트렌딩", href: "/trends/week" },
+    { id: "trends", text: "트렌딩", href: "/trends" },
     { id: "new", text: "최신", href: "/new" },
-    { id: "feed", text: "피드", href: "/feed" },
+    { id: "feed", text: "구독", href: "/feed" },
   ];
 
-  // /trends 일때만 보여줘야함. => 콤보박스 형태로...
-  // const options = [
-  //   { text: "오늘", id: "day", href: "/trends/day" },
-  //   { text: "이번 주", id: "week", href: "/trends/week" },
-  //   { text: "이번 달", id: "month", href: "/trends/month" },
-  //   { text: "올해", id: "year", href: "/trends/year" },
-  // ];
+  const icons: { [name: string]: React.ReactNode } = {
+    trends: <MdOutlineTrendingUp size={24} />,
+    new: <MdOutlineAccessTime size={24} />,
+    feed: <MdOutlineRssFeed size={24} />,
+  };
 
   return (
     <div className={style.container}>
@@ -27,11 +30,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Header />
         <TabLayout>
           <TabView showOption={true}>
-            <Tabs items={items} defaultPath="/trends/week" />
+            <Tabs items={items} icons={icons} defaultPath="/trends" />
           </TabView>
-          <TabView showOption={true} position="end">
-            {/* <Tabs items={options} /> */}
-            <FiMoreVertical size={20} />
+          <TabView showOption={true} position="end" gap={2}>
+            <LayoutControl />
           </TabView>
         </TabLayout>
         <div className={style.content}>{children}</div>
