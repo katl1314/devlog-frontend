@@ -1,7 +1,6 @@
 import Searchbar from "../Searchbar";
 import Profile from "../../Profile/Profile";
 import style from "./Header.module.css";
-import Link from "next/link";
 import Logo from "@/components/Logo";
 
 export default function Header() {

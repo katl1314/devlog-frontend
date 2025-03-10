@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 
-export default async function Trends({ params }: { params: { type: any } }) {
+export default async function Trends({
+  params,
+}: {
+  params: Promise<{ type: string }>;
+}) {
   // 경로 Validation
   const pages = ["week", "day", "month", "year"];
   const type = (await params).type?.[0] ?? "week";

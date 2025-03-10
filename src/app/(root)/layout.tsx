@@ -14,12 +14,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   // /trends 일때만 보여줘야함. => 콤보박스 형태로...
-  const options = [
-    { text: "오늘", id: "day", href: "/trends/day" },
-    { text: "이번 주", id: "week", href: "/trends/week" },
-    { text: "이번 달", id: "month", href: "/trends/month" },
-    { text: "올해", id: "year", href: "/trends/year" },
-  ];
+  // const options = [
+  //   { text: "오늘", id: "day", href: "/trends/day" },
+  //   { text: "이번 주", id: "week", href: "/trends/week" },
+  //   { text: "이번 달", id: "month", href: "/trends/month" },
+  //   { text: "올해", id: "year", href: "/trends/year" },
+  // ];
 
   return (
     <div className={style.container}>

@@ -27,7 +27,7 @@ const icons: { [name: string]: React.ReactNode } = {
 };
 
 export default function Tabs({ items, defaultPath }: TabItems) {
-  let pathname = usePathname();
+  const pathname = usePathname();
   return (
     <>
       {items.map((item) => {
