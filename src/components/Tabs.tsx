@@ -50,15 +50,13 @@ function Tab({
     <div
       key={id}
       className={cn(
-        "px-4 py-2 flex gap-2 items-center relative text-zinc-400",
+        "py-2 flex gap-2 items-center relative text-zinc-400 text-base ml-[6px] lg:ml-4",
         isActive &&
-          "font-bold text-black before:content-[''] before:absolute before:border-1 before:w-[70%] before:left-[calc((100%-70%)/2)] before:bottom-0"
+          "font-bold text-black before:content-[''] before:absolute before:border-1 before:w-[90%] before:left-[calc((100%-90%)/2)] before:bottom-0"
       )}
     >
       {children}
-      <Link href={href} className="text-lg">
-        {text}
-      </Link>
+      <Link href={href}>{text}</Link>
     </div>
   );
 }
