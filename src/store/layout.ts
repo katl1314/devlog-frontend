@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
 interface StateType {
-  layout: "grid" | "row";
-  setLayout: (layout: "grid" | "row") => void;
+  layout: "grid" | "column";
+  setLayout: (layout: "grid" | "column") => void;
 }
 
 const useLayout = create<StateType>((set) => ({
   layout: "grid",
-  setLayout: (layout: "grid" | "row") => set({ layout }),
+  setLayout: (layout: "grid" | "column") => set({ layout }),
 }));
 
 export default useLayout;

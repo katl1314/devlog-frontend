@@ -8,24 +8,28 @@ export default function LayoutControl() {
   const { layout, setLayout } = useLayout();
   const activeCss = "bg-neutral-400 rounded-md";
 
-  const changeLayout = (layout: "grid" | "row") => {
+  const changeLayout = (layout: "grid" | "column") => {
     setLayout(layout);
   };
   return (
-    <>
-      <CiGrid41
-        size={26}
-        className={cn("cursor-pointer", layout === "grid" && activeCss)}
-        color={layout === "grid" ? "white" : ""}
-        onClick={changeLayout.bind(null, "grid")}
-      />
-      <CiGrid2H
-        size={26}
-        className={cn("cursor-pointer", layout === "row" && activeCss)}
-        color={layout === "row" ? "white" : ""}
-        onClick={changeLayout.bind(null, "row")}
-      />
+    <div className="hidden md:flex items-center gap-2">
+      <div className="flex gap-1">
+        <CiGrid41
+          size={26}
+          className={cn("cursor-pointer", layout === "grid" && activeCss)}
+          color={layout === "grid" ? "white" : ""}
+          onClick={changeLayout.bind(null, "grid")}
+        />
+        <CiGrid2H
+          size={26}
+          className={cn("cursor-pointer", layout === "column" && activeCss)}
+          color={layout === "column" ? "white" : ""}
+          onClick={changeLayout.bind(null, "column")}
+        />
+      </div>
+      <div></div>
+
       <FiMoreVertical size={22} />
-    </>
+    </div>
   );
 }
