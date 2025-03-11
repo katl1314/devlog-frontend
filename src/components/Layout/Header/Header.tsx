@@ -5,7 +5,7 @@ import Logo from "@/components/Logo";
 
 export default function Header() {
   return (
-    <header className="sticky top-[0] z-[9999]">
+    <header>
       <div className={style.container}>
         <div className={style.header}>
           <div className={style.menu}>
