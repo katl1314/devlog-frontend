@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // 외부 이미지 조회
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "placehold.co" }],
+  },
 };
 
 export default nextConfig;

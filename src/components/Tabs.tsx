@@ -52,7 +52,7 @@ function Tab({
       className={cn(
         "py-2 flex gap-2 items-center relative text-zinc-400 text-base ml-[6px] lg:ml-4",
         isActive &&
-          "font-bold text-black before:content-[''] before:absolute before:border-1 before:w-[90%] before:left-[calc((100%-90%)/2)] before:bottom-0"
+          "font-bold text-black before:content-[''] before:absolute before:border-1 before:w-full before:left-0 before:bottom-0"
       )}
     >
       {children}
