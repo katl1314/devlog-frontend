@@ -299,6 +299,306 @@
       "like": 213,
       "user": "verticalFarming",
       "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 31,
+      "title": "인공지능과 일자리의 미래",
+      "summary": "AI 기술이 노동 시장에 미치는 영향과 새롭게 등장하는 직업군 분석",
+      "date": "2023-10-15",
+      "comments": 87,
+      "like": 342,
+      "user": "futuristThinker",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 32,
+      "title": "글로벌 기후 변화 대응 전략",
+      "summary": "세계 각국의 탄소중립 정책과 기업들의 지속가능 경영 방향",
+      "date": "2023-10-14",
+      "comments": 62,
+      "like": 289,
+      "user": "climateExpert",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 33,
+      "title": "디지털 화폐의 부상",
+      "summary": "중앙은행 디지털 화폐(CBDC)와 암호화폐가 미래 금융에 미칠 영향",
+      "date": "2023-10-13",
+      "comments": 109,
+      "like": 421,
+      "user": "cryptoAnalyst",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 34,
+      "title": "메타버스 경제의 등장",
+      "summary": "가상 세계에서 형성되는 새로운 경제 시스템과 비즈니스 기회",
+      "date": "2023-10-12",
+      "comments": 94,
+      "like": 378,
+      "user": "virtualEconomist",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 35,
+      "title": "신경과학과 교육의 만남",
+      "summary": "뇌과학 연구가 교육 방법론에 가져오는 혁신적 변화",
+      "date": "2023-10-11",
+      "comments": 43,
+      "like": 217,
+      "user": "neuroEducator",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 36,
+      "title": "우주 탐사의 새로운 시대",
+      "summary": "민간 우주기업들의 경쟁과 새로운 우주 비즈니스 모델",
+      "date": "2023-10-10",
+      "comments": 78,
+      "like": 356,
+      "user": "spaceVisioneer",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 37,
+      "title": "퀀텀 컴퓨팅의 현재와 미래",
+      "summary": "양자 컴퓨터 기술의 최신 발전과 산업적 응용 전망",
+      "date": "2023-10-09",
+      "comments": 51,
+      "like": 243,
+      "user": "quantumPhysicist",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 38,
+      "title": "디지털 정체성의 진화",
+      "summary": "온라인 ID와 개인정보 보호의 새로운 패러다임",
+      "date": "2023-10-08",
+      "comments": 39,
+      "like": 187,
+      "user": "cyberSecurityPro",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 39,
+      "title": "친환경 건축의 혁신",
+      "summary": "지속가능한 도시 개발과 탄소중립 건축 기술",
+      "date": "2023-10-07",
+      "comments": 57,
+      "like": 276,
+      "user": "ecoArchitect",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 40,
+      "title": "바이오테크놀로지 혁명",
+      "summary": "유전자 편집과 맞춤형 의학이 가져올 헬스케어의 미래",
+      "date": "2023-10-06",
+      "comments": 83,
+      "like": 342,
+      "user": "bioTechScientist",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 41,
+      "title": "디지털 노마드 문화의 확산",
+      "summary": "원격 근무와 국경 없는 디지털 직업의 시대",
+      "date": "2023-10-05",
+      "comments": 64,
+      "like": 298,
+      "user": "globalNomad",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 42,
+      "title": "스마트 시티의 미래",
+      "summary": "도시 인프라의 디지털화와 시민 중심 도시 설계",
+      "date": "2023-10-04",
+      "comments": 47,
+      "like": 231,
+      "user": "urbanPlanner",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 43,
+      "title": "순환 경제의 부상",
+      "summary": "자원 재활용과 지속가능한 소비 모델의 성장",
+      "date": "2023-10-03",
+      "comments": 52,
+      "like": 265,
+      "user": "sustainabilityConsultant",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 44,
+      "title": "디지털 헬스의 혁신",
+      "summary": "원격 의료와 웨어러블 기기가 변화시키는 건강관리 방식",
+      "date": "2023-10-02",
+      "comments": 73,
+      "like": 319,
+      "user": "healthTechDoctor",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 45,
+      "title": "비대면 교육의 진화",
+      "summary": "온라인 학습 플랫폼과 에듀테크의 새로운 가능성",
+      "date": "2023-10-01",
+      "comments": 68,
+      "like": 287,
+      "user": "eduTechInnovator",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 46,
+      "title": "로봇 공학의 최전선",
+      "summary": "인간-로봇 협업과 산업 자동화의 새로운 시대",
+      "date": "2023-09-30",
+      "comments": 59,
+      "like": 271,
+      "user": "roboticsEngineer",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 47,
+      "title": "포스트 팬데믹 여행 트렌드",
+      "summary": "코로나19 이후 변화된 국제 관광과 새로운 여행 방식",
+      "date": "2023-09-29",
+      "comments": 85,
+      "like": 347,
+      "user": "travelFuturist",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 48,
+      "title": "소셜 미디어의 미래",
+      "summary": "플랫폼 진화와 온라인 커뮤니케이션의 새로운 형태",
+      "date": "2023-09-28",
+      "comments": 92,
+      "like": 378,
+      "user": "digitalSociologist",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 49,
+      "title": "디지털 농업 혁명",
+      "summary": "스마트 팜과 농업 기술이 식량 생산 시스템을 변화시키는 방식",
+      "date": "2023-09-27",
+      "comments": 41,
+      "like": 216,
+      "user": "agriTechExpert",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 50,
+      "title": "현대 예술과 테크놀로지",
+      "summary": "디지털 기술이 예술 창작과 향유에 미치는 영향",
+      "date": "2023-09-26",
+      "comments": 37,
+      "like": 198,
+      "user": "digitalArtist",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 51,
+      "title": "미래 식품의 혁신",
+      "summary": "대체 단백질과 지속가능한 식품 생산 시스템의 발전",
+      "date": "2023-09-25",
+      "comments": 63,
+      "like": 284,
+      "user": "foodInnovator",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 52,
+      "title": "신경망과 기계학습의 발전",
+      "summary": "인공지능 기술의 최신 진보와 현실적 응용 사례",
+      "date": "2023-09-24",
+      "comments": 49,
+      "like": 237,
+      "user": "aiResearcher",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 53,
+      "title": "블록체인 기술의 진화",
+      "summary": "분산 원장 기술의 산업 응용과 미래 전망",
+      "date": "2023-09-23",
+      "comments": 71,
+      "like": 313,
+      "user": "blockchainDeveloper",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 54,
+      "title": "현대 건강과 웰빙 트렌드",
+      "summary": "통합적 건강 관리와 정신 건강의 중요성 증가",
+      "date": "2023-09-22",
+      "comments": 76,
+      "like": 329,
+      "user": "wellnessCoach",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 55,
+      "title": "마이크로모빌리티의 미래",
+      "summary": "도시 교통의 변화와 지속가능한 이동 수단의 확산",
+      "date": "2023-09-21",
+      "comments": 44,
+      "like": 219,
+      "user": "urbanMobilityExpert",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 56,
+      "title": "증강현실의 상업적 응용",
+      "summary": "AR 기술이 소매업과 마케팅에 가져오는 혁신",
+      "date": "2023-09-20",
+      "comments": 53,
+      "like": 241,
+      "user": "arDeveloper",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 57,
+      "title": "개인화된 학습 방법론",
+      "summary": "AI 기반 맞춤형 교육과 학습 효과성 연구",
+      "date": "2023-09-19",
+      "comments": 49,
+      "like": 227,
+      "user": "educationInnovator",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 58,
+      "title": "의료용 나노기술의 발전",
+      "summary": "질병 진단과 치료에 혁명을 가져올 나노의학의 전망",
+      "date": "2023-09-18",
+      "comments": 35,
+      "like": 196,
+      "user": "nanoMedicineExpert",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 59,
+      "title": "디지털 경제와 불평등",
+      "summary": "기술 발전이 사회경제적 격차에 미치는 영향과 해결책",
+      "date": "2023-09-17",
+      "comments": 87,
+      "like": 356,
+      "user": "digitalEconomist",
+      "thumbnail": "https://placehold.co/600x400"
+    },
+    {
+      "id": 60,
+      "title": "수직 농업의 확산",
+      "summary": "도시 내 식량 생산과 첨단 실내 농업 기술의 발전",
+      "date": "2023-09-16",
+      "comments": 42,
+      "like": 213,
+      "user": "verticalFarming",
+      "thumbnail": "https://placehold.co/600x400"
     }
   ],
   "new": [
