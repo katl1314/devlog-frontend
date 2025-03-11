@@ -50,7 +50,7 @@ function Tab({
     <div
       key={id}
       className={cn(
-        "py-2 flex gap-2 items-center relative text-zinc-400 text-base ml-[6px] lg:ml-4",
+        "py-2 flex gap-2 items-center relative text-zinc-400 text-base ml-2 lg:ml-4",
         isActive &&
           "font-bold text-black before:content-[''] before:absolute before:border-1 before:w-full before:left-0 before:bottom-0"
       )}
