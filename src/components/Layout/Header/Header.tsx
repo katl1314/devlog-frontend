@@ -1,5 +1,5 @@
 import Searchbar from "../Searchbar";
-import Profile from "../../Profile/Profile";
+import Profile from "@/components/Profile";
 import style from "./Header.module.css";
 import Logo from "@/components/Logo";
 
