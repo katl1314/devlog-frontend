@@ -8,8 +8,12 @@ export default function CardLayout({
   children: React.ReactNode[];
 }) {
   const { layout } = useLayout();
-  const gridCss = layout === "grid" && `flex-row flex-wrap gap-3`;
-  const rowCss = !gridCss && `flex-col`;
+  const gridCss = layout === "grid" && `md:flex-row md:flex-wrap`;
+  const colCss = !gridCss && `flex-col`;
 
-  return <div className={cn("flex", gridCss, rowCss)}>{children}</div>;
+  return (
+    <div className={cn("flex gap-3 flex-col ", gridCss, colCss)}>
+      {children}
+    </div>
+  );
 }
