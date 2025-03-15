@@ -9,7 +9,7 @@ import {
   MdOutlineAccessTime,
   MdOutlineRssFeed,
 } from "react-icons/md";
-import LayoutControl from "@/components/LayoutControl";
+import LayoutControl from "@/components/Layout/LayoutControl";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const items: TabItem[] = [
