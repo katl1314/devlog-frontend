@@ -1,4 +1,3 @@
-// import style from "./modal.module.css";
 "use client";
 
 import { useRouter } from "next/navigation";
