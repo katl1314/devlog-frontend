@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { ICard } from "@/types/type";
 import CardView from "@/components/Layout/CardLayout";
+import PostCard from "@/components/PostCard";
 
 export async function generateStaticParams() {
   try {
@@ -33,7 +34,7 @@ export default async function Page({
       {tab}
       <CardView>
         {data.map(({ id, ...args }) => (
-          <div key={id}>{args.title}</div>
+          <PostCard key={id} {...args} />
         ))}
       </CardView>
     </>
