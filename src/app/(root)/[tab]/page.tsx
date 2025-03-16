@@ -34,8 +34,8 @@ export default async function Page({
     <>
       <CardView>
         {data.map(({ ...args }) => (
-          <Link href={`/user/${args.user}/${args.id}`}>
-            <PostCard key={args.id} {...args} />
+          <Link href={`/user/${args.user}/${args.id}`} key={args.id}>
+            <PostCard {...args} />
           </Link>
         ))}
       </CardView>
