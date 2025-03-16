@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { ICard } from "@/types/type";
 import CardView from "@/components/Layout/CardLayout";
 import PostCard from "@/components/PostCard";
+import Link from "next/link";
 
 export async function generateStaticParams() {
   try {
@@ -31,10 +32,11 @@ export default async function Page({
   const data: ICard[] = await res.json();
   return (
     <>
-      {tab}
       <CardView>
-        {data.map(({ id, ...args }) => (
-          <PostCard key={id} {...args} />
+        {data.map(({ ...args }) => (
+          <Link href={`/user/${args.user}/${args.id}`}>
+            <PostCard key={args.id} {...args} />
+          </Link>
         ))}
       </CardView>
     </>
