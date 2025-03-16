@@ -12,8 +12,8 @@ export default function LayoutControl() {
     setLayout(layout);
   };
   return (
-    <div className="hidden md:flex items-center gap-2">
-      <div className="flex gap-1">
+    <div className="hidden md:flex items-center gap-4">
+      <div className="flex gap-2">
         <CiGrid41
           size={26}
           className={cn("cursor-pointer", layout === "grid" && activeCss)}
@@ -27,8 +27,6 @@ export default function LayoutControl() {
           onClick={changeLayout.bind(null, "column")}
         />
       </div>
-      <div></div>
-
       <FiMoreVertical size={22} />
     </div>
   );

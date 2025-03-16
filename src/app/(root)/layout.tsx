@@ -1,9 +1,8 @@
 import Header from "@/components/Layout/Header/Header";
-import style from "./page.module.css";
 import PageLayout from "@/components/Layout/PageLayout";
-import TabView from "@/components/TabView";
+import TabView from "@/components/Tab/TabView";
 import TabLayout from "@/components/Layout/TabLayout";
-import Tabs, { TabItem } from "@/components/Tabs";
+import Tabs, { TabItem } from "@/components/Tab/Tabs";
 import {
   MdOutlineTrendingUp,
   MdOutlineAccessTime,
@@ -25,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className={style.container}>
+    <div className=" my-[10px] mx-auto">
       <PageLayout>
         <Header />
         <TabLayout>
@@ -36,7 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <LayoutControl />
           </TabView>
         </TabLayout>
-        <div className={style.content}>{children}</div>
+        <div className=" my-[10px] mx-auto">{children}</div>
       </PageLayout>
     </div>
   );

@@ -1,4 +1,4 @@
-import Search from "../Search";
+import Search from "../Searchbar/Search";
 
 export default function Searchbar() {
   return (
