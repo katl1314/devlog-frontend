@@ -19,14 +19,16 @@ export const metadata: Metadata = {
 
 interface RootLayout {
   children: React.ReactNode;
+  modal?: React.ReactNode;
 }
 
-export default function RootLayout({ children }: Readonly<RootLayout>) {
+export default function RootLayout({ children, modal }: Readonly<RootLayout>) {
   return (
     <html lang="ko">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} relative`}>
         {children}
-        <div id="modal"></div>
+        {modal}
+        <div id="modal" className="absolute top-0"></div>
       </body>
     </html>
   );
