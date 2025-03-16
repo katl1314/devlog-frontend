@@ -12,7 +12,14 @@ const nextConfig: NextConfig = {
   },
   // 외부 이미지 조회
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "placehold.co" }],
+    dangerouslyAllowSVG: true,
+    remotePatterns: [
+      {
+        hostname: "placehold.co",
+        port: "",
+        protocol: "https",
+      },
+    ],
   },
 };
 
