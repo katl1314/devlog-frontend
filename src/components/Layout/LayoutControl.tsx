@@ -2,11 +2,9 @@
 import { FiMoreVertical } from "react-icons/fi";
 import { CiGrid41, CiGrid2H } from "react-icons/ci";
 import useLayout from "@/store/layout";
-import { cn } from "@/lib/utils";
 
 export default function LayoutControl() {
   const { layout, setLayout } = useLayout();
-  const activeCss = "bg-neutral-400 rounded-md";
 
   const changeLayout = (layout: "grid" | "column") => {
     setLayout(layout);
@@ -16,14 +14,14 @@ export default function LayoutControl() {
       <div className="flex gap-2">
         <CiGrid41
           size={26}
-          className={cn("cursor-pointer", layout === "grid" && activeCss)}
-          color={layout === "grid" ? "white" : ""}
+          className={"cursor-pointer"}
+          fill={layout === "grid" ? "blue" : ""}
           onClick={changeLayout.bind(null, "grid")}
         />
         <CiGrid2H
           size={26}
-          className={cn("cursor-pointer", layout === "column" && activeCss)}
-          color={layout === "column" ? "white" : ""}
+          className={"cursor-pointer"}
+          fill={layout === "column" ? "blue" : ""}
           onClick={changeLayout.bind(null, "column")}
         />
       </div>
