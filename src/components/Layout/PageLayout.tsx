@@ -12,7 +12,7 @@ export default function PageLayout({
   const xl = "xl:max-w-[1200px]";
   const xxl = "2xl:max-w-[1740px]";
   return (
-    <div className={cn("mx-auto", "my-0", "px-4", mobile, sm, md, lg, xl, xxl)}>
+    <div className={cn("mx-auto", "my-0", mobile, sm, md, lg, xl, xxl)}>
       {children}
     </div>
   );

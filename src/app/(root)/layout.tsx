@@ -35,7 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <LayoutControl />
           </TabView>
         </TabLayout>
-        <div className=" my-[10px] mx-auto">{children}</div>
+        <div className=" my-[10px] mx-auto px-4">{children}</div>
       </PageLayout>
     </div>
   );
