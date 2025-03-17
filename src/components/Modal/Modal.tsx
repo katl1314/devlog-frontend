@@ -27,7 +27,7 @@ export default function Modal({ children }: { children: ReactNode }) {
   return createPortal(
     <dialog
       ref={modalRef}
-      className="w-[100%] border-none rounded-[5px] my-[10%] mx-auto lg:w-[50%] backdrop:bg-[rgba(0,0,0,0.2)]"
+      className="w-[100%] border-none rounded-[5px] my-[10%] mx-auto lg:w-[35%] backdrop:bg-[rgba(0,0,0,0.2)]"
       onClose={() => {
         router.back(); // esc키 눌렀을 때 모달 닫힘.
       }}
