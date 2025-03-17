@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className=" my-[10px] mx-auto">
+    <div className="mx-auto">
       <PageLayout>
         <Header />
         <TabLayout>
