@@ -1,28 +1,42 @@
+"use client";
+import { MouseEventHandler, useState } from "react";
 import { CiBellOn, CiSearch } from "react-icons/ci";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Link from "next/link";
+import { Button } from "./ui/button";
+import dynamic from "next/dynamic";
+import SignInForm from "./SignInForm";
 
-/**
- *
- * @returns
- */
+const Modal = dynamic(() => import("./Modal/Modal"), { ssr: false }); // 지연 로딩
+
 export default function Profile() {
+  const [open, setOpen] = useState(false);
+  const handleSignUp: MouseEventHandler = (e) => {
+    setOpen(true);
+  };
+
+  const handleAfterCloseModal = () => {
+    setOpen((prevState) => !prevState);
+  };
   return (
     <div className="flex flex-row gap-2 items-center">
       {/* 검색 => 모달을 통해서 검색 기능 */}
       <CiSearch size={32} className="block lg:hidden" />
       {/* 구독 알람 => 페이지?*/}
       <CiBellOn size={32} />
-      {/* 로그인 모달 또는 페이지?*/}
-      <Link href={"/sign"} className="flex items-center">
-        <span className="px-[10px] py-[5px] border-[1px] border-[#e5e5e5] rounded-md text-sm">
-          로그인
-        </span>
-      </Link>
-      {/* <Avatar>
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar> */}
+      <Button className="flex items-center font-bold" onClick={handleSignUp}>
+        로그인
+      </Button>
+      {open && (
+        <Modal afterCloseModal={handleAfterCloseModal}>
+          <SignInForm />
+        </Modal>
+      )}
     </div>
   );
 }
+/* 
+<Avatar>
+  <AvatarImage src="https://github.com/shadcn.png" />
+  <AvatarFallback>CN</AvatarFallback>
+</Avatar> 
+*/
