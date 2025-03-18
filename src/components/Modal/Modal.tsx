@@ -25,20 +25,24 @@ export default function Modal({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  return createPortal(
-    <dialog
-      ref={modalRef}
-      className="w-[100%] border-none rounded-[5px] my-[60%] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] lg:w-[35%] lg:my-[10%]"
-      onClick={(e) => {
-        // 모달 클릭 시 뒤로가기 => 뒷 배경
-        if ((e.target as HTMLElement).nodeName === "DIALOG") {
-          document.body.style.overflow = "";
-          router.back();
-        }
-      }}
-    >
-      {children}
-    </dialog>,
-    document.getElementById("modal") as HTMLElement
-  );
+  if (typeof window === "object") {
+    return createPortal(
+      <dialog
+        ref={modalRef}
+        className="w-[100%] border-none rounded-[5px] my-[60%] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] lg:w-[35%] lg:my-[10%]"
+        onClick={(e) => {
+          // 모달 클릭 시 뒤로가기 => 뒷 배경
+          if ((e.target as HTMLElement).nodeName === "DIALOG") {
+            document.body.style.overflow = "";
+            router.back();
+          }
+        }}
+      >
+        {children}
+      </dialog>,
+      document.getElementById("modal") as HTMLElement
+    );
+  }
+
+  return null;
 }
