@@ -10,7 +10,7 @@ const Modal = dynamic(() => import("./Modal/Modal"), { ssr: false }); // 지연 
 
 export default function Profile() {
   const [open, setOpen] = useState(false);
-  const handleSignUp: MouseEventHandler = (e) => {
+  const handleSignUp: MouseEventHandler = () => {
     setOpen(true);
   };
 
