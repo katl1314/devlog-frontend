@@ -8,3 +8,18 @@ export interface ICard {
   user: string;
   thumbnail: string;
 }
+
+export interface FetchPostsResponse {
+  posts: ICard[];
+  hasMore: boolean;
+}
+
+export interface FetchPosts {
+  tab: string;
+  pageParam: number;
+}
+
+export type fetchPostsFnc = ({
+  tab,
+  pageParam,
+}: FetchPosts) => Promise<FetchPostsResponse>;

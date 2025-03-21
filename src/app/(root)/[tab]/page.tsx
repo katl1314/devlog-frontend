@@ -3,6 +3,7 @@ import { ICard } from "@/types/type";
 import CardView from "@/components/Layout/CardLayout";
 import PostCard from "@/components/PostCard";
 import Link from "next/link";
+import ClientInfiniteScroll from "@/components/ClientInfiniteScroll";
 
 export async function generateStaticParams() {
   try {
@@ -29,16 +30,5 @@ export default async function Page({
     notFound();
   }
 
-  const data: ICard[] = await res.json();
-  return (
-    <>
-      <CardView>
-        {data.map(({ ...args }) => (
-          <Link href={`/user/${args.user}/${args.id}`} key={args.id}>
-            <PostCard {...args} />
-          </Link>
-        ))}
-      </CardView>
-    </>
-  );
+  return <ClientInfiniteScroll tab={tab} />;
 }

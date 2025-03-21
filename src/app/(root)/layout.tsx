@@ -9,6 +9,7 @@ import {
   MdOutlineRssFeed,
 } from "react-icons/md";
 import LayoutControl from "@/components/Layout/LayoutControl";
+import QueryProvider from "@/components/QueryProvider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const items: TabItem[] = [
@@ -24,19 +25,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="mx-auto">
-      <PageLayout>
-        <Header />
-        <TabLayout>
-          <TabView showOption={true}>
-            <Tabs items={items} icons={icons} defaultPath="/trends" />
-          </TabView>
-          <TabView showOption={true} position="end" gap={2}>
-            <LayoutControl />
-          </TabView>
-        </TabLayout>
-        <div className=" my-[10px] mx-auto px-4">{children}</div>
-      </PageLayout>
-    </div>
+    <QueryProvider>
+      <div className="mx-auto">
+        <PageLayout>
+          <Header />
+          <TabLayout>
+            <TabView showOption={true}>
+              <Tabs items={items} icons={icons} defaultPath="/trends" />
+            </TabView>
+            <TabView showOption={true} position="end" gap={2}>
+              <LayoutControl />
+            </TabView>
+          </TabLayout>
+          <div className=" my-[10px] mx-auto px-4">{children}</div>
+        </PageLayout>
+      </div>
+    </QueryProvider>
   );
 }
