@@ -6,7 +6,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 export default function PostCardSkeleton() {
 	return (
 		<Card>
-			<Skeleton style={{ height: '250px' }} />
+			<Skeleton style={{ height: '200px' }} />
 			<div className="flex flex-col h-[120px] justify-between py-2">
 				<div className="">
 					<Skeleton className="w-full h-4" />

@@ -1,7 +1,6 @@
 'use client';
 import { MouseEventHandler, useState } from 'react';
 import { CiBellOn, CiSearch } from 'react-icons/ci';
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from './ui/button';
 import dynamic from 'next/dynamic';
 import SignInForm from './SignInForm';
