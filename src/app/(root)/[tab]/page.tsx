@@ -23,18 +23,21 @@ export async function generateStaticParams() {
 export default async function Page({ params }: Page) {
 	const { tab } = await params;
 
-	const PostCardFallback = (
+	return (
+		<CardLayout>
+			<Suspense fallback={<PostCardFallback />}>
+				<PostCardList tab={tab} />
+			</Suspense>
+		</CardLayout>
+	);
+}
+
+function PostCardFallback() {
+	return (
 		<>
 			{Array.from({ length: 10 }).map((_, index) => {
 				return <PostCardSkeleton key={index} />;
 			})}
 		</>
-	);
-	return (
-		<CardLayout>
-			<Suspense fallback={PostCardFallback}>
-				<PostCardList tab={tab} />
-			</Suspense>
-		</CardLayout>
 	);
 }
