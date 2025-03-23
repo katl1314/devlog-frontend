@@ -4,10 +4,12 @@ import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
 import PostCard from '@/components/PostCard';
 import { FetchPostsResponse, ICard, fetchPostsFnc } from '@/types/type';
+import EmptyContent from './EmptyContent';
+import CardLayout from './Layout/CardLayout';
 
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFnc = async ({ tab, pageParam = 0 }) => {
-	const res = await fetch(`http://localhost:3001/${tab}?_start=${pageParam}&_limit=10`);
+	const res = await fetch(`http://192.168.0.12:3001/${tab}?_start=${pageParam}&_limit=10`);
 
 	// 에러를 응답하는 경우
 	if (!res.ok) throw new Error();
@@ -45,8 +47,13 @@ export default function PostCardList({ tab }: { tab: string }) {
 		[hasNextPage, fetchNextPage]
 	);
 
+	if (data.pages[0].posts.length < 1) {
+		// 만약 조회한 데이터가 없으면?
+		return <EmptyContent message="게시물이 존재하지 않습니다." />;
+	}
+
 	return (
-		<>
+		<CardLayout>
 			{data.pages.map(({ posts }) =>
 				posts.map((post, index) => {
 					const isLastItem = index === posts.length - 1;
@@ -57,6 +64,6 @@ export default function PostCardList({ tab }: { tab: string }) {
 					);
 				})
 			)}
-		</>
+		</CardLayout>
 	);
 }

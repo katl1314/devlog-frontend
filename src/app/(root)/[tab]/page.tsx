@@ -1,4 +1,3 @@
-import CardLayout from '@/components/Layout/CardLayout';
 import { Suspense } from 'react';
 import PostCardSkeleton from '@/components/Skeleton/PostCardSkeleton';
 import PostCardList from '@/components/PostCardList';
@@ -25,11 +24,9 @@ export async function generateStaticParams() {
 export default async function Page({ params }: Page) {
 	const { tab } = await params;
 	return (
-		<CardLayout>
-			<Suspense fallback={<PostCardFallback />}>
-				<PostCardList tab={tab} />
-			</Suspense>
-		</CardLayout>
+		<Suspense fallback={<PostCardFallback />}>
+			<PostCardList tab={tab} />
+		</Suspense>
 	);
 }
 
