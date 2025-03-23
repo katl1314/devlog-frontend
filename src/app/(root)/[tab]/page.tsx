@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
-import { ICard } from "@/types/type";
-import CardView from "@/components/Layout/CardLayout";
-import PostCard from "@/components/PostCard";
-import Link from "next/link";
-import ClientInfiniteScroll from "@/components/ClientInfiniteScroll";
+import CardLayout from "@/components/Layout/CardLayout";
+import { Suspense } from "react";
+import PostCardList from "@/components/PostCardList";
+import PostCardSkeleton from "@/components/PostCardSkeleton";
 
 export async function generateStaticParams() {
   try {
@@ -30,5 +29,18 @@ export default async function Page({
     notFound();
   }
 
-  return <ClientInfiniteScroll tab={tab} />;
+  const Fallback = (
+    <>
+      {Array.from({ length: 10 }).map((_, index) => {
+        return <PostCardSkeleton key={index} />;
+      })}
+    </>
+  );
+  return (
+    <CardLayout>
+      <Suspense fallback={Fallback}>
+        <PostCardList tab={tab} />
+      </Suspense>
+    </CardLayout>
+  );
 }

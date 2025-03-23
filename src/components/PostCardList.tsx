@@ -1,11 +1,11 @@
 "use client";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useRef } from "react";
 import PostCard from "@/components/PostCard";
-import Link from "next/link";
-import CardView from "@/components/Layout/CardLayout";
+
 import { FetchPostsResponse, ICard, fetchPostsFnc } from "@/types/type";
+import { sleep } from "@/lib/utils";
 
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFnc = async ({ tab, pageParam = 0 }) => {
@@ -15,15 +15,16 @@ const fetchPosts: fetchPostsFnc = async ({ tab, pageParam = 0 }) => {
 
   // 에러를 응답하는 경우
   if (!res.ok) throw new Error();
-
   const data: ICard[] = await res.json();
+
+  await sleep(2000);
 
   return { posts: data, hasMore: data.length > 0 };
 };
 
-export default function ClientInfiniteScroll({ tab }: { tab: string }) {
+export default function PostCardList({ tab }: { tab: string }) {
   const { data, fetchNextPage, hasNextPage } =
-    useInfiniteQuery<FetchPostsResponse>({
+    useSuspenseInfiniteQuery<FetchPostsResponse>({
       queryKey: ["posts", tab],
       queryFn: ({ pageParam = 0 }) =>
         fetchPosts({ tab, pageParam: pageParam as number }),
@@ -54,20 +55,20 @@ export default function ClientInfiniteScroll({ tab }: { tab: string }) {
     [hasNextPage]
   );
 
+  if (!data?.pages) return;
+
   return (
-    <CardView>
-      {data?.pages.map((page) =>
+    <>
+      {data.pages.map((page) =>
         page.posts.map((post, index) => {
           const isLastItem = index === page.posts.length - 1;
           return (
             <div key={post.id} ref={isLastItem ? lastPostRef : null}>
-              <Link href={`/user/${post.user}/${post.id}`}>
-                <PostCard {...post} />
-              </Link>
+              {<PostCard {...post} />}
             </div>
           );
         })
       )}
-    </CardView>
+    </>
   );
 }
