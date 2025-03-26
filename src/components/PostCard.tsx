@@ -7,8 +7,8 @@ import Link from 'next/link';
 
 export default function PostCard({ id, title, thumbnail, comments, date, summary, user }: ICard) {
 	return (
-		<Link href={`/user/${user}/${id}`}>
-			<Card>
+		<Card>
+			<Link href={`/user/${user}/${id}`}>
 				<CardHeader>
 					<div className="relative w-full h-[200px]">
 						{/* Next.js 13이전까지는 layout, objectFit을 사용하여 이미지 비율을 맞춤. => 특히 fill속성을 사용하여 부모 요소 크기만큼 채울때 다만 이는 이미지 비율을 보장하지 못한다. */}
@@ -25,13 +25,13 @@ export default function PostCard({ id, title, thumbnail, comments, date, summary
 						<Label>{comments}개의 댓글</Label>
 					</div>
 				</CardContent>
-				<Separator />
-				<CardFooter className="flex justify-between py-3">
-					<div>
-						<Label>{user}</Label>
-					</div>
-				</CardFooter>
-			</Card>
-		</Link>
+			</Link>
+			<Separator />
+			<CardFooter className="flex justify-between py-3">
+				<Label>
+					<Link href={`/user/${user}`}>{user}</Link>
+				</Label>
+			</CardFooter>
+		</Card>
 	);
 }
