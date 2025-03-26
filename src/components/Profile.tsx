@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 import dynamic from 'next/dynamic';
 import SignInForm from './SignInForm';
 
-const Modal = dynamic(() => import('./Modal/Modal'), { ssr: false }); // 지연 로딩
+const SignUpModal = dynamic(() => import('./Modal/SignUpModal'), { ssr: false }); // 지연 로딩
 
 export default function Profile() {
 	const [open, setOpen] = useState(false);
@@ -26,9 +26,9 @@ export default function Profile() {
 				로그인
 			</Button>
 			{open && (
-				<Modal afterCloseModal={handleAfterCloseModal}>
+				<SignUpModal afterCloseModal={handleAfterCloseModal}>
 					<SignInForm />
-				</Modal>
+				</SignUpModal>
 			)}
 		</div>
 	);

@@ -2,16 +2,14 @@
 
 import { ReactNode, useEffect, useRef, useState, MouseEventHandler } from 'react';
 import { createPortal } from 'react-dom';
-import { useRouter } from 'next/navigation';
 
 interface ModalProps {
 	children: ReactNode;
 	afterCloseModal?: (target: EventTarget) => void;
 }
 
-export default function Modal({ children, afterCloseModal }: ModalProps) {
+export default function SignUpModal({ children, afterCloseModal }: ModalProps) {
 	const modalRef = useRef<HTMLDialogElement>(null);
-	const router = useRouter();
 
 	// ⭐ `document`가 있는 환경에서만 `document.getElementById()` 실행
 	const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
@@ -44,9 +42,6 @@ export default function Modal({ children, afterCloseModal }: ModalProps) {
 			className="w-[100%] border-none rounded-[5px] my-[5%] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] lg:w-[60%] lg:my-[10%]"
 			onClose={e => afterCloseModal?.(e.target)} // 🚀 추가된 모달 닫기 기능
 			onClick={e => {
-				if ((e.target as HTMLElement).nodeName === 'DIALOG') {
-					router.back();
-				}
 				handleClose(e);
 			}}
 		>

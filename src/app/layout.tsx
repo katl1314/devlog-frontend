@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 interface RootLayout {
 	children: React.ReactNode;
-	modal?: React.ReactNode;
+	modal: React.ReactNode;
 }
 
 export default function RootLayout({ children, modal }: Readonly<RootLayout>) {

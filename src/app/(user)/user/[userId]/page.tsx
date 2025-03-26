@@ -13,7 +13,7 @@ export async function generateStaticParams() {
 	}
 }
 
-export default async function Page({ params }: { params: { userId: string } }) {
-	const userId = await params.userId;
+export default async function Page({ params }: { params: Promise<{ userId: string }> }) {
+	const userId = (await params).userId;
 	return <>{userId}</>;
 }
