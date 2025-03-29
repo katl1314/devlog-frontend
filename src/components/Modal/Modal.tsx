@@ -41,7 +41,7 @@ export default function Modal({ children, afterCloseModal }: ModalProps) {
 	return createPortal(
 		<dialog
 			ref={modalRef}
-			className="w-[100%] border-none rounded-[5px] my-[5%] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] lg:w-[60%] lg:my-[10%]"
+			className="w-[100%] border-none rounded-[5px] my-[5%] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] lg:w-[60%] "
 			onClose={e => afterCloseModal?.(e.target)} // 🚀 추가된 모달 닫기 기능
 			onClick={e => {
 				if ((e.target as HTMLElement).nodeName === 'DIALOG') {
