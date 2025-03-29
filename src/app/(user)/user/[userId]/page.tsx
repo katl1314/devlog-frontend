@@ -13,6 +13,9 @@ export async function generateStaticParams() {
 	}
 }
 
+export const dynamicParams = false; // generateStaticParams 반환 외 처리는 404페이지를 표시한다. => 동적 경로는 404
+export const dynamic = 'force-static'; // 무조건 정적 페이지로 생성 다양한 옵션 제공
+
 export default async function Page({ params }: { params: Promise<{ userId: string }> }) {
 	const userId = (await params).userId;
 	return <>{userId}</>;
