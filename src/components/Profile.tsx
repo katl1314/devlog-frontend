@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 import dynamic from 'next/dynamic';
 import AuthForm from './AuthForm';
 
-const SignUpModal = dynamic(() => import('./Modal/SignUpModal'), { ssr: false }); // 지연 로딩
+const SignUpModal = dynamic(() => import('./Modal/AuthModal'), { ssr: false }); // 지연 로딩
 
 export default function Profile() {
 	const [open, setOpen] = useState(false);
