@@ -3,7 +3,7 @@ import { MouseEventHandler, useState } from 'react';
 import { CiBellOn, CiSearch } from 'react-icons/ci';
 import { Button } from './ui/button';
 import dynamic from 'next/dynamic';
-import SignInForm from './SignInForm';
+import AuthForm from './AuthForm';
 
 const SignUpModal = dynamic(() => import('./Modal/SignUpModal'), { ssr: false }); // 지연 로딩
 
@@ -27,7 +27,7 @@ export default function Profile() {
 			</Button>
 			{open && (
 				<SignUpModal afterCloseModal={handleAfterCloseModal}>
-					<SignInForm />
+					<AuthForm />
 				</SignUpModal>
 			)}
 		</div>

@@ -4,6 +4,7 @@ import { Provider } from '@supabase/supabase-js';
 import { createClient } from './server';
 import { redirect } from 'next/navigation';
 
+// Provider => github | google | apple | kakao ...
 const signInWith = (provider: Provider) => async () => {
 	const supabase = await createClient();
 
@@ -16,15 +17,12 @@ const signInWith = (provider: Provider) => async () => {
 		}
 	});
 
-	console.log(data);
-
 	if (error) {
-		console.log(error);
+		redirect('/error');
 	}
 
-	redirect(data.url as string);
+	redirect(data.url);
 };
 
-const signInWithGoogle = signInWith('google');
-
-export { signInWithGoogle };
+export const signInWithGoogle = signInWith('google');
+export const signInWithGithub = signInWith('github');
