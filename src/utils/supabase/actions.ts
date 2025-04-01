@@ -10,7 +10,7 @@ const signInWith = (provider: Provider) => async () => {
 
 	// 위 경로를 직접 구현해야함. 위치에 page.tsx가 아닌 routes.ts를 생성해야함.
 	// 로그인 결과를 /auth/callback으로 전달한다.
-	const auth_callback_url = `${process.env.SITE_URL}/auth/callback`;
+	const auth_callback_url = `${process.env.SITE_URL}/auth/callback`; // /auth/callback/route.ts에서 request 핸들링
 
 	const { data, error } = await supabase.auth.signInWithOAuth({
 		provider,

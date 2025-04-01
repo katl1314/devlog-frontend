@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import PostCardSkeleton from '@/components/Skeleton/PostCardSkeleton';
 import PostCardList from '@/components/PostCardList';
 import CardLayout from '@/components/Layout/CardLayout';
+import { createClient } from '@/utils/supabase/server';
 
 // generatedStaticParams로 생성되지 않은 정적 페이지에 접근 시 제어한다.
 export const dynamicParams = false; // false 시 404페이지를 발생한다.
@@ -24,6 +25,9 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }: Page) {
 	const { tab } = await params;
+	const supabase = await createClient();
+	const auth = await supabase.auth.getUser(); // 로그인한 사용자 정보 확인 => zustand에서 전역 관리 필요함.
+	console.log(auth.data.user); // { id, email, user_metadata: { avatar_url, full_name, name, iss, user_name }}
 	return (
 		<Suspense fallback={<PostCardFallback />}>
 			<PostCardList tab={tab} />
