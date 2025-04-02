@@ -7,7 +7,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 
 export async function GET(request: NextRequest) {
 	const { searchParams, origin } = new URL(request.url);
-	console.log(request.url);
+
 	const code = searchParams.get('code');
 	const next = searchParams.get('next') ?? '/';
 

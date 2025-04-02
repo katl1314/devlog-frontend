@@ -6,17 +6,29 @@ import dynamic from 'next/dynamic';
 import AuthForm from './AuthForm';
 import { useProfile } from '@/store/profile';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Dropdown } from './Dropdown';
+import { createClient } from '@/utils/supabase/client';
 
 const SignUpModal = dynamic(() => import('./Modal/AuthModal'), { ssr: false }); // 지연 로딩
 
 export default function Profile() {
 	const [open, setOpen] = useState(false);
+	const { logout } = useProfile();
 	const handleSignUp: MouseEventHandler = () => {
 		setOpen(true);
 	};
 
 	const handleAfterCloseModal = () => {
 		setOpen(prevState => !prevState);
+	};
+
+	const handleLogout = () => {
+		// 로그아웃
+		const supabase = createClient();
+		supabase.auth.signOut().then(() => {
+			logout();
+			window.location.reload();
+		});
 	};
 
 	const { isLoggedIn, avatar_url } = useProfile();
@@ -39,10 +51,12 @@ export default function Profile() {
 				</>
 			) : (
 				<>
-					<Avatar className="cursor-pointer">
-						<AvatarImage src={avatar_url ?? 'https://github.com/shadcn.png'} />
-						<AvatarFallback>CN</AvatarFallback>
-					</Avatar>
+					<Dropdown handleLogOut={handleLogout}>
+						<Avatar className="cursor-pointer">
+							<AvatarImage src={avatar_url ?? 'https://github.com/shadcn.png'} />
+							<AvatarFallback>CN</AvatarFallback>
+						</Avatar>
+					</Dropdown>
 				</>
 			)}
 		</div>
