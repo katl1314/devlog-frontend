@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Dropdown } from './Dropdown';
 import { createClient } from '@/utils/supabase/client';
 
-const SignUpModal = dynamic(() => import('./Modal/AuthModal'), { ssr: false }); // 지연 로딩
+const AuthModal = dynamic(() => import('./Modal/AuthModal'), { ssr: false }); // 지연 로딩
 
 export default function Profile() {
 	const [open, setOpen] = useState(false);
@@ -33,7 +33,7 @@ export default function Profile() {
 
 	const { isLoggedIn, avatar_url } = useProfile();
 	return (
-		<div className="flex flex-row gap-2 items-center">
+		<div className="flex flex-row gap-4 items-center">
 			{/* 검색 => 모달을 통해서 검색 기능 */}
 			<CiSearch size={32} className="block lg:hidden" />
 			{/* 구독 알람 => 페이지?*/}
@@ -44,9 +44,9 @@ export default function Profile() {
 						로그인
 					</Button>
 					{open && (
-						<SignUpModal afterCloseModal={handleAfterCloseModal}>
+						<AuthModal afterCloseModal={handleAfterCloseModal}>
 							<AuthForm />
-						</SignUpModal>
+						</AuthModal>
 					)}
 				</>
 			) : (

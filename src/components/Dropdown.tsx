@@ -1,3 +1,4 @@
+'use client';
 import { LogOut, Settings, User } from 'lucide-react';
 
 import {
@@ -5,11 +6,11 @@ import {
 	DropdownMenuContent,
 	DropdownMenuGroup,
 	DropdownMenuItem,
-	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { MouseEventHandler } from 'react';
+import { useProfile } from '@/store/profile';
 
 interface Dropdown {
 	children: React.ReactNode;
@@ -17,26 +18,33 @@ interface Dropdown {
 }
 
 export function Dropdown({ children, handleLogOut }: Dropdown) {
+	const { username } = useProfile();
+	const showSettings = () => {
+		window.location.href = `/settings`;
+	};
+
+	const showMyPage = (username: string) => {
+		window.location.href = `/user/${username}`;
+	};
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
 			<DropdownMenuContent className="w-56">
-				<DropdownMenuLabel>My Account</DropdownMenuLabel>
-				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
-					<DropdownMenuItem>
+					<DropdownMenuItem onClick={() => showMyPage(username!)}>
 						<User />
-						<span>Profile</span>
+						<span>내 블로그</span>
 					</DropdownMenuItem>
-					<DropdownMenuItem>
+					<DropdownMenuItem onClick={showSettings}>
 						<Settings />
-						<span>Settings</span>
+						<span>설정</span>
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem onClick={handleLogOut}>
 					<LogOut />
-					<span>Log out</span>
+					<span>로그아웃</span>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

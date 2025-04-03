@@ -44,12 +44,12 @@ export default function AuthForm() {
 		<div className="my-0 mx-auto min-h-[250px]">
 			<div className="py-2">
 				<div className="px-2">
-					<Label className="text-xl font-bold text-center">로그인</Label>
+					<Label className="text-base font-bold text-center">로그인</Label>
 				</div>
 			</div>
 			<Separator />
 			<div className="p-2">
-				<Label className="text-xl font-bold text-center">Dev.log에서 많은 개발자와 공유하세요!</Label>
+				<Label className="text-[18px] text-center">Dev.log에서 많은 개발자와 공유하세요!</Label>
 				<div className="mt-4">
 					<Label className="text-base text-center text-neutral-400">소셜 계정으로 로그인하기</Label>
 					<form className="flex flex-col gap-2 my-4">
