@@ -51,12 +51,12 @@ async function authUser(supabase: SupabaseClient) {
 			const {
 				id,
 				updated_at,
-				user_metadata: { avatar_url, full_name, user_name }
+				email,
+				user_metadata: { avatar_url, full_name }
 			} = user;
 			// 만약 profiles 스키마에 id에 해당하는 데이터가 없는 경우 추가한다.
-			const { error } = await supabase
-				.from('profiles')
-				.insert([{ id, updated_at, avatar_url, full_name, username: user_name }]);
+			const username = email?.split('@')[0];
+			const { error } = await supabase.from('profiles').insert([{ id, updated_at, avatar_url, full_name, username }]);
 
 			if (error) throw new Error();
 		}
