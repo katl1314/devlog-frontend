@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect, useRef, useState, MouseEventHandler } from 'react';
+import { MouseEventHandler, ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ModalProps {
@@ -29,8 +29,9 @@ export default function SignUpModal({ children, afterCloseModal }: ModalProps) {
 	}, [modalRoot]); // `modalRoot`가 업데이트되면 실행
 
 	const handleClose: MouseEventHandler<HTMLDialogElement> = e => {
-		modalRef.current?.close();
-		afterCloseModal?.(e.target);
+		if ((e.target as HTMLElement).nodeName === 'DIALOG') {
+			modalRef.current?.close();
+		}
 	};
 
 	// SSR 환경에서는 null 반환해서 `document is not defined` 에러 방지
@@ -39,11 +40,9 @@ export default function SignUpModal({ children, afterCloseModal }: ModalProps) {
 	return createPortal(
 		<dialog
 			ref={modalRef}
-			className="w-[100%] border-none rounded-[5px] my-[5%] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] lg:w-[60%] lg:my-[10%]"
-			onClose={e => afterCloseModal?.(e.target)} // 🚀 추가된 모달 닫기 기능
-			onClick={e => {
-				handleClose(e);
-			}}
+			className="w-[100%] border-none rounded-[5px] my-[5%] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] lg:w-[35%] lg:my-[10%]"
+			onClose={e => afterCloseModal?.(e.target)}
+			onClick={handleClose}
 		>
 			{children}
 		</dialog>,

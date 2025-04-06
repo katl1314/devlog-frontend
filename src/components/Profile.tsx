@@ -3,12 +3,17 @@ import { MouseEventHandler, useState } from 'react';
 import { CiBellOn, CiSearch } from 'react-icons/ci';
 import { Button } from './ui/button';
 import dynamic from 'next/dynamic';
-import SignInForm from './SignInForm';
+import AuthForm from './AuthForm';
+import { useProfile } from '@/store/profile';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Dropdown } from './Dropdown';
+import { createClientByBrowser } from '@/utils/supabase/client';
 
-const SignUpModal = dynamic(() => import('./Modal/SignUpModal'), { ssr: false }); // 지연 로딩
+const AuthModal = dynamic(() => import('./Modal/AuthModal'), { ssr: false }); // 지연 로딩
 
 export default function Profile() {
 	const [open, setOpen] = useState(false);
+	const { logout } = useProfile();
 	const handleSignUp: MouseEventHandler = () => {
 		setOpen(true);
 	};
@@ -16,26 +21,47 @@ export default function Profile() {
 	const handleAfterCloseModal = () => {
 		setOpen(prevState => !prevState);
 	};
+
+	const handleLogout = () => {
+		// 로그아웃
+		const supabase = createClientByBrowser();
+		supabase.auth.signOut().then(() => {
+			logout();
+			window.location.reload();
+		});
+	};
+
+	const { isLoggedIn, avatar_url } = useProfile();
 	return (
-		<div className="flex flex-row gap-2 items-center">
+		<div className="flex flex-row gap-4 items-center">
 			{/* 검색 => 모달을 통해서 검색 기능 */}
 			<CiSearch size={32} className="block lg:hidden" />
 			{/* 구독 알람 => 페이지?*/}
 			<CiBellOn size={32} className="cursor-pointer" />
-			<Button className="flex items-center font-bold cursor-pointer" onClick={handleSignUp}>
-				로그인
-			</Button>
-			{open && (
-				<SignUpModal afterCloseModal={handleAfterCloseModal}>
-					<SignInForm />
-				</SignUpModal>
+			{!isLoggedIn ? (
+				<>
+					<Button className="flex items-center font-bold cursor-pointer" onClick={handleSignUp}>
+						로그인
+					</Button>
+					{open && (
+						<AuthModal afterCloseModal={handleAfterCloseModal}>
+							<AuthForm />
+						</AuthModal>
+					)}
+				</>
+			) : (
+				<>
+					<Dropdown handleLogOut={handleLogout}>
+						<Avatar className="cursor-pointer">
+							<AvatarImage src={avatar_url ?? 'https://github.com/shadcn.png'} />
+							<AvatarFallback>CN</AvatarFallback>
+						</Avatar>
+					</Dropdown>
+				</>
 			)}
 		</div>
 	);
 }
 /* 
-<Avatar>
-  <AvatarImage src="https://github.com/shadcn.png" />
-  <AvatarFallback>CN</AvatarFallback>
-</Avatar> 
+
 */

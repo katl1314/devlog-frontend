@@ -1,0 +1,28 @@
+import { create } from 'zustand';
+import type { Database } from '../../database.types';
+
+// profile store
+
+type Profile = Partial<Database['public']['Tables']['profiles']['Row']>;
+
+interface ProfileType extends Profile {
+	isLoggedIn: boolean;
+	login: () => void;
+	logout: () => void;
+
+	setAvatarUrl: (url: string | null | undefined) => void;
+	setId: (id: string | null | undefined) => void;
+	setUserName: (username: string | null | undefined) => void;
+}
+
+export const useProfile = create<ProfileType>(set => ({
+	avatar_url: '',
+	id: '',
+	username: '',
+	isLoggedIn: false,
+	login: () => set({ isLoggedIn: true }),
+	logout: () => set({ isLoggedIn: false, avatar_url: '', username: '', id: '' }),
+	setAvatarUrl: url => set({ avatar_url: url }),
+	setId: id => set({ id: id ?? '' }),
+	setUserName: username => set({ username })
+}));
