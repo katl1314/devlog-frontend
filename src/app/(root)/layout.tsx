@@ -6,15 +6,16 @@ import Tabs, { TabItem } from '@/components/Tab/Tabs';
 import { MdOutlineTrendingUp, MdOutlineAccessTime, MdOutlineRssFeed } from 'react-icons/md';
 import LayoutControl from '@/components/Layout/LayoutControl';
 import QueryProvider from '@/components/QueryProvider';
+import { createClientByServer } from '@/utils/supabase/server';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-	const res = await fetch('http://192.168.0.12:3001/tabs', { cache: 'force-cache' });
+	const supabase = await createClientByServer();
 
-	if (!res.ok) {
-		throw new Error('데이터 조회 중 에러가 발생하였습니다.');
+	const { error, data } = await supabase.from('tabs').select();
+
+	if (error) {
+		throw new Error(error.message);
 	}
-
-	const items: TabItem[] = await res.json();
 
 	const icons: { [name: string]: React.ReactNode } = {
 		trends: <MdOutlineTrendingUp size={24} />,
@@ -29,7 +30,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 					<Header />
 					<TabLayout>
 						<TabView showOption={true}>
-							<Tabs items={items} icons={icons} defaultPath="/trends" />
+							<Tabs items={data as TabItem[]} icons={icons} defaultPath="/trends" />
 						</TabView>
 						<TabView showOption={true} position="end" gap={2}>
 							<LayoutControl />

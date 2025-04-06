@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { createClient } from '@/utils/supabase/server';
+import { createClientByServer } from '@/utils/supabase/server';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 // Next.js route.ts를 사용하면 request, response api사용하여 특정 라우트에 대한 사용자 정의 요청 핸들러 개발 가능.
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
 	// supabase 인증 성공 시 querystring으로 code가 전달받는다.
 	if (code) {
-		const supabase = await createClient();
+		const supabase = await createClientByServer();
 		// code를 통해서 세션으로 변경한다.
 		const { error } = await supabase.auth.exchangeCodeForSession(code);
 		if (!error) {

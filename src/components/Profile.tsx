@@ -7,7 +7,7 @@ import AuthForm from './AuthForm';
 import { useProfile } from '@/store/profile';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Dropdown } from './Dropdown';
-import { createClient } from '@/utils/supabase/client';
+import { createClientByBrowser } from '@/utils/supabase/client';
 
 const AuthModal = dynamic(() => import('./Modal/AuthModal'), { ssr: false }); // 지연 로딩
 
@@ -24,7 +24,7 @@ export default function Profile() {
 
 	const handleLogout = () => {
 		// 로그아웃
-		const supabase = createClient();
+		const supabase = createClientByBrowser();
 		supabase.auth.signOut().then(() => {
 			logout();
 			window.location.reload();
