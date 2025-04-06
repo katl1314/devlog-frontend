@@ -1,17 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter_Tight } from 'next/font/google';
 import { createClientByServer } from '@/utils/supabase/server';
 import UserInit from '@/components/UserInit';
 import { Database } from '../../database.types';
 
-const geistSans = Geist({
-	variable: '--font-geist-sans',
-	subsets: ['latin']
-});
-
-const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
+const inter = Inter_Tight({
 	subsets: ['latin']
 });
 
@@ -35,7 +29,7 @@ export default async function RootLayout({ children, modal }: Readonly<RootLayou
 	return (
 		<UserInit user={user.data as Profile}>
 			<html lang="ko">
-				<body className={`${geistSans.variable} ${geistMono.variable} relative`}>
+				<body className={`${inter.className} relative`}>
 					{children}
 					{modal}
 					<div id="modal" className="absolute top-0"></div>
