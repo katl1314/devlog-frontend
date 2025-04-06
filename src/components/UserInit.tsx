@@ -14,9 +14,10 @@ export default function UserInit({ children, user }: UserInit) {
 	useEffect(() => {
 		if (!isLoggedIn && user) {
 			login();
-			setAvatarUrl(user.avatar_url);
-			setUserName(user.username);
-			setId(user.id);
+			const { avatar_url, username, id } = user;
+			setAvatarUrl(avatar_url);
+			setUserName(username);
+			setId(id);
 		}
 	}, [isLoggedIn, login, setAvatarUrl, setUserName, setId, user]);
 
