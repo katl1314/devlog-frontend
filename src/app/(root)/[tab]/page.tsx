@@ -29,11 +29,12 @@ export default async function Page({ params }: Page) {
 	const { tab } = await params;
 
 	const supabase = await createClientByServer();
-
 	const session = await supabase.auth.getUser(); // 로그인한 사용자 정보 확인 => zustand에서 전역 관리 필요함.
-	const user = await supabase.from('profiles').select().eq('id', session.data.user?.id);
+	const id = session.data.user?.id;
+	const user = await supabase.from('profiles').select().match({ id }).single();
+
 	return (
-		<UserInit user={user.data?.[0] as Profile}>
+		<UserInit user={user.data as Profile}>
 			<Suspense fallback={<PostCardFallback />}>
 				<PostCardList tab={tab} />
 			</Suspense>
