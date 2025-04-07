@@ -9,8 +9,9 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { MouseEventHandler } from 'react';
 import { useProfile } from '@/store/profile';
+import Link from 'next/link';
+import { MouseEventHandler } from 'react';
 
 interface Dropdown {
 	children: React.ReactNode;
@@ -19,26 +20,23 @@ interface Dropdown {
 
 export function Dropdown({ children, handleLogOut }: Dropdown) {
 	const { username } = useProfile();
-	const showSettings = () => {
-		window.location.href = `/settings`;
-	};
-
-	const showMyPage = (username: string) => {
-		window.location.href = `/user/${username}`;
-	};
 
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
 			<DropdownMenuContent className="w-56">
 				<DropdownMenuGroup>
-					<DropdownMenuItem onClick={() => showMyPage(username!)}>
-						<User />
-						<span>내 블로그</span>
+					<DropdownMenuItem>
+						<Link href={`/user/${username}`} className="flex justify-start items-center gap-3">
+							<User />
+							<span>내 블로그</span>
+						</Link>
 					</DropdownMenuItem>
-					<DropdownMenuItem onClick={showSettings}>
-						<Settings />
-						<span>설정</span>
+					<DropdownMenuItem>
+						<Link href={`/settings`} className="flex justify-start items-center gap-3">
+							<Settings />
+							<span>설정</span>
+						</Link>
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />

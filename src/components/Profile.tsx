@@ -13,7 +13,9 @@ const AuthModal = dynamic(() => import('./Modal/AuthModal'), { ssr: false }); //
 
 export default function Profile() {
 	const [open, setOpen] = useState(false);
-	const { logout } = useProfile();
+	const { logout, isLoggedIn, avatar_url } = useProfile();
+	const supabase = createClientByBrowser();
+
 	const handleSignUp: MouseEventHandler = () => {
 		setOpen(true);
 	};
@@ -24,14 +26,12 @@ export default function Profile() {
 
 	const handleLogout = () => {
 		// 로그아웃
-		const supabase = createClientByBrowser();
 		supabase.auth.signOut().then(() => {
 			logout();
 			window.location.reload();
 		});
 	};
 
-	const { isLoggedIn, avatar_url } = useProfile();
 	return (
 		<div className="flex flex-row gap-4 items-center">
 			{/* 검색 => 모달을 통해서 검색 기능 */}
@@ -51,10 +51,11 @@ export default function Profile() {
 				</>
 			) : (
 				<>
+					<Button className="flex items-center font-bold cursor-pointer">글 쓰기</Button>
 					<Dropdown handleLogOut={handleLogout}>
 						<Avatar className="cursor-pointer">
 							<AvatarImage src={avatar_url ?? 'https://github.com/shadcn.png'} />
-							<AvatarFallback>CN</AvatarFallback>
+							<AvatarFallback />
 						</Avatar>
 					</Dropdown>
 				</>
@@ -62,6 +63,3 @@ export default function Profile() {
 		</div>
 	);
 }
-/* 
-
-*/
