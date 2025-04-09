@@ -47,6 +47,7 @@
     "@types/react-transition-group": "^4.4.12",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
+    "react-hook-form": "^7.55.0",
     "supabase": "^2.20.5",
     "typescript": "^5"
   }

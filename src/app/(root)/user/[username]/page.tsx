@@ -1,4 +1,5 @@
 import { createClientByBrowser } from '@/utils/supabase/client';
+// import { createClientByServer } from '@/utils/supabase/server';
 
 export async function generateStaticParams() {
 	const supabase = createClientByBrowser();
@@ -11,6 +12,8 @@ export async function generateStaticParams() {
 export const dynamicParams = false;
 
 export default async function Page({ params }: { params: Promise<{ username: string }> }) {
-	const userId = (await params).username;
-	return <>{userId}</>;
+	const username = (await params).username;
+	// const supabase = await createClientByServer();
+	// const { data, error } = await supabase.from('profiles').select().eq
+	return <>{username}</>;
 }
