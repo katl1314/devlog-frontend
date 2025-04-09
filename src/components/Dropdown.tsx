@@ -19,7 +19,7 @@ interface Dropdown {
 }
 
 export function Dropdown({ children, handleLogOut }: Dropdown) {
-	const { username } = useProfile();
+	const { userId } = useProfile();
 
 	return (
 		<DropdownMenu>
@@ -27,7 +27,7 @@ export function Dropdown({ children, handleLogOut }: Dropdown) {
 			<DropdownMenuContent className="w-56">
 				<DropdownMenuGroup>
 					<DropdownMenuItem>
-						<Link href={`/user/${username}`} className="flex justify-start items-center gap-3">
+						<Link href={`/user/${userId}`} className="flex justify-start items-center gap-3">
 							<User />
 							<span>내 블로그</span>
 						</Link>

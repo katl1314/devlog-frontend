@@ -9,17 +9,18 @@ interface UserInit {
 }
 
 export default function UserInit({ children, user }: UserInit) {
-	const { isLoggedIn, login, setAvatarUrl, setUserName, setId } = useProfile();
+	const { isLoggedIn, login, setAvatarUrl, setUserName, setId, setUserId } = useProfile();
 
 	useEffect(() => {
 		if (!isLoggedIn && user) {
 			login();
-			const { avatar_url, username, id } = user;
+			const { avatar_url, username, id, userId } = user;
 			setAvatarUrl(avatar_url);
 			setUserName(username);
 			setId(id);
+			setUserId(userId);
 		}
-	}, [isLoggedIn, login, setAvatarUrl, setUserName, setId, user]);
+	}, [isLoggedIn, login, setAvatarUrl, setUserName, setUserId, setId, user]);
 
 	return <>{children}</>;
 }

@@ -11,9 +11,9 @@ export async function generateStaticParams() {
 
 export const dynamicParams = false;
 
-export default async function Page({ params }: { params: Promise<{ username: string }> }) {
-	const username = (await params).username;
+export default async function Page({ params }: { params: Promise<{ userId: string }> }) {
+	const userId = (await params).userId;
 	// const supabase = await createClientByServer();
 	// const { data, error } = await supabase.from('profiles').select().eq
-	return <>{username}</>;
+	return <>{userId}</>;
 }

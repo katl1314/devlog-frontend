@@ -4,10 +4,10 @@ import Header from './components/Header';
 import { useParams } from 'next/navigation';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-	const { username } = useParams();
+	const { userId } = useParams();
 	return (
 		<PageLayout>
-			<Header username={username as string} />
+			<Header userId={userId as string} />
 			<div className="my-8 mx-auto px-4">{children}</div>
 		</PageLayout>
 	);

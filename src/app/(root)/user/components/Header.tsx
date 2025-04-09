@@ -4,10 +4,10 @@ import Logo from './Logo';
 import Image from 'next/image';
 
 interface Header {
-	username: string | null | undefined;
+	userId: string | null | undefined;
 }
 
-export default function Header({ username }: Header) {
+export default function Header({ userId }: Header) {
 	return (
 		<header>
 			<div className="box-border max-h-[70px] mx-auto my-0">
@@ -15,8 +15,8 @@ export default function Header({ username }: Header) {
 					<Logo href="/">
 						<Image src={'/next.svg'} alt="" width={100} height={50} />
 					</Logo>
-					<Logo href={`/user/${username}`}>
-						<h3 className="text-xl font-bold">{username}.log</h3>
+					<Logo href={`/user/${userId}`}>
+						<h3 className="text-xl font-bold">{userId}.log</h3>
 					</Logo>
 					<Searchbar />
 					<Profile />
