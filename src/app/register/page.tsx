@@ -11,11 +11,11 @@ export default async function page() {
 	const { email } = data.user;
 
 	return (
-		<div>
-			<h1 className="text-7xl font-bold">환영합니다!</h1>
-			<div className="text-2xl">기본 회원 정보를 등록해주세요.</div>
+		<>
+			<h1 className="text-5xl md:text-7xl font-bold">환영합니다!</h1>
+			<div className="text-xl md:text-5xl mt-3">기본 회원 정보를 등록해주세요.</div>
 			<RegistForm email={email} />
-		</div>
+		</>
 	);
 }
 
