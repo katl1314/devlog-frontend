@@ -1,11 +1,7 @@
+import { User } from '@/types/type';
 import { create } from 'zustand';
-import type { Database } from '../../database.types';
 
-// profile store
-
-type Profile = Partial<Database['public']['Tables']['user']['Row']>;
-
-interface ProfileType extends Profile {
+interface ProfileType extends User {
 	isLoggedIn: boolean;
 	login: () => void;
 	logout: () => void;

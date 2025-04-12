@@ -3,7 +3,7 @@ import './globals.css';
 import { Inter_Tight } from 'next/font/google';
 import { createClientByServer } from '@/utils/supabase/server';
 import UserInit from '@/components/UserInit';
-import { Database } from '../../database.types';
+import { User } from '@/types/type';
 
 const inter = Inter_Tight({
 	subsets: ['latin']
@@ -19,15 +19,13 @@ interface RootLayout {
 	modal: React.ReactNode;
 }
 
-type Profile = Partial<Database['public']['Tables']['user']['Row']>;
-
 export default async function RootLayout({ children, modal }: Readonly<RootLayout>) {
 	const supabase = await createClientByServer();
 	const session = await supabase.auth.getUser();
 	const id = session.data.user?.id;
 	const user = await supabase.from('user').select().match({ id }).single();
 	return (
-		<UserInit user={user.data as Profile}>
+		<UserInit user={user.data as User}>
 			<html lang="ko">
 				<body className={`${inter.className} relative`}>
 					{children}

@@ -1,11 +1,11 @@
 'use client';
 import { useProfile } from '@/store/profile';
-import { Profile } from '@/types/type';
+import { User } from '@/types/type';
 import { useEffect } from 'react';
 
 interface UserInit {
 	children: React.ReactNode;
-	user: Profile;
+	user: User;
 }
 
 export default function UserInit({ children, user }: UserInit) {
