@@ -10,7 +10,7 @@ import Header from '@/components/Layout/Header';
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const supabase = await createClientByServer();
 
-	const { error, data } = await supabase.from('tabs').select();
+	const { error, data } = await supabase.from('tabs').select().eq('isUse', 'Y');
 
 	if (error) {
 		throw new Error(error.message);

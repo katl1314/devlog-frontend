@@ -12,7 +12,7 @@ interface Page {
 
 export async function generateStaticParams() {
 	const supabase = createClientByBrowser();
-	const { data, error } = await supabase.from('tabs').select();
+	const { data, error } = await supabase.from('tabs').select().eq('isUse', 'Y');
 
 	if (error) throw new Error(error.message);
 

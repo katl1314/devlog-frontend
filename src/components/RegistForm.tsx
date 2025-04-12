@@ -23,7 +23,7 @@ export default function RegistForm({ email }: Partial<RegistForm>) {
 			<div className="mt-4">
 				{/* 프로필 이름 */}
 				<Label className="md:text-xl">프로필 이름</Label>
-				<Input type="text" id="username" name="username" className="bg-white"></Input>
+				<Input type="text" id="username" name="username" className="bg-white" required></Input>
 			</div>
 			<div className="mt-4">
 				{/* 이메일 */}
@@ -33,7 +33,7 @@ export default function RegistForm({ email }: Partial<RegistForm>) {
 			<div className="mt-4">
 				{/* 사용자 ID */}
 				<Label className="md:text-xl">사용자 ID</Label>
-				<Input type="text" id="userId" name="userId" className="bg-white"></Input>
+				<Input type="text" id="userId" name="userId" className="bg-white" required></Input>
 			</div>
 			<div className="mt-4">
 				{/* 한 줄 소개 */}

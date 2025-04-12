@@ -13,7 +13,7 @@ export default function Header({ userId }: Header) {
 			<div className="box-border max-h-[70px] mx-auto my-0">
 				<div className="flex items-center justify-between p-[10px] gap-3">
 					<Logo href="/">
-						<Image src={'/next.svg'} alt="" width={100} height={50} />
+						<Image src={'/logo.svg'} alt="" width={150} height={100} />
 					</Logo>
 					<Logo href={`/user/${userId}`}>
 						<h3 className="text-xl font-bold">{userId}.log</h3>
