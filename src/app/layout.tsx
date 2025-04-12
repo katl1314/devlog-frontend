@@ -19,13 +19,13 @@ interface RootLayout {
 	modal: React.ReactNode;
 }
 
-type Profile = Partial<Database['public']['Tables']['profiles']['Row']>;
+type Profile = Partial<Database['public']['Tables']['user']['Row']>;
 
 export default async function RootLayout({ children, modal }: Readonly<RootLayout>) {
 	const supabase = await createClientByServer();
 	const session = await supabase.auth.getUser();
 	const id = session.data.user?.id;
-	const user = await supabase.from('profiles').select().match({ id }).single();
+	const user = await supabase.from('user').select().match({ id }).single();
 	return (
 		<UserInit user={user.data as Profile}>
 			<html lang="ko">

@@ -51,7 +51,7 @@ async function authUser(supabase: SupabaseClient) {
 	} = await supabase.auth.getUser();
 
 	if (!user) throw new Error();
-	const { error, data } = await supabase.from('profiles').select().eq('id', user.id);
+	const { error, data } = await supabase.from('user').select().eq('id', user.id);
 
 	if (error) throw new Error();
 

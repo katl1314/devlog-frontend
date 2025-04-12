@@ -3,7 +3,7 @@ import type { Database } from '../../database.types';
 
 // profile store
 
-type Profile = Partial<Database['public']['Tables']['profiles']['Row']>;
+type Profile = Partial<Database['public']['Tables']['user']['Row']>;
 
 interface ProfileType extends Profile {
 	isLoggedIn: boolean;

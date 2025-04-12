@@ -23,4 +23,4 @@ export interface FetchPosts {
 
 export type fetchPostsFnc = ({ tab, pageParam }: FetchPosts) => Promise<FetchPostsResponse>;
 
-export type Profile = Partial<Database['public']['Tables']['profiles']['Row']>;
+export type Profile = Partial<Database['public']['Tables']['user']['Row']>;
