@@ -11,8 +11,8 @@ export type Database = {
     Tables: {
       tabs: {
         Row: {
-          created_at: string
-          deleted_at: string | null
+          created_dt: string
+          deleted_dt: string | null
           href: string | null
           id: number
           isUse: string | null
@@ -20,8 +20,8 @@ export type Database = {
           text: string | null
         }
         Insert: {
-          created_at?: string
-          deleted_at?: string | null
+          created_dt?: string
+          deleted_dt?: string | null
           href?: string | null
           id?: number
           isUse?: string | null
@@ -29,8 +29,8 @@ export type Database = {
           text?: string | null
         }
         Update: {
-          created_at?: string
-          deleted_at?: string | null
+          created_dt?: string
+          deleted_dt?: string | null
           href?: string | null
           id?: number
           isUse?: string | null
@@ -42,8 +42,8 @@ export type Database = {
       user: {
         Row: {
           avatar_url: string | null
-          create_dt: string | null
-          delete_dt: string | null
+          created_dt: string | null
+          deleted_dt: string | null
           description: string | null
           id: string
           is_use: boolean
@@ -52,8 +52,8 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
-          create_dt?: string | null
-          delete_dt?: string | null
+          created_dt?: string | null
+          deleted_dt?: string | null
           description?: string | null
           id: string
           is_use?: boolean
@@ -62,8 +62,8 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
-          create_dt?: string | null
-          delete_dt?: string | null
+          created_dt?: string | null
+          deleted_dt?: string | null
           description?: string | null
           id?: string
           is_use?: boolean
