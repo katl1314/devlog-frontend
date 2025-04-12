@@ -43,7 +43,7 @@ export type Database = {
         Row: {
           avatar_url: string | null
           create_dt: string | null
-          delete_at: string | null
+          delete_dt: string | null
           description: string | null
           id: string
           is_use: boolean
@@ -53,7 +53,7 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           create_dt?: string | null
-          delete_at?: string | null
+          delete_dt?: string | null
           description?: string | null
           id: string
           is_use?: boolean
@@ -63,7 +63,7 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           create_dt?: string | null
-          delete_at?: string | null
+          delete_dt?: string | null
           description?: string | null
           id?: string
           is_use?: boolean
