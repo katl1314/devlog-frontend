@@ -33,7 +33,7 @@ export default function Profile() {
 	};
 
 	return (
-		<div className="flex flex-row gap-4 items-center">
+		<div className="flex flex-row items-center gap-2 lg:gap-4 ">
 			{/* 검색 => 모달을 통해서 검색 기능 */}
 			<CiSearch size={32} className="block lg:hidden" />
 			{/* 구독 알람 => 페이지?*/}

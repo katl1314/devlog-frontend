@@ -1,7 +1,7 @@
 import Profile from '@/components/Profile';
 import Searchbar from '@/components/Layout/Searchbar';
-import Logo from './Logo';
 import Image from 'next/image';
+import Logo from '@/components/Logo';
 
 interface Header {
 	userId: string | null | undefined;
@@ -12,12 +12,14 @@ export default function Header({ userId }: Header) {
 		<header>
 			<div className="box-border max-h-[70px] mx-auto my-0">
 				<div className="flex items-center justify-between p-[10px] gap-3">
-					<Logo href="/">
-						<Image src={'/logo.svg'} alt="" width={150} height={100} />
-					</Logo>
-					<Logo href={`/user/${userId}`}>
-						<h3 className="text-xl font-bold">{userId}.log</h3>
-					</Logo>
+					<div className="flex items-center">
+						<Logo href="/" className="flex items-center">
+							<Image src={'/logo-small.svg'} alt="" width={40} height={40} />
+						</Logo>
+						<Logo href={`/user/${userId}`} className="text-base lg:text-xl ml-[12px] flex items-center">
+							<span className="font-bold whitespace-nowrap overflow-ellipsis">{`{${userId}}.log`}</span>
+						</Logo>
+					</div>
 					<Searchbar />
 					<Profile />
 				</div>
