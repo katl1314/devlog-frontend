@@ -5,12 +5,19 @@ export function middleware(req: NextRequest) {
 	const url = req.nextUrl.clone();
 	const pathname = url.pathname;
 
+	// layout.ts에서 header.get를 통해서 pathname을 가져온다.
+	const headers = new Headers();
+	headers.set('x-pathname', url.pathname);
+
 	// @로 시작하는 URL이면 사용자 페이지로 rewrite
 	if (pathname.startsWith('/@')) {
 		const username = pathname.slice(2); // remove leading "@"
 		url.pathname = `/user/${username}`;
-		console.log(url.pathname);
-		return NextResponse.rewrite(url);
+		return NextResponse.rewrite(url, {
+			request: {
+				headers
+			}
+		});
 	} else if (pathname === '/') {
 		// 루트는 /trends로 rewrite
 		url.pathname = `${pathname}trends`;
