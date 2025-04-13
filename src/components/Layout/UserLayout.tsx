@@ -5,5 +5,5 @@ interface UserLayout {
 }
 
 export default function UserLayout({ children }: UserLayout) {
-	return <div className="lg:pt-16 px-2 lg:px-[400px] ">{children}</div>;
+	return <div className="lg:pt-16 px-2 xl:px-[400px] ">{children}</div>;
 }
