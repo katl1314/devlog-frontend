@@ -7,7 +7,7 @@ import { createClientByBrowser } from '@/utils/supabase/client';
 export const dynamicParams = false; // false 시 404페이지를 발생한다.
 
 interface Page {
-	params: Promise<{ tab: string }>;
+	params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -15,15 +15,16 @@ export async function generateStaticParams() {
 	const { data, error } = await supabase.from('tabs').select().eq('isUse', 'Y');
 
 	if (error) throw new Error(error.message);
+	const params = data.map(({ tab, text, href }) => ({ slug: tab, text, href }));
 
-	return data;
+	return params;
 }
 
 export default async function Page({ params }: Page) {
-	const { tab } = await params;
+	const { slug } = await params;
 	return (
 		<Suspense fallback={<PostCardFallback />}>
-			<PostCardList tab={tab} />
+			<PostCardList tab={slug} />
 		</Suspense>
 	);
 }

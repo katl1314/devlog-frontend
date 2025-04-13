@@ -9,15 +9,15 @@ export async function generateStaticParams() {
 	const supabase = createClientByBrowser();
 	const { error, data } = await supabase.from('user').select();
 	if (error) throw new Error(error.message);
-
-	return data;
+	const params = data.map(({ userId }) => ({ slug: userId }));
+	return params;
 }
 
 export const dynamicParams = false;
 
-export default async function Page({ params }: { params: Promise<{ userId: string }> }) {
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
 	const supabase = await createClientByServer();
-	const userId = (await params).userId;
+	const userId = (await params).slug;
 	const { error, data } = await supabase.from('user').select().eq('userId', userId).single();
 
 	if (error) throw new Error(error.message);

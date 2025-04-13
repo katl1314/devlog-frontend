@@ -3,14 +3,14 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
 	reactStrictMode: false,
 	// rewrite
-	async rewrites() {
-		return [
-			{
-				source: '/',
-				destination: '/trends'
-			}
-		];
-	},
+	// async rewrites() {
+	// 	return [
+	// 		{
+	// 			source: '/',
+	// 			destination: '/trends'
+	// 		}
+	// 	];
+	// },
 	// 외부 이미지 조회
 	images: {
 		dangerouslyAllowSVG: true,

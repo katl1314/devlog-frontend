@@ -12,7 +12,7 @@ export default function PostCard({ id, title, thumbnail, comments, date, summary
 				<CardHeader>
 					<div className="relative w-full h-[200px]">
 						{/* Next.js 13이전까지는 layout, objectFit을 사용하여 이미지 비율을 맞춤. => 특히 fill속성을 사용하여 부모 요소 크기만큼 채울때 다만 이는 이미지 비율을 보장하지 못한다. */}
-						<Image src={thumbnail} alt={title} fill objectFit="cover"></Image>
+						<Image src={thumbnail} alt={title} fill style={{ objectFit: 'cover' }}></Image>
 					</div>
 				</CardHeader>
 				<CardContent className="flex flex-col h-[120px] justify-between py-2">
