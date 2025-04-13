@@ -22,7 +22,6 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
 	if (error) throw new Error(error.message);
 
-	console.log(data);
 	return (
 		<main>
 			<UserLayout>

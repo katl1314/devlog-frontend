@@ -14,9 +14,6 @@ export async function GET(request: NextRequest) {
 		const code = searchParams.get('code');
 		const next = searchParams.get('next') ?? '/';
 
-		console.log(`code :::: ${code}`);
-		console.log(`next :::: ${next}`);
-
 		// supabase 인증 성공 시 querystring으로 code가 전달받는다.
 		if (code) {
 			const supabase = await createClientByServer();

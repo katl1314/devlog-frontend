@@ -14,11 +14,9 @@ export const registUser = async (_: unknown, formData: FormData) => {
 		user_metadata: { avatar_url }
 	} = data.user;
 	const userId = formData.get('userId')?.toString();
-	const email = formData.get('email')?.toString();
 	const username = formData.get('username')?.toString();
 	const description = formData.get('content')?.toString();
 
-	console.log(id, userId, email, username, description);
 	const { error } = await supabase.from('profiles').insert([{ id, userId, avatar_url, username, description }]);
 
 	if (error) throw new Error(error.message);
