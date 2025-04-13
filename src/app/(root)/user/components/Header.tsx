@@ -16,7 +16,7 @@ export default function Header({ slug }: Header) {
 						<Logo href="/" className="flex items-center">
 							<Image src={'/logo-small.svg'} alt="" width={40} height={40} />
 						</Logo>
-						<Logo href={`/user${slug}`} className="text-base lg:text-xl ml-[12px] flex items-center">
+						<Logo href={`/${slug}`} className="text-base lg:text-xl ml-[12px] flex items-center">
 							<span className="font-bold whitespace-nowrap overflow-ellipsis">{`{${slug}}.log`}</span>
 						</Logo>
 					</div>
