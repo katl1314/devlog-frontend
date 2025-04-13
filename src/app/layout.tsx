@@ -23,7 +23,7 @@ export default async function RootLayout({ children, modal }: Readonly<RootLayou
 	const supabase = await createClientByServer();
 	const session = await supabase.auth.getUser();
 	const id = session.data.user?.id;
-	const user = await supabase.from('user').select().match({ id }).single();
+	const user = await supabase.from('profiles').select().match({ id }).single();
 	return (
 		<UserInit user={user.data as User}>
 			<html lang="ko">

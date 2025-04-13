@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 export async function generateStaticParams() {
 	const supabase = createClientByBrowser();
-	const { error, data } = await supabase.from('user').select();
+	const { error, data } = await supabase.from('profiles').select();
 	if (error) throw new Error(error.message);
 	const params = data.map(({ userId }) => ({ slug: userId }));
 	return params;
@@ -18,7 +18,7 @@ export const dynamicParams = false;
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
 	const supabase = await createClientByServer();
 	const userId = (await params).slug;
-	const { error, data } = await supabase.from('user').select().eq('userId', userId).single();
+	const { error, data } = await supabase.from('profiles').select().eq('userId', userId).single();
 
 	if (error) throw new Error(error.message);
 

@@ -10,8 +10,12 @@ export async function GET(request: NextRequest) {
 		const forwardedHost = request.headers.get('x-forwarded-host');
 		const isLocalEnv = process.env.NODE_ENV === 'development';
 		const { searchParams, origin } = new URL(request.url);
+
 		const code = searchParams.get('code');
 		const next = searchParams.get('next') ?? '/';
+
+		console.log(`code :::: ${code}`);
+		console.log(`next :::: ${next}`);
 
 		// supabase 인증 성공 시 querystring으로 code가 전달받는다.
 		if (code) {
@@ -51,7 +55,7 @@ async function authUser(supabase: SupabaseClient) {
 	} = await supabase.auth.getUser();
 
 	if (!user) throw new Error();
-	const { error, data } = await supabase.from('user').select().eq('id', user.id);
+	const { error, data } = await supabase.from('profiles').select().eq('id', user.id);
 
 	if (error) throw new Error();
 

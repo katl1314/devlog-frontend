@@ -26,12 +26,6 @@ export async function updateSession(request: NextRequest) {
 		}
 	);
 
-	// Do not run code between createServerClient and
-	// supabase.auth.getUser(). A simple mistake could make it very hard to debug
-	// issues with users being randomly logged out.
-
-	// IMPORTANT: DO NOT REMOVE auth.getUser()
-
 	const {
 		data: { user }
 	} = await supabase.auth.getUser(); // supabase 서버에서 fetch하므로 보안상 권장함. => getSession은 해커에 의해 잘못된 세션을 가져올 수 있음.
@@ -42,19 +36,6 @@ export async function updateSession(request: NextRequest) {
 		url.pathname = '/login'; // 만약 요청 경로가 user가 없으면서 /login, /auth으로 시작하지 않으면 무조건 /login으로 리다이렉트
 		return NextResponse.redirect(url);
 	}
-
-	// IMPORTANT: You *must* return the supabaseResponse object as it is.
-	// If you're creating a new response object with NextResponse.next() make sure to:
-	// 1. Pass the request in it, like so:
-	//    const myNewResponse = NextResponse.next({ request })
-	// 2. Copy over the cookies, like so:
-	//    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
-	// 3. Change the myNewResponse object to fit your needs, but avoid changing
-	//    the cookies!
-	// 4. Finally:
-	//    return myNewResponse
-	// If this is not done, you may be causing the browser and server to go out
-	// of sync and terminate the user's session prematurely!
 
 	return supabaseResponse;
 }

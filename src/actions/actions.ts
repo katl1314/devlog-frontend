@@ -19,7 +19,7 @@ export const registUser = async (_: unknown, formData: FormData) => {
 	const description = formData.get('content')?.toString();
 
 	console.log(id, userId, email, username, description);
-	const { error } = await supabase.from('user').insert([{ id, userId, avatar_url, username, description }]);
+	const { error } = await supabase.from('profiles').insert([{ id, userId, avatar_url, username, description }]);
 
 	if (error) throw new Error(error.message);
 
