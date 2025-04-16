@@ -39,12 +39,12 @@ function UserProfile({ userId, username, avatar_url, description }: User) {
 	return (
 		<>
 			<div className="flex flex-row items-center gap-4">
-				<div>
-					<Image src={avatar_url!} alt={`${userId}의 프로필사진`} width={130} height={130} className="rounded-[50%]" />
+				<div className="w-[80px] h-[80px] lg:w-[130px] lg:h-[130px] relative">
+					<Image src={avatar_url!} alt={`${userId}의 프로필사진`} fill className="rounded-[50%]" />
 				</div>
 				<div className="flex flex-col justify-between gap-3">
-					<div className="text-3xl font-bold">{username}</div>
-					<div className="text-xl text-neutral-500">{description}</div>
+					<div className="text-xl lg:text-3xl font-bold">{username}</div>
+					<div className="lg:text-xl text-neutral-500">{description}</div>
 				</div>
 			</div>
 		</>
@@ -62,7 +62,7 @@ function UserProfileBottom() {
 
 function FollowInfo() {
 	return (
-		<div className="flex flex-row justify-end gap-4 text-lg">
+		<div className="flex flex-row justify-end gap-4 px:text-lg">
 			<div>
 				<span className="font-bold">0</span> 팔로워
 			</div>
@@ -77,8 +77,8 @@ function FollowButton() {
 	return (
 		<div className="flex flex-row justify-between mt-6 items-center">
 			<div className="flex flex-row gap-3">
-				<FaGithub size={35} fill="gray" />
-				<FaHome size={35} fill="gray" />
+				<FaGithub size={30} fill="gray" />
+				<FaHome size={30} fill="gray" />
 			</div>
 			<div>
 				{/* 팔로잉 */}

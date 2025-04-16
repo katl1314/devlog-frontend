@@ -9,8 +9,62 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      authority: {
+        Row: {
+          auth_cd: string | null
+          auth_nm: string | null
+          created_at: string
+          id: number
+        }
+        Insert: {
+          auth_cd?: string | null
+          auth_nm?: string | null
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          auth_cd?: string | null
+          auth_nm?: string | null
+          created_at?: string
+          id?: number
+        }
+        Relationships: []
+      }
+      blog: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: number
+          title: string | null
+          userId: string | null
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          title?: string | null
+          userId?: string | null
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          title?: string | null
+          userId?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["userId"]
+          },
+        ]
+      }
       profiles: {
         Row: {
+          auth_cd: string | null
           avatar_url: string | null
           created_at: string | null
           deleted_at: string | null
@@ -21,6 +75,7 @@ export type Database = {
           username: string
         }
         Insert: {
+          auth_cd?: string | null
           avatar_url?: string | null
           created_at?: string | null
           deleted_at?: string | null
@@ -31,6 +86,7 @@ export type Database = {
           username: string
         }
         Update: {
+          auth_cd?: string | null
           avatar_url?: string | null
           created_at?: string | null
           deleted_at?: string | null
@@ -40,7 +96,15 @@ export type Database = {
           userId?: string
           username?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_auth_cd_fkey"
+            columns: ["auth_cd"]
+            isOneToOne: false
+            referencedRelation: "authority"
+            referencedColumns: ["auth_cd"]
+          },
+        ]
       }
       tabs: {
         Row: {

@@ -17,9 +17,12 @@ export const registUser = async (_: unknown, formData: FormData) => {
 	const username = formData.get('username')?.toString();
 	const description = formData.get('content')?.toString();
 
-	const { error } = await supabase.from('profiles').insert([{ id, userId, avatar_url, username, description }]);
+	const profiles = await supabase.from('profiles').insert([{ id, userId, avatar_url, username, description }]);
 
-	if (error) throw new Error(error.message);
+	if (profiles.error) throw new Error(profiles.error.message);
 
+	// 블로그 생성
+	const blog = await supabase.from('blog').insert({ userId, title: `${userId}.log` });
+	if (blog.error) throw new Error(blog.error.message);
 	redirect('/');
 };

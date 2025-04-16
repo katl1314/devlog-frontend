@@ -9,6 +9,15 @@ export function middleware(req: NextRequest) {
 	const headers = new Headers();
 	headers.set('x-pathname', url.pathname);
 
+	// Cookie를 직접 Headers에 추가
+	const cookies = req.cookies
+		.getAll()
+		.map(c => `${c.name}=${c.value}`)
+		.join('; ');
+	if (cookies) {
+		headers.set('cookie', cookies);
+	}
+
 	// @로 시작하는 URL이면 사용자 페이지로 rewrite
 	if (pathname.startsWith('/@')) {
 		const username = pathname.slice(2); // remove leading "@"

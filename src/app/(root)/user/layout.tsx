@@ -6,10 +6,10 @@ import { headers } from 'next/headers';
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const headerList = await headers();
 	const pathname = headerList.get('x-pathname') || '';
-	const userId = pathname.substring(pathname.indexOf('/') + 1);
+	const userId = pathname.substring(pathname.indexOf('@') + 1);
 	return (
 		<PageLayout>
-			<Header slug={userId} />
+			<Header userId={userId} />
 			<div className="my-8 mx-auto px-4">{children}</div>
 		</PageLayout>
 	);
