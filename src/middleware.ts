@@ -22,11 +22,15 @@ export function middleware(req: NextRequest) {
 	if (pathname.startsWith('/@')) {
 		const username = pathname.slice(2); // remove leading "@"
 		url.pathname = `/user/${username}`;
-		return NextResponse.rewrite(url, {
-			request: {
-				headers
-			}
-		});
+		if (req.method === 'GET') {
+			return NextResponse.rewrite(url, {
+				request: {
+					headers
+				}
+			});
+		} else {
+			return NextResponse.redirect(url);
+		}
 	} else if (pathname === '/') {
 		// 루트는 /trends로 rewrite
 		url.pathname = `${pathname}trends`;

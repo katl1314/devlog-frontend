@@ -28,6 +28,8 @@ export default function AuthForm() {
 		</svg>
 	);
 
+	const pathname = window.location.pathname;
+	const formActionPath = pathname.startsWith('/@') ? `user/${pathname.slice(2)}` : pathname;
 	const githubSVG = (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +54,7 @@ export default function AuthForm() {
 				<Label className="text-[18px] text-center">Dev.log에서 많은 개발자와 공유하세요!</Label>
 				<div className="mt-4">
 					<Label className="text-base text-center text-neutral-400">소셜 계정으로 로그인하기</Label>
-					<form className="flex flex-col gap-2 my-4">
+					<form className="flex flex-col gap-2 my-4" action={formActionPath}>
 						{/* formAction button은 form으로 감싸야한다. */}
 						<AuthButton
 							type="submit"
