@@ -1,12 +1,24 @@
-import Profile from '@/components/Profile/Profile';
-import Searchbar from '@/components/Layout/Searchbar';
 import Image from 'next/image';
 import Logo from '@/components/Logo';
 import { createClientByServer } from '@/utils/supabase/server';
+import dynamic from 'next/dynamic';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface Header {
 	userId: string | null | undefined;
 }
+
+// Profile 컴포넌트 렌더링 동안 Skeleton을 보여준다.
+const Profile = dynamic(() => import('@/components/Profile/Profile'), {
+	loading: () => (
+		<div className="flex flex-row items-center gap-2 lg:gap-4">
+			<Skeleton className="h-8 w-8 rounded-full" />
+			<Skeleton className="h-8 w-8 rounded-full" />
+			<Skeleton className="h-8 w-8 rounded-full" />
+			<Skeleton className="h-8 w-8 rounded-full" />
+		</div>
+	)
+});
 
 export default async function Header({ userId }: Header) {
 	const supabase = await createClientByServer();
@@ -28,7 +40,6 @@ export default async function Header({ userId }: Header) {
 							</span>
 						</Logo>
 					</div>
-					<Searchbar />
 					<Profile />
 				</div>
 			</div>

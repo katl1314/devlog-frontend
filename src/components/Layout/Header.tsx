@@ -1,4 +1,3 @@
-import Searchbar from './Searchbar';
 import Profile from '@/components/Profile/Profile';
 import Logo from '@/components/Logo';
 import Image from 'next/image';
@@ -13,7 +12,6 @@ export default function Header() {
 							<Image src={'/logo.svg'} alt="" width={150} height={100} />
 						</Logo>
 					</h3>
-					<Searchbar />
 					<Profile />
 				</div>
 			</div>
