@@ -2,27 +2,32 @@
 
 import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
-import { FetchPostsResponse, ICard, fetchPostsFnc } from '@/types/type';
+import { fetchPostsFncByUser, Post, FetchPostsResponseUser } from '@/types/type';
 import EmptyContent from '@/components/EmptyContent';
 import PostCard from './PostCard';
+import { createClientByBrowser } from '@/utils/supabase/client';
 
 // 데이터를 fetch하는 함수
-const fetchPosts: fetchPostsFnc = async ({ tab, pageParam = 0 }) => {
-	const res = await fetch(`http://192.168.0.10:3001/${tab}?_start=${pageParam}&_limit=10`);
+const fetchPosts: fetchPostsFncByUser = async ({ userId, pageParam = 0 }) => {
+	const supabase = createClientByBrowser();
+	const posts = supabase
+		.from('posts')
+		.select()
+		.eq('userId', userId)
+		.range(pageParam, pageParam + 9);
 
-	// 에러를 응답하는 경우
-	if (!res.ok) throw new Error();
-	const data: ICard[] = await res.json();
+	const res = await posts;
+	const data: Post[] = res.data ?? [];
 
 	return { posts: data, hasMore: data.length > 0 };
 };
 
-export default function PostList({ tab = 'trends' }: { tab?: string }) {
-	const queryFn: QueryFunction<FetchPostsResponse, readonly unknown[], unknown> = ({ pageParam = 0 }) =>
-		fetchPosts({ tab, pageParam: pageParam as number });
+export default function PostList({ userId }: { userId: string }) {
+	const queryFn: QueryFunction<FetchPostsResponseUser, readonly unknown[], unknown> = ({ pageParam = 0 }) =>
+		fetchPosts({ userId, pageParam: pageParam as number });
 
-	const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<FetchPostsResponse>({
-		queryKey: ['posts', tab],
+	const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<FetchPostsResponseUser>({
+		queryKey: ['posts', userId],
 		queryFn,
 		initialPageParam: 0,
 		getNextPageParam: (lastPage, allPages) => (lastPage.hasMore ? allPages.length * 10 : undefined)
@@ -57,7 +62,7 @@ export default function PostList({ tab = 'trends' }: { tab?: string }) {
 				posts.map((post, index) => {
 					const isLastItem = index === posts.length - 1;
 					return (
-						<div key={post.id} ref={isLastItem ? lastPostRef : null}>
+						<div key={post.path} ref={isLastItem ? lastPostRef : null}>
 							{<PostCard {...post} />}
 						</div>
 					);

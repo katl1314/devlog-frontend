@@ -1,18 +1,19 @@
 import Image from 'next/image';
-import type { ICard } from '@/types/type';
-import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
+import type { Post } from '@/types/type';
 
-export default function PostCard({ id, title, thumbnail, comments, date, summary }: ICard) {
+export default function PostCard({ thumbnail, path, title, summary }: Partial<Post>) {
 	return (
 		<section className="mt-10">
-			<Link href={`/@${id}`}>
+			<Link href={`${path}`}>
 				<div>
-					<div className="relative w-full h-[300px]">
-						{/* Next.js 13이전까지는 layout, objectFit을 사용하여 이미지 비율을 맞춤. => 특히 fill속성을 사용하여 부모 요소 크기만큼 채울때 다만 이는 이미지 비율을 보장하지 못한다. */}
-						<Image src={thumbnail} alt={title} fill style={{ objectFit: 'cover' }}></Image>
-					</div>
+					{thumbnail && (
+						<div className="relative w-full h-[300px]">
+							{/* Next.js 13이전까지는 layout, objectFit을 사용하여 이미지 비율을 맞춤. => 특히 fill속성을 사용하여 부모 요소 크기만큼 채울때 다만 이는 이미지 비율을 보장하지 못한다. */}
+							<Image src={thumbnail} alt="썸네일 이미지" fill style={{ objectFit: 'cover' }}></Image>
+						</div>
+					)}
 				</div>
 				<div className="flex flex-col h-[120px] justify-between py-2">
 					<div>
@@ -20,8 +21,8 @@ export default function PostCard({ id, title, thumbnail, comments, date, summary
 						<div className="text-sm pt-6">{summary}</div>
 					</div>
 					<div className="flex flex-row gap-2 py-3 text-neutral-500">
-						<Label>{date}</Label>
-						<Label>{comments}개의 댓글</Label>
+						{/* <Label>{created_at?.toDateString()}</Label> */}
+						{/* <Label>{0}개의 댓글</Label> */}
 					</div>
 				</div>
 			</Link>

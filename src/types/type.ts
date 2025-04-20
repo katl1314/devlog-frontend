@@ -1,5 +1,8 @@
 import { Database } from '../../database.types';
 
+export type User = Partial<Database['public']['Tables']['profiles']['Row']>;
+export type Post = Partial<Database['public']['Tables']['posts']['Row']>;
+
 export interface ICard {
 	id: number;
 	title: string;
@@ -16,11 +19,20 @@ export interface FetchPostsResponse {
 	hasMore: boolean;
 }
 
-export interface FetchPosts {
+export interface FetchPostsResponseUser {
+	posts: Post[];
+	hasMore: boolean;
+}
+
+export interface FetchPostsTab {
 	tab: string;
 	pageParam: number;
 }
 
-export type fetchPostsFnc = ({ tab, pageParam }: FetchPosts) => Promise<FetchPostsResponse>;
+export interface FetchPostsUser {
+	userId: string;
+	pageParam: number;
+}
 
-export type User = Partial<Database['public']['Tables']['profiles']['Row']>;
+export type fetchPostsFnc = ({ tab, pageParam }: FetchPostsTab) => Promise<FetchPostsResponse>;
+export type fetchPostsFncByUser = ({ userId, pageParam }: FetchPostsUser) => Promise<FetchPostsResponseUser>;

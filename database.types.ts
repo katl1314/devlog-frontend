@@ -56,11 +56,77 @@ export type Database = {
           {
             foreignKeyName: "blog_userId_fkey"
             columns: ["userId"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["userId"]
+          },
+        ]
+      }
+      posts: {
+        Row: {
+          auth_cd: string | null
+          created_at: string
+          deleted_at: string | null
+          path: string
+          summary: string | null
+          thumbnail: string | null
+          title: string
+          userId: string
+        }
+        Insert: {
+          auth_cd?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          path: string
+          summary?: string | null
+          thumbnail?: string | null
+          title: string
+          userId: string
+        }
+        Update: {
+          auth_cd?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          path?: string
+          summary?: string | null
+          thumbnail?: string | null
+          title?: string
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "posts_auth_cd_fkey"
+            columns: ["auth_cd"]
+            isOneToOne: false
+            referencedRelation: "posts_authority"
+            referencedColumns: ["auth_cd"]
+          },
+          {
+            foreignKeyName: "posts_userId_fkey"
+            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["userId"]
           },
         ]
+      }
+      posts_authority: {
+        Row: {
+          auth_cd: string
+          auth_nm: string | null
+          id: number
+        }
+        Insert: {
+          auth_cd: string
+          auth_nm?: string | null
+          id?: number
+        }
+        Update: {
+          auth_cd?: string
+          auth_nm?: string | null
+          id?: number
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
