@@ -9,7 +9,7 @@ import CardLayout from './Layout/CardLayout';
 
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFnc = async ({ tab, pageParam = 0 }) => {
-	const res = await fetch(`http://localhost:3001/${tab}?_start=${pageParam}&_limit=10`);
+	const res = await fetch(`http://192.168.0.10:3001/${tab}?_start=${pageParam}&_limit=10`);
 
 	// 에러를 응답하는 경우
 	if (!res.ok) throw new Error();
