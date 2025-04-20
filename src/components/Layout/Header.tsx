@@ -1,5 +1,5 @@
 import Searchbar from './Searchbar';
-import Profile from '@/components/Profile';
+import Profile from '@/components/Profile/Profile';
 import Logo from '@/components/Logo';
 import Image from 'next/image';
 

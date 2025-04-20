@@ -1,4 +1,4 @@
-import Profile from '@/components/Profile';
+import Profile from '@/components/Profile/Profile';
 import Searchbar from '@/components/Layout/Searchbar';
 import Image from 'next/image';
 import Logo from '@/components/Logo';
