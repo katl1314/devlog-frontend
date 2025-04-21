@@ -21,8 +21,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
 			<Header userId={userId} />
 			<UserLayout>
 				<UserProfile {...data} />
-				<UserProfileBottom userId={userId} />
 				<Separator className="mt-[20px]" />
+				<UserProfileBottom userId={userId} />
 				<div className="my-8 mx-auto px-4">{children}</div>
 			</UserLayout>
 		</PageLayout>

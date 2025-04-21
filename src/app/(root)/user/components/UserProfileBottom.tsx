@@ -14,7 +14,7 @@ export default async function UserProfileBottom({ userId }: User) {
 	}
 
 	return (
-		<section className="ml-1 lg:ml-4">
+		<section className="ml-1 lg:ml-4 my-4">
 			<div className="flex flex-row justify-end gap-4 px:text-lg">
 				<div>
 					<span className="font-bold">0</span> 팔로워
