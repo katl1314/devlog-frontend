@@ -11,7 +11,7 @@ export default function PostCard({ thumbnail, path, title, created_at, summary }
 	const created_dt = Dayjs(created_at);
 
 	return (
-		<section className="mt-10">
+		<div className="mb-4">
 			<Link href={`./${path}`}>
 				<div>
 					{thumbnail && (
@@ -36,6 +36,6 @@ export default function PostCard({ thumbnail, path, title, created_at, summary }
 				</div>
 			</Link>
 			<Separator />
-		</section>
+		</div>
 	);
 }

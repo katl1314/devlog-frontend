@@ -14,7 +14,7 @@ export default async function UserProfileBottom({ userId }: User) {
 	}
 
 	return (
-		<section className="ml-1 lg:ml-4 my-4">
+		<div className="ml-1 lg:ml-4 my-2">
 			<div className="flex flex-row justify-end gap-4 px:text-lg">
 				<div>
 					<span className="font-bold">0</span> 팔로워
@@ -23,7 +23,7 @@ export default async function UserProfileBottom({ userId }: User) {
 					<span className="font-bold">0</span> 팔로잉
 				</div>
 			</div>
-			<div className="flex flex-row justify-between mt-6 items-center">
+			<div className="flex flex-row justify-between mt-4 items-center">
 				<div className="flex flex-row gap-3">
 					<FaGithub size={30} fill="gray" />
 					<FaHome size={30} fill="gray" />
@@ -36,6 +36,6 @@ export default async function UserProfileBottom({ userId }: User) {
 					)}
 				</div>
 			</div>
-		</section>
+		</div>
 	);
 }
