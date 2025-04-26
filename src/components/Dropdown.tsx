@@ -11,15 +11,22 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useProfile } from '@/store/profile';
 import Link from 'next/link';
-import { MouseEventHandler } from 'react';
+import { createClientByBrowser } from '@/utils/supabase/client';
 
 interface Dropdown {
 	children: React.ReactNode;
-	handleLogOut: MouseEventHandler;
 }
 
-export function Dropdown({ children, handleLogOut }: Dropdown) {
-	const { userId } = useProfile();
+export function Dropdown({ children }: Dropdown) {
+	const { userId, logout } = useProfile();
+	const supabase = createClientByBrowser();
+	const handleLogout = () => {
+		// 로그아웃
+		supabase.auth.signOut().then(() => {
+			logout();
+			window.location.reload();
+		});
+	};
 
 	return (
 		<DropdownMenu>
@@ -40,7 +47,7 @@ export function Dropdown({ children, handleLogOut }: Dropdown) {
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem onClick={handleLogOut}>
+				<DropdownMenuItem onClick={handleLogout}>
 					<LogOut />
 					<span>로그아웃</span>
 				</DropdownMenuItem>

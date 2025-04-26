@@ -1,35 +1,35 @@
-'use client';
-import { useProfile } from '@/store/profile';
+import { createClientByServer } from '@/utils/supabase/server';
 import { Dropdown } from '../Dropdown';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { Button } from '../ui/button';
-import { createClientByBrowser } from '@/utils/supabase/client';
-import { redirect } from 'next/navigation';
+import Link from 'next/link';
+import { Skeleton } from '../ui/skeleton';
 
-export default function LoginButton() {
-	const { logout, avatar_url } = useProfile();
-	const supabase = createClientByBrowser();
-	const handleLogout = () => {
-		// 로그아웃
-		supabase.auth.signOut().then(() => {
-			logout();
-			window.location.reload();
-		});
-	};
+export default async function LoginButton() {
+	const supabase = await createClientByServer();
+	const {
+		data: { user }
+	} = await supabase.auth.getUser();
 
-	const handleWrite = () => {
-		redirect('/write');
-	};
+	if (!user) return;
+
+	const {
+		user_metadata: { avatar_url }
+	} = user;
 
 	return (
 		<>
-			<Button className="flex items-center font-bold cursor-pointer border-b" variant={'outline'} onClick={handleWrite}>
+			<Link
+				href="/write"
+				className="flex items-center font-bold cursor-pointer border-[1px] border-b-[#e5e5e5] rounded-[10px] py-[5px] px-2 hover:bg-black hover:text-[#fff] hover:border-transparent"
+			>
 				새 글 작성
-			</Button>
-			<Dropdown handleLogOut={handleLogout}>
+			</Link>
+			<Dropdown>
 				<Avatar className="cursor-pointer">
-					<AvatarImage src={avatar_url ?? 'https://github.com/shadcn.png'} />
-					<AvatarFallback />
+					<AvatarImage src={avatar_url} />
+					<AvatarFallback>
+						<Skeleton className="h-8 w-8 rounded-full" />
+					</AvatarFallback>
 				</Avatar>
 			</Dropdown>
 		</>
