@@ -10,13 +10,11 @@ import { createClientByBrowser } from '@/utils/supabase/client';
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFncByUser = async ({ userId, pageParam = 0 }) => {
 	const supabase = createClientByBrowser();
-	// 로그인한 계정이면 비공개도 표시, 아니면 비공개는 표시되면 안됨.
 	const posts = supabase
 		.from('posts')
 		.select()
 		.eq('userId', userId)
-		.range(pageParam, pageParam + 9)
-		.order('created_at', { ascending: false });
+		.range(pageParam, pageParam + 9);
 
 	const res = await posts;
 	const data: Post[] = res.data ?? [];
