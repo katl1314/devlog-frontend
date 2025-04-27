@@ -1,8 +1,9 @@
-'use client';
-import dynamic from 'next/dynamic';
-
-const PostEditor = dynamic(() => import('@/components/Editor/PostEditor'), { ssr: false });
+import PostEditor from '@/components/Editor/PostEditor';
 
 export default function Page() {
-	return <PostEditor />;
+	return (
+		<div className="relative">
+			<PostEditor />
+		</div>
+	);
 }
