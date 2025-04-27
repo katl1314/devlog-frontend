@@ -22,7 +22,7 @@ const Profile = dynamic(() => import('@/components/Profile/Profile'), {
 
 export default async function Header({ userId }: Header) {
 	const supabase = await createClientByServer();
-	const { error, data } = await supabase.from('blog').select().eq('userId', userId).single();
+	const { error, data } = await supabase.from('blog').select().eq('userId', userId).limit(1).single();
 
 	if (error) throw new Error(error.message);
 

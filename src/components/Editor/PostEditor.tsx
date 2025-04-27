@@ -25,7 +25,7 @@ export default function App() {
 				height={500}
 				hideToolbar={false}
 				fullscreen={true}
-				preview={'edit'}
+				preview={'live'}
 			/>
 			<div style={{ paddingTop: 50 }}>
 				<EditerMarkdown source={value} />

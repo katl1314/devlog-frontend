@@ -9,7 +9,7 @@ export default async function UserProfileBottom({ userId }: User) {
 
 	let isMyProfile = false;
 	if (data) {
-		const { data: user } = await supabase.from('profiles').select('id').eq('userId', userId).single();
+		const { data: user } = await supabase.from('profiles').select('id').eq('userId', userId).limit(1).single();
 		isMyProfile = user?.id === data.user?.id;
 	}
 

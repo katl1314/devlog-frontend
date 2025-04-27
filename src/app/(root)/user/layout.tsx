@@ -13,7 +13,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 	const headerList = await headers();
 	const pathname = headerList.get('x-pathname') || '';
 	const userId = pathname.substring(pathname.indexOf('@') + 1);
-	const { error, data } = await supabase.from('profiles').select().eq('userId', userId).single();
+	const { error, data } = await supabase.from('profiles').select().eq('userId', userId).limit(1).single();
 
 	if (error) throw new Error(error.message);
 
