@@ -2,7 +2,7 @@
 
 import React, { ButtonHTMLAttributes } from 'react';
 import { Button } from './ui/button';
-import { cn } from '@/utils/utils';
+import { cn } from '@/lib/utils';
 
 interface AuthButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 	icon?: React.ReactElement;

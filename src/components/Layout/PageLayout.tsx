@@ -1,4 +1,4 @@
-import { cn } from '@/utils/utils';
+import { cn } from '@/lib/utils';
 
 export default function PageLayout({ children }: { children: React.ReactNode }) {
 	const mobile = 'mobile:max-w-[320px] ';
