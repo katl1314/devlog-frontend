@@ -59,14 +59,14 @@ interface Editor {
 }
 
 const editorSize = {
-	sm: 'h-[70px]',
+	sm: 'h-[65px]',
 	base: 'h-[200px]',
 	lg: 'h-[300px]',
 	xlg: 'h-[calc(100vh-300px)]',
 	xxlg: 'h-[calc(100vh-200px)]'
 };
 
-export default function CustomEditor(props: Editor) {
+export default function Editor(props: Editor) {
 	return (
 		<div className="$w-full overflow-hidden rounded-lg border bg-background shadow">
 			<LexicalComposer
