@@ -12,9 +12,9 @@ export default function PostEditor() {
 		<div className="flex flex-col mt-4 justify-between">
 			<div className="flex flex-col gap-2 flex-1">
 				{/* 제목 */}
-				<CustomEditor useToolbar={false} size="sm" useMarkdown={false} />
+				<CustomEditor useToolbar={false} size="sm" useMarkdown={false} placeholder="제목을 입력하세요." />
 				{/* 본문 */}
-				<CustomEditor size="xlg" />
+				<CustomEditor size="xlg" placeholder="본문을 입력하세요." />
 			</div>
 			<div className="w-full flex justify-between items-center mt-4">
 				<div className="flex gap-4">

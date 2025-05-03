@@ -55,6 +55,7 @@ interface Editor {
 	useToolbar?: boolean;
 	size?: keyof typeof editorSize;
 	useMarkdown?: boolean;
+	placeholder?: string;
 }
 
 const editorSize = {
@@ -81,9 +82,12 @@ export default function CustomEditor(props: Editor) {
 	);
 }
 
-const placeholder = 'Start typing...';
-
-export function Plugins({ useToolbar = true, useMarkdown = true, size = 'base' }: Editor) {
+export function Plugins({
+	useToolbar = true,
+	useMarkdown = true,
+	size = 'base',
+	placeholder = 'Start typing...'
+}: Editor) {
 	const [, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
 	const onRef = (_floatingAnchorElem: HTMLDivElement) => {
 		if (_floatingAnchorElem !== null) {
