@@ -114,7 +114,7 @@ import { TABLE } from '@/components/editor/transformers/markdown-table-transform
 export const placeholder = 'Press / for commands...';
 const maxLength = 500;
 
-export function Plugins({}) {
+export function Plugins() {
 	const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
 
 	const onRef = (_floatingAnchorElem: HTMLDivElement) => {
@@ -185,7 +185,7 @@ export function Plugins({}) {
 							<div className="" ref={onRef}>
 								<ContentEditable
 									placeholder={placeholder}
-									className="ContentEditable__root relative block min-h-65 overflow-auto px-8 py-4 focus:outline-none h-[750px]"
+									className="ContentEditable__root relative block min-h-65 overflow-auto px-8 py-4 focus:outline-none h-[55vh] lg:h-[70vh]"
 								/>
 							</div>
 						</div>

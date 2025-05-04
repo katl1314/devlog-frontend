@@ -36,7 +36,7 @@ const initialValue = {
 	}
 } as unknown as SerializedEditorState;
 
-export default function EditorDemo() {
+export default function CustomEditor() {
 	const [editorState, setEditorState] = useState<SerializedEditorState>(initialValue);
 
 	return (

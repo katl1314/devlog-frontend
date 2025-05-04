@@ -22,7 +22,7 @@ export default async function Header() {
 				<div className="flex items-center justify-between p-[10px]">
 					<h3 className="flex cursor-pointer">
 						<Logo href="/">
-							<Image src={'/logo.svg'} alt="" width={150} height={100} />
+							<Image src={'/logo.svg'} alt="" width={110} height={100} />
 						</Logo>
 					</h3>
 					<Profile />

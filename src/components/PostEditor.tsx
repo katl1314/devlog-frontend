@@ -5,16 +5,20 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { Label } from './ui/label';
 import dynamic from 'next/dynamic';
 
-const EditorDemo = dynamic(() => import('./Editor'), { ssr: true });
+const CustomEditor = dynamic(() => import('./Editor'), { ssr: true });
 
 export default function PostEditor() {
 	// 모바일인지 아닌지 확인은 해상도를 통해서...
-
 	return (
 		<div className="flex flex-col mt-4 justify-between">
 			<div className="flex flex-col gap-2 flex-1">
 				{/* 본문 */}
-				<EditorDemo />
+				<div
+					contentEditable={true}
+					data-placeholder="제목을 입력하세요."
+					className="min-h-[50px] text-4xl font-bold overflow-y-scroll max-h-[150px] empty:before:content-[attr(data-placeholder)] empty:before:text-neutral-400 mb-4"
+				></div>
+				<CustomEditor />
 			</div>
 			<div className="w-full flex justify-between items-center mt-4">
 				<div className="flex gap-4">

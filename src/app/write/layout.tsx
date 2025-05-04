@@ -1,7 +1,7 @@
-import PageLayout from '@/components/Layout/PageLayout';
+import PostLayout from '@/components/Layout/PostLayout';
 import React from 'react';
 import './write.css';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-	return <PageLayout className="px-3">{children}</PageLayout>;
+	return <PostLayout className="px-3">{children}</PostLayout>;
 }
