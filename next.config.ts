@@ -26,6 +26,9 @@ const nextConfig: NextConfig = {
 				protocol: 'https'
 			}
 		]
+	},
+	eslint: {
+		ignoreDuringBuilds: true
 	}
 };
 

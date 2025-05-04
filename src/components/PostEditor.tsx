@@ -3,7 +3,9 @@ import { Button } from './ui/button';
 import Link from 'next/link';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Label } from './ui/label';
-import Editor from './Editor';
+import dynamic from 'next/dynamic';
+
+const EditorDemo = dynamic(() => import('./Editor'), { ssr: true });
 
 export default function PostEditor() {
 	// 모바일인지 아닌지 확인은 해상도를 통해서...
@@ -11,10 +13,8 @@ export default function PostEditor() {
 	return (
 		<div className="flex flex-col mt-4 justify-between">
 			<div className="flex flex-col gap-2 flex-1">
-				{/* 제목 */}
-				<Editor useToolbar={false} size="sm" useMarkdown={false} placeholder="제목을 입력하세요." />
 				{/* 본문 */}
-				<Editor size="xlg" placeholder="본문을 입력하세요." />
+				<EditorDemo />
 			</div>
 			<div className="w-full flex justify-between items-center mt-4">
 				<div className="flex gap-4">
