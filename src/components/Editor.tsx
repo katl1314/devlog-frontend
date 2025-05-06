@@ -1,53 +1,39 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 
-import { SerializedEditorState } from 'lexical';
+const MDEditor = dynamic(() => import('@uiw/react-md-editor'));
 
-import { Editor } from '@/components/blocks/editor-x/editor';
+type Preview = 'live' | 'edit' | 'preview';
 
-const initialValue = {
-	root: {
-		children: [
-			{
-				children: [
-					{
-						detail: 0,
-						format: 0,
-						mode: 'normal',
-						style: '',
-						type: 'text',
-						text: '',
-						version: 1
-					}
-				],
-				direction: 'ltr',
-				format: '',
-				indent: 0,
-				type: 'paragraph',
-				version: 1
-			}
-		],
-		direction: 'ltr',
-		format: '',
-		indent: 0,
-		type: 'root',
-		version: 1
-	}
-} as unknown as SerializedEditorState;
-
-interface CustomEditor {
-	onChange: (html: string) => void;
+interface Editor {
+	placeholder?: string;
+	name?: string;
+	preview?: Preview;
+	height?: number;
 }
 
-export default function CustomEditor({ onChange }: CustomEditor) {
-	const [editorState, setEditorState] = useState<SerializedEditorState>(initialValue);
+export default function CustomEditor({
+	placeholder,
+	name,
+	preview = 'edit',
+	height = window.innerHeight - 200
+}: Editor) {
+	const [value, setValue] = useState('');
 
 	return (
-		<Editor
-			editorSerializedState={editorState}
-			onSerializedChange={value => setEditorState(value)}
-			onHtmlChange={onChange}
+		<MDEditor
+			value={value}
+			onChange={html => setValue(html!)}
+			autoFocus={true}
+			preview={preview}
+			height={height}
+			maxHeight={1000}
+			textareaProps={{
+				placeholder: placeholder || '내용을 입력하세요.',
+				name: name || 'content'
+			}}
 		/>
 	);
 }

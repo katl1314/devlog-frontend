@@ -16,7 +16,6 @@ const TagEditor = dynamic(() => import('./TagEditor'));
 
 export default function PostEditor() {
 	// 모바일인지 아닌지 확인은 해상도를 통해서...
-	const [content, setContent] = useState<string>('');
 	const [tags, setTags] = useState<string[]>([]);
 	const [, formAction, isPending] = useActionState(writePost, null);
 
@@ -26,6 +25,8 @@ export default function PostEditor() {
 	const handleSubmit: FormEventHandler<HTMLFormElement> = function (ev) {
 		const formData = new FormData(ev.currentTarget);
 		const title = formData.get('title')?.toString();
+		const content = formData.get('content')?.toString();
+		console.log(title, content);
 		const error = validatePost({ title, content });
 
 		if (error) {
@@ -49,7 +50,7 @@ export default function PostEditor() {
 						id="title"
 						name="title"
 					/>
-					<CustomEditor onChange={setContent} />
+					<CustomEditor name="content" />
 				</div>
 				<div className="flex flex-col gap-2 flex-1">
 					<TagEditor tags={tags} onChange={setTags} />
@@ -70,7 +71,6 @@ export default function PostEditor() {
 						</Button>
 					</div>
 				</div>
-				<input type="hidden" name="content" value={content} />
 				<input type="hidden" name="tags" value={JSON.stringify(tags)} />
 			</form>
 		</div>
