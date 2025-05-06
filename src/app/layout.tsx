@@ -4,6 +4,7 @@ import { Inter_Tight } from 'next/font/google';
 import { createClientByServer } from '@/utils/supabase/server';
 import UserInit from '@/components/UserInit';
 import { User } from '@/types/type';
+import { Toaster } from '@/components/ui/sonner';
 
 const inter = Inter_Tight({
 	subsets: ['latin']
@@ -31,6 +32,7 @@ export default async function RootLayout({ children, modal }: Readonly<RootLayou
 					{children}
 					{modal}
 					<div id="modal" className="absolute top-0"></div>
+					<Toaster position="top-right" closeButton={true} />
 				</body>
 			</html>
 		</UserInit>

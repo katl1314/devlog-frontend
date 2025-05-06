@@ -36,16 +36,18 @@ const initialValue = {
 	}
 } as unknown as SerializedEditorState;
 
-export default function CustomEditor() {
+interface CustomEditor {
+	onChange: (html: string) => void;
+}
+
+export default function CustomEditor({ onChange }: CustomEditor) {
 	const [editorState, setEditorState] = useState<SerializedEditorState>(initialValue);
 
 	return (
 		<Editor
 			editorSerializedState={editorState}
 			onSerializedChange={value => setEditorState(value)}
-			onHtmlChange={html => {
-				console.log(html);
-			}}
+			onHtmlChange={onChange}
 		/>
 	);
 }

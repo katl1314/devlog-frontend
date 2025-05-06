@@ -26,3 +26,7 @@ export const registUser = async (_: unknown, formData: FormData) => {
 	if (blog.error) throw new Error(blog.error.message);
 	redirect('/');
 };
+
+export const writePost = async (_: unknown, formData: FormData) => {
+	console.log(formData);
+};
