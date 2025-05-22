@@ -26,7 +26,6 @@ export default function PostEditor() {
 		const formData = new FormData(ev.currentTarget);
 		const title = formData.get('title')?.toString();
 		const content = formData.get('content')?.toString();
-		console.log(title, content);
 		const error = validatePost({ title, content });
 
 		if (error) {
@@ -50,7 +49,7 @@ export default function PostEditor() {
 						id="title"
 						name="title"
 					/>
-					<CustomEditor name="content" />
+					<CustomEditor name="content" height={window.innerHeight - 200} />
 				</div>
 				<div className="flex flex-col gap-2 flex-1">
 					<TagEditor tags={tags} onChange={setTags} />
@@ -66,8 +65,8 @@ export default function PostEditor() {
 						<Button type="button" className="rounded-0 cursor-pointer" variant="outline">
 							미리 저장
 						</Button>
-						<Button type="submit" className="rounded-0 cursor-pointer">
-							제출하기
+						<Button type="button" className="rounded-0 cursor-pointer">
+							다음
 						</Button>
 					</div>
 				</div>

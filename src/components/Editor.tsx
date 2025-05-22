@@ -14,12 +14,7 @@ interface Editor {
 	height?: number;
 }
 
-export default function CustomEditor({
-	placeholder,
-	name,
-	preview = 'edit',
-	height = window.innerHeight - 200
-}: Editor) {
+export default function CustomEditor({ placeholder, name, preview = 'edit', height }: Editor) {
 	const [value, setValue] = useState('');
 
 	return (
