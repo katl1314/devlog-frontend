@@ -11,10 +11,9 @@ interface Editor {
 	placeholder?: string;
 	name?: string;
 	preview?: Preview;
-	height?: number;
 }
 
-export default function CustomEditor({ placeholder, name, preview = 'edit', height }: Editor) {
+export default function CustomEditor({ placeholder, name, preview = 'edit' }: Editor) {
 	const [value, setValue] = useState('');
 
 	return (
@@ -23,7 +22,7 @@ export default function CustomEditor({ placeholder, name, preview = 'edit', heig
 			onChange={html => setValue(html!)}
 			autoFocus={true}
 			preview={preview}
-			height={height}
+			height={window.innerHeight - 200}
 			maxHeight={1000}
 			textareaProps={{
 				placeholder: placeholder || '내용을 입력하세요.',

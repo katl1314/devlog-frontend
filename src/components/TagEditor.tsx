@@ -38,11 +38,15 @@ export default function TagEditor({ tags, onChange }: TagEditor) {
 				handleKeyDownEnter(value);
 				e.currentTarget.value = '';
 				break;
-			case 'Backspace':
-				if (value === '') {
-					onChange(tags.slice(0, -1));
-				}
-				break;
+		}
+	};
+
+	const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
+		const value = e.currentTarget.value.trim();
+		if (e.key === 'Backspace') {
+			if (value === '') {
+				onChange(tags.slice(0, -1));
+			}
 		}
 	};
 	return (
@@ -60,6 +64,7 @@ export default function TagEditor({ tags, onChange }: TagEditor) {
 				id=""
 				className="outline-none"
 				onKeyUp={handleKeyUp}
+				onKeyDown={handleKeyDown}
 				placeholder="태그를 입력해주세요."
 			/>
 		</div>

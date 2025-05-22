@@ -11,7 +11,7 @@ import { validatePost } from '@/utils/validation';
 import { toast } from 'sonner';
 import { GoAlert } from 'react-icons/go';
 
-const CustomEditor = dynamic(() => import('./Editor'));
+const CustomEditor = dynamic(() => import('./Editor'), { ssr: false, loading: () => <div>Loading...</div> });
 const TagEditor = dynamic(() => import('./TagEditor'));
 
 export default function PostEditor() {
@@ -22,6 +22,7 @@ export default function PostEditor() {
 	useEffect(() => {
 		console.log(isPending);
 	}, [isPending]);
+
 	const handleSubmit: FormEventHandler<HTMLFormElement> = function (ev) {
 		const formData = new FormData(ev.currentTarget);
 		const title = formData.get('title')?.toString();
@@ -49,7 +50,7 @@ export default function PostEditor() {
 						id="title"
 						name="title"
 					/>
-					<CustomEditor name="content" height={window.innerHeight - 200} />
+					<CustomEditor name="content" />
 				</div>
 				<div className="flex flex-col gap-2 flex-1">
 					<TagEditor tags={tags} onChange={setTags} />
