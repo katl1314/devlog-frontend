@@ -60,8 +60,6 @@ export default function TagEditor({ tags, onChange }: TagEditor) {
 			</div>
 			<input
 				type="text"
-				name=""
-				id=""
 				className="outline-none"
 				onKeyUp={handleKeyUp}
 				onKeyDown={handleKeyDown}
