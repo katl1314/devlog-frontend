@@ -5,13 +5,14 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { Label } from './ui/label';
 import dynamic from 'next/dynamic';
 import { Input } from './ui/input';
-import { FormEventHandler, useActionState, useEffect, useState } from 'react';
+import { FormEventHandler, useActionState, useState } from 'react';
 import { writePost } from '@/actions/actions';
 import { validatePost } from '@/utils/validation';
 import { toast } from 'sonner';
 import { GoAlert } from 'react-icons/go';
 
-const CustomEditor = dynamic(() => import('./Editor'), { ssr: false, loading: () => <div>Loading...</div> });
+const CustomEditor = dynamic(() => import('./Editor'));
+const CustomModal = dynamic(() => import('@/components/Modal/CustomModal'), { ssr: false }); // 지연 로딩
 const TagEditor = dynamic(() => import('./TagEditor'));
 
 export default function PostEditor() {
@@ -19,9 +20,11 @@ export default function PostEditor() {
 	const [tags, setTags] = useState<string[]>([]);
 	const [, formAction, isPending] = useActionState(writePost, null);
 
-	useEffect(() => {
-		console.log(isPending);
-	}, [isPending]);
+	const [open, setOpen] = useState(false);
+
+	const handleAfterCloseModal = () => {
+		setOpen(prevState => !prevState);
+	};
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = function (ev) {
 		const formData = new FormData(ev.currentTarget);
@@ -50,10 +53,8 @@ export default function PostEditor() {
 						id="title"
 						name="title"
 					/>
-					<CustomEditor name="content" />
-				</div>
-				<div className="flex flex-col gap-2 flex-1">
 					<TagEditor tags={tags} onChange={setTags} />
+					<CustomEditor name="content" />
 				</div>
 				<div className="w-full flex justify-between items-center mt-4">
 					<div className="flex gap-4">
@@ -66,13 +67,35 @@ export default function PostEditor() {
 						<Button type="button" className="rounded-0 cursor-pointer" variant="outline">
 							미리 저장
 						</Button>
-						<Button type="button" className="rounded-0 cursor-pointer">
+						<Button type="button" className="rounded-0 cursor-pointer" onClick={() => setOpen(true)}>
 							다음
 						</Button>
 					</div>
 				</div>
 				<input type="hidden" name="tags" value={JSON.stringify(tags)} />
+				{open && (
+					<CustomModal afterCloseModal={handleAfterCloseModal} className="mt-[5%] lg:w-[25%]">
+						<PostSetting />
+					</CustomModal>
+				)}
 			</form>
 		</div>
 	);
 }
+
+const PostSetting = () => {
+	return (
+		<div className="my-0 mx-auto min-h-[250px]">
+			<div className="py-2">
+				<div className="px-2">
+					<Label className="text-lg font-bold text-center">포스트 설정</Label>
+				</div>
+			</div>
+
+			<div className="p-6 flex justify-center">
+				<Label className="text-lg lg:text-2xl text-center">Dev.log에서 많은 개발자와 공유하세요!</Label>
+			</div>
+			<button type="submit">테스트</button>
+		</div>
+	);
+};

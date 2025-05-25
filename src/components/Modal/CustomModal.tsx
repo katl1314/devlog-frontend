@@ -2,13 +2,15 @@
 
 import { MouseEventHandler, ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { cn } from '@/lib/utils';
 
 interface ModalProps {
 	children: ReactNode;
+	className?: string;
 	afterCloseModal?: (target: EventTarget) => void;
 }
 
-export default function SignUpModal({ children, afterCloseModal }: ModalProps) {
+export default function SignUpModal({ children, afterCloseModal, className = '' }: ModalProps) {
 	const modalRef = useRef<HTMLDialogElement>(null);
 
 	// ⭐ `document`가 있는 환경에서만 `document.getElementById()` 실행
@@ -40,7 +42,7 @@ export default function SignUpModal({ children, afterCloseModal }: ModalProps) {
 	return createPortal(
 		<dialog
 			ref={modalRef}
-			className="w-[100%] border-none rounded-[5px] my-[50%] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] lg:w-[35%] lg:mt-[15%]"
+			className={cn('border-none rounded-[5px] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] w-full', className)}
 			onClose={e => afterCloseModal?.(e.target)}
 			onClick={handleClose}
 		>
