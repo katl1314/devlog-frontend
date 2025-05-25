@@ -10,8 +10,9 @@ import { writePost } from '@/actions/actions';
 import { validatePost } from '@/utils/validation';
 import { toast } from 'sonner';
 import { GoAlert } from 'react-icons/go';
+import PostSetting from './PostSetting';
 
-const CustomEditor = dynamic(() => import('./Editor'));
+const Editor = dynamic(() => import('./Editor'));
 const CustomModal = dynamic(() => import('@/components/Modal/CustomModal'), { ssr: false }); // 지연 로딩
 const TagEditor = dynamic(() => import('./TagEditor'));
 
@@ -54,7 +55,7 @@ export default function PostEditor() {
 						name="title"
 					/>
 					<TagEditor tags={tags} onChange={setTags} />
-					<CustomEditor name="content" />
+					<Editor name="content" />
 				</div>
 				<div className="w-full flex justify-between items-center mt-4">
 					<div className="flex gap-4">
@@ -74,7 +75,7 @@ export default function PostEditor() {
 				</div>
 				<input type="hidden" name="tags" value={JSON.stringify(tags)} />
 				{open && (
-					<CustomModal afterCloseModal={handleAfterCloseModal} className="mt-[5%] lg:w-[25%]">
+					<CustomModal afterCloseModal={handleAfterCloseModal} className="w-full mt-[5%] md:min-w-[500px] md:w-[25%]">
 						<PostSetting />
 					</CustomModal>
 				)}
@@ -82,20 +83,3 @@ export default function PostEditor() {
 		</div>
 	);
 }
-
-const PostSetting = () => {
-	return (
-		<div className="my-0 mx-auto min-h-[250px]">
-			<div className="py-2">
-				<div className="px-2">
-					<Label className="text-lg font-bold text-center">포스트 설정</Label>
-				</div>
-			</div>
-
-			<div className="p-6 flex justify-center">
-				<Label className="text-lg lg:text-2xl text-center">Dev.log에서 많은 개발자와 공유하세요!</Label>
-			</div>
-			<button type="submit">테스트</button>
-		</div>
-	);
-};

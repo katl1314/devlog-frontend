@@ -16,10 +16,8 @@ export default function AuthForm() {
 	}, [pathRef, pathname]);
 	return (
 		<div className="my-0 mx-auto min-h-[250px]">
-			<div className="py-2">
-				<div className="px-2">
-					<Label className="text-lg font-bold text-center">로그인</Label>
-				</div>
+			<div className="px-2 py-2">
+				<Label className="text-lg font-bold text-center">로그인</Label>
 			</div>
 
 			<div className="p-6 flex justify-center">
