@@ -27,6 +27,12 @@ export const registUser = async (_: unknown, formData: FormData) => {
 	redirect('/');
 };
 
-export const writePost = async (_: unknown, formData: FormData) => {
+export const savePost = async (_: unknown, formData: FormData) => {
+	const supabase = await createClientByServer();
+	const auth = await supabase.auth.getUser();
+
+	if (auth.error) {
+	}
+
 	console.log(formData);
 };

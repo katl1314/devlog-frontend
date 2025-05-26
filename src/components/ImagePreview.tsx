@@ -4,7 +4,7 @@ import { RxMinus } from 'react-icons/rx';
 
 interface ImageFileupload {
 	src: string;
-	onChangeImage: (image: string | null) => void;
+	onChangeImage: (image: string) => void;
 }
 
 export default function ImagePreview({ src, onChangeImage }: ImageFileupload) {
@@ -14,7 +14,7 @@ export default function ImagePreview({ src, onChangeImage }: ImageFileupload) {
 			<div
 				className="hidden w-[25px] h-[25px] rounded-[50%] bg-neutral-400 top-[-10px] left-[-10px] absolute cursor-pointer group-hover:block"
 				onClick={() => {
-					onChangeImage(null);
+					onChangeImage('');
 				}}
 			>
 				<RxMinus color="white" className="translate-[25%]" />

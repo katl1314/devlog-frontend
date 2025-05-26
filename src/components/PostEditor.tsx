@@ -6,44 +6,26 @@ import { Label } from './ui/label';
 import dynamic from 'next/dynamic';
 import { Input } from './ui/input';
 import { FormEventHandler, useActionState, useState } from 'react';
-import { writePost } from '@/actions/actions';
+import { savePost } from '@/actions/actions';
 import { validatePost } from '@/utils/validation';
 import { toast } from 'sonner';
 import { GoAlert } from 'react-icons/go';
 import PostSetting from './PostSetting';
+import { usePost } from '@/store/post';
 
 const Editor = dynamic(() => import('./Editor'));
 const CustomModal = dynamic(() => import('@/components/Modal/CustomModal'), { ssr: false }); // 지연 로딩
 const TagEditor = dynamic(() => import('./TagEditor'));
 
-type PostType = 'public' | 'private';
-
-interface FormData {
-	title: string;
-	content: string;
-	tags?: string[];
-	file?: File;
-	postType: PostType;
-}
-
 export default function PostEditor() {
 	// 모바일인지 아닌지 확인은 해상도를 통해서...
-	const [tags, setTags] = useState<string[]>([]);
-	const [, formAction] = useActionState(writePost, null);
+	const [, formAction] = useActionState(savePost, null);
 	const [isModalOpen, setModalOpen] = useState(false);
-	const [featuredImage, setFeaturedImage] = useState<string | null>(null);
-	const [title, setTitle] = useState<string>('');
-	const [content, setContent] = useState<string>('');
-	const [visibility, setVisibility] = useState<PostType>('public');
-
-	// Toggle modal
+	const { title, content, visibility, tags, thumbnail, setTitle, setContent, setTags } = usePost();
 	const toggleModal = () => setModalOpen(open => !open);
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = function (ev) {
 		const error = validatePost({ title, content });
-		console.log(visibility, featuredImage);
-		console.log(title, content);
-		console.log(tags);
 		if (error) {
 			ev.preventDefault(); // 이벤트 기본 동작 방지
 			toast(error, {
@@ -52,13 +34,21 @@ export default function PostEditor() {
 				icon: <GoAlert />
 			});
 		}
+
+		const formData = new FormData();
+		formData.set('title', title);
+		formData.set('content', content);
+		formData.set('visibility', visibility);
+		formData.set('thumbnail', thumbnail ?? '');
+		formData.set('tags', JSON.stringify(tags));
+
+		formAction(formData);
 	};
 
 	return (
 		<div className="flex flex-col mt-4 justify-between">
 			<div className="flex flex-col gap-4 flex-1">
 				<Input
-					type="text"
 					className="h-[50px] font-bold text-3xl border-0 shadow-none"
 					placeholder="제목을 입력하세요."
 					id="title"
@@ -85,9 +75,9 @@ export default function PostEditor() {
 				</div>
 			</div>
 			{isModalOpen && (
-				<CustomModal afterCloseModal={toggleModal} className="w-full mt-[10%] md:min-w-[500px] md:w-[25%]">
+				<CustomModal afterCloseModal={toggleModal} className="w-full mt-[5%] md:min-w-[500px] md:w-[25%]">
 					<form action={formAction} onSubmit={handleSubmit}>
-						<PostSetting onChangeImage={setFeaturedImage} onChangeVisibie={setVisibility} />
+						<PostSetting />
 					</form>
 				</CustomModal>
 			)}

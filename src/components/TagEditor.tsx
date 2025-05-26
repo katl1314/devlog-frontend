@@ -4,7 +4,7 @@ import { Dispatch, KeyboardEventHandler, SetStateAction } from 'react';
 import { toast } from 'sonner';
 
 interface TagEditor {
-	onChange: Dispatch<SetStateAction<string[]>>;
+	onChange: (tags: string[]) => void;
 	tags: string[];
 }
 
