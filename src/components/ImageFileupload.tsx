@@ -4,10 +4,10 @@ import { ChangeEventHandler, MouseEventHandler, useRef } from 'react';
 import { Label } from './ui/label';
 
 interface ImageFileupload {
-	onChangeImage: (file: File | undefined) => void;
+	onChangeFile: (file: File) => void;
 }
 
-export default function ImageFileupload({ onChangeImage }: ImageFileupload) {
+export default function ImageFileupload({ onChangeFile }: ImageFileupload) {
 	const imageRef = useRef<HTMLInputElement>(null);
 	const handleFileClick: MouseEventHandler = () => {
 		if (imageRef?.current) {
@@ -17,7 +17,7 @@ export default function ImageFileupload({ onChangeImage }: ImageFileupload) {
 
 	const handleFileChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
 		const file = target.files?.[0];
-		onChangeImage(file);
+		onChangeFile(file!);
 	};
 	return (
 		<div onClick={handleFileClick} onChange={handleFileChange}>
@@ -25,7 +25,7 @@ export default function ImageFileupload({ onChangeImage }: ImageFileupload) {
 			<div className="cursor-pointer h-48 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 group">
 				<IoImageOutline size={45} color="gray" className="mb-2" />
 				<Label className="text-base text-gray-500 mb-2 group-hover:cursor-pointer">클릭하여 이미지 업로드</Label>
-				<Label className="text-base text-gray-500 mb-2 group-hover:cursor-pointer">
+				<Label className="text-sm text-gray-500 mb-2 group-hover:cursor-pointer">
 					JPG, PNG, GIF, HEIC, HEIF (최대 5MB)
 				</Label>
 			</div>

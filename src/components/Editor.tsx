@@ -13,15 +13,23 @@ interface Editor {
 	preview?: Preview;
 	height?: number;
 	maxHeight?: number;
+	setContent: (value: string) => void;
+	defaultValue: string;
 }
 
-export default function CustomEditor({ placeholder, name, preview = 'edit', height = 650, maxHeight = 1000 }: Editor) {
-	const [value, setValue] = useState('');
-
+export default function CustomEditor({
+	placeholder,
+	setContent,
+	defaultValue,
+	name,
+	preview = 'edit',
+	height = 650,
+	maxHeight = 1000
+}: Editor) {
 	return (
 		<MDEditor
-			value={value}
-			onChange={html => setValue(html!)}
+			value={defaultValue}
+			onChange={html => setContent(html!)}
 			autoFocus={true}
 			preview={preview}
 			height={height}
