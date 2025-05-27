@@ -13,8 +13,8 @@ export default async function LoginButton() {
 	if (!user) return;
 
 	const {
-		user_metadata: { avatar_url }
-	} = user;
+		data: { avatar_url }
+	} = await supabase.from('profiles').select().eq('id', user.id).limit(1).single();
 
 	return (
 		<>

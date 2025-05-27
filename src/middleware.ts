@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClientByServer } from './utils/supabase/server';
 
 // middleware는 src 폴더 아래에 위치한다.
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
 	const url = req.nextUrl.clone();
 	const pathname = url.pathname;
+	const supabase = await createClientByServer();
 
 	// layout.ts에서 header.get를 통해서 pathname을 가져온다.
 	const headers = new Headers();
@@ -35,11 +37,21 @@ export function middleware(req: NextRequest) {
 		// 루트는 /trends로 rewrite
 		url.pathname = `${pathname}trends`;
 		return NextResponse.rewrite(url);
+	} else if (pathname === '/write') {
+		// 인증이 안되어있다? 그러면 홈으로 redirect 해버리기.
+		const { data } = await supabase.auth.getUser();
+
+		if (!data.user) {
+			// 미로그인
+			url.pathname = '/';
+			return NextResponse.redirect(url);
+		}
+		return NextResponse.next();
 	}
 
 	return NextResponse.next(); // 다른 경로는 그대로
 }
 
 export const config = {
-	matcher: ['/', '/@:username*', '/feed', '/trends', '/new'] // 루트 포함
+	matcher: ['/', '/@:username*', '/feed', '/trends', '/new', '/write'] // 루트 포함
 };

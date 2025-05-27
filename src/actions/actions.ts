@@ -29,10 +29,18 @@ export const registUser = async (_: unknown, formData: FormData) => {
 
 export const savePost = async (_: unknown, formData: FormData) => {
 	const supabase = await createClientByServer();
-	const auth = await supabase.auth.getUser();
+	const { data: user } = await supabase.auth.getUser();
 
-	if (auth.error) {
+	if (user) {
+		const title = formData.get('title')?.toString();
+		const content = formData.get('content')?.toString();
+		const visibility = formData.get('visibility')?.toString();
+		const thumbnail = formData.get('thumbnail')?.toString();
+		const path = formData.get('path')?.toString();
+		const tags = formData.get('tags')?.toString();
+
+		console.log(title, content, visibility, thumbnail, path, tags);
+
+		redirect('/');
 	}
-
-	console.log(formData);
 };

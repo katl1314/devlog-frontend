@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ChangeEventHandler, useEffect, useState } from 'react';
 import { Label } from './ui/label';
 import ImageFileupload from './ImageFileupload';
 import ImagePreview from './ImagePreview';
@@ -8,10 +8,12 @@ import { RadioGroup, RadioItem } from './RadioGroup';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { usePost } from '@/store/post';
+import { useProfile } from '@/store/profile';
 
 export default function PostSetting() {
-	const { summary, setSummary, thumbnail, setThumbnail, setVisibility } = usePost();
+	const { summary, setSummary, thumbnail, setThumbnail, setVisibility, visibility, path, setPath } = usePost();
 	const [file, setFile] = useState<File | null>();
+	const { userId } = useProfile();
 
 	useEffect(() => {
 		if (!file) {
@@ -24,6 +26,7 @@ export default function PostSetting() {
 	}, [file]);
 
 	const handleChangeImage = (imageUrl: string) => setThumbnail(imageUrl);
+	const handlePathChange: ChangeEventHandler<HTMLInputElement> = ev => setPath(`${ev.target.value}`);
 
 	return (
 		<div className="my-0 mx-auto min-h-[250px]">
@@ -38,8 +41,20 @@ export default function PostSetting() {
 					)}
 				</div>
 				<div className="mb-3">
+					<Label className="text-base mb-2 text-neutral-700">URL 설정</Label>
+					<div className="flex h-[32px] border-1 border-[#e5e5e5] px-2">
+						<Label className="text-base text-neutral-500">/@{userId}/</Label>
+						<input
+							className="flex-3 outline-0"
+							value={path}
+							placeholder="URL을 입력하세요."
+							onChange={handlePathChange}
+						/>
+					</div>
+				</div>
+				<div className="mb-3">
 					<Label className="text-base mb-2 text-neutral-700">게시물 공개</Label>
-					<RadioGroup defaultValue="public" name="postType">
+					<RadioGroup value={visibility} onChangeItem={setVisibility} name="postType">
 						<RadioItem value="public">공개</RadioItem>
 						<RadioItem value="private">비공개</RadioItem>
 					</RadioGroup>

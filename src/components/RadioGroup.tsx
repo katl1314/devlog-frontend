@@ -1,28 +1,32 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { useState, useContext, createContext, useRef, MouseEventHandler } from 'react';
+import { useContext, createContext, useRef, MouseEventHandler } from 'react';
 
 interface RadioGroupContext {
 	value: string | undefined;
 	name: string;
-	onChange: (value: string) => void;
+	onChangeItem: (value: 'public' | 'private') => void;
 }
 
-interface RadioGroup {
+interface IRadioGroup {
 	name: string;
 	children: React.ReactNode[] | React.ReactNode;
 	className?: string;
-	defaultValue?: string;
+	value?: string;
+	onChangeItem: (value: 'public' | 'private') => void;
+}
+
+interface IRadioItem {
+	value: string;
+	children: React.ReactNode;
 }
 
 const RadioGroupContext = createContext<RadioGroupContext | null>(null);
 
-export function RadioGroup({ children, className, name, defaultValue }: RadioGroup) {
-	const [value, setValue] = useState(defaultValue);
-
+export function RadioGroup({ children, className, name, value, onChangeItem }: IRadioGroup) {
 	return (
-		<RadioGroupContext.Provider value={{ name, value, onChange: setValue }}>
+		<RadioGroupContext.Provider value={{ name, value, onChangeItem }}>
 			<div role="radiogroup" className={cn('flex ', className)}>
 				{children}
 			</div>
@@ -30,19 +34,14 @@ export function RadioGroup({ children, className, name, defaultValue }: RadioGro
 	);
 }
 
-interface RadioItem {
-	value: string;
-	children: React.ReactNode;
-}
-
-export function RadioItem({ value, children }: RadioItem) {
+export function RadioItem({ value, children }: IRadioItem) {
 	const context = useContext(RadioGroupContext);
 	const radioRef = useRef<HTMLInputElement | null>(null);
 	const isOn = value === context?.value;
 
 	const handleClickRadio: MouseEventHandler = () => {
 		const target = radioRef?.current as HTMLInputElement;
-		context?.onChange(target.value);
+		context?.onChangeItem(target.value as 'public' | 'private');
 	};
 
 	const radioCSS = cn(
