@@ -6,7 +6,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { Label } from './ui/label';
 import dynamic from 'next/dynamic';
 import { Input } from './ui/input';
-import { FormEventHandler, startTransition, useActionState, useState } from 'react';
+import { FormEventHandler, startTransition, useActionState, useEffect, useState } from 'react';
 import { savePost } from '@/actions/actions';
 import { validatePost } from '@/utils/validation';
 import { toast } from 'sonner';
@@ -21,11 +21,22 @@ const TagEditor = dynamic(() => import('./TagEditor'));
 
 export default function PostEditor() {
 	// 모바일인지 아닌지 확인은 해상도를 통해서...
-	const [, formAction, isPending] = useActionState(savePost, null);
+	const [state, formAction, isPending] = useActionState(savePost, { message: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
-	const { title, content, visibility, tags, thumbnail, path, setTitle, setContent, setTags } = usePost();
+	const { title, content, visibility, tags, thumbnail, path, summary, setTitle, setContent, setTags, setReset } =
+		usePost();
 	const toggleModal = () => setModalOpen(open => !open);
 	const { userId } = useProfile();
+
+	useEffect(() => {
+		if (state?.message) {
+			toast(state.message, {
+				position: 'top-right',
+				duration: 2000,
+				icon: <GoAlert />
+			});
+		}
+	}, [state]);
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = function (ev) {
 		const error = validatePost({ title, content });
@@ -47,10 +58,12 @@ export default function PostEditor() {
 		formData.set('visibility', visibility);
 		formData.set('thumbnail', thumbnail ?? '');
 		formData.set('path', postPath);
+		formData.set('summary', summary ?? '');
 		formData.set('tags', JSON.stringify(tags));
 
 		startTransition(() => {
 			formAction(formData);
+			setReset();
 		});
 
 		setModalOpen(false);

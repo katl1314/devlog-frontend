@@ -9,6 +9,7 @@ import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
+import { Input } from './ui/input';
 
 export default function PostSetting() {
 	const { summary, setSummary, thumbnail, setThumbnail, setVisibility, visibility, path, setPath } = usePost();
@@ -44,8 +45,8 @@ export default function PostSetting() {
 					<Label className="text-base mb-2 text-neutral-700">URL 설정</Label>
 					<div className="flex h-[32px] border-1 border-[#e5e5e5] px-2">
 						<Label className="text-base text-neutral-500">/@{userId}/</Label>
-						<input
-							className="flex-3 outline-0"
+						<Input
+							className="border-0 py-0 h-[30px] pl-[1px]"
 							value={path}
 							placeholder="URL을 입력하세요."
 							onChange={handlePathChange}
@@ -55,8 +56,8 @@ export default function PostSetting() {
 				<div className="mb-3">
 					<Label className="text-base mb-2 text-neutral-700">게시물 공개</Label>
 					<RadioGroup value={visibility} onChangeItem={setVisibility} name="postType">
-						<RadioItem value="public">공개</RadioItem>
-						<RadioItem value="private">비공개</RadioItem>
+						<RadioItem value="PUBLIC">공개</RadioItem>
+						<RadioItem value="PRIVATE">비공개</RadioItem>
 					</RadioGroup>
 				</div>
 				<div className="mb-3">

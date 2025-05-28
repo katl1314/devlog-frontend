@@ -4,17 +4,18 @@ interface Post {
 	title: string;
 	content: string;
 	tags: string[];
-	visibility: 'public' | 'private';
+	visibility: 'PUBLIC' | 'PRIVATE';
 	path: string;
-	thumbnail?: string;
-	summary?: string;
+	thumbnail: string;
+	summary: string;
 	setTitle: (title: string) => void;
 	setContent: (content: string) => void;
 	setTags: (tags: string[]) => void;
 	setThumbnail: (thumbnail: string) => void;
-	setVisibility: (visibility: 'public' | 'private') => void;
+	setVisibility: (visibility: 'PUBLIC' | 'PRIVATE') => void;
 	setSummary: (sumary: string) => void;
 	setPath: (path: string) => void;
+	setReset: () => void;
 }
 
 export const usePost = create<Post>(set => ({
@@ -22,8 +23,8 @@ export const usePost = create<Post>(set => ({
 	content: '',
 	tags: [],
 	thumbnail: '',
-	visibility: 'public',
-	sumary: '',
+	visibility: 'PUBLIC',
+	summary: '',
 	path: '',
 	setTitle: title => set({ title }),
 	setContent: content => set({ content }),
@@ -31,5 +32,6 @@ export const usePost = create<Post>(set => ({
 	setThumbnail: thumbnail => set({ thumbnail }),
 	setVisibility: visibility => set({ visibility }),
 	setSummary: summary => set({ summary }),
-	setPath: path => set({ path })
+	setPath: path => set({ path }),
+	setReset: () => set({ title: '', content: '', tags: [], thumbnail: '', visibility: 'PUBLIC', summary: '', path: '' })
 }));

@@ -6,7 +6,7 @@ import { useContext, createContext, useRef, MouseEventHandler } from 'react';
 interface RadioGroupContext {
 	value: string | undefined;
 	name: string;
-	onChangeItem: (value: 'public' | 'private') => void;
+	onChangeItem: (value: 'PUBLIC' | 'PRIVATE') => void;
 }
 
 interface IRadioGroup {
@@ -14,7 +14,7 @@ interface IRadioGroup {
 	children: React.ReactNode[] | React.ReactNode;
 	className?: string;
 	value?: string;
-	onChangeItem: (value: 'public' | 'private') => void;
+	onChangeItem: (value: 'PUBLIC' | 'PRIVATE') => void;
 }
 
 interface IRadioItem {
@@ -41,7 +41,7 @@ export function RadioItem({ value, children }: IRadioItem) {
 
 	const handleClickRadio: MouseEventHandler = () => {
 		const target = radioRef?.current as HTMLInputElement;
-		context?.onChangeItem(target.value as 'public' | 'private');
+		context?.onChangeItem(target.value as 'PUBLIC' | 'PRIVATE');
 	};
 
 	const radioCSS = cn(

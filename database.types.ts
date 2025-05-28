@@ -64,7 +64,8 @@ export type Database = {
       }
       posts: {
         Row: {
-          auth_cd: string | null
+          auth_cd: string
+          content: string
           created_at: string
           deleted_at: string | null
           path: string
@@ -74,7 +75,8 @@ export type Database = {
           userId: string
         }
         Insert: {
-          auth_cd?: string | null
+          auth_cd: string
+          content: string
           created_at?: string
           deleted_at?: string | null
           path: string
@@ -84,7 +86,8 @@ export type Database = {
           userId: string
         }
         Update: {
-          auth_cd?: string | null
+          auth_cd?: string
+          content?: string
           created_at?: string
           deleted_at?: string | null
           path?: string
@@ -127,6 +130,36 @@ export type Database = {
           id?: number
         }
         Relationships: []
+      }
+      posts_tag: {
+        Row: {
+          path: string
+          tag_id: number
+        }
+        Insert: {
+          path: string
+          tag_id?: number
+        }
+        Update: {
+          path?: string
+          tag_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "posts_tag_path_fkey"
+            columns: ["path"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["path"]
+          },
+          {
+            foreignKeyName: "posts_tag_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: true
+            referencedRelation: "tag"
+            referencedColumns: ["tag_id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -199,6 +232,21 @@ export type Database = {
           isUse?: string | null
           tab?: string
           text?: string | null
+        }
+        Relationships: []
+      }
+      tag: {
+        Row: {
+          name: string
+          tag_id: number
+        }
+        Insert: {
+          name: string
+          tag_id?: number
+        }
+        Update: {
+          name?: string
+          tag_id?: number
         }
         Relationships: []
       }
