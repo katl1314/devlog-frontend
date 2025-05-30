@@ -98,13 +98,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "posts_auth_cd_fkey"
-            columns: ["auth_cd"]
-            isOneToOne: false
-            referencedRelation: "posts_authority"
-            referencedColumns: ["auth_cd"]
-          },
-          {
             foreignKeyName: "posts_userId_fkey"
             columns: ["userId"]
             isOneToOne: false
@@ -113,36 +106,18 @@ export type Database = {
           },
         ]
       }
-      posts_authority: {
-        Row: {
-          auth_cd: string
-          auth_nm: string | null
-          id: number
-        }
-        Insert: {
-          auth_cd: string
-          auth_nm?: string | null
-          id?: number
-        }
-        Update: {
-          auth_cd?: string
-          auth_nm?: string | null
-          id?: number
-        }
-        Relationships: []
-      }
       posts_tag: {
         Row: {
           path: string
-          tag_id: number
+          tagId: number
         }
         Insert: {
           path: string
-          tag_id?: number
+          tagId: number
         }
         Update: {
           path?: string
-          tag_id?: number
+          tagId?: number
         }
         Relationships: [
           {
@@ -154,8 +129,8 @@ export type Database = {
           },
           {
             foreignKeyName: "posts_tag_tag_id_fkey"
-            columns: ["tag_id"]
-            isOneToOne: true
+            columns: ["tagId"]
+            isOneToOne: false
             referencedRelation: "tag"
             referencedColumns: ["tag_id"]
           },
@@ -207,8 +182,8 @@ export type Database = {
       }
       tabs: {
         Row: {
-          created_dt: string
-          deleted_dt: string | null
+          created_at: string
+          deleted_at: string | null
           href: string | null
           id: number
           isUse: string | null
@@ -216,8 +191,8 @@ export type Database = {
           text: string | null
         }
         Insert: {
-          created_dt?: string
-          deleted_dt?: string | null
+          created_at?: string
+          deleted_at?: string | null
           href?: string | null
           id?: number
           isUse?: string | null
@@ -225,8 +200,8 @@ export type Database = {
           text?: string | null
         }
         Update: {
-          created_dt?: string
-          deleted_dt?: string | null
+          created_at?: string
+          deleted_at?: string | null
           href?: string | null
           id?: number
           isUse?: string | null
@@ -237,14 +212,17 @@ export type Database = {
       }
       tag: {
         Row: {
+          create_at: string | null
           name: string
           tag_id: number
         }
         Insert: {
+          create_at?: string | null
           name: string
           tag_id?: number
         }
         Update: {
+          create_at?: string | null
           name?: string
           tag_id?: number
         }

@@ -14,6 +14,7 @@ import { GoAlert } from 'react-icons/go';
 import PostSetting from './PostSetting';
 import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
+import { redirect } from 'next/navigation';
 
 const Editor = dynamic(() => import('./Editor'));
 const CustomModal = dynamic(() => import('@/components/Modal/CustomModal'), { ssr: false }); // 지연 로딩
@@ -21,7 +22,7 @@ const TagEditor = dynamic(() => import('./TagEditor'));
 
 export default function PostEditor() {
 	// 모바일인지 아닌지 확인은 해상도를 통해서...
-	const [state, formAction, isPending] = useActionState(savePost, { message: '' });
+	const [state, formAction, isPending] = useActionState(savePost, { message: '', status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
 	const { title, content, visibility, tags, thumbnail, path, summary, setTitle, setContent, setTags, setReset } =
 		usePost();
@@ -29,12 +30,18 @@ export default function PostEditor() {
 	const { userId } = useProfile();
 
 	useEffect(() => {
-		if (state?.message) {
+		console.log(state);
+		if (state?.status == 'ERROR') {
 			toast(state.message, {
 				position: 'top-right',
 				duration: 2000,
 				icon: <GoAlert />
 			});
+		}
+
+		if (state?.status === 'OK') {
+			setReset();
+			redirect('/');
 		}
 	}, [state]);
 
@@ -63,7 +70,6 @@ export default function PostEditor() {
 
 		startTransition(() => {
 			formAction(formData);
-			setReset();
 		});
 
 		setModalOpen(false);

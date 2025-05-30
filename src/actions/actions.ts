@@ -1,8 +1,8 @@
 'use server';
 
+import { parseFormData } from '@/lib/utils';
 import { createClientByServer } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
-import { NextResponse } from 'next/server';
 
 export const registUser = async (_: unknown, formData: FormData) => {
 	const supabase = await createClientByServer();
@@ -30,52 +30,45 @@ export const registUser = async (_: unknown, formData: FormData) => {
 };
 
 export const savePost = async (_: unknown, formData: FormData) => {
-	// TODO 트랜잭션 처리 추가필요
-	const supabase = await createClientByServer();
-	const auth = await supabase.auth.getUser();
+	try {
+		// TODO 트랜잭션 처리 추가필요
+		const supabase = await createClientByServer();
+		const auth = await supabase.auth.getUser();
 
-	if (auth.error) {
-		throw new Error('로그인정보가 없습니다.');
+		const { title, content, visibility, thumbnail, path, summary, tags } = parseFormData(formData, { tags: 'object' });
+
+		const { data } = await supabase.from('profiles').select('userId').eq('id', auth.data.user?.id).single();
+
+		if (!data) throw new Error('사용자 정보가 없습니다.');
+
+		const post = { title, content, thumbnail, path, summary, auth_cd: visibility, userId: data.userId };
+		await supabase.from('posts').insert(post);
+
+		if (!tags) return { status: 'OK' };
+
+		const insertTags = (tags as []).map(name => ({
+			name
+		}));
+
+		await supabase.from('tag').upsert(insertTags, {
+			onConflict: 'name',
+			ignoreDuplicates: true
+		});
+
+		const { data: tagIds } = await supabase
+			.from('tag')
+			.select('tag_id')
+			.in('name', tags as []);
+
+		const rows = tagIds?.map(tag => ({ ...tag, path }));
+		console.log(rows);
+
+		await supabase.from('posts_tag').upsert(rows, {
+			onConflict: 'path, tag_id'
+		});
+
+		return { status: 'OK' };
+	} catch (err: unknown) {
+		return { message: (err as Error).message, status: 'ERROR' };
 	}
-	const title = formData.get('title')?.toString();
-	const content = formData.get('content')?.toString();
-	const authCd = formData.get('visibility')?.toString();
-	const thumbnail = formData.get('thumbnail')?.toString();
-	const path = formData.get('path')?.toString();
-	const summary = formData.get('summary')?.toString();
-	const tags = JSON.parse(formData.get('tags')?.toString() ?? '[]') as Array<string>;
-
-	const { data } = await supabase.from('profiles').select('userId').eq('id', auth.data.user?.id).single();
-
-	if (!data) return { message: '사용자 정보가 없습니다.' };
-
-	const { error } = await supabase
-		.from('posts')
-		.insert({ title, content, thumbnail, path, summary, auth_cd: authCd, userId: data.userId });
-
-	if (error) {
-		return { message: '이미 존재하는 URL입니다.' };
-	}
-
-	// 태그 리스트를 테이블에 저장한다. 중복되면 안됨.
-	const insertTags = tags.map(name => ({
-		name
-	}));
-	const test = await supabase.from('tag').upsert(insertTags, {
-		onConflict: 'name',
-		ignoreDuplicates: true
-	}); // bluk로 추가한다.
-
-	console.log(test);
-
-	const { data: tagIds } = await supabase.from('tag').select('tag_id').in('name', tags);
-
-	const rows = tagIds?.map(d => ({ ...d, path, userId: data.userId }));
-
-	const test2 = await supabase.from('posts_tag').upsert(rows, {
-		onConflict: 'path, tag_id' // 충돌 기준 컬럼
-	});
-
-	console.log(test2);
-	//redirect('/');
 };
