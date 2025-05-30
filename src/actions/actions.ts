@@ -30,6 +30,7 @@ export const registUser = async (_: unknown, formData: FormData) => {
 };
 
 export const savePost = async (_: unknown, formData: FormData) => {
+	// TODO 트랜잭션 처리 추가필요
 	const supabase = await createClientByServer();
 	const auth = await supabase.auth.getUser();
 
@@ -57,15 +58,24 @@ export const savePost = async (_: unknown, formData: FormData) => {
 	}
 
 	// 태그 리스트를 테이블에 저장한다. 중복되면 안됨.
-	await supabase.from('tag').insert(
-		tags.map(name => ({
-			name
-		}))
-	); // bluk로 추가한다.
+	const insertTags = tags.map(name => ({
+		name
+	}));
+	const test = await supabase.from('tag').upsert(insertTags, {
+		onConflict: 'name',
+		ignoreDuplicates: true
+	}); // bluk로 추가한다.
+
+	console.log(test);
 
 	const { data: tagIds } = await supabase.from('tag').select('tag_id').in('name', tags);
 
-	await supabase.from('posts_tag').insert(tagIds?.map(d => ({ ...d, path, userId: data.userId })));
+	const rows = tagIds?.map(d => ({ ...d, path, userId: data.userId }));
 
-	redirect('/');
+	const test2 = await supabase.from('posts_tag').upsert(rows, {
+		onConflict: 'path, tag_id' // 충돌 기준 컬럼
+	});
+
+	console.log(test2);
+	//redirect('/');
 };
