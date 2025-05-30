@@ -39,8 +39,14 @@ export function Dropdown({ children }: Dropdown) {
 							<span>내 블로그</span>
 						</Link>
 					</DropdownMenuItem>
+					<DropdownMenuItem className="block lg:hidden">
+						<Link href="/write" className="flex justify-start items-center gap-3">
+							<User />
+							<span>새 글 작성</span>
+						</Link>
+					</DropdownMenuItem>
 					<DropdownMenuItem>
-						<Link href={`/settings`} className="flex justify-start items-center gap-3">
+						<Link href="/settings" className="flex justify-start items-center gap-3">
 							<Settings />
 							<span>설정</span>
 						</Link>

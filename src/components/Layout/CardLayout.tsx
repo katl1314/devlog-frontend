@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/utils/utils';
+import { cn } from '@/lib/utils';
 import useLayout from '@/store/layout';
 
 export default function CardLayout({ children }: { children: React.ReactNode }) {

@@ -1,18 +1,23 @@
 'use client';
 
 import React, { ButtonHTMLAttributes } from 'react';
-import { Button } from './ui/button';
-import { cn } from '@/utils/utils';
+import { Button, buttonVariants } from './ui/button';
+import { VariantProps } from 'class-variance-authority';
 
 interface AuthButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 	icon?: React.ReactElement;
 	iconPosition?: 'left' | 'right';
 }
 
-export default function AuthButton({ value, icon, iconPosition, ...props }: AuthButton) {
+export default function AuthButton({
+	value,
+	icon,
+	iconPosition,
+	...props
+}: AuthButton & VariantProps<typeof buttonVariants>) {
 	const content = generateIconButton(icon, value, iconPosition);
 	return (
-		<Button className={cn('h-[45px]', props.className)} {...props}>
+		<Button className={props.className} {...props}>
 			{content}
 		</Button>
 	);
@@ -25,11 +30,11 @@ function generateIconButton(
 ) {
 	return icon ? (
 		iconPosition === 'left' ? (
-			<div className="flex items-center w-full">
+			<div className="flex items-center ">
 				<div>{icon}</div> <div className="flex-1">{value}</div>
 			</div>
 		) : (
-			<div className="flex items-center w-full">
+			<div className="flex items-center ">
 				<div className="flex-1">{value}</div> <div>{icon}</div>
 			</div>
 		)

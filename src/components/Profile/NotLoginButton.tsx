@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import AuthForm from '../AuthForm';
 import { Button } from '../ui/button';
 import { MouseEventHandler, useState } from 'react';
-const AuthModal = dynamic(() => import('../Modal/AuthModal'), { ssr: false }); // 지연 로딩
+const CustomModal = dynamic(() => import('../Modal/CustomModal'), { ssr: false }); // 지연 로딩
 
 export default function NotLoginButton() {
 	const [open, setOpen] = useState(false);
@@ -23,9 +23,9 @@ export default function NotLoginButton() {
 				로그인
 			</Button>
 			{open && (
-				<AuthModal afterCloseModal={handleAfterCloseModal}>
+				<CustomModal afterCloseModal={handleAfterCloseModal} className="lg:w-[35%] lg:mt-[15%]">
 					<AuthForm />
-				</AuthModal>
+				</CustomModal>
 			)}
 		</>
 	);

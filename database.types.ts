@@ -64,7 +64,8 @@ export type Database = {
       }
       posts: {
         Row: {
-          auth_cd: string | null
+          auth_cd: string
+          content: string
           created_at: string
           deleted_at: string | null
           path: string
@@ -74,7 +75,8 @@ export type Database = {
           userId: string
         }
         Insert: {
-          auth_cd?: string | null
+          auth_cd: string
+          content: string
           created_at?: string
           deleted_at?: string | null
           path: string
@@ -84,7 +86,8 @@ export type Database = {
           userId: string
         }
         Update: {
-          auth_cd?: string | null
+          auth_cd?: string
+          content?: string
           created_at?: string
           deleted_at?: string | null
           path?: string
@@ -95,13 +98,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "posts_auth_cd_fkey"
-            columns: ["auth_cd"]
-            isOneToOne: false
-            referencedRelation: "posts_authority"
-            referencedColumns: ["auth_cd"]
-          },
-          {
             foreignKeyName: "posts_userId_fkey"
             columns: ["userId"]
             isOneToOne: false
@@ -110,23 +106,35 @@ export type Database = {
           },
         ]
       }
-      posts_authority: {
+      posts_tag: {
         Row: {
-          auth_cd: string
-          auth_nm: string | null
-          id: number
+          path: string
+          tagId: number
         }
         Insert: {
-          auth_cd: string
-          auth_nm?: string | null
-          id?: number
+          path: string
+          tagId: number
         }
         Update: {
-          auth_cd?: string
-          auth_nm?: string | null
-          id?: number
+          path?: string
+          tagId?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "posts_tag_path_fkey"
+            columns: ["path"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["path"]
+          },
+          {
+            foreignKeyName: "posts_tag_tag_id_fkey"
+            columns: ["tagId"]
+            isOneToOne: false
+            referencedRelation: "tag"
+            referencedColumns: ["tag_id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -174,8 +182,8 @@ export type Database = {
       }
       tabs: {
         Row: {
-          created_dt: string
-          deleted_dt: string | null
+          created_at: string
+          deleted_at: string | null
           href: string | null
           id: number
           isUse: string | null
@@ -183,8 +191,8 @@ export type Database = {
           text: string | null
         }
         Insert: {
-          created_dt?: string
-          deleted_dt?: string | null
+          created_at?: string
+          deleted_at?: string | null
           href?: string | null
           id?: number
           isUse?: string | null
@@ -192,13 +200,31 @@ export type Database = {
           text?: string | null
         }
         Update: {
-          created_dt?: string
-          deleted_dt?: string | null
+          created_at?: string
+          deleted_at?: string | null
           href?: string | null
           id?: number
           isUse?: string | null
           tab?: string
           text?: string | null
+        }
+        Relationships: []
+      }
+      tag: {
+        Row: {
+          create_at: string | null
+          name: string
+          tag_id: number
+        }
+        Insert: {
+          create_at?: string | null
+          name: string
+          tag_id?: number
+        }
+        Update: {
+          create_at?: string | null
+          name?: string
+          tag_id?: number
         }
         Relationships: []
       }

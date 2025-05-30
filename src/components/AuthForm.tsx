@@ -16,24 +16,25 @@ export default function AuthForm() {
 	}, [pathRef, pathname]);
 	return (
 		<div className="my-0 mx-auto min-h-[250px]">
-			<div className="py-2">
-				<div className="px-2">
-					<Label className="text-base font-bold text-center">로그인</Label>
-				</div>
+			<div className="px-2 py-2">
+				<Label className="text-lg font-bold text-center">로그인</Label>
+			</div>
+
+			<div className="p-6 flex justify-center">
+				<Label className="text-lg lg:text-2xl text-center">Dev.log에서 많은 개발자와 공유하세요!</Label>
 			</div>
 			<Separator />
-			<div className="p-2">
-				<Label className="text-[18px] text-center">Dev.log에서 많은 개발자와 공유하세요!</Label>
-				<div className="mt-4">
-					<Label className="text-base text-center text-neutral-400">소셜 계정으로 로그인하기</Label>
-					<form className="flex flex-col gap-2 my-4" action={formActionPath}>
-						{/* formAction button은 form으로 감싸야한다. */}
-						<input type="hidden" name="next" id="next" ref={pathRef} />
+
+			<div className="p-8">
+				<Label className="text-lg font-bold text-center text-neutral-400">소셜 계정으로 로그인하기</Label>
+				<form action={formActionPath}>
+					<div className="flex flex-col gap-4 mt-3">
 						<AuthButton
 							type="submit"
 							value={'구글 계정으로 로그인'}
 							formAction={signInWithGoogle}
-							className="bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50"
+							className="bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none"
+							size="lg"
 							icon={
 								<svg
 									className="mr-2 -ml-1 w-4 h-4"
@@ -56,7 +57,8 @@ export default function AuthForm() {
 							type="submit"
 							value={'깃허브 계정으로 로그인'}
 							formAction={signInWithGithub}
-							className="bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 focus:ring-offset-gray-200 transition ease-in duration-200 shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2"
+							size="lg"
+							className="bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 focus:outline-none"
 							icon={
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -70,8 +72,9 @@ export default function AuthForm() {
 								</svg>
 							}
 						/>
-					</form>
-				</div>
+					</div>
+					<input type="hidden" name="next" id="next" ref={pathRef} />
+				</form>
 			</div>
 		</div>
 	);
