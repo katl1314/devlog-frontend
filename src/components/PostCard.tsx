@@ -4,9 +4,8 @@ import type { Post } from '@/types/type';
 import { Label } from './ui/label';
 import { Separator } from './ui/separator';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
-
-const PostMeta = dynamic(() => import('./PostMeta'));
+import PostMeta from './PostMeta';
+import { AiFillLike } from 'react-icons/ai';
 
 export default function PostCard({ path, title, created_at, summary, userId }: Post) {
 	return (
@@ -22,7 +21,14 @@ export default function PostCard({ path, title, created_at, summary, userId }: P
 						<CardTitle>{title}</CardTitle>
 						<CardDescription className="text-sm pt-2">{summary}</CardDescription>
 					</div>
-					<PostMeta date={created_at!} comments={0} />
+					<div className="flex flex-row gap-3 py-3 text-neutral-500">
+						<PostMeta date={created_at!} />
+						<Label>{0}개의 댓글</Label>
+						<Label className="gap-1">
+							<AiFillLike />
+							<span>0</span>
+						</Label>
+					</div>
 				</CardContent>
 			</Link>
 			<Separator />
