@@ -2,22 +2,16 @@ import Image from 'next/image';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import type { Post } from '@/types/type';
-import { Label } from '@/components/ui/label';
-import { AiFillLike } from 'react-icons/ai';
-import Dayjs from 'dayjs';
-import { getTimeDiff } from '@/utils/time';
+import PostMeta from '@/components/PostMeta';
 
-export default function PostCard({ thumbnail, path, title, created_at, summary }: Partial<Post>) {
-	const created_dt = Dayjs(created_at);
-
+export default function PostCard({ thumbnail, path, title, created_at, summary }: Post) {
 	return (
 		<div className="mb-4">
 			<Link href={`./${path}`}>
 				<div>
 					{thumbnail && (
 						<div className="relative w-full h-[300px]">
-							{/* Next.js 13이전까지는 layout, objectFit을 사용하여 이미지 비율을 맞춤. => 특히 fill속성을 사용하여 부모 요소 크기만큼 채울때 다만 이는 이미지 비율을 보장하지 못한다. */}
-							<Image src={thumbnail} alt="썸네일 이미지" fill style={{ objectFit: 'cover' }}></Image>
+							{/* <Image src={thumbnail} alt="썸네일 이미지" fill style={{ objectFit: 'cover' }}></Image> */}
 						</div>
 					)}
 				</div>
@@ -26,13 +20,7 @@ export default function PostCard({ thumbnail, path, title, created_at, summary }
 						<div className="text-2xl font-bold">{title}</div>
 						<div className="text-sm pt-6">{summary}</div>
 					</div>
-					<div className="flex flex-row gap-3 py-3 text-neutral-500">
-						<Label>{getTimeDiff(created_dt)}</Label>.<Label>{0}개의 댓글</Label>.
-						<Label className="gap-1">
-							<AiFillLike />
-							<span>0</span>
-						</Label>
-					</div>
+					<PostMeta date={created_at!} comments={0} />
 				</div>
 			</Link>
 			<Separator />

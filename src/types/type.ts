@@ -3,19 +3,8 @@ import { Database } from '../../database.types';
 export type User = Partial<Database['public']['Tables']['profiles']['Row']>;
 export type Post = Partial<Database['public']['Tables']['posts']['Row']>;
 
-export interface ICard {
-	id: number;
-	title: string;
-	summary: string;
-	date: string;
-	comments: number;
-	like: number;
-	user: string;
-	thumbnail: string;
-}
-
 export interface FetchPostsResponse {
-	posts: ICard[];
+	posts: Post[];
 	hasMore: boolean;
 }
 
