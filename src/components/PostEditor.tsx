@@ -22,15 +22,12 @@ const TagEditor = dynamic(() => import('./TagEditor'));
 
 export default function PostEditor() {
 	// 모바일인지 아닌지 확인은 해상도를 통해서...
-	const [state, formAction, isPending] = useActionState(savePost, { message: '', status: '' });
+	const [state, formAction] = useActionState(savePost, { message: '', status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
-	const { title, content, visibility, tags, thumbnail, path, summary, setTitle, setContent, setTags, setReset } =
-		usePost();
-	const toggleModal = () => setModalOpen(open => !open);
+	const { title, content, visibility, tags, path, summary, file, setTitle, setContent, setTags, setReset } = usePost();
 	const { userId } = useProfile();
 
 	useEffect(() => {
-		console.log(state);
 		if (state?.status == 'ERROR') {
 			toast(state.message, {
 				position: 'top-right',
@@ -63,7 +60,7 @@ export default function PostEditor() {
 		formData.set('title', title);
 		formData.set('content', content);
 		formData.set('visibility', visibility);
-		formData.set('thumbnail', thumbnail ?? '');
+		formData.set('file', file ?? '');
 		formData.set('path', postPath);
 		formData.set('summary', summary ?? '');
 		formData.set('tags', JSON.stringify(tags));
@@ -105,7 +102,10 @@ export default function PostEditor() {
 				</div>
 			</div>
 			{isModalOpen && (
-				<CustomModal afterCloseModal={toggleModal} className="w-full mt-[5%] md:min-w-[500px] md:w-[25%]">
+				<CustomModal
+					afterCloseModal={() => setModalOpen(open => !open)}
+					className="w-full mt-[5%] md:min-w-[500px] md:w-[25%]"
+				>
 					<form action={formAction} onSubmit={handleSubmit}>
 						<PostSetting />
 					</form>

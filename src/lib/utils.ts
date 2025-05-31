@@ -23,14 +23,14 @@ export const parseFormData = <T extends { [name: string]: unknown }>(
 	const result = {} as { [name: string]: unknown };
 	for (const key of formData.keys()) {
 		const type = keyConfig?.[key];
-		const data = formData.get(key)?.toString();
+		const data = formData.get(key);
 
 		switch (type) {
 			case 'number':
-				result[key] = parseFloat(data ?? '');
+				result[key] = parseFloat(data?.toString() ?? '');
 				break;
 			case 'object':
-				result[key] = JSON.parse(data ?? '');
+				result[key] = JSON.parse(data?.toString() ?? '');
 				break;
 			case 'boolean':
 				result[key] = !!data;

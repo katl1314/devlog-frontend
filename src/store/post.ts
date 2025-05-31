@@ -8,6 +8,7 @@ interface Post {
 	path: string;
 	thumbnail: string;
 	summary: string;
+	file: File | undefined | null; // Supabase Storage에 저장
 	setTitle: (title: string) => void;
 	setContent: (content: string) => void;
 	setTags: (tags: string[]) => void;
@@ -15,6 +16,7 @@ interface Post {
 	setVisibility: (visibility: 'PUBLIC' | 'PRIVATE') => void;
 	setSummary: (sumary: string) => void;
 	setPath: (path: string) => void;
+	setFile: (file: File) => void;
 	setReset: () => void;
 }
 
@@ -26,6 +28,7 @@ export const usePost = create<Post>(set => ({
 	visibility: 'PUBLIC',
 	summary: '',
 	path: '',
+	file: null,
 	setTitle: title => set({ title }),
 	setContent: content => set({ content }),
 	setTags: tags => set({ tags }),
@@ -33,5 +36,6 @@ export const usePost = create<Post>(set => ({
 	setVisibility: visibility => set({ visibility }),
 	setSummary: summary => set({ summary }),
 	setPath: path => set({ path }),
-	setReset: () => set({ title: '', content: '', tags: [], thumbnail: '', visibility: 'PUBLIC', summary: '', path: '' })
+	setReset: () => set({ title: '', content: '', tags: [], thumbnail: '', visibility: 'PUBLIC', summary: '', path: '' }),
+	setFile: file => set({ file })
 }));

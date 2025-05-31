@@ -12,8 +12,8 @@ import { useProfile } from '@/store/profile';
 import { Input } from './ui/input';
 
 export default function PostSetting() {
-	const { summary, setSummary, thumbnail, setThumbnail, setVisibility, visibility, path, setPath } = usePost();
-	const [file, setFile] = useState<File | null>();
+	const { summary, setSummary, file, setFile, setVisibility, visibility, path, setPath } = usePost();
+	const [thumbnail, setThumbnail] = useState<string>();
 	const { userId } = useProfile();
 
 	useEffect(() => {

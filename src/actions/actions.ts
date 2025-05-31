@@ -34,41 +34,86 @@ export const savePost = async (_: unknown, formData: FormData) => {
 		// TODO 트랜잭션 처리 추가필요
 		const supabase = await createClientByServer();
 		const auth = await supabase.auth.getUser();
+		let user;
+		// 포스트 등록에 유효한 사용자인지 확인한다.
+		if ((user = await validateByUser(auth.data.user?.id))) {
+			const { title, content, visibility, file, path, summary, tags } = parseFormData(formData, { tags: 'object' });
 
-		const { title, content, visibility, thumbnail, path, summary, tags } = parseFormData(formData, { tags: 'object' });
+			// 만약 포스트에 썸네일 이미지가 있는경우 storage에 등록한다.
+			const uploadImage = await saveStorageImage(file as File);
+			const post = {
+				title,
+				content,
+				path,
+				summary,
+				auth_cd: visibility,
+				thumbnail: uploadImage?.id,
+				userId: user.userId
+			};
 
-		const { data } = await supabase.from('profiles').select('userId').eq('id', auth.data.user?.id).single();
+			await supabase.from('posts').insert(post);
 
-		if (!data) throw new Error('사용자 정보가 없습니다.');
+			if (!tags) return { status: 'OK' };
 
-		const post = { title, content, thumbnail, path, summary, auth_cd: visibility, userId: data.userId };
-		await supabase.from('posts').insert(post);
-
-		if (!tags) return { status: 'OK' };
-
-		const insertTags = (tags as []).map(name => ({
-			name
-		}));
-
-		await supabase.from('tag').upsert(insertTags, {
-			onConflict: 'name',
-			ignoreDuplicates: true
-		});
-
-		const { data: tagIds } = await supabase
-			.from('tag')
-			.select('tag_id')
-			.in('name', tags as []);
-
-		const rows = tagIds?.map(tag => ({ ...tag, path }));
-		console.log(rows);
-
-		await supabase.from('posts_tag').upsert(rows, {
-			onConflict: 'path, tag_id'
-		});
+			if (!(await saveHashTags(tags as string[], path as string))) {
+				throw new Error('태그 등록 중 에러가 발생하였습니다.');
+			}
+		}
 
 		return { status: 'OK' };
 	} catch (err: unknown) {
 		return { message: (err as Error).message, status: 'ERROR' };
 	}
+};
+
+const validateByUser = async (id?: string) => {
+	const supabase = await createClientByServer();
+	const { data } = await supabase.from('profiles').select('userId').eq('id', id).single();
+
+	if (!data) {
+		return;
+	}
+
+	return data;
+};
+
+const saveStorageImage = async (file: File | undefined | null) => {
+	const supabase = await createClientByServer();
+
+	const bucket = process.env.NEXT_PUBLIC_STORAGE_BUCKET as string;
+
+	if (!file) return null; // 파일이 없어도 무조건 true한다.
+
+	const { data, error } = await supabase.storage.from(bucket).upload(file?.name, file, { upsert: true });
+
+	if (error) throw new Error(error.message);
+
+	return data;
+};
+
+const saveHashTags = async (tags: string[], path: string) => {
+	const supabase = await createClientByServer();
+
+	const hashTags = (tags as string[]).map(name => ({
+		name
+	}));
+
+	const tagResult = await supabase.from('tag').upsert(hashTags, {
+		onConflict: 'name',
+		ignoreDuplicates: true
+	});
+
+	if (tagResult.error) return false;
+
+	const { data: tagIds } = await supabase.from('tag').select('tag_id').in('name', tags);
+
+	const rows = tagIds?.map(tag => ({ ...tag, path }));
+
+	const postTagResult = await supabase.from('posts_tag').upsert(rows, {
+		onConflict: 'path, tag_id'
+	});
+
+	if (postTagResult.error) return false;
+
+	return true;
 };
