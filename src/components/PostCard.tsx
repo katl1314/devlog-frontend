@@ -12,8 +12,8 @@ export default function PostCard({ path, title, created_at, thumbnail, summary, 
 		<Card>
 			<Link href={path!}>
 				<PostHeader thumbnail={thumbnail!}>
-					<CardTitle>{title}</CardTitle>
-					<CardDescription className="text-sm pt-2">{summary}</CardDescription>
+					<CardTitle className="pt-2">{title}</CardTitle>
+					<CardDescription className="text-sm pt-2 line-clamp-4 text-ellipsis">{summary}</CardDescription>
 				</PostHeader>
 				<CardContent className="flex flex-col h-[120px] justify-end px-2">
 					<div className="flex flex-row gap-3 py-3 text-neutral-500">
@@ -50,7 +50,7 @@ const PostHeader = ({
 		</div>
 	);
 	return (
-		<CardHeader className={`max-h-[222px] h-[222px] ${!thumbnail && 'pt-2'}`}>
+		<CardHeader className="block max-h-[222px] h-[222px]">
 			{ThumbnailView}
 			{children}
 		</CardHeader>
