@@ -4,8 +4,6 @@ import Tabs, { TabItem } from '@/components/Tab/Tabs';
 import { MdOutlineTrendingUp, MdOutlineAccessTime, MdOutlineRssFeed } from 'react-icons/md';
 import LayoutControl from '@/components/Layout/LayoutControl';
 import { createClientByServer } from '@/utils/supabase/server';
-import PageLayout from '@/components/Layout/PageLayout';
-import Header from '@/components/Layout/Header';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const supabase = await createClientByServer();
@@ -23,8 +21,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 	};
 
 	return (
-		<PageLayout>
-			<Header />
+		<>
 			<TabLayout>
 				<TabView showOption={true}>
 					<Tabs items={data as TabItem[]} icons={icons} defaultPath="/trends" />
@@ -34,6 +31,6 @@ export default async function Layout({ children }: { children: React.ReactNode }
 				</TabView>
 			</TabLayout>
 			<div className="my-8 mx-auto px-4">{children}</div>
-		</PageLayout>
+		</>
 	);
 }

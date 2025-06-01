@@ -2,24 +2,19 @@
 
 import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
-import { fetchPostsFncByUser, Post, FetchPostsResponseUser } from '@/types/type';
+import { fetchPostsFncByUser, FetchPostsResponseUser } from '@/types/type';
 import EmptyContent from '@/components/EmptyContent';
 import PostCard from './PostCard';
-import { createClientByBrowser } from '@/utils/supabase/client';
 
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFncByUser = async ({ userId, pageParam = 0 }) => {
-	const supabase = createClientByBrowser();
-	// 로그인한 계정이면 비공개도 표시, 아니면 비공개는 표시되면 안됨.
-	const posts = supabase
-		.from('posts')
-		.select()
-		.eq('userId', userId)
-		.range(pageParam, pageParam + 9)
-		.order('created_at', { ascending: false });
+	const posts = await fetch(`http://localhost:3000/api/posts?userId=${userId}&tab=posts&pageParam=${pageParam}`);
 
-	const res = await posts;
-	const data: Post[] = res.data ?? [];
+	if (!posts.ok) {
+		throw new Error('데이터를 불러오는데 실패했습니다.');
+	}
+
+	const { data } = await posts.json();
 
 	return { posts: data, hasMore: data.length > 0 };
 };

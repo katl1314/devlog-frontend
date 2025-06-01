@@ -1,10 +1,8 @@
-import PageLayout from '@/components/Layout/PageLayout';
-import Header from './components/Header';
 import { headers } from 'next/headers';
 import { createClientByServer } from '@/utils/supabase/server';
 import UserLayout from '@/components/Layout/UserLayout';
-import UserProfile from './components/UserProfile';
-import UserProfileBottom from './components/UserProfileBottom';
+import UserProfile from '../components/UserProfile';
+import UserProfileBottom from '../components/UserProfileBottom';
 import { Separator } from '@/components/ui/separator';
 import { Card } from '@/components/ui/card';
 
@@ -13,13 +11,12 @@ export default async function Layout({ children }: { children: React.ReactNode }
 	const headerList = await headers();
 	const pathname = headerList.get('x-pathname') || '';
 	const userId = pathname.substring(pathname.indexOf('@') + 1);
-	const { error, data } = await supabase.from('profiles').select().eq('userId', userId).limit(1).single();
+	const { error, data } = await supabase.from('profiles').select().eq('userId', userId).single();
 
 	if (error) throw new Error(error.message);
 
 	return (
-		<PageLayout>
-			<Header userId={userId} />
+		<>
 			<UserLayout>
 				<Card className="p-2 rounded-[0px] lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
 					<UserProfile {...data} />
@@ -30,6 +27,6 @@ export default async function Layout({ children }: { children: React.ReactNode }
 					<section className="min-h-[500px]">{children}</section>
 				</Card>
 			</UserLayout>
-		</PageLayout>
+		</>
 	);
 }
