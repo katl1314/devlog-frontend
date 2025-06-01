@@ -8,8 +8,8 @@ import EmptyContent from './EmptyContent';
 import CardLayout from './Layout/CardLayout';
 
 // 데이터를 fetch하는 함수
-const fetchPosts: fetchPostsFnc = async ({ tab, pageParam = 0 }) => {
-	const posts = await fetch(`http://localhost:3000/api/posts?tab=posts&pageParam=${pageParam}`);
+const fetchPosts: fetchPostsFnc = async ({ pageParam = 0 }) => {
+	const posts = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts?pageParam=${pageParam}`);
 
 	if (!posts.ok) {
 		throw new Error('데이터를 불러오는데 실패했습니다.');

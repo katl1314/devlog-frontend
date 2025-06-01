@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url);
 	const pageParam = Number(searchParams.get('pageParam'));
 	const userId = searchParams.get('userId');
-	const tab = searchParams.get('tab');
+	//const tab = searchParams.get('tab');
 	const supabase = await createClientByServer();
 
 	let posts;

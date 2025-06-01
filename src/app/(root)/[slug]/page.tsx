@@ -6,7 +6,7 @@ import { createClientByBrowser } from '@/utils/supabase/client';
 
 export const dynamicParams = false; // false 시 404페이지를 발생한다.
 
-interface Page {
+interface IPage {
 	params: Promise<{ slug: string }>;
 }
 
@@ -20,7 +20,7 @@ export async function generateStaticParams() {
 	return params;
 }
 
-export default async function Page({ params }: Page) {
+export default async function Page({ params }: IPage) {
 	const { slug } = await params;
 	return (
 		<Suspense fallback={<PostCardFallback />}>
