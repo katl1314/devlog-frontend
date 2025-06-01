@@ -7,13 +7,13 @@ import Link from 'next/link';
 import PostMeta from './PostMeta';
 import { AiFillLike } from 'react-icons/ai';
 
-export default function PostCard({ path, title, created_at, summary, userId }: Post) {
+export default function PostCard({ path, title, created_at, thumbnail, summary, userId }: Post) {
 	return (
 		<Card>
 			<Link href={path!}>
 				<CardHeader>
 					<div className="relative w-full h-[200px]">
-						{/* <Image src={thumbnail} alt={title} fill style={{ objectFit: 'cover' }}></Image> */}
+						<Image src={thumbnail!} alt={title!} fill style={{ objectFit: 'cover' }}></Image>
 					</div>
 				</CardHeader>
 				<CardContent className="flex flex-col h-[120px] justify-between py-2">

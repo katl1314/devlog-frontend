@@ -3,22 +3,19 @@
 import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
 import PostCard from '@/components/PostCard';
-import { FetchPostsResponse, Post, fetchPostsFnc } from '@/types/type';
+import { FetchPostsResponse, fetchPostsFnc } from '@/types/type';
 import EmptyContent from './EmptyContent';
 import CardLayout from './Layout/CardLayout';
-import { createClientByBrowser } from '@/utils/supabase/client';
 
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFnc = async ({ tab, pageParam = 0 }) => {
-	const supabase = createClientByBrowser();
-	const posts = supabase
-		.from('posts')
-		.select()
-		.range(pageParam, pageParam + 9)
-		.order('created_at', { ascending: false });
+	const posts = await fetch(`http://localhost:3000/api/posts?tab=posts&pageParam=${pageParam}`);
 
-	const res = await posts;
-	const data: Post[] = res.data ?? [];
+	if (!posts.ok) {
+		throw new Error('데이터를 불러오는데 실패했습니다.');
+	}
+
+	const { data } = await posts.json();
 
 	return { posts: data, hasMore: data.length > 0 };
 };

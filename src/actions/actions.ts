@@ -47,7 +47,7 @@ export const savePost = async (_: unknown, formData: FormData) => {
 				path,
 				summary,
 				auth_cd: visibility,
-				thumbnail: uploadImage?.id,
+				thumbnail: uploadImage?.path,
 				userId: user.userId
 			};
 

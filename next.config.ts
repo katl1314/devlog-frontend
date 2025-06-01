@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
 		dangerouslyAllowSVG: true,
 		remotePatterns: [
 			{
-				hostname: 'placehold.co',
+				hostname: 'kwzbpyrchjwfnfontxvt.supabase.co',
 				port: '',
 				protocol: 'https'
 			},
