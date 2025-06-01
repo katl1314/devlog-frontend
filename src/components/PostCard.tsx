@@ -1,26 +1,21 @@
 import Image from 'next/image';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import type { Post } from '@/types/type';
-import { Label } from './ui/label';
-import { Separator } from './ui/separator';
 import Link from 'next/link';
 import PostMeta from './PostMeta';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from './ui/label';
+import { Separator } from './ui/separator';
 import { AiFillLike } from 'react-icons/ai';
+import type { Post } from '@/types/type';
 
 export default function PostCard({ path, title, created_at, thumbnail, summary, userId }: Post) {
 	return (
 		<Card>
 			<Link href={path!}>
-				<CardHeader>
-					<div className="relative w-full h-[200px]">
-						<Image src={thumbnail!} alt={title!} fill style={{ objectFit: 'cover' }}></Image>
-					</div>
-				</CardHeader>
-				<CardContent className="flex flex-col h-[120px] justify-between py-2">
-					<div>
-						<CardTitle>{title}</CardTitle>
-						<CardDescription className="text-sm pt-2">{summary}</CardDescription>
-					</div>
+				<PostHeader thumbnail={thumbnail!}>
+					<CardTitle>{title}</CardTitle>
+					<CardDescription className="text-sm pt-2">{summary}</CardDescription>
+				</PostHeader>
+				<CardContent className="flex flex-col h-[120px] justify-end px-2">
 					<div className="flex flex-row gap-3 py-3 text-neutral-500">
 						<PostMeta date={created_at!} />
 						<Label>{0}개의 댓글</Label>
@@ -40,3 +35,24 @@ export default function PostCard({ path, title, created_at, thumbnail, summary, 
 		</Card>
 	);
 }
+
+const PostHeader = ({
+	children,
+	thumbnail
+}: {
+	children: React.ReactNode | React.ReactNode[];
+	thumbnail?: string;
+	title?: string;
+}) => {
+	const ThumbnailView = thumbnail && (
+		<div className="relative w-full min-h-[200px]">
+			<Image src={thumbnail!} alt={'thumbnail'} fill style={{ objectFit: 'cover' }}></Image>
+		</div>
+	);
+	return (
+		<CardHeader className={`max-h-[222px] h-[222px] ${!thumbnail && 'pt-2'}`}>
+			{ThumbnailView}
+			{children}
+		</CardHeader>
+	);
+};

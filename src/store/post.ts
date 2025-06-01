@@ -36,6 +36,7 @@ export const usePost = create<Post>(set => ({
 	setVisibility: visibility => set({ visibility }),
 	setSummary: summary => set({ summary }),
 	setPath: path => set({ path }),
-	setReset: () => set({ title: '', content: '', tags: [], thumbnail: '', visibility: 'PUBLIC', summary: '', path: '' }),
+	setReset: () =>
+		set({ title: '', content: '', tags: [], thumbnail: '', visibility: 'PUBLIC', summary: '', path: '', file: null }),
 	setFile: file => set({ file })
 }));

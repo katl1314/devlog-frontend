@@ -19,10 +19,12 @@ export async function GET(request: NextRequest) {
 
 	// 썸네일
 	const resData = data.map(post => {
-		const { data } = supabase.storage.from('thumbnail').getPublicUrl(post.thumbnail);
-		return { ...post, thumbnail: data.publicUrl };
+		if (post.thumbnail) {
+			const { data } = supabase.storage.from('thumbnail').getPublicUrl(post.thumbnail);
+			return { ...post, thumbnail: data.publicUrl };
+		}
+		return post;
 	});
 
-	console.log(resData);
 	return NextResponse.json({ data: resData });
 }
