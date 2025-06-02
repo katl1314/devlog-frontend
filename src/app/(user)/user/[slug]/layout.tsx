@@ -16,17 +16,15 @@ export default async function Layout({ children }: { children: React.ReactNode }
 	if (error) throw new Error(error.message);
 
 	return (
-		<>
-			<UserLayout>
-				<Card className="p-2 rounded-[0px] lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
-					<UserProfile {...data} />
-					<Separator className="mt-[20px]" />
-					<UserProfileBottom userId={userId} />
-				</Card>
-				<Card className="mt-4 p-2 rounded-[0px] lg:mt-6 lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
-					<section className="min-h-[500px]">{children}</section>
-				</Card>
-			</UserLayout>
-		</>
+		<UserLayout>
+			<Card className="p-2 rounded-[0px] lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
+				<UserProfile {...data} />
+				<Separator className="mt-[20px]" />
+				<UserProfileBottom userId={userId} />
+			</Card>
+			<Card className="mt-4 p-2 rounded-[0px] lg:mt-6 lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
+				<section className="min-h-[500px]">{children}</section>
+			</Card>
+		</UserLayout>
 	);
 }
