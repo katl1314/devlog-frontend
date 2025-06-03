@@ -6,7 +6,8 @@ import { headers } from 'next/headers';
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const headerList = await headers();
 	const pathname = headerList.get('x-pathname') || '';
-	const userId = pathname.substring(pathname.indexOf('@') + 1);
+	const userId = pathname.substring(pathname.indexOf('@') + 1).split('/')[0];
+
 	return (
 		<QueryProvider>
 			<PageLayout>

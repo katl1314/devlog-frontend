@@ -22,17 +22,18 @@ export async function middleware(req: NextRequest) {
 
 	// @로 시작하는 URL이면 사용자 페이지로 rewrite
 	if (pathname.startsWith('/@')) {
-		const username = pathname.slice(2); // remove leading "@"
-		url.pathname = `/user/${username}`;
+		const param = pathname.slice(2);
+		url.pathname = pathname.lastIndexOf('/') < 1 ? `/user/${param}` : `/post/${param}`;
+
 		if (req.method === 'GET') {
 			return NextResponse.rewrite(url, {
 				request: {
 					headers
 				}
 			});
-		} else {
-			return NextResponse.redirect(url);
 		}
+
+		return NextResponse.redirect(url);
 	} else if (pathname === '/') {
 		// 루트는 /trends로 rewrite
 		url.pathname = `${pathname}trends`;
@@ -53,5 +54,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-	matcher: ['/', '/@:username*', '/feed', '/trends', '/new', '/write'] // 루트 포함
+	matcher: ['/', '/@:userId', '/feed', '/trends', '/new', '/write', '/@:userId/:slug'] // 루트 포함
 };
