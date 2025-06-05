@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import PostCardSkeleton from '@/components/Skeleton/PostCardSkeleton';
-import PostCardList from '@/components/PostCardList';
+import PostCardList from '@/components/Post/PostCardList';
 import CardLayout from '@/components/Layout/CardLayout';
 import { createClientByBrowser } from '@/utils/supabase/client';
 

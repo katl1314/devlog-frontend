@@ -1,7 +1,7 @@
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import type { Post } from '@/types/type';
-import PostMeta from '@/components/PostMeta';
+import PostMeta from '@/components/Post/PostMeta';
 import Thumbnail from './Thumbnail';
 import { Label } from '@/components/ui/label';
 import { AiFillLike } from 'react-icons/ai';

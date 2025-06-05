@@ -1,11 +1,11 @@
 'use client';
 
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import Link from 'next/link';
 import { FiArrowLeft } from 'react-icons/fi';
-import { Label } from './ui/label';
+import { Label } from '../ui/label';
 import dynamic from 'next/dynamic';
-import { Input } from './ui/input';
+import { Input } from '../ui/input';
 import { FormEventHandler, startTransition, useActionState, useEffect, useState } from 'react';
 import { savePost } from '@/actions/actions';
 import { validatePost } from '@/utils/validation';
@@ -16,9 +16,9 @@ import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
 import { redirect } from 'next/navigation';
 
-const Editor = dynamic(() => import('./Editor'));
+const Editor = dynamic(() => import('../Editor'));
 const CustomModal = dynamic(() => import('@/components/Modal/CustomModal'), { ssr: false }); // 지연 로딩
-const TagEditor = dynamic(() => import('./TagEditor'));
+const TagEditor = dynamic(() => import('../TagEditor'));
 
 export default function PostEditor() {
 	// 모바일인지 아닌지 확인은 해상도를 통해서...

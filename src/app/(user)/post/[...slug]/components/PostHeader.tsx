@@ -1,6 +1,6 @@
+import Button from '@/components/Button';
 import LockBadge from '@/components/LockBadge';
-import PostMeta from '@/components/PostMeta';
-import { Button } from '@/components/ui/button';
+import PostMeta from '@/components/Post/PostMeta';
 import { Label } from '@/components/ui/label';
 import { Post } from '@/types/type';
 
@@ -18,13 +18,8 @@ export default function PostHeader({ title, path, userId, created_at, auth_cd }:
 					{auth_cd === 'PRIVATE' && <LockBadge />}
 				</div>
 				<div className="flex flex-row gap-3 items-center">
-					<Button type="button" className="bg-white text-black">
-						팔로우
-					</Button>
-
-					<Button type="button" className="bg-white text-black">
-						좋아요
-					</Button>
+					<Button value="팔로우" variant="outline" />
+					<Button value="좋아요" variant="outline" />
 				</div>
 			</div>
 		</div>

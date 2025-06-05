@@ -2,7 +2,7 @@
 
 import { Label } from './ui/label';
 import { signInWithGoogle, signInWithGithub } from '@/utils/supabase/actions';
-import AuthButton from './AuthButton';
+import Button from './Button';
 import { Separator } from './ui/separator';
 import { useEffect, useRef } from 'react';
 
@@ -29,7 +29,7 @@ export default function AuthForm() {
 				<Label className="text-lg font-bold text-center text-neutral-400">소셜 계정으로 로그인하기</Label>
 				<form action={formActionPath}>
 					<div className="flex flex-col gap-4 mt-3">
-						<AuthButton
+						<Button
 							type="submit"
 							value={'구글 계정으로 로그인'}
 							formAction={signInWithGoogle}
@@ -53,7 +53,7 @@ export default function AuthForm() {
 								</svg>
 							}
 						/>
-						<AuthButton
+						<Button
 							type="submit"
 							value={'깃허브 계정으로 로그인'}
 							formAction={signInWithGithub}

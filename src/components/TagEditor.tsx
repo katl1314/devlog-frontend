@@ -3,13 +3,13 @@
 import { KeyboardEventHandler } from 'react';
 import { toast } from 'sonner';
 
-interface TagEditor {
+interface ITagEditor {
 	onChange: (tags: string[]) => void;
 	tags: string[];
 	max?: number;
 }
 
-export default function TagEditor({ tags, onChange, max = 5 }: TagEditor) {
+export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 	const handleKeyDownEnter = (value: string) => {
 		if (value.length < 1) return;
 		if (tags.length >= max) {

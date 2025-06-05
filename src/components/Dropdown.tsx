@@ -13,11 +13,11 @@ import { useProfile } from '@/store/profile';
 import Link from 'next/link';
 import { createClientByBrowser } from '@/utils/supabase/client';
 
-interface Dropdown {
+interface IDropdown {
 	children: React.ReactNode;
 }
 
-export function Dropdown({ children }: Dropdown) {
+export function Dropdown({ children }: IDropdown) {
 	const { userId, logout } = useProfile();
 	const supabase = createClientByBrowser();
 	const handleLogout = () => {

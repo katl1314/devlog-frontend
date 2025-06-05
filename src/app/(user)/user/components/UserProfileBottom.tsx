@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui/button';
 import { FaGithub, FaHome } from 'react-icons/fa';
 import { User } from '@/types/type';
 import { createClientByServer } from '@/utils/supabase/server';
+import Button from '@/components/Button';
 
 export default async function UserProfileBottom({ userId }: User) {
 	const supabase = await createClientByServer();
@@ -28,13 +28,7 @@ export default async function UserProfileBottom({ userId }: User) {
 					<FaGithub size={30} fill="gray" />
 					<FaHome size={30} fill="gray" />
 				</div>
-				<div>
-					{!isMyProfile && (
-						<Button type="button" className="">
-							팔로우
-						</Button>
-					)}
-				</div>
+				<div>{!isMyProfile && <Button type="button" value="팔로우" />}</div>
 			</div>
 		</div>
 	);

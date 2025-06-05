@@ -6,14 +6,14 @@ import { Button } from './ui/button';
 import { useActionState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-interface RegistForm {
+interface IRegistForm {
 	email: string;
 	username: string;
 	userId: string;
 	content: string;
 }
 
-export default function RegistForm({ email }: Partial<RegistForm>) {
+export default function RegistForm({ email }: Partial<IRegistForm>) {
 	const [, formAction, isPending] = useActionState(registUser, null);
 	const searchParams = useSearchParams();
 	const code = searchParams.get('code') ?? '';

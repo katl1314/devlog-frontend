@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import AuthForm from '../AuthForm';
-import { Button } from '../ui/button';
+import Button from '@/components/Button';
 import { MouseEventHandler, useState } from 'react';
 const CustomModal = dynamic(() => import('../Modal/CustomModal'), { ssr: false }); // 지연 로딩
 
@@ -19,9 +19,7 @@ export default function NotLoginButton() {
 
 	return (
 		<>
-			<Button className="flex items-center font-bold cursor-pointer" onClick={handleSignUp}>
-				로그인
-			</Button>
+			<Button onClick={handleSignUp} value="로그인" />
 			{open && (
 				<CustomModal afterCloseModal={handleAfterCloseModal} className="lg:w-[35%] lg:mt-[15%]">
 					<AuthForm />

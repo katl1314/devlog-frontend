@@ -3,12 +3,12 @@ import { useProfile } from '@/store/profile';
 import { User } from '@/types/type';
 import { useEffect } from 'react';
 
-interface UserInit {
+interface IUserInit {
 	children: React.ReactNode;
 	user: User;
 }
 
-export default function UserInit({ children, user }: UserInit) {
+export default function UserInit({ children, user }: IUserInit) {
 	const { isLoggedIn, login, setAvatarUrl, setUserName, setId, setUserId } = useProfile();
 
 	useEffect(() => {

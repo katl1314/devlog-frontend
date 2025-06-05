@@ -2,10 +2,10 @@
 
 import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
-import PostCard from '@/components/PostCard';
+import PostCard from '@/components/Post/PostCard';
 import { FetchPostsResponse, fetchPostsFnc } from '@/types/type';
-import EmptyContent from './EmptyContent';
-import CardLayout from './Layout/CardLayout';
+import EmptyContent from '../EmptyContent';
+import CardLayout from '../Layout/CardLayout';
 
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFnc = async ({ pageParam = 0 }) => {

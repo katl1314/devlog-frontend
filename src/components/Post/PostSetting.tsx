@@ -1,15 +1,15 @@
 'use client';
 
 import { ChangeEventHandler, useEffect, useState } from 'react';
-import { Label } from './ui/label';
-import ImageFileupload from './ImageFileupload';
-import ImagePreview from './ImagePreview';
-import { RadioGroup, RadioItem } from './RadioGroup';
-import { Button } from './ui/button';
-import { Textarea } from './ui/textarea';
+import { Label } from '../ui/label';
+import ImageFileupload from '../ImageFileupload';
+import ImagePreview from '../ImagePreview';
+import { RadioGroup, RadioItem } from '../RadioGroup';
+import { Button } from '../ui/button';
+import { Textarea } from '../ui/textarea';
 import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
-import { Input } from './ui/input';
+import { Input } from '../ui/input';
 
 export default function PostSetting() {
 	const { summary, setSummary, file, setFile, setVisibility, visibility, path, setPath } = usePost();
@@ -65,9 +65,7 @@ export default function PostSetting() {
 					<Textarea value={summary} onChange={ev => setSummary(ev.target.value)} placeholder="요약을 입력하세요." />
 				</div>
 				<div className="mb-3">
-					<Button type="submit" className="w-full">
-						게시하기
-					</Button>
+					<Button type="submit" className="w-full" value="게시하기" />
 				</div>
 			</div>
 		</div>

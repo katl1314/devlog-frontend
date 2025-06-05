@@ -2,8 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import PostMeta from './PostMeta';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from './ui/label';
-import { Separator } from './ui/separator';
+import { Label } from '../ui/label';
+import { Separator } from '../ui/separator';
 import type { Post } from '@/types/type';
 import { AiFillLike } from 'react-icons/ai';
 

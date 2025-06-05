@@ -3,11 +3,11 @@ import { IoImageOutline } from 'react-icons/io5';
 import { ChangeEventHandler, MouseEventHandler, useRef } from 'react';
 import { Label } from './ui/label';
 
-interface ImageFileupload {
+interface IImageFileupload {
 	onChangeFile: (file: File) => void;
 }
 
-export default function ImageFileupload({ onChangeFile }: ImageFileupload) {
+export default function ImageFileupload({ onChangeFile }: IImageFileupload) {
 	const imageRef = useRef<HTMLInputElement>(null);
 	const handleFileClick: MouseEventHandler = () => {
 		if (imageRef?.current) {
