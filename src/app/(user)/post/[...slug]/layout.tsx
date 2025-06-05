@@ -1,5 +1,6 @@
 import UserLayout from '@/components/Layout/UserLayout';
 import { GoHeartFill, GoHeart, GoComment, GoShareAndroid, GoBookmark } from 'react-icons/go';
+import './init.css';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -7,7 +8,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 			<main className="relative">
 				{/* 메뉴 */}
 				<div className="hidden lg:block sticky top-[100px]">
-					<div className="absolute left-[-120px] py-4 px-2">
+					<div className="absolute left-[-120px]">
 						<div className="flex flex-col gap-6">
 							<div className="flex flex-col items-center gap-1">
 								<div className="rounded-[50%] border-1 p-3 cursor-pointer group bg-neutral-200  hover:bg-neutral-100">
