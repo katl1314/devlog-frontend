@@ -3,14 +3,19 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url);
-	const pageParam = Number(searchParams.get('pageParam'));
 	const userId = searchParams.get('userId');
-	//const tab = searchParams.get('tab');
+	const postId = searchParams.get('postId');
+	const pageParam = Number(searchParams.get('pageParam'));
 	const supabase = await createClientByServer();
 
 	let posts;
 
-	if (userId) {
+	if (searchParams.size < 1) {
+		// 모든 포스트 조회
+		posts = await supabase.from('posts').select('userId, path');
+	} else if (postId) {
+		posts = await supabase.from('posts').select().eq('path', postId);
+	} else if (userId) {
 		posts = await supabase
 			.from('posts')
 			.select()
