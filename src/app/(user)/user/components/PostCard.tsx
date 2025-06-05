@@ -3,6 +3,8 @@ import Link from 'next/link';
 import type { Post } from '@/types/type';
 import PostMeta from '@/components/PostMeta';
 import Thumbnail from './Thumbnail';
+import { Label } from '@/components/ui/label';
+import { AiFillLike } from 'react-icons/ai';
 
 export default function PostCard({ thumbnail, path, title, created_at, summary }: Post) {
 	return (
@@ -11,7 +13,14 @@ export default function PostCard({ thumbnail, path, title, created_at, summary }
 				<Thumbnail thumbnail={thumbnail} />
 				<div className="flex flex-col h-[120px] justify-between py-2 min-h-[120px] gap-4">
 					<PostDescription title={title} summary={summary} />
-					<PostMeta date={created_at} comments={0} like={0} />
+					<div className="flex flex-row gap-3 py-3 text-neutral-500">
+						<PostMeta date={created_at} />
+						<Label>{0}개의 댓글</Label>
+						<Label>
+							<AiFillLike />
+							{0}
+						</Label>
+					</div>
 				</div>
 			</Link>
 			<Separator />

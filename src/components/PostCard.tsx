@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from './ui/label';
 import { Separator } from './ui/separator';
 import type { Post } from '@/types/type';
+import { AiFillLike } from 'react-icons/ai';
 
 export default function PostCard({ path, title, created_at, thumbnail, summary, userId }: Post) {
 	return (
@@ -15,7 +16,14 @@ export default function PostCard({ path, title, created_at, thumbnail, summary, 
 					<CardDescription className="pt-2 line-clamp-4 text-ellipsis">{summary}</CardDescription>
 				</PostHeader>
 				<CardContent className="flex flex-col h-[120px] justify-end px-2">
-					<PostMeta date={created_at} comments={0} like={0} />
+					<div className="flex flex-row gap-3 py-3 text-neutral-500">
+						<PostMeta date={created_at} />
+						<Label>{0}개의 댓글</Label>
+						<Label>
+							<AiFillLike />
+							{0}
+						</Label>
+					</div>
 				</CardContent>
 			</Link>
 			<Separator />

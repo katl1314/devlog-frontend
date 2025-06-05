@@ -31,7 +31,7 @@ export default async function UserProfileBottom({ userId }: User) {
 				<div>
 					{!isMyProfile && (
 						<Button type="button" className="">
-							팔로잉
+							팔로우
 						</Button>
 					)}
 				</div>

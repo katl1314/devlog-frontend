@@ -1,3 +1,6 @@
+import PostBody from './components/PostBody';
+import PostFooter from './components/PostFooter';
+import PostHeader from './components/PostHeader';
 import { Post } from '@/types/type';
 import { notFound } from 'next/navigation';
 
@@ -24,14 +27,25 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
 	const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts?postId=${path}`);
 
 	if (!res.ok) {
+		// error.tsx에서 처리해야한다.
+		throw new Error('서버 오류가 발생하였습니다.');
 	}
 
 	const { data } = await res.json();
-
 	// 찾을 수 없을 경우 notFound처리한다.
 	if (data.length < 1) {
 		notFound();
 	}
 
-	return <div>{data[0].content}</div>;
+	return (
+		<section>
+			{/* 제목, 작성자, 팔로우, 태그 */}
+			<PostHeader {...data[0]} />
+			{/* 썸네일이미지, 내용 */}
+			<PostBody {...data[0]} />
+			{/* 작성자 프로필 */}
+			<PostFooter {...data[0]} />
+			{/* 댓글? */}
+		</section>
+	);
 }

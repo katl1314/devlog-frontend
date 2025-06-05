@@ -1,18 +1,19 @@
 'use client';
 
-import { Dispatch, KeyboardEventHandler, SetStateAction } from 'react';
+import { KeyboardEventHandler } from 'react';
 import { toast } from 'sonner';
 
 interface TagEditor {
 	onChange: (tags: string[]) => void;
 	tags: string[];
+	max?: number;
 }
 
-export default function TagEditor({ tags, onChange }: TagEditor) {
+export default function TagEditor({ tags, onChange, max = 5 }: TagEditor) {
 	const handleKeyDownEnter = (value: string) => {
 		if (value.length < 1) return;
-		if (tags.length >= 5) {
-			toast('태그는 최대 5개까지만 입력할 수 있습니다.', {
+		if (tags.length >= max) {
+			toast(`태그는 최대 ${max}개까지만 입력할 수 있습니다.`, {
 				position: 'top-right',
 				duration: 1500
 			});
