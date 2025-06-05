@@ -17,9 +17,8 @@ export default function PostHeader({ title, path, userId, created_at, auth_cd }:
 					{/* 공개/비공개 */}
 					{auth_cd === 'PRIVATE' && <LockBadge />}
 				</div>
-				<div className="flex flex-row gap-3 items-center">
-					<Button value="팔로우" variant="outline" />
-					<Button value="좋아요" variant="outline" />
+				<div className="flex flex-row gap-1 items-center">
+					<Button value="팔로우" variant="outline" size="lg" />
 				</div>
 			</div>
 		</div>

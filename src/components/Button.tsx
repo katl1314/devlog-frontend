@@ -3,7 +3,6 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import { Button as CustomButton, buttonVariants } from './ui/button';
 import { VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/utils';
 
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 	icon?: React.ReactElement;
@@ -13,7 +12,7 @@ interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 export default function Button({ value, icon, iconPosition, ...props }: IButton & VariantProps<typeof buttonVariants>) {
 	const content = generateIconButton(icon, value, iconPosition);
 	return (
-		<CustomButton className={cn('flex items-center font-bold cursor-pointer', props.className)} {...props}>
+		<CustomButton className="flex items-center font-bold cursor-pointer" {...props}>
 			{content}
 		</CustomButton>
 	);

@@ -28,7 +28,7 @@ export default async function UserProfileBottom({ userId }: User) {
 					<FaGithub size={30} fill="gray" />
 					<FaHome size={30} fill="gray" />
 				</div>
-				<div>{!isMyProfile && <Button type="button" value="팔로우" />}</div>
+				<div>{!isMyProfile && <Button value="팔로우" variant="outline" size="lg" />}</div>
 			</div>
 		</div>
 	);
