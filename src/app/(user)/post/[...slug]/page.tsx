@@ -38,14 +38,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
 	}
 
 	return (
-		<section>
-			{/* 제목, 작성자, 팔로우, 태그 */}
+		<>
 			<PostHeader {...data[0]} />
-			{/* 썸네일이미지, 내용 */}
 			<PostBody {...data[0]} />
-			{/* 작성자 프로필 */}
 			<PostFooter {...data[0]} />
-			{/* 댓글? */}
-		</section>
+		</>
 	);
 }
