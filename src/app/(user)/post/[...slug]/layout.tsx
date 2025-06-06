@@ -8,27 +8,27 @@ export default async function Layout({ children }: { children: React.ReactNode }
 			<main className="relative">
 				{/* 메뉴 */}
 				<div className="hidden lg:block sticky top-[100px]">
-					<div className="absolute left-[-120px]">
+					<div className="absolute left-[-100px]">
 						<div className="flex flex-col gap-6">
 							<div className="flex flex-col items-center gap-1">
-								<div className="rounded-[50%] border-1 p-3 cursor-pointer group bg-neutral-200  hover:bg-neutral-100">
+								<div className="rounded-[50%] border-1 p-3 cursor-pointer group bg-neutral-100  hover:bg-neutral-200">
 									<GoHeart size={24} fill="black" />
 								</div>
 								<div>{0}</div>
 							</div>
 							<div className="flex flex-col items-center gap-1">
-								<div className="rounded-[50%] border-1 p-3 cursor-pointer group  bg-neutral-200 hover:bg-neutral-100">
+								<div className="rounded-[50%] border-1 p-3 cursor-pointer group  bg-neutral-100 hover:bg-neutral-200">
 									<GoComment size={24} fill="black" />
 								</div>
 								<div>{0}</div>
 							</div>
 							<div className="flex flex-col items-center gap-1">
-								<div className="rounded-[50%] border-1 p-3 cursor-pointer group  bg-neutral-200 hover:bg-neutral-100">
+								<div className="rounded-[50%] border-1 p-3 cursor-pointer group  bg-neutral-100 hover:bg-neutral-200">
 									<GoBookmark size={24} fill="black" />
 								</div>
 							</div>
 							<div className="flex flex-col items-center gap-1">
-								<div className="rounded-[50%] border-1 p-3 cursor-pointer group  bg-neutral-200 hover:bg-neutral-100">
+								<div className="rounded-[50%] border-1 p-3 cursor-pointer group  bg-neutral-100 hover:bg-neutral-200">
 									<GoShareAndroid size={24} fill="black" />
 								</div>
 							</div>
