@@ -28,12 +28,14 @@ export default function PostEditor() {
 	const { userId } = useProfile();
 
 	useEffect(() => {
+		console.log(state?.status);
 		if (state?.status == 'ERROR') {
 			toast(state.message, {
 				position: 'top-right',
 				duration: 2000,
 				icon: <GoAlert />
 			});
+			return;
 		}
 
 		if (state?.status === 'OK') {
@@ -74,9 +76,9 @@ export default function PostEditor() {
 
 	return (
 		<div className="flex flex-col justify-between">
-			<div className="flex flex-col mt-4 gap-2 flex-1">
+			<div className="flex flex-col mt-10 gap-2 flex-1">
 				<Input
-					className="h-[50px] font-bold text-3xl border-0 shadow-none"
+					className="h-[50px] font-bold text-3xl border-0 shadow-none text-[42px]"
 					placeholder="제목을 입력하세요."
 					id="title"
 					value={title}
@@ -106,7 +108,7 @@ export default function PostEditor() {
 					afterCloseModal={() => setModalOpen(open => !open)}
 					className="w-full mt-[5%] md:min-w-[500px] md:w-[25%]"
 				>
-					<form action={formAction} onSubmit={handleSubmit}>
+					<form onSubmit={handleSubmit}>
 						<PostSetting />
 					</form>
 				</CustomModal>

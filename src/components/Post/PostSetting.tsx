@@ -65,7 +65,9 @@ export default function PostSetting() {
 					<Textarea value={summary} onChange={ev => setSummary(ev.target.value)} placeholder="요약을 입력하세요." />
 				</div>
 				<div className="mb-3">
-					<Button type="submit" className="w-full" value="게시하기" />
+					<Button type="submit" className="rounded-0 cursor-pointer w-full">
+						게시하기
+					</Button>
 				</div>
 			</div>
 		</div>

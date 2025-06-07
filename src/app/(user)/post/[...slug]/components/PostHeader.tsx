@@ -15,8 +15,8 @@ export default async function PostHeader({ title, path, userId, created_at, auth
 
 	return (
 		<div className="mb-6">
-			<h1 className="text-5xl font-bold">{title}</h1>
-			<div className="flex flex-row justify-between items-center mb-3">
+			<div className="text-5xl font-bold mb-4">{title}</div>
+			<div className="flex flex-row justify-between items-center mb-4">
 				<div className="flex flex-row gap-6 items-center">
 					{/* 사용자 */}
 					<Label className="font-bold text-lg">{userId}</Label>
@@ -30,7 +30,7 @@ export default async function PostHeader({ title, path, userId, created_at, auth
 				</div>
 			</div>
 			{/* 태그 */}
-			<div className="mb-3">
+			<div className="mb-4">
 				<TagView tags={tags} />
 			</div>
 		</div>

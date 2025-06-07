@@ -1,3 +1,5 @@
-export default function PostFooter() {
-	return <div className="w-full h-[3000px] bg-black"></div>;
+import { Post } from '@/types/type';
+
+export default async function PostFooter({ userId }: Post) {
+	return <div className="mt-[256px] mb-12"></div>;
 }

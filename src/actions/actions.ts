@@ -38,6 +38,14 @@ export const savePost = async (_: unknown, formData: FormData) => {
 		// 포스트 등록에 유효한 사용자인지 확인한다.
 		if ((user = await validateByUser(auth.data.user?.id))) {
 			const { title, content, visibility, file, path, summary, tags } = parseFormData(formData, { tags: 'object' });
+			console.log('path :::: ', title, content, visibility, file, path, summary, tags);
+
+			// 만약 중복된 path가 있으면 에러를 반환해야한다.
+			const { data } = await supabase.from('posts').select().eq('path', path);
+
+			if (data?.length ?? 0 > 0) {
+				return { status: 'ERROR', message: '이미 존재하는 URL입니다.' };
+			}
 
 			// 만약 포스트에 썸네일 이미지가 있는경우 storage에 등록한다.
 			const uploadImage = await saveStorageImage(file as File);

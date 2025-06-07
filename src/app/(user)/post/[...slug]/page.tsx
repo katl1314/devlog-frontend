@@ -1,19 +1,32 @@
+import { createClientByBrowser } from '@/utils/supabase/client';
 import PostBody from './components/PostBody';
 import PostFooter from './components/PostFooter';
 import PostHeader from './components/PostHeader';
-import { Post } from '@/types/type';
+// import { Post } from '@/types/type';
 import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
 	// post 가져오기
 
-	const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts`);
+	// const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts`);
 
-	if (!res.ok) return;
+	// if (!res.ok) return;
 
-	const { data } = await res.json();
+	// const { data } = await res.json();
 
-	return data.map(({ userId, path }: Post) => {
+	// return data.map(({ userId, path }: Post) => {
+	// 	const slug: string[] = [];
+	// 	slug[0] = userId;
+	// 	slug[1] = path.slice(path.lastIndexOf('/') + 1);
+	// 	return { slug };
+	// });
+
+	const supabase = createClientByBrowser();
+	const { data, error } = await supabase.from('posts').select('userId, path');
+
+	if (error) throw new Error(error.message);
+
+	return data.map(({ userId, path }) => {
 		const slug: string[] = [];
 		slug[0] = userId;
 		slug[1] = path.slice(path.lastIndexOf('/') + 1);
