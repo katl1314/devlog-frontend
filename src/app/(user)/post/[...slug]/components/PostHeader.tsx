@@ -4,6 +4,7 @@ import PostMeta from '@/components/Post/PostMeta';
 import TagView from '@/components/TagView';
 import { Label } from '@/components/ui/label';
 import { Post } from '@/types/type';
+import Link from 'next/link';
 
 export default async function PostHeader({ title, path, userId, created_at, auth_cd }: Post) {
 	const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/tag?path=${path}`);
@@ -19,9 +20,11 @@ export default async function PostHeader({ title, path, userId, created_at, auth
 			<div className="flex flex-row justify-between items-center mb-4">
 				<div className="flex flex-row gap-6 items-center">
 					{/* 사용자 */}
-					<Label className="font-bold text-lg">{userId}</Label>
+					<Link href={`/@${userId}`}>
+						<Label className="font-bold text-lg cursor-pointer hover:underline">{userId}</Label>
+					</Link>
 					{/* 날짜 */}
-					<PostMeta className="text-lg text-neutral-500" date={created_at} />
+					<PostMeta className="text-neutral-500 text-lg" date={created_at} />
 					{/* 공개/비공개 */}
 					{auth_cd === 'PRIVATE' && <LockBadge />}
 				</div>

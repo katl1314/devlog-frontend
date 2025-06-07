@@ -15,12 +15,12 @@ export const metadata: Metadata = {
 	description: 'Devs.log 페이지 입니다.'
 };
 
-interface RootLayout {
+interface IRootLayout {
 	children: React.ReactNode;
 	modal: React.ReactNode;
 }
 
-export default async function RootLayout({ children, modal }: Readonly<RootLayout>) {
+export default async function RootLayout({ children, modal }: Readonly<IRootLayout>) {
 	const supabase = await createClientByServer();
 	const session = await supabase.auth.getUser();
 	const id = session.data.user?.id;

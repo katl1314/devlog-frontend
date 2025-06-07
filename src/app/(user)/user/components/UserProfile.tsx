@@ -6,7 +6,7 @@ export default function UserProfile({ userId, username, avatar_url, description 
 	return (
 		<>
 			<div className="flex flex-row items-center gap-4">
-				<div className="w-[80px] h-[80px] lg:w-[130px] lg:h-[130px] relative">
+				<div className="w-[80px] h-[80px] lg:w-[128px] lg:h-[128px] relative">
 					<Image src={avatar_url!} alt={`${userId}의 프로필사진`} fill className="rounded-[50%]" />
 				</div>
 				<div className="flex flex-col justify-between gap-3">
