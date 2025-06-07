@@ -15,7 +15,7 @@ export default async function PostHeader({ title, path, userId, created_at, auth
 	const tags = (data as { name: string }[]).map(({ name }) => name);
 
 	return (
-		<div className="mb-6">
+		<div className="mb-4">
 			<div className="text-5xl font-bold mb-4">{title}</div>
 			<div className="flex flex-row justify-between items-center mb-4">
 				<div className="flex flex-row gap-6 items-center">

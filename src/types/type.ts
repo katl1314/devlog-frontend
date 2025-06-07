@@ -2,6 +2,7 @@ import { Database } from '../../database.types';
 
 export type User = Partial<Database['public']['Tables']['profiles']['Row']>;
 export type Post = Database['public']['Tables']['posts']['Row'];
+export type Comments = Database['public']['Tables']['comments']['Row'];
 
 export interface FetchPostsResponse {
 	posts: Post[];

@@ -62,6 +62,54 @@ export type Database = {
           },
         ]
       }
+      comments: {
+        Row: {
+          comments: string
+          created_at: string
+          deleted_at: string | null
+          id: number
+          path: string
+          pid: number | null
+          updated_at: string | null
+          userId: string
+        }
+        Insert: {
+          comments: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          path: string
+          pid?: number | null
+          updated_at?: string | null
+          userId: string
+        }
+        Update: {
+          comments?: string
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          path?: string
+          pid?: number | null
+          updated_at?: string | null
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_path_fkey"
+            columns: ["path"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["path"]
+          },
+          {
+            foreignKeyName: "comments_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["userId"]
+          },
+        ]
+      }
       posts: {
         Row: {
           auth_cd: string
@@ -109,15 +157,15 @@ export type Database = {
       posts_tag: {
         Row: {
           path: string
-          tagId: number
+          tag_id: number
         }
         Insert: {
           path: string
-          tagId: number
+          tag_id: number
         }
         Update: {
           path?: string
-          tagId?: number
+          tag_id?: number
         }
         Relationships: [
           {
@@ -129,7 +177,7 @@ export type Database = {
           },
           {
             foreignKeyName: "posts_tag_tag_id_fkey"
-            columns: ["tagId"]
+            columns: ["tag_id"]
             isOneToOne: false
             referencedRelation: "tag"
             referencedColumns: ["tag_id"]

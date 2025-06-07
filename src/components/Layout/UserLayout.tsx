@@ -7,5 +7,5 @@ interface IUserLayout {
 }
 
 export default function UserLayout({ children, className }: IUserLayout) {
-	return <div className={cn('lg:mt-16 px-2 xl:px-[200px] 2xl:px-[400px]', className)}>{children}</div>;
+	return <div className={cn('lg:mt-16 px-2 xl:px-[200px] 2xl:px-[420px]', className)}>{children}</div>;
 }

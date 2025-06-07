@@ -125,3 +125,34 @@ const saveHashTags = async (tags: string[], path: string) => {
 
 	return true;
 };
+
+// 댓글 추가
+export const saveComments = async (_: unknown, formData: FormData) => {
+	try {
+		const supabase = await createClientByServer();
+
+		const auth = await supabase.auth.getUser();
+		if (auth.error) throw new Error(auth.error.message);
+
+		const user = await supabase.from('profiles').select('userId').eq('id', auth.data.user.id).single();
+
+		if (user.error) throw new Error(user.error.message);
+
+		const pid = formData.get('pid')?.toString() || null; // null이면 루트로 간주합니다.
+		const path = formData.get('path')?.toString();
+		const userId = user.data?.userId;
+		const comments = formData.get('comments')?.toString();
+
+		const { error } = await supabase.from('comments').insert({ pid, path, userId, comments });
+
+		if (error) throw new Error(error.message);
+
+		return { status: 'OK' };
+	} catch (err: unknown) {
+		return { status: 'ERROR', message: (err as Error).message };
+	}
+};
+
+// 댓글 삭제
+
+// 댓글 수정
