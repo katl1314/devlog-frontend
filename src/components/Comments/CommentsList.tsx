@@ -1,5 +1,7 @@
 import { Comments } from '@/types/type';
+import { CommentItem } from './CommentItem';
 
 export default function CommentsList({ data }: { data: Comments[] }) {
-	return <div className="mt-10"></div>;
+	// 먼저 루트 댓글만 보여준다.
+	return <div className="mt-10">{data.map(data => !data.pid && <CommentItem key={data.id} {...data} />)}</div>;
 }
