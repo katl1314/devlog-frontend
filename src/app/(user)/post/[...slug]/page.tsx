@@ -2,7 +2,6 @@ import { createClientByBrowser } from '@/utils/supabase/client';
 import PostBody from './components/PostBody';
 import PostFooter from './components/PostFooter';
 import PostHeader from './components/PostHeader';
-// import { Post } from '@/types/type';
 import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {

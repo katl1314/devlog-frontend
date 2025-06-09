@@ -1,34 +1,53 @@
-import { createClientByServer } from '@/utils/supabase/server';
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Comments as TComments } from '@/types/type';
 import CommentFooter from './CommentFooter';
+import { Separator } from '../ui/separator';
+import { useEffect, useState } from 'react';
+import { createClientByBrowser } from '@/utils/supabase/client';
 
-export async function CommentItem(comment: TComments) {
-	const supabase = await createClientByServer();
-	const { comments, userId, id } = comment;
-	const profile = await supabase.from('profiles').select('avatar_url').eq('userId', userId).single();
-	if (profile.error) throw new Error('사용자 정보를 불러오는 중 에러가 발생함.');
-
-	const childComments = await supabase.from('comments').select().eq('pid', id);
+export default function CommentItem(comment: TComments) {
+	const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+	useEffect(() => {
+		const supabase = createClientByBrowser();
+		supabase
+			.from('profiles')
+			.select('avatar_url')
+			.eq('userId', comment.userId)
+			.single()
+			.then(({ data }) => {
+				setAvatarUrl(data?.avatar_url);
+			});
+	}, [comment.userId]);
 
 	return (
 		<div className="mt-6">
-			<CommentHeader {...comment} avatar_url={profile.data?.avatar_url} />
-			<CommentBody comments={comments} />
-			<CommentFooter {...comment} data={childComments.data as TComments[]} />
+			<CommentHeader {...comment} avatar_url={avatarUrl} />
+			<div className="my-[18px]">{comment.comments}</div>
+			<CommentFooter {...comment} />
+			<Separator />
 		</div>
 	);
 }
 
-export function CommentHeader({ userId, avatar_url, created_at }: TComments & { avatar_url: string }) {
+export function CommentHeader({
+	userId,
+	avatar_url,
+	created_at
+}: TComments & { avatar_url?: string | null | undefined }) {
+	console.log(avatar_url);
+
 	return (
 		<div className="flex flex-row items-center justify-between mb-6">
 			<div className="flex flex-row gap-3 items-center">
 				<div className="relative w-[60px] h-[60px]">
-					<Link href={`/@${userId}`}>
-						<Image src={avatar_url} alt="이미지" fill className="rounded-[50%]"></Image>
-					</Link>
+					{avatar_url && (
+						<Link href={`/@${userId}`}>
+							<Image src={avatar_url} alt="이미지" fill className="rounded-[50%]"></Image>
+						</Link>
+					)}
 				</div>
 				<div>
 					<div className="font-bold">{userId}</div>
@@ -41,8 +60,4 @@ export function CommentHeader({ userId, avatar_url, created_at }: TComments & { 
 			</div>
 		</div>
 	);
-}
-
-export function CommentBody({ comments }: { comments: string }) {
-	return <div className="my-[18px]">{comments}</div>;
 }
