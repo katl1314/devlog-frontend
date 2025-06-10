@@ -7,6 +7,7 @@ import CommentFooter from './CommentFooter';
 import { Separator } from '../ui/separator';
 import { useEffect, useState } from 'react';
 import { createClientByBrowser } from '@/utils/supabase/client';
+import PostMeta from '@/components/Post/PostMeta';
 
 // 일단 대댓글은 2depth까지 보여준다.
 export default function CommentItem(comment: TComments) {
@@ -50,7 +51,7 @@ export function CommentHeader({
 				</div>
 				<div>
 					<div className="font-bold">{userId}</div>
-					<div>{created_at}</div>
+					<PostMeta date={created_at} />
 				</div>
 			</div>
 			<div className="flex flex-row items-center gap-2">
