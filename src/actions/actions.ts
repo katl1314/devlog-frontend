@@ -142,8 +142,9 @@ export const saveComments = async (_: unknown, formData: FormData) => {
 		const path = formData.get('path')?.toString();
 		const userId = user.data?.userId;
 		const comments = formData.get('comments')?.toString();
+		const level = formData.get('level')?.toString();
 
-		const { error } = await supabase.from('comments').insert({ pid, path, userId, comments });
+		const { error } = await supabase.from('comments').insert({ pid, path, userId, comments, level });
 
 		if (error) throw new Error(error.message);
 

@@ -8,6 +8,7 @@ import { Separator } from '../ui/separator';
 import { useEffect, useState } from 'react';
 import { createClientByBrowser } from '@/utils/supabase/client';
 
+// 일단 대댓글은 2depth까지 보여준다.
 export default function CommentItem(comment: TComments) {
 	const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 	useEffect(() => {
@@ -26,7 +27,7 @@ export default function CommentItem(comment: TComments) {
 		<div className="mt-6">
 			<CommentHeader {...comment} avatar_url={avatarUrl} />
 			<div className="my-[18px]">{comment.comments}</div>
-			<CommentFooter {...comment} />
+			{ (comment.level ?? 0) < 1 && <CommentFooter {...comment} /> }
 			<Separator />
 		</div>
 	);
@@ -37,8 +38,6 @@ export function CommentHeader({
 	avatar_url,
 	created_at
 }: TComments & { avatar_url?: string | null | undefined }) {
-	console.log(avatar_url);
-
 	return (
 		<div className="flex flex-row items-center justify-between mb-6">
 			<div className="flex flex-row gap-3 items-center">

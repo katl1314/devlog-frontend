@@ -8,10 +8,10 @@ import { useEffect, useState } from 'react';
 import { createClientByBrowser } from '@/utils/supabase/client';
 
 // 클라이언트 컴포넌트에서 서버 컴포넌트 API를 사용하면 에러가 발생한다.
-export default function CommentFooter({ path, id }: TComments) {
+export default function CommentFooter({ path, id, level }: TComments) {
 	const [open, setOpen] = useState(false);
 	const [comments, setComments] = useState<TComments[]>([]);
-	console.log(id);
+
 	useEffect(() => {
 		if (open) {
 			const supabase = createClientByBrowser();
@@ -25,6 +25,7 @@ export default function CommentFooter({ path, id }: TComments) {
 				});
 		}
 	}, [open, id]);
+
 	return (
 		<div className="my-6">
 			<div className="inline-block text-green-700 font-bold cursor-pointer" onClick={() => setOpen(prev => !prev)}>
@@ -35,10 +36,10 @@ export default function CommentFooter({ path, id }: TComments) {
 				)}
 				<span>{open ? '숨기기' : '답글 달기'}</span>
 			</div>
-			{open && (
+			{open &&  (
 				<div className="mt-6 ml-15">
 					<CommentsList data={comments} />
-					<Comments path={path} pid={id} />
+					<Comments path={path} pid={id} level={level} />
 				</div>
 			)}
 		</div>

@@ -5,15 +5,17 @@ import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { saveComments } from '@/actions/actions';
 
-export default function Comments({ path, pid }: { path: string; pid?: number | undefined | null }) {
+export default function Comments({ path, pid, level }: { path: string; pid?: number | undefined | null, level?: number | undefined | null }) {
 	const [comments, setComments] = useState('');
 	const [_, formAction, isPending] = useActionState(saveComments, { message: '', status: '' });
+
 
 	function handleSubmit() {
 		const formData = new FormData();
 		formData.set('path', path);
 		formData.set('comments', comments);
 		formData.set('pid', `${pid ?? ''}`); // 부모 댓글의 id를 의미한다.
+		formData.set('level', `${(level ?? -1) + 1}`);
 
 		startTransition(() => {
 			formAction(formData);

@@ -68,6 +68,7 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           id: number
+          level: number | null
           path: string
           pid: number | null
           updated_at: string | null
@@ -78,6 +79,7 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           id?: number
+          level?: number | null
           path: string
           pid?: number | null
           updated_at?: string | null
@@ -88,6 +90,7 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           id?: number
+          level?: number | null
           path?: string
           pid?: number | null
           updated_at?: string | null
