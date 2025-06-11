@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
 	const supabase = await createClientByServer();
 
 	let posts;
+	const comments = await supabase.from('comments').select();
 
 	if (searchParams.size < 1) {
 		// 모든 포스트 조회
@@ -31,17 +32,29 @@ export async function GET(request: NextRequest) {
 	}
 
 	const { error, data } = posts;
+
 	if (error) {
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 
+	if (comments.error) {
+		return NextResponse.json({ error: comments.error.message }, { status: 500 });
+	}
+
 	// 썸네일
-	const resData = data.map(post => {
+	let resData = data.map(post => {
 		if (post.thumbnail) {
 			const { data } = supabase.storage.from('thumbnail').getPublicUrl(post.thumbnail);
 			return { ...post, thumbnail: data.publicUrl };
 		}
 		return post;
+	});
+
+	// 댓글 카운트
+	resData = resData.map(post => {
+		const path = post.path;
+		const commentCnt = comments.data.filter(d => d.path === path).length;
+		return { ...post, comments: commentCnt };
 	});
 
 	return NextResponse.json({ data: resData });

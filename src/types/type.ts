@@ -4,13 +4,14 @@ export type User = Partial<Database['public']['Tables']['profiles']['Row']>;
 export type Post = Database['public']['Tables']['posts']['Row'];
 export type Comments = Database['public']['Tables']['comments']['Row'];
 
+export type IPost = Post & { comments: number };
 export interface FetchPostsResponse {
-	posts: Post[];
+	posts: IPost[];
 	hasMore: boolean;
 }
 
 export interface FetchPostsResponseUser {
-	posts: Post[];
+	posts: IPost[];
 	hasMore: boolean;
 }
 

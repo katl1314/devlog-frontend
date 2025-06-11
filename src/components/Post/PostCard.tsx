@@ -4,10 +4,10 @@ import PostMeta from './PostMeta';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
-import type { Post } from '@/types/type';
+import type { IPost } from '@/types/type';
 import { AiFillLike } from 'react-icons/ai';
 
-export default function PostCard({ path, title, created_at, thumbnail, summary, userId }: Post) {
+export default function PostCard({ path, title, created_at, thumbnail, summary, userId, comments }: IPost) {
 	return (
 		<Card>
 			<Link href={path}>
@@ -18,7 +18,7 @@ export default function PostCard({ path, title, created_at, thumbnail, summary, 
 				<CardContent className="flex flex-col h-[120px] justify-end px-2">
 					<div className="flex flex-row gap-3 py-3 text-neutral-500">
 						<PostMeta date={created_at} />
-						<Label>{0}개의 댓글</Label>
+						<Label>{comments}개의 댓글</Label>
 						<Label>
 							<AiFillLike />
 							{0}

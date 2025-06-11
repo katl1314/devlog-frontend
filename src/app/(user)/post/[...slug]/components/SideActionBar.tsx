@@ -1,6 +1,8 @@
+import { IPost } from '@/types/type';
+import Link from 'next/link';
 import { GoHeart, GoComment, GoShareAndroid, GoBookmark } from 'react-icons/go';
 
-export default function SideActionBar() {
+export default function SideActionBar({ comments }: IPost) {
 	return (
 		<div className="hidden lg:block sticky top-[20px]">
 			<div className="absolute left-[-100px]">
@@ -11,12 +13,14 @@ export default function SideActionBar() {
 						</div>
 						<div>{0}</div>
 					</div>
-					<div className="flex flex-col items-center gap-1">
-						<div className="rounded-[50%] border-1 p-3 cursor-pointer group  bg-neutral-100 hover:bg-neutral-200">
-							<GoComment size={24} fill="black" />
+					<Link href="#comments">
+						<div className="flex flex-col items-center gap-1">
+							<div className="rounded-[50%] border-1 p-3 cursor-pointer group  bg-neutral-100 hover:bg-neutral-200">
+								<GoComment size={24} fill="black" />
+							</div>
+							<div>{comments}</div>
 						</div>
-						<div>{0}</div>
-					</div>
+					</Link>
 					<div className="flex flex-col items-center gap-1">
 						<div className="rounded-[50%] border-1 p-3 cursor-pointer group  bg-neutral-100 hover:bg-neutral-200">
 							<GoBookmark size={24} fill="black" />
