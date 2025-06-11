@@ -13,19 +13,17 @@ export default function CommentFooter({ path, id, level }: TComments) {
 	const [comments, setComments] = useState<TComments[]>([]);
 
 	useEffect(() => {
-		if (open) {
-			const supabase = createClientByBrowser();
-			// 열려있을때 데이터를 가져온다.
-			supabase
-				.from('comments')
-				.select()
-				.eq('pid', id)
-				.then(children => {
-					setComments(children.data as TComments[]);
-				});
-		}
-	}, [open, id]);
-
+		const supabase = createClientByBrowser();
+		// 열려있을때 데이터를 가져온다.
+		supabase
+			.from('comments')
+			.select()
+			.eq('pid', id)
+			.then(children => {
+				setComments(children.data as TComments[]);
+			});
+	}, [id]);
+	console.log(comments);
 	return (
 		<div className="my-6">
 			<div className="inline-block text-green-700 font-bold cursor-pointer" onClick={() => setOpen(prev => !prev)}>
@@ -34,9 +32,11 @@ export default function CommentFooter({ path, id, level }: TComments) {
 				) : (
 					<CiSquarePlus size={20} className="inline-block mr-1" fill="green" />
 				)}
-				<span>{open ? '숨기기' : '답글 달기'}</span>
+				<span className="align-middle">
+					{open ? '숨기기' : comments.length > 0 ? `${comments.length}개의 답변` : `답글 달기`}
+				</span>
 			</div>
-			{open &&  (
+			{open && (
 				<div className="mt-6 ml-15">
 					<CommentsList data={comments} />
 					<Comments path={path} pid={id} level={level} />

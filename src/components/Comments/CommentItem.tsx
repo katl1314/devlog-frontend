@@ -27,7 +27,7 @@ export default function CommentItem(comment: TComments) {
 	return (
 		<div className="mt-6">
 			<CommentHeader {...comment} avatar_url={avatarUrl} />
-			<div className="my-[18px]">{comment.comments}</div>
+			<div className="my-4">{comment.comments}</div>
 			{ (comment.level ?? 0) < 1 && <CommentFooter {...comment} /> }
 			<Separator />
 		</div>
