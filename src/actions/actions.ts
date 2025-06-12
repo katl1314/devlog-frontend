@@ -144,6 +144,8 @@ export const saveComments = async (_: unknown, formData: FormData) => {
 		const comments = formData.get('comments')?.toString();
 		const level = formData.get('level')?.toString();
 
+		if (comments === '') throw new Error('댓글을 입력하세요.');
+
 		const { error } = await supabase.from('comments').insert({ pid, path, userId, comments, level });
 
 		if (error) throw new Error(error.message);

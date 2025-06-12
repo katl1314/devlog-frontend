@@ -1,16 +1,44 @@
 'use client';
 
-import { ChangeEventHandler, startTransition, useActionState, useState } from 'react';
+import { ChangeEventHandler, FormEvent, startTransition, useActionState, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { saveComments } from '@/actions/actions';
+import { GoAlert } from 'react-icons/go';
+import { toast } from 'sonner';
+import { useRouter, usePathname, redirect } from 'next/navigation';
 
-export default function Comments({ path, pid, level }: { path: string; pid?: number | undefined | null, level?: number | undefined | null }) {
+export default function Comments({
+	path,
+	pid,
+	level
+}: {
+	path: string;
+	pid?: number | undefined | null;
+	level?: number | undefined | null;
+}) {
 	const [comments, setComments] = useState('');
-	const [_, formAction, isPending] = useActionState(saveComments, { message: '', status: '' });
+	const [state, formAction, isPending] = useActionState(saveComments, { message: '', status: '' });
 
+	useEffect(() => {
+		const { status, message } = state;
+		if (status === 'ERROR') {
+			toast(message, {
+				position: 'top-right',
+				duration: 2000,
+				icon: <GoAlert />
+			});
+			return;
+		}
 
-	function handleSubmit() {
+		if (status === 'OK') {
+			// 성공
+			location.reload();
+		}
+	}, [state]);
+
+	function handleSubmit(ev: FormEvent) {
+		ev.preventDefault();
 		const formData = new FormData();
 		formData.set('path', path);
 		formData.set('comments', comments);

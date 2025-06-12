@@ -28,9 +28,9 @@ export default function PostEditor() {
 	const { userId } = useProfile();
 
 	useEffect(() => {
-		console.log(state?.status);
-		if (state?.status == 'ERROR') {
-			toast(state.message, {
+		const { status, message } = state;
+		if (status == 'ERROR') {
+			toast(message, {
 				position: 'top-right',
 				duration: 2000,
 				icon: <GoAlert />
@@ -38,11 +38,11 @@ export default function PostEditor() {
 			return;
 		}
 
-		if (state?.status === 'OK') {
+		if (status === 'OK') {
 			setReset();
-			redirect('/');
+			redirect('/'); // 생성된 페이지로 리다이렉트가 되어야한다.
 		}
-	}, [state]);
+	}, [state, setReset]);
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = function (ev) {
 		const error = validatePost({ title, content });

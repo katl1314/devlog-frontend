@@ -1,12 +1,12 @@
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
-import type { Post } from '@/types/type';
+import type { IPost } from '@/types/type';
 import PostMeta from '@/components/Post/PostMeta';
 import Thumbnail from './Thumbnail';
 import { Label } from '@/components/ui/label';
 import { AiFillLike } from 'react-icons/ai';
 
-export default function PostCard({ thumbnail, path, title, created_at, summary }: Post) {
+export default function PostCard({ thumbnail, path, title, created_at, summary, comments }: IPost) {
 	return (
 		<div className="mb-4">
 			<Link href={`./${path}`}>
@@ -15,7 +15,7 @@ export default function PostCard({ thumbnail, path, title, created_at, summary }
 					<PostDescription title={title} summary={summary} />
 					<div className="flex flex-row gap-3 py-3 text-neutral-500">
 						<PostMeta date={created_at} />
-						<Label>{0}개의 댓글</Label>
+						<Label>{comments}개의 댓글</Label>
 						<Label>
 							<AiFillLike />
 							{0}
