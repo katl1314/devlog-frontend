@@ -12,7 +12,7 @@ export default async function PostFooter(post: Post) {
 		<div className="mt-5 mb-12" id="comments">
 			<div className="font-bold text-lg mb-4">{count}개의 댓글</div>
 			<Comments {...post} />
-			<CommentsList data={data as TComments[]} userId={post.userId} />
+			<CommentsList data={data as TComments[]} />
 		</div>
 	);
 }

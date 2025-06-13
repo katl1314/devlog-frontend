@@ -2,16 +2,15 @@
 
 import { Comments as TComments } from '@/types/type';
 import { CiSquareMinus, CiSquarePlus } from 'react-icons/ci';
-import CommentsList, { PostContext } from './CommentsList';
+import CommentsList from './CommentsList';
 import Comments from './Comments';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { createClientByBrowser } from '@/utils/supabase/client';
 
 // 클라이언트 컴포넌트에서 서버 컴포넌트 API를 사용하면 에러가 발생한다.
 export default function CommentFooter({ path, id, level }: TComments) {
 	const [open, setOpen] = useState(false);
 	const [comments, setComments] = useState<TComments[]>([]);
-	const { userId } = useContext(PostContext);
 
 	useEffect(() => {
 		const supabase = createClientByBrowser();
@@ -39,7 +38,7 @@ export default function CommentFooter({ path, id, level }: TComments) {
 			</div>
 			{open && (
 				<div className="mt-6 ml-5 lg:ml-15">
-					<CommentsList data={comments} userId={userId!} />
+					<CommentsList data={comments} />
 					<Comments path={path} pid={id} level={level} />
 				</div>
 			)}

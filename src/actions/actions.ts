@@ -157,5 +157,9 @@ export const saveComments = async (_: unknown, formData: FormData) => {
 };
 
 // 댓글 삭제
+export const deleteComments = async (id: number) => {
+	console.log(id);
+};
 
 // 댓글 수정
+export const updateComments = async (_: unknown, formData: FormData) => {};

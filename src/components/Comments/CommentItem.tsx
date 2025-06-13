@@ -9,13 +9,16 @@ import { useContext, useEffect, useState } from 'react';
 import { createClientByBrowser } from '@/utils/supabase/client';
 import PostMeta from '@/components/Post/PostMeta';
 import { useProfile } from '@/store/profile';
-import { PostContext } from './CommentsList';
+import { PostContext } from './ClientComments';
+import { deleteComments } from '@/actions/actions';
+import { ConfirmDialog } from '../Dialog/CustomDialog';
 
 // 일단 대댓글은 2depth까지 보여준다.
 export default function CommentItem(comment: TComments) {
 	const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-	const { userId } = useProfile();
-	const { userId: authorId } = useContext(PostContext); // post작성 사용자
+	const profile = useProfile();
+	const post = useContext(PostContext); // post작성 사용자
+
 	useEffect(() => {
 		const supabase = createClientByBrowser();
 		supabase
@@ -30,28 +33,29 @@ export default function CommentItem(comment: TComments) {
 
 	// 댓글 삭제 대상 : 포스트 게시자, 댓글 작성자
 	// 수정 자 : 댓글 작성자
-	const isEdit = userId === comment.userId;
-	const isDelete = !!authorId || isEdit;
+	const isEdit = profile.userId === comment.userId;
+	const isDelete = !!post.userId || isEdit;
 
 	return (
 		<div className="mt-6">
 			<CommentHeader {...comment} avatar_url={avatarUrl} isDelete={isDelete} isEdit={isEdit} />
 			<div className="my-4">{comment.comments}</div>
-			{(comment.level ?? 0) < 1 && <CommentFooter {...comment} />}
+			{(comment.level ?? 0) < 2 && <CommentFooter {...comment} />}
 			<Separator />
 		</div>
 	);
 }
 
-export function CommentHeader({
-	userId,
-	avatar_url,
-	created_at,
-	isEdit,
-	isDelete
-}: TComments & { avatar_url?: string | null | undefined; isEdit: boolean; isDelete: boolean }) {
+type ICommentHeader = TComments & { avatar_url?: string | null | undefined; isEdit: boolean; isDelete: boolean };
+
+export function CommentHeader({ userId, avatar_url, created_at, isEdit, isDelete, id }: ICommentHeader) {
+	const handleDeletComment = () => {
+		// 정말로 삭제하시겠습니까? 대댓글도 삭제 삭제데스!
+		deleteComments(id);
+	};
+
 	return (
-		<div className="flex flex-row items-center justify-between mb-6">
+		<div className="flex flex-row justify-between mb-6">
 			<div className="flex flex-row gap-3 items-center">
 				<div className="relative w-[60px] h-[60px]">
 					{avatar_url && (
@@ -65,9 +69,17 @@ export function CommentHeader({
 					<PostMeta date={created_at} />
 				</div>
 			</div>
-			<div className="flex flex-row items-center gap-2">
-				{isEdit && <div>수정</div>}
-				{isDelete && <div>삭제</div>}
+			<div className="text-sm text-neutral-500">
+				{isEdit && <span className="cursor-pointer">수정</span>}
+				{isDelete && (
+					<ConfirmDialog
+						title="댓글 삭제"
+						description="댓글을 정말로 삭제하시겠습니까?"
+						afterConfirm={handleDeletComment}
+					>
+						<span className="cursor-pointer ml-2">삭제</span>
+					</ConfirmDialog>
+				)}
 			</div>
 		</div>
 	);

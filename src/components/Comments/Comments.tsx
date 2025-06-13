@@ -1,12 +1,12 @@
 'use client';
 
-import { ChangeEventHandler, FormEvent, startTransition, useActionState, useEffect, useState } from 'react';
+import { ChangeEventHandler, startTransition, useActionState, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { saveComments } from '@/actions/actions';
 import { GoAlert } from 'react-icons/go';
 import { toast } from 'sonner';
-import { useRouter, usePathname, redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function Comments({
 	path,
@@ -19,6 +19,7 @@ export default function Comments({
 }) {
 	const [comments, setComments] = useState('');
 	const [state, formAction, isPending] = useActionState(saveComments, { message: '', status: '' });
+	const router = useRouter();
 
 	useEffect(() => {
 		const { status, message } = state;
@@ -30,15 +31,9 @@ export default function Comments({
 			});
 			return;
 		}
+	}, [state, router]);
 
-		if (status === 'OK') {
-			// 성공
-			location.reload();
-		}
-	}, [state]);
-
-	function handleSubmit(ev: FormEvent) {
-		ev.preventDefault();
+	function handleSubmit() {
 		const formData = new FormData();
 		formData.set('path', path);
 		formData.set('comments', comments);
@@ -58,7 +53,13 @@ export default function Comments({
 	return (
 		<div>
 			<form onSubmit={handleSubmit}>
-				<Textarea className="h-[72px] py-4" placeholder="댓글을 입력하세요." value={comments} onChange={handleChange} />
+				<Textarea
+					className="h-[72px] py-4"
+					placeholder="댓글을 입력하세요."
+					value={comments}
+					onChange={handleChange}
+					required
+				/>
 				<div className="flex flex-row justify-end my-6">
 					<Button type="submit" disabled={isPending}>
 						댓글 작성
