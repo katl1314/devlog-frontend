@@ -38,7 +38,6 @@ export const savePost = async (_: unknown, formData: FormData) => {
 		// 포스트 등록에 유효한 사용자인지 확인한다.
 		if ((user = await validateByUser(auth.data.user?.id))) {
 			const { title, content, visibility, file, path, summary, tags } = parseFormData(formData, { tags: 'object' });
-			console.log('path :::: ', title, content, visibility, file, path, summary, tags);
 
 			// 만약 중복된 path가 있으면 에러를 반환해야한다.
 			const { data } = await supabase.from('posts').select().eq('path', path);
@@ -163,3 +162,35 @@ export const deleteComments = async (id: number) => {
 
 // 댓글 수정
 export const updateComments = async (_: unknown, formData: FormData) => {};
+
+// 좋아요
+export const toggleLike = async (path: string) => {
+	try {
+		// 로그인 여부
+		const supabase = await createClientByServer();
+		const auth = await supabase.auth.getUser();
+
+		if (auth.error) throw new Error('로그인 정보가 없습니다.');
+
+		const profile = await supabase.from('profiles').select('userId').eq('id', auth.data.user.id).single();
+		const userId = profile.data?.userId;
+
+		// 만약 테이블에 값이 있으면 삭제, 없으면 추가
+		const { error, data } = await supabase.from('like').select().eq('path', path).eq('userId', userId);
+
+		if (error) throw new Error(error.message);
+
+		if (data.length > 0) {
+			// 삭제
+			await supabase.from('like').delete().eq('path', path).eq('userId', userId);
+		} else {
+			// 추가
+			const test = await supabase.from('like').insert({ path, userId });
+			console.log(test);
+		}
+
+		return { status: 'OK' };
+	} catch (err) {
+		return { status: 'ERROR', message: (err as Error).message };
+	}
+};

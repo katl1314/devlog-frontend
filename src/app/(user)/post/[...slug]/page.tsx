@@ -3,7 +3,7 @@ import PostBody from './components/PostBody';
 import PostFooter from './components/PostFooter';
 import PostHeader from './components/PostHeader';
 import { notFound } from 'next/navigation';
-import ClientComments from '@/components/Comments/ClientComments';
+import PostContextProvider from './components/PostContextProvider';
 
 export async function generateStaticParams() {
 	const supabase = createClientByBrowser();
@@ -36,10 +36,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
 	}
 
 	return (
-		<ClientComments userId={data.userId}>
+		<PostContextProvider userId={data.userId}>
 			<PostHeader {...data[0]} />
 			<PostBody {...data[0]} />
 			<PostFooter {...data[0]} />
-		</ClientComments>
+		</PostContextProvider>
 	);
 }

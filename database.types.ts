@@ -113,6 +113,39 @@ export type Database = {
           },
         ]
       }
+      like: {
+        Row: {
+          id: string
+          path: string
+          userId: string
+        }
+        Insert: {
+          id: string
+          path: string
+          userId: string
+        }
+        Update: {
+          id?: string
+          path?: string
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "like_path_fkey"
+            columns: ["path"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["path"]
+          },
+          {
+            foreignKeyName: "like_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["userId"]
+          },
+        ]
+      }
       posts: {
         Row: {
           auth_cd: string

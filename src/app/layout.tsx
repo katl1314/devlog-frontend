@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Inter_Tight } from 'next/font/google';
+import { Fira_Mono } from 'next/font/google';
 import { createClientByServer } from '@/utils/supabase/server';
 import UserInit from '@/components/UserInit';
 import { User } from '@/types/type';
 import { Toaster } from '@/components/ui/sonner';
 
-const inter = Inter_Tight({
+const inter = Fira_Mono({
+	weight: '400',
 	subsets: ['latin']
 });
 

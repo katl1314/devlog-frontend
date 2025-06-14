@@ -9,9 +9,9 @@ import { useContext, useEffect, useState } from 'react';
 import { createClientByBrowser } from '@/utils/supabase/client';
 import PostMeta from '@/components/Post/PostMeta';
 import { useProfile } from '@/store/profile';
-import { PostContext } from './ClientComments';
 import { deleteComments } from '@/actions/actions';
 import { ConfirmDialog } from '../Dialog/CustomDialog';
+import { PostContext } from '@/app/(user)/post/[...slug]/components/PostContextProvider';
 
 // 일단 대댓글은 2depth까지 보여준다.
 export default function CommentItem(comment: TComments) {
@@ -31,8 +31,6 @@ export default function CommentItem(comment: TComments) {
 			});
 	}, [comment.userId]);
 
-	// 댓글 삭제 대상 : 포스트 게시자, 댓글 작성자
-	// 수정 자 : 댓글 작성자
 	const isEdit = profile.userId === comment.userId;
 	const isDelete = !!post.userId || isEdit;
 
@@ -50,7 +48,6 @@ type ICommentHeader = TComments & { avatar_url?: string | null | undefined; isEd
 
 export function CommentHeader({ userId, avatar_url, created_at, isEdit, isDelete, id }: ICommentHeader) {
 	const handleDeletComment = () => {
-		// 정말로 삭제하시겠습니까? 대댓글도 삭제 삭제데스!
 		deleteComments(id);
 	};
 
