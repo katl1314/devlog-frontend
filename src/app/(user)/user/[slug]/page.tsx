@@ -2,7 +2,7 @@ import { createClientByBrowser } from '@/utils/supabase/client';
 import { Suspense } from 'react';
 import PostList from '../components/PostList';
 import { Metadata } from 'next';
-import PostCardSkeleton from '@/components/Skeleton/PostCardSkeleton';
+import PostSkeleton from '@/components/Skeleton/PostSkeleton';
 
 export async function generateStaticParams() {
 	const supabase = createClientByBrowser();
@@ -40,7 +40,7 @@ function PostFallback() {
 	return (
 		<div>
 			{Array.from({ length: 10 }).map((_, index) => {
-				return <PostCardSkeleton key={index} />;
+				return <PostSkeleton key={index} />;
 			})}
 		</div>
 	);

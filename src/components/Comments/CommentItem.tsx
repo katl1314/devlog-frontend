@@ -11,7 +11,7 @@ import PostMeta from '@/components/Post/PostMeta';
 import { useProfile } from '@/store/profile';
 import { deleteComments } from '@/actions/actions';
 import { ConfirmDialog } from '../Dialog/CustomDialog';
-import { PostContext } from '@/app/(user)/post/[...slug]/components/PostContextProvider';
+import { PostContext } from '@/components/Post/PostContextProvider';
 import { useRouter } from 'next/navigation';
 
 // 일단 대댓글은 2depth까지 보여준다.
@@ -75,7 +75,7 @@ export function CommentHeader({ userId, avatar_url, created_at, isEdit, isDelete
 					<PostMeta date={created_at} />
 				</div>
 			</div>
-			<div className="text-sm text-neutral-500">
+			<div className="text-neutral-500">
 				{isEdit && <span className="cursor-pointer">수정</span>}
 				{isDelete && (
 					<ConfirmDialog

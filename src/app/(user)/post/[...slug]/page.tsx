@@ -3,7 +3,7 @@ import PostBody from './components/PostBody';
 import PostFooter from './components/PostFooter';
 import PostHeader from './components/PostHeader';
 import { notFound } from 'next/navigation';
-import PostContextProvider from './components/PostContextProvider';
+import PostContextProvider from '../../../../components/Post/PostContextProvider';
 
 export async function generateStaticParams() {
 	const supabase = createClientByBrowser();
