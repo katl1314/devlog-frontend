@@ -1,6 +1,16 @@
 // src/lib/utils.ts
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+type DayjsArguType = Parameters<typeof dayjs>;
+
+export const dayjsWithTimezone = (...args: DayjsArguType) => dayjs(...args).tz('Asia/Seoul');
 
 export const cn = (...inputs: ClassValue[]) => {
 	return twMerge(clsx(inputs));

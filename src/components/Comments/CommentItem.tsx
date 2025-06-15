@@ -37,7 +37,7 @@ export default function CommentItem(comment: TComments) {
 	return (
 		<div className="mt-6">
 			<CommentHeader {...comment} avatar_url={avatarUrl} isDelete={isDelete} isEdit={isEdit} />
-			<div className="my-4">{comment.comments}</div>
+			<div className="my-6">{comment.comments}</div>
 			{(comment.level ?? 0) < 2 && <CommentFooter {...comment} />}
 			<Separator />
 		</div>
