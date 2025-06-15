@@ -12,6 +12,7 @@ import { useProfile } from '@/store/profile';
 import { deleteComments } from '@/actions/actions';
 import { ConfirmDialog } from '../Dialog/CustomDialog';
 import { PostContext } from '@/app/(user)/post/[...slug]/components/PostContextProvider';
+import { useRouter } from 'next/navigation';
 
 // 일단 대댓글은 2depth까지 보여준다.
 export default function CommentItem(comment: TComments) {
@@ -47,8 +48,16 @@ export default function CommentItem(comment: TComments) {
 type ICommentHeader = TComments & { avatar_url?: string | null | undefined; isEdit: boolean; isDelete: boolean };
 
 export function CommentHeader({ userId, avatar_url, created_at, isEdit, isDelete, id }: ICommentHeader) {
-	const handleDeletComment = () => {
-		deleteComments(id);
+	const router = useRouter();
+	const handleDeletComment = async () => {
+		const { status, message } = await deleteComments(id);
+
+		if (status === 'OK') {
+			router.refresh();
+			return;
+		}
+
+		alert(message); // 수정 필
 	};
 
 	return (

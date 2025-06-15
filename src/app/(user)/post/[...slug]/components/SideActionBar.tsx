@@ -23,7 +23,7 @@ export default function SideActionBar({ comments, like, path, isLike = false }: 
 	};
 
 	const LikeButton = isLiked ? (
-		<SideActionBarItem icons={<FaHeart size={24} fill="white" />} onClick={handleLike} className="bg-green-400">
+		<SideActionBarItem icons={<FaHeart size={24} fill="white" />} onClick={handleLike} className="bg-[#20c997]">
 			{nLike}
 		</SideActionBarItem>
 	) : (
@@ -54,10 +54,7 @@ export const SideActionBarItem = ({ children, icons, className, onClick }: SideA
 	return (
 		<div className="flex flex-col items-center gap-1">
 			<div
-				className={cn(
-					'rounded-[50%] border-1 p-3 cursor-pointer group bg-neutral-100  hover:bg-neutral-200',
-					className
-				)}
+				className={cn('rounded-[50%] border-1 p-3 cursor-pointer group bg-neutral-100  hover:opacity-60', className)}
 				onClick={onClick}
 			>
 				{icons}

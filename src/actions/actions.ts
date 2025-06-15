@@ -156,8 +156,21 @@ export const saveComments = async (_: unknown, formData: FormData) => {
 };
 
 // 댓글 삭제
+// pid를 id의 FK로 설정한다. CASCADE를 사용하여 연쇄적으로 삭제한다.
 export const deleteComments = async (id: number) => {
-	console.log(id);
+	try {
+		const supabase = await createClientByServer();
+		const auth = await supabase.auth.getUser();
+		// Soft Delete 고민
+		const comments = await supabase.from('comments').delete().eq('id', id);
+
+		if (auth.error) throw new Error(auth.error.message);
+		if (comments.error) throw new Error(comments.error.message);
+
+		return { status: 'OK' };
+	} catch (err: unknown) {
+		return { status: 'ERROR', message: (err as Error).message };
+	}
 };
 
 // 댓글 수정
