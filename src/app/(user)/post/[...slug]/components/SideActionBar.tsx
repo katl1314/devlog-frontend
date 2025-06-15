@@ -1,8 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { toggleLike } from '@/actions/actions';
 import { IPost } from '@/types/type';
-import Link from 'next/link';
 import { PropsWithChildren, ReactNode, useContext } from 'react';
 import { GoComment, GoShareAndroid, GoBookmark } from 'react-icons/go';
 import { FaHeart } from 'react-icons/fa';
