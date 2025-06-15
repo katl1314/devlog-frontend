@@ -3,23 +3,19 @@
 import { toggleLike } from '@/actions/actions';
 import { IPost } from '@/types/type';
 import Link from 'next/link';
-import { useState, PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactNode, useContext } from 'react';
 import { GoComment, GoShareAndroid, GoBookmark } from 'react-icons/go';
 import { FaHeart } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
+import { PostContext } from '@/components/Post/PostContextProvider';
 
-export default function SideActionBar({ comments, like, path, isLike = false }: IPost) {
-	const [isLiked, setIsLiked] = useState(isLike);
-	const [nLike, setLike] = useState(like);
+export default function SideActionBar({ comments, path }: IPost) {
+	const { isLiked, nLike, setIsLiked, setToggle } = useContext(PostContext);
 
 	const handleLike = async () => {
-		await toggleLike(path); // 로그인한 사람만 가능!
-		setIsLiked(!isLiked);
-		if (isLiked) {
-			setLike(nLike - 1);
-		} else {
-			setLike(nLike + 1);
-		}
+		await toggleLike(path);
+		setToggle?.('Y');
+		setIsLiked?.(!isLiked);
 	};
 
 	const LikeButton = isLiked ? (

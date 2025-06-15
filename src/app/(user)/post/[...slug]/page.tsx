@@ -1,9 +1,10 @@
-import { createClientByBrowser } from '@/utils/supabase/client';
 import PostBody from './components/PostBody';
 import PostFooter from './components/PostFooter';
 import PostHeader from './components/PostHeader';
-import { notFound } from 'next/navigation';
 import PostContextProvider from '../../../../components/Post/PostContextProvider';
+import { createClientByBrowser } from '@/utils/supabase/client';
+import { notFound } from 'next/navigation';
+import { createClientByServer } from '@/utils/supabase/server';
 
 export async function generateStaticParams() {
 	const supabase = createClientByBrowser();
@@ -20,9 +21,13 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string[] }> }) {
+	const supabase = await createClientByServer();
 	const { slug } = await params;
-	const path = `/@${slug[0]}/${slug[1]}`;
-	const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts?postId=${path}`);
+	const auth = await supabase.auth.getUser();
+	const id = auth.data.user?.id ?? '';
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts?postId=${`/@${slug[0]}/${slug[1]}`}&authId=${id}`
+	);
 
 	if (!res.ok) {
 		// error.tsx에서 처리해야한다.
@@ -35,11 +40,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
 		notFound();
 	}
 
+	const post = data[0];
+
 	return (
-		<PostContextProvider userId={data.userId}>
-			<PostHeader {...data[0]} />
-			<PostBody {...data[0]} />
-			<PostFooter {...data[0]} />
+		<PostContextProvider {...post}>
+			<PostHeader {...post} />
+			<PostBody {...post} />
+			<PostFooter {...post} />
 		</PostContextProvider>
 	);
 }
