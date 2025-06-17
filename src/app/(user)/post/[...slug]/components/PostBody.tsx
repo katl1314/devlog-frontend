@@ -4,6 +4,7 @@ import { createClientByServer } from '@/utils/supabase/server';
 import UserProfile from '@/app/(user)/user/components/UserProfile';
 import Thumbnail from '@/app/(user)/user/components/Thumbnail';
 import SideActionBar from './SideActionBar';
+import ToC from './ToC';
 
 export default async function PostBody(post: IPost) {
 	const supabase = await createClientByServer();
@@ -11,7 +12,8 @@ export default async function PostBody(post: IPost) {
 	return (
 		<div>
 			<SideActionBar {...post} />
-			<div>
+			<ToC />
+			<div id="content__entry_point">
 				<Thumbnail thumbnail={post.thumbnail} />
 				<ReactMarkdown>{post.content}</ReactMarkdown>
 			</div>

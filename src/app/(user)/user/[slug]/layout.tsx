@@ -1,9 +1,9 @@
-import { headers } from 'next/headers';
-import { createClientByServer } from '@/utils/supabase/server';
 import UserLayout from '@/components/Layout/UserLayout';
 import UserProfile from '../components/UserProfile';
 import UserProfileBottom from '../components/UserProfileBottom';
 import { Card } from '@/components/ui/card';
+import { headers } from 'next/headers';
+import { createClientByServer } from '@/utils/supabase/server';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const supabase = await createClientByServer();
