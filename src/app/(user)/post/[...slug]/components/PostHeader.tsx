@@ -30,7 +30,7 @@ export default async function PostHeader({ title, path, userId, created_at, auth
 					{auth_cd === 'PRIVATE' && <LockBadge />}
 				</div>
 				<div className="flex flex-row gap-2 items-center">
-					<Button value="팔로우" variant="outline" className="py-1" />
+					<Button value="팔로우" variant="outline" className="py-1 max-h-[32px] rounded-[10px] lg:px-5 lg:py-2" />
 					<LikeButton path={path} />
 				</div>
 			</div>

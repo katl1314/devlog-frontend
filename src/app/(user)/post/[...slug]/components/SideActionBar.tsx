@@ -29,7 +29,7 @@ export default function SideActionBar({ comments, path }: IPost) {
 	);
 
 	return (
-		<div className="hidden lg:block sticky top-[20px] text-neutral-500 ">
+		<div className="hidden lg:block sticky top-[20px] text-neutral-500">
 			<div className="absolute left-[-100px]">
 				<div className="flex flex-col gap-3">
 					{LikeButton}
