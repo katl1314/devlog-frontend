@@ -9,6 +9,7 @@ import CardLayout from '../Layout/CardLayout';
 
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFnc = async ({ pageParam = 0 }) => {
+	console.log(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts?pageParam=${pageParam}`);
 	const posts = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts?pageParam=${pageParam}`);
 
 	if (!posts.ok) {

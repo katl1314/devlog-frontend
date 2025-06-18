@@ -9,7 +9,6 @@ const levelClasses: { [name: string]: string } = {
 };
 
 export default function ToC() {
-	const [tocOpened, setTocOpened] = useState(false);
 	const [hTags, setHTags] = useState<[] | NodeListOf<HTMLElement>>([]);
 	const focusedTag = useRef<HTMLElement | null>(null);
 
@@ -18,13 +17,6 @@ export default function ToC() {
 		const entryPoint = document.querySelector('#content__entry_point');
 		const hTagsEl = entryPoint?.querySelectorAll('h1, h2, h3') as NodeListOf<HTMLElement>;
 		setHTags(hTagsEl);
-
-		const width = window.innerWidth;
-
-		// 페이지 너비가 1350px보다 크면 Toc는 보여지는 상태로 설정한다.
-		if (width >= 1350) {
-			setTocOpened(true);
-		}
 	}, []);
 
 	// hTags를 모두 찾을때 실행한다.
@@ -48,12 +40,45 @@ export default function ToC() {
 
 			listContainer?.appendChild(list);
 		});
+
+		setFocusedElement();
+
+		const findCurTagEvent = (window.onscroll = () => setFocusedElement());
+
+		function setFocusedElement() {
+			const mainContentOffset = 0.2;
+			const mainContentHeight = 155 + window.scrollY;
+
+			const mainTag = getMainElementAtMainContentHeight(mainContentHeight);
+			const focusedTocTag = hTagToTocElMapper.get(mainTag?.innerHTML);
+			focusedTag.current?.classList.remove('focused'); // 기존 노드에 대해서 focused 클래스를 삭제
+			focusedTocTag?.classList.add('focused'); // 다음 노드에 대해서 focused 클래스를 부여한다.
+			focusedTag.current = focusedTocTag ?? null;
+		}
+
+		function getMainElementAtMainContentHeight(mainContentHeight: number) {
+			let MT = hTags[0];
+
+			for (let i = 1; i < hTags.length; i++) {
+				const PT = hTags[i];
+				if (mainContentHeight < MT.offsetTop && mainContentHeight < PT.offsetTop) {
+					return MT;
+				} else if (MT.offsetTop < mainContentHeight && mainContentHeight <= PT.offsetTop) {
+					return MT;
+				} else {
+					MT = PT;
+				}
+			}
+			return MT;
+		}
+
+		// 스크롤 이벤트 클린업 => 언마운트시 실행한다.
+		return findCurTagEvent;
 	}, [hTags]);
 
 	return (
 		<div className="hidden lg:block sticky top-[20px] text-neutral-500">
 			<div className="absolute right-[-150px]">
-				<div onClick={() => setTocOpened(prev => !prev)}>{/* <ListIcon size="25px" /> */}</div>
 				{hTags.length > 0 && (
 					<div className="border-l-1 border-l-[#e5e5e5] pl-[10px]">
 						<nav>

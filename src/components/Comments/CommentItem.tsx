@@ -33,7 +33,7 @@ export default function CommentItem(comment: TComments) {
 	}, [comment.userId]);
 
 	const isEdit = profile.userId === comment.userId;
-	const isDelete = !!post.userId || isEdit;
+	const isDelete = !!post.userId && isEdit;
 
 	return (
 		<div className="mt-6">
