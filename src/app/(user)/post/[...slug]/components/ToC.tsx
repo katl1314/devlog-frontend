@@ -46,8 +46,8 @@ export default function ToC() {
 		const findCurTagEvent = (window.onscroll = () => setFocusedElement());
 
 		function setFocusedElement() {
-			const mainContentOffset = 0.2;
-			const mainContentHeight = 155 + window.scrollY;
+			const content = document.querySelector('#content__entry_point') as HTMLElement;
+			const mainContentHeight = content.offsetHeight + window.scrollY;
 
 			const mainTag = getMainElementAtMainContentHeight(mainContentHeight);
 			const focusedTocTag = hTagToTocElMapper.get(mainTag?.innerHTML);
@@ -78,7 +78,7 @@ export default function ToC() {
 
 	return (
 		<div className="hidden lg:block sticky top-[20px] text-neutral-500">
-			<div className="absolute right-[-150px]">
+			<div className="absolute right-[-150px] max-w-[100px] min-w-[100px]">
 				{hTags.length > 0 && (
 					<div className="border-l-1 border-l-[#e5e5e5] pl-[10px]">
 						<nav>
