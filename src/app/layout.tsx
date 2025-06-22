@@ -5,6 +5,8 @@ import { createClientByServer } from '@/utils/supabase/server';
 import UserInit from '@/components/UserInit';
 import { User } from '@/types/type';
 import { Toaster } from '@/components/ui/sonner';
+import ThemeProvider from '@/components/ThemeProvider';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const inter = Fira_Mono({
 	weight: '400',
@@ -30,7 +32,9 @@ export default async function RootLayout({ children, modal }: Readonly<IRootLayo
 	return (
 		<UserInit user={user.data as User}>
 			<html lang="ko">
-				<body className={`${inter.className} relative `}>
+				<body className={`${inter.className} relative`}>
+					<ThemeToggle />
+					<ThemeProvider />
 					{children}
 					{modal}
 					<div id="modal" className="absolute top-0"></div>

@@ -185,7 +185,8 @@ a {
 	transition-timing-function: linear;
 }
 
-.tablayout {
+head,
+body {
 	background-color: var(--background);
 }
 

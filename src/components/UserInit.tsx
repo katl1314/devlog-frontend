@@ -1,7 +1,7 @@
 'use client';
 import { useProfile } from '@/store/profile';
 import { User } from '@/types/type';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface IUserInit {
 	children: React.ReactNode;
