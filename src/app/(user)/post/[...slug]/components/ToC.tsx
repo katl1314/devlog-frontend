@@ -47,13 +47,15 @@ export default function ToC() {
 
 		function setFocusedElement() {
 			const content = document.querySelector('#content__entry_point') as HTMLElement;
-			const mainContentHeight = content.offsetHeight + window.scrollY;
+			if (content) {
+				const mainContentHeight = content.offsetHeight + window.scrollY;
 
-			const mainTag = getMainElementAtMainContentHeight(mainContentHeight);
-			const focusedTocTag = hTagToTocElMapper.get(mainTag?.innerHTML);
-			focusedTag.current?.classList.remove('focused'); // 기존 노드에 대해서 focused 클래스를 삭제
-			focusedTocTag?.classList.add('focused'); // 다음 노드에 대해서 focused 클래스를 부여한다.
-			focusedTag.current = focusedTocTag ?? null;
+				const mainTag = getMainElementAtMainContentHeight(mainContentHeight);
+				const focusedTocTag = hTagToTocElMapper.get(mainTag?.innerHTML);
+				focusedTag.current?.classList.remove('focused'); // 기존 노드에 대해서 focused 클래스를 삭제
+				focusedTocTag?.classList.add('focused'); // 다음 노드에 대해서 focused 클래스를 부여한다.
+				focusedTag.current = focusedTocTag ?? null;
+			}
 		}
 
 		function getMainElementAtMainContentHeight(mainContentHeight: number) {

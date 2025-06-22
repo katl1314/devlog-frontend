@@ -26,10 +26,11 @@ export default async function RootLayout({ children, modal }: Readonly<IRootLayo
 	const session = await supabase.auth.getUser();
 	const id = session.data.user?.id;
 	const user = await supabase.from('profiles').select().match({ id }).single();
+
 	return (
 		<UserInit user={user.data as User}>
 			<html lang="ko">
-				<body className={`${inter.className} relative`}>
+				<body className={`${inter.className} relative `}>
 					{children}
 					{modal}
 					<div id="modal" className="absolute top-0"></div>

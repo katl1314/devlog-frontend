@@ -22,7 +22,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 
 	return (
 		<>
-			<TabLayout>
+			<TabLayout className="tablayout">
 				<TabView showOption={true}>
 					<Tabs items={data as TabItem[]} icons={icons} defaultPath="/trends" />
 				</TabView>
