@@ -21,7 +21,7 @@ export default function NotLoginButton() {
 		<>
 			<Button onClick={handleSignUp} value="로그인" />
 			{open && (
-				<CustomModal afterCloseModal={handleAfterCloseModal} className="lg:w-[35%] lg:mt-[15%]">
+				<CustomModal afterCloseModal={handleAfterCloseModal} className="lg:w-[35%] mt-[35%] lg:mt-[15%]">
 					<AuthForm />
 				</CustomModal>
 			)}
