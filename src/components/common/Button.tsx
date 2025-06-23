@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ButtonHTMLAttributes } from 'react';
-import { Button as CustomButton, buttonVariants } from './ui/button';
+import { Button as CustomButton, buttonVariants } from '../ui/button';
 import { VariantProps } from 'class-variance-authority';
 
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {

@@ -7,7 +7,7 @@ import { PropsWithChildren, ReactNode, useContext } from 'react';
 import { GoComment, GoShareAndroid, GoBookmark } from 'react-icons/go';
 import { FaHeart } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
-import { PostContext } from '@/components/Post/PostContextProvider';
+import { PostContext } from '@/components/post/PostContextProvider';
 
 export default function SideActionBar({ comments, path }: IPost) {
 	const { isLiked, nLike, setIsLiked, setToggle } = useContext(PostContext);

@@ -1,6 +1,6 @@
-import QueryProvider from '@/components/QueryProvider';
-import Header from '@/components/Layout/Header';
-import PageLayout from '@/components/Layout/PageLayout';
+import QueryProvider from '@/components/state/QueryProvider';
+import Header from '@/components/layout/Header';
+import PageLayout from '@/components/layout/PageLayout';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	return (

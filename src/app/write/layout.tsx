@@ -1,4 +1,4 @@
-import PostLayout from '@/components/Layout/PostLayout';
+import PostLayout from '@/components/layout/PostLayout';
 import React from 'react';
 import './write.css';
 

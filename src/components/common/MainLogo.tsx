@@ -3,7 +3,7 @@ import { useTheme } from '@/store/theme';
 
 export default function MainLogo() {
 	const { theme } = useTheme();
-	const textColor = theme ? '#ffffff' : '#373643';
+	const textColor = theme === 'dark' ? '#ffffff' : '#373643';
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"

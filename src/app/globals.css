@@ -76,6 +76,8 @@ a {
 	--sidebar-ring: oklch(0.708 0 0);
 
 	--skeleton-bg: oklch(0.9401 0 0);
+	--toggle-bg: oklch(0.708 0 0);
+	--toggle-hover-bg: oklch(0.8294 0 0);
 }
 /*
   ---break---
@@ -115,6 +117,8 @@ a {
 	--sidebar-ring: oklch(0.439 0 0);
 
 	--skeleton-bg: oklch(0.4 0 153.53);
+	--toggle-bg: oklch(0.9401 0 0);
+	--toggle-hover-bg: oklch(0.3249 0 0);
 
 	div.tabview > .active {
 		color: oklch(70.5% 0.015 286.067);
@@ -187,6 +191,10 @@ a {
 
 head,
 body {
+	background-color: var(--background);
+}
+
+.tablayout {
 	background-color: var(--background);
 }
 

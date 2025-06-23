@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Fira_Mono } from 'next/font/google';
 import { createClientByServer } from '@/utils/supabase/server';
-import UserInit from '@/components/UserInit';
+import UserInit from '@/components/state/UserInit';
 import { User } from '@/types/type';
 import { Toaster } from '@/components/ui/sonner';
-import ThemeProvider from '@/components/ThemeProvider';
-import ThemeToggle from '@/components/ThemeToggle';
+import ThemeProvider from '@/components/theme/ThemeProvider';
+import ThemeToggle from '@/components/theme/ThemeToggle';
 
 const inter = Fira_Mono({
 	weight: '400',

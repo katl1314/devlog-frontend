@@ -1,11 +1,11 @@
-import Button from '@/components/Button';
-import LockBadge from '@/components/LockBadge';
-import PostMeta from '@/components/Post/PostMeta';
-import TagView from '@/components/TagView';
+import Button from '@/components/common/Button';
+import LockBadge from '@/components/common/LockBadge';
+import TagView from '@/components/post/TagView';
 import Link from 'next/link';
 import LikeButton from './LikeButton';
 import { Label } from '@/components/ui/label';
 import { IPost } from '@/types/type';
+import PostMeta from '@/components/Post/PostMeta';
 
 export default async function PostHeader({ title, path, userId, created_at, auth_cd, like }: IPost) {
 	const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/tag?path=${path}`);

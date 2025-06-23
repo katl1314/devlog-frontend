@@ -1,7 +1,7 @@
 import { FaGithub, FaHome } from 'react-icons/fa';
 import { User } from '@/types/type';
 import { createClientByServer } from '@/utils/supabase/server';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 
 export default async function UserProfileBottom({ userId }: User) {
 	const supabase = await createClientByServer();

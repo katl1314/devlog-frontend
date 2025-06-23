@@ -8,7 +8,7 @@ interface Theme {
 }
 
 export const useTheme = create<Theme>(set => ({
-	theme: (sessionStorage.getItem('theme') as Themes) ?? 'light',
+	theme: (sessionStorage?.getItem('theme') as Themes) ?? 'light',
 	setTheme: theme => {
 		sessionStorage.setItem('theme', theme);
 		set({ theme });

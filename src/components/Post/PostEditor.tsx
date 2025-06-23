@@ -11,14 +11,14 @@ import { savePost } from '@/actions/actions';
 import { validatePost } from '@/utils/validation';
 import { toast } from 'sonner';
 import { GoAlert } from 'react-icons/go';
-import PostSetting from './PostSetting';
 import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
 import { redirect } from 'next/navigation';
+import PostSetting from './PostSetting';
 
-const Editor = dynamic(() => import('../Editor'));
-const CustomModal = dynamic(() => import('@/components/Modal/CustomModal'), { ssr: false }); // 지연 로딩
-const TagEditor = dynamic(() => import('../TagEditor'));
+const Editor = dynamic(() => import('../editor/Editor'));
+const CustomModal = dynamic(() => import('@/components/modal/CustomModal'), { ssr: false }); // 지연 로딩
+const TagEditor = dynamic(() => import('../editor/TagEditor'));
 
 export default function PostEditor() {
 	// 모바일인지 아닌지 확인은 해상도를 통해서...

@@ -2,7 +2,7 @@ import { createClientByBrowser } from '@/utils/supabase/client';
 import { Suspense } from 'react';
 import PostList from '../components/PostList';
 import { Metadata } from 'next';
-import PostSkeleton from '@/components/Skeleton/PostSkeleton';
+import PostSkeleton from '@/components/skeleton/PostSkeleton';
 
 export async function generateStaticParams() {
 	const supabase = createClientByBrowser();

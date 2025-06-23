@@ -1,10 +1,10 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import AuthForm from '../AuthForm';
-import Button from '@/components/Button';
+import AuthForm from '../auth/AuthForm';
+import Button from '@/components/common/Button';
 import { MouseEventHandler, useState } from 'react';
-const CustomModal = dynamic(() => import('../Modal/CustomModal'), { ssr: false }); // 지연 로딩
+const CustomModal = dynamic(() => import('../modal/CustomModal'), { ssr: false }); // 지연 로딩
 
 export default function NotLoginButton() {
 	const [open, setOpen] = useState(false);

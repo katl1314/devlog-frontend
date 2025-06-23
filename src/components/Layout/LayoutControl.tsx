@@ -2,7 +2,7 @@
 import { FiMoreVertical } from 'react-icons/fi';
 import { CiGrid41, CiGrid2H } from 'react-icons/ci';
 import useLayout from '@/store/layout';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/store/theme';
 
 export default function LayoutControl() {
 	const { layout, setLayout } = useLayout();
@@ -11,7 +11,7 @@ export default function LayoutControl() {
 	const changeLayout = (layout: 'grid' | 'column') => {
 		setLayout(layout);
 	};
-
+	console.log(theme);
 	const unfocused = theme === 'dark' ? 'white' : 'black';
 	const focused = theme === 'dark' ? 'red' : 'blue';
 	return (

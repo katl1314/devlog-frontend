@@ -1,4 +1,4 @@
-import RegistForm from '@/components/RegistForm';
+import RegistForm from '@/components/form/RegistForm';
 import { createClientByServer } from '@/utils/supabase/server';
 import { Metadata } from 'next';
 

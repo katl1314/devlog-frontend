@@ -1,7 +1,7 @@
 'use client';
 import { IoImageOutline } from 'react-icons/io5';
 import { ChangeEventHandler, MouseEventHandler, useRef } from 'react';
-import { Label } from './ui/label';
+import { Label } from '../ui/label';
 
 interface IImageFileupload {
 	onChangeFile: (file: File) => void;
