@@ -5,7 +5,7 @@ import Link from 'next/link';
 import LikeButton from './LikeButton';
 import { Label } from '@/components/ui/label';
 import { IPost } from '@/types/type';
-import PostMeta from '@/components/Post/PostMeta';
+import PostMeta from '@/components/post/PostMeta';
 
 export default async function PostHeader({ title, path, userId, created_at, auth_cd, like }: IPost) {
 	const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/tag?path=${path}`);
