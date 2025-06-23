@@ -35,7 +35,7 @@ export default async function Header({ userId }: Header) {
 							<Image src={'/logo-small.svg'} alt="" width={40} height={40} />
 						</Logo>
 						<Logo href={`/@${userId}`} className="text-lg lg:text-xl ml-[12px] flex items-center">
-							<span className="font-bold whitespace-nowrap overflow-ellipsis  overflow-hidden w-[90px] lg:w-full">
+							<span className="font-bold whitespace-nowrap overflow-ellipsis  overflow-hidden w-[110px] lg:w-full">
 								{data.title}
 							</span>
 						</Logo>
