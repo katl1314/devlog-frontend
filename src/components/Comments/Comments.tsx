@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEventHandler, startTransition, useActionState, useEffect, useState } from 'react';
+import { ChangeEventHandler, FormEvent, startTransition, useActionState, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { saveComments } from '@/actions/actions';
@@ -30,10 +30,14 @@ export default function Comments({
 				icon: <GoAlert />
 			});
 			return;
+		} else {
+			// 성공 시 리프레시
+			router.refresh();
 		}
 	}, [state, router]);
 
-	function handleSubmit() {
+	function handleSubmit(ev: FormEvent) {
+		ev.preventDefault();
 		const formData = new FormData();
 		formData.set('path', path);
 		formData.set('comments', comments);
