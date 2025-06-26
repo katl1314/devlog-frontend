@@ -11,7 +11,7 @@ export default function LayoutControl() {
 	const changeLayout = (layout: 'grid' | 'column') => {
 		setLayout(layout);
 	};
-	console.log(theme);
+
 	const unfocused = theme === 'dark' ? 'white' : 'black';
 	const focused = theme === 'dark' ? 'red' : 'blue';
 	return (

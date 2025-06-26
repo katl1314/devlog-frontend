@@ -30,12 +30,5 @@ const _useTheme = create<Theme>(set => ({
 export const useTheme: () => Theme = () => {
 	const { theme, setTheme } = _useTheme();
 
-	useEffect(() => {
-		const storedTheme = localStorage.getItem('theme') as Themes;
-		if (storedTheme) {
-			setTheme(storedTheme);
-		}
-	}, [setTheme]);
-
 	return { theme, setTheme };
 };
