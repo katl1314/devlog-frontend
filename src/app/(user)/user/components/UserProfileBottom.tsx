@@ -25,11 +25,6 @@ export default async function UserProfileBottom({ userId }: User) {
 					<FaGithub size={30} fill="gray" />
 					<FaHome size={30} fill="gray" />
 				</div>
-				<div>
-					{!isMyProfile && (
-						<Button value="팔로우" variant="outline" className="py-1 max-h-[32px] rounded-[10px] lg:px-5 lg:py-2" />
-					)}
-				</div>
 			</div>
 		</div>
 	);
