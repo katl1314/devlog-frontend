@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState, useRef } from 'react';
 import { toggleLike } from '@/actions/actions';
 
 type FuncType = (prev: boolean) => void;
@@ -11,14 +11,14 @@ export const PostContext = createContext<{
 	nLike: number;
 	isLiked: boolean;
 	toggle: boolean;
-	setIsLiked: FuncType;
+	setTrigger: FuncType; // 사용자가 직접 눌렀을때
 	setToggle: FuncType2;
 }>({
 	userId: null,
 	nLike: 0,
 	toggle: false,
 	isLiked: false,
-	setIsLiked: (arg: boolean) => {},
+	setTrigger: (arg: boolean) => {},
 	setToggle: (arg: boolean, path: string) => {}
 });
 
@@ -28,14 +28,19 @@ export default function PostContextProvider({ userId, children, isLike, like }: 
 	const [isLiked, setIsLiked] = useState(isLike);
 	const [toggle, setToggle] = useState<boolean>(false);
 	const [nLike, setLike] = useState(like);
+	const [isTrigger, setTrigger] = useState(false);
 
 	useEffect(() => {
-		setIsLiked(!isLiked);
+		if (isTrigger) {
+			setIsLiked(!isLiked);
+		}
 	}, [toggle]);
 
 	useEffect(() => {
-		const like = isLiked ? nLike + 1 : nLike - 1;
-		setLike(like);
+		if (isTrigger) {
+			const like = isLiked ? nLike + 1 : nLike - 1;
+			setLike(like);
+		}
 	}, [isLiked]);
 
 	const handleToggle = async (newToggle: boolean, path: string) => {
@@ -44,7 +49,7 @@ export default function PostContextProvider({ userId, children, isLike, like }: 
 	};
 
 	return (
-		<PostContext.Provider value={{ userId, isLiked, nLike, toggle, setIsLiked, setToggle: handleToggle }}>
+		<PostContext.Provider value={{ userId, isLiked, nLike, toggle, setTrigger, setToggle: handleToggle }}>
 			{children}
 		</PostContext.Provider>
 	);

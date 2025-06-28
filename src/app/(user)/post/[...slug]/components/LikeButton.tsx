@@ -7,10 +7,11 @@ import { useContext } from 'react';
 import { FaHeart } from 'react-icons/fa';
 
 export default function LikeButton({ path, user }: { path: string; user: User | null }) {
-	const { isLiked, nLike, toggle, setToggle } = useContext(PostContext);
+	const { isLiked, nLike, toggle, setToggle, setTrigger } = useContext(PostContext);
 
 	const handleLike = async () => {
 		if (user) {
+			setTrigger(true);
 			setToggle(!toggle, path);
 			return;
 		}

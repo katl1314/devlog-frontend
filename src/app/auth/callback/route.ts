@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
 
 		const code = searchParams.get('code');
 		const next = searchParams.get('next') ?? '/';
-		console.log(`code : ${code} / next : ${next}`);
 		// supabase 인증 성공 시 querystring으로 code가 전달받는다.
 		if (code) {
 			const supabase = await createClientByServer();
@@ -35,7 +34,6 @@ export async function GET(request: NextRequest) {
 			throw new Error();
 		}
 	} catch {
-		console.log('44444 error');
 		return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/auth/auth-code-error`);
 	}
 }

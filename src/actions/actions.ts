@@ -199,7 +199,6 @@ export const toggleLike = async (path: string) => {
 		} else {
 			// 추가
 			const test = await supabase.from('like').insert({ path, userId });
-			console.log(test);
 		}
 
 		return { status: 'OK' };

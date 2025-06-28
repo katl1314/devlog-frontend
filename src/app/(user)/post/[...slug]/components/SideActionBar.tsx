@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { toggleLike } from '@/actions/actions';
 import { IPost, User } from '@/types/type';
 import { PropsWithChildren, ReactNode, useContext } from 'react';
 import { GoComment, GoShareAndroid, GoBookmark } from 'react-icons/go';
@@ -9,11 +8,12 @@ import { FaHeart } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
 import { PostContext } from '@/components/post/PostContextProvider';
 
-export default function SideActionBar({ comments, path, user }: IPost & { user: User }) {
-	const { isLiked, toggle, nLike, setToggle } = useContext(PostContext);
+export default function SideActionBar({ comments, path, user }: IPost & { user: { user: User } }) {
+	const { isLiked, toggle, nLike, setToggle, setTrigger } = useContext(PostContext);
 
 	const handleLike = () => {
-		if (user) {
+		if (user.user) {
+			setTrigger(true);
 			setToggle(!toggle, path);
 			return;
 		}
