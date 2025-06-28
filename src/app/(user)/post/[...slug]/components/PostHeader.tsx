@@ -6,14 +6,19 @@ import LikeButton from './LikeButton';
 import { Label } from '@/components/ui/label';
 import { IPost } from '@/types/type';
 import PostMeta from '@/components/post/PostMeta';
+import { createClientByServer } from '@/utils/supabase/server';
 
-export default async function PostHeader({ title, path, userId, created_at, auth_cd, like }: IPost) {
+export default async function PostHeader({ title, path, userId, created_at, auth_cd }: IPost) {
 	const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/tag?path=${path}`);
-
 	if (!res.ok) throw new Error('태그 정보를 가져오는중 에러가 발생하였습니다');
 
 	const { data } = await res.json(); // 태그이름들
 	const tags = (data as { name: string }[]).map(({ name }) => name);
+
+	const supabase = await createClientByServer();
+	const {
+		data: { user }
+	} = await supabase.auth.getUser();
 
 	return (
 		<div className="mb-4">
@@ -31,7 +36,7 @@ export default async function PostHeader({ title, path, userId, created_at, auth
 				</div>
 				<div className="flex flex-row gap-2 items-center">
 					<Button value="팔로우" variant="outline" className="py-1 max-h-[32px] rounded-[10px] lg:px-5 lg:py-2" />
-					<LikeButton path={path} />
+					<LikeButton path={path} user={user} />
 				</div>
 			</div>
 			{/* 태그 */}

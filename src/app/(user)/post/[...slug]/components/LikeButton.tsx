@@ -1,18 +1,20 @@
 'use client';
 
-import { toggleLike } from '@/actions/actions';
 import { PostContext } from '@/components/post/PostContextProvider';
 import { cn } from '@/lib/utils';
+import { User } from '@/types/type';
 import { useContext } from 'react';
 import { FaHeart } from 'react-icons/fa';
 
-export default function LikeButton({ path }: { path: string }) {
-	const { isLiked, nLike, setIsLiked, setToggle } = useContext(PostContext);
+export default function LikeButton({ path, user }: { path: string; user: User | null }) {
+	const { isLiked, nLike, toggle, setToggle } = useContext(PostContext);
 
 	const handleLike = async () => {
-		await toggleLike(path);
-		setToggle?.('Y');
-		setIsLiked?.(!isLiked);
+		if (user) {
+			setToggle(!toggle, path);
+			return;
+		}
+		alert('어허!');
 	};
 
 	return (

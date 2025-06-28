@@ -11,7 +11,7 @@ const signInWith = (provider: Provider) => async (formData: FormData) => {
 	// 로그인 결과를 /auth/callback으로 전달한다.
 	const next = formData.get('next');
 	const auth_callback_url = `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=${next}`; // /auth/callback/route.ts에서 request 핸들링
-
+	console.log(auth_callback_url);
 	const { data, error } = await supabase.auth.signInWithOAuth({
 		provider,
 		options: {

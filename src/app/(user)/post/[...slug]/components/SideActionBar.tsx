@@ -2,20 +2,22 @@
 
 import Link from 'next/link';
 import { toggleLike } from '@/actions/actions';
-import { IPost } from '@/types/type';
+import { IPost, User } from '@/types/type';
 import { PropsWithChildren, ReactNode, useContext } from 'react';
 import { GoComment, GoShareAndroid, GoBookmark } from 'react-icons/go';
 import { FaHeart } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
 import { PostContext } from '@/components/post/PostContextProvider';
 
-export default function SideActionBar({ comments, path }: IPost) {
-	const { isLiked, nLike, setIsLiked, setToggle } = useContext(PostContext);
+export default function SideActionBar({ comments, path, user }: IPost & { user: User }) {
+	const { isLiked, toggle, nLike, setToggle } = useContext(PostContext);
 
-	const handleLike = async () => {
-		await toggleLike(path);
-		setToggle?.('Y');
-		setIsLiked?.(!isLiked);
+	const handleLike = () => {
+		if (user) {
+			setToggle(!toggle, path);
+			return;
+		}
+		alert('어허!');
 	};
 
 	const LikeButton = isLiked ? (
