@@ -20,7 +20,7 @@ export default async function LoginButton() {
 		<>
 			<Link
 				href="/write"
-				className="hidden py-2 px-2 lg:flex items-center font-bold border-[1px] rounded-[10px] hover:bg-neutral-500"
+				className="hidden py-2 px-2 lg:flex items-center font-bold border-[1px] rounded-[10px] hover:bg-neutral-200 dark:hover:bg-neutral-700"
 			>
 				새 글 작성
 			</Link>
