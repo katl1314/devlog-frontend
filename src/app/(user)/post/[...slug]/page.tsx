@@ -45,7 +45,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string[
 	return (
 		<PostContextProvider {...post}>
 			<PostHeader {...post} />
-			<PostBody {...post} user={auth.data} />
+			<PostBody {...post} user={auth.data?.user} />
 			<PostFooter {...post} />
 		</PostContextProvider>
 	);

@@ -8,11 +8,11 @@ import { FaHeart } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
 import { PostContext } from '@/components/post/PostContextProvider';
 
-export default function SideActionBar({ comments, path, user }: IPost & { user: { user: User } }) {
+export default function SideActionBar({ comments, path, user }: IPost & { user: User }) {
 	const { isLiked, toggle, nLike, setToggle, setTrigger } = useContext(PostContext);
 
 	const handleLike = () => {
-		if (user.user) {
+		if (user) {
 			setTrigger(true);
 			setToggle(!toggle, path);
 			return;
