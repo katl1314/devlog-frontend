@@ -2,9 +2,9 @@
 
 import { ChangeEventHandler, useEffect, useState } from 'react';
 import { Label } from '../ui/label';
-import ImageFileupload from '../ImageFileupload';
-import ImagePreview from '../ImagePreview';
-import { RadioGroup, RadioItem } from '../RadioGroup';
+import ImageFileupload from '../image/ImageFileupload';
+import ImagePreview from '../image/ImagePreview';
+import { RadioGroup, RadioItem } from '../form/RadioGroup';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { usePost } from '@/store/post';

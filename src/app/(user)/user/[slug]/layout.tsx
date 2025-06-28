@@ -1,4 +1,4 @@
-import UserLayout from '@/components/Layout/UserLayout';
+import UserLayout from '@/components/layout/UserLayout';
 import UserProfile from '../components/UserProfile';
 import UserProfileBottom from '../components/UserProfileBottom';
 import { Card } from '@/components/ui/card';

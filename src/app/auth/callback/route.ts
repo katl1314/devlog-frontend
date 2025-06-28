@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 	try {
 		const forwardedHost = request.headers.get('x-forwarded-host');
 		const { searchParams } = new URL(request.url);
-
+		console.log('forwardedHost -----', forwardedHost);
 		const code = searchParams.get('code');
 		const next = searchParams.get('next') ?? '/';
 		const origin = process.env.NEXT_PUBLIC_SITE_URL;
@@ -22,12 +22,12 @@ export async function GET(request: NextRequest) {
 			if (!error) {
 				if (await authUser(supabase)) {
 					if (forwardedHost) {
-						return NextResponse.redirect(`https://${forwardedHost}${next}`);
+						return NextResponse.redirect(`${forwardedHost}${next}`);
 					}
 					return NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}${next}`);
 				} else {
 					if (forwardedHost) {
-						return NextResponse.redirect(`https://${forwardedHost}/register?code=${code}`);
+						return NextResponse.redirect(`${forwardedHost}/register?code=${code}`);
 					}
 					return NextResponse.redirect(`${origin}/register?code=${code}`);
 				}

@@ -1,5 +1,5 @@
-import Comments from '@/components/Comments/Comments';
-import CommentsList from '@/components/Comments/CommentsList';
+import Comments from '@/components/comments/Comments';
+import CommentsList from '@/components/comments/CommentsList';
 import { createClientByServer } from '@/utils/supabase/server';
 import { Comments as TComments, Post } from '@/types/type';
 

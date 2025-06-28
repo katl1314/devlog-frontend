@@ -1,4 +1,4 @@
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 import { Separator } from '@/components/ui/separator';
 import { User } from '@/types/type';
 import { createClientByServer } from '@/utils/supabase/server';

@@ -1,5 +1,5 @@
 import { createClientByServer } from '@/utils/supabase/server';
-import { Dropdown } from '../Dropdown';
+import { Dropdown } from '../common/Dropdown';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import Link from 'next/link';
 import { Skeleton } from '../ui/skeleton';
@@ -20,7 +20,7 @@ export default async function LoginButton() {
 		<>
 			<Link
 				href="/write"
-				className="hidden md:flex items-center font-bold cursor-pointer border-[1px] border-b-[#e5e5e5] rounded-[10px] py-[5px] px-2 hover:bg-black hover:text-[#fff] hover:border-transparent"
+				className="hidden py-2 px-2 lg:flex items-center font-bold border-[1px] rounded-[10px] hover:bg-neutral-200 dark:hover:bg-neutral-700"
 			>
 				새 글 작성
 			</Link>

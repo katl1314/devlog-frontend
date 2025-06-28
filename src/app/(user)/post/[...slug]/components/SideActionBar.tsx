@@ -7,7 +7,7 @@ import { PropsWithChildren, ReactNode, useContext } from 'react';
 import { GoComment, GoShareAndroid, GoBookmark } from 'react-icons/go';
 import { FaHeart } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
-import { PostContext } from '@/components/Post/PostContextProvider';
+import { PostContext } from '@/components/post/PostContextProvider';
 
 export default function SideActionBar({ comments, path }: IPost) {
 	const { isLiked, nLike, setIsLiked, setToggle } = useContext(PostContext);
@@ -34,10 +34,10 @@ export default function SideActionBar({ comments, path }: IPost) {
 				<div className="flex flex-col gap-3">
 					{LikeButton}
 					<Link href="#comments">
-						<SideActionBarItem icons={<GoComment size={24} fill="black" />}>{comments}</SideActionBarItem>
+						<SideActionBarItem icons={<GoComment size={24} fill="gray" />}>{comments}</SideActionBarItem>
 					</Link>
-					<SideActionBarItem icons={<GoBookmark size={24} fill="black" />} />
-					<SideActionBarItem icons={<GoShareAndroid size={24} fill="black" />} />
+					<SideActionBarItem icons={<GoBookmark size={24} fill="gray" />} />
+					<SideActionBarItem icons={<GoShareAndroid size={24} fill="gray" />} />
 				</div>
 			</div>
 		</div>
@@ -50,12 +50,12 @@ export const SideActionBarItem = ({ children, icons, className, onClick }: SideA
 	return (
 		<div className="flex flex-col items-center gap-1">
 			<div
-				className={cn('rounded-[50%] border-1 p-3 cursor-pointer group bg-neutral-100  hover:opacity-60', className)}
+				className={cn('rounded-[50%] border-1 p-3 cursor-pointer group hover:opacity-60', className)}
 				onClick={onClick}
 			>
 				{icons}
 			</div>
-			<div>{children}</div>
+			<div className="text-gray-600 dark:text-neutral-50">{children}</div>
 		</div>
 	);
 };

@@ -3,7 +3,7 @@
 import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
 import { fetchPostsFncByUser, FetchPostsResponseUser } from '@/types/type';
-import EmptyContent from '@/components/EmptyContent';
+import EmptyContent from '@/components/post/EmptyContent';
 import PostCard from './PostCard';
 
 // 데이터를 fetch하는 함수

@@ -1,4 +1,4 @@
-import UserLayout from '@/components/Layout/UserLayout';
+import UserLayout from '@/components/layout/UserLayout';
 import './init.css';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {

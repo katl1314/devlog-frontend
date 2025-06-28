@@ -1,7 +1,7 @@
 import PostBody from './components/PostBody';
 import PostFooter from './components/PostFooter';
 import PostHeader from './components/PostHeader';
-import PostContextProvider from '../../../../components/Post/PostContextProvider';
+import PostContextProvider from '../../../../components/post/PostContextProvider';
 import { createClientByBrowser } from '@/utils/supabase/client';
 import { notFound } from 'next/navigation';
 import { createClientByServer } from '@/utils/supabase/server';

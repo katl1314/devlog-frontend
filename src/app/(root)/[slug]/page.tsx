@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
-import PostCardSkeleton from '@/components/Skeleton/PostCardSkeleton';
-import PostCardList from '@/components/Post/PostCardList';
-import CardLayout from '@/components/Layout/CardLayout';
+import PostCardSkeleton from '@/components/skeleton/PostCardSkeleton';
+import PostCardList from '@/components/post/PostCardList';
+import CardLayout from '@/components/layout/CardLayout';
 import { createClientByBrowser } from '@/utils/supabase/client';
 
 export const dynamicParams = false; // false 시 404페이지를 발생한다.

@@ -1,7 +1,7 @@
 'use client';
 
 import { toggleLike } from '@/actions/actions';
-import { PostContext } from '@/components/Post/PostContextProvider';
+import { PostContext } from '@/components/post/PostContextProvider';
 import { cn } from '@/lib/utils';
 import { useContext } from 'react';
 import { FaHeart } from 'react-icons/fa';

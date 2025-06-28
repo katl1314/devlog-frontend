@@ -5,9 +5,7 @@ import { createClientByServer } from '@/utils/supabase/server';
 
 export default async function Profile() {
 	const supabase = await createClientByServer();
-	const {
-		data: { user }
-	} = await supabase.auth.getUser();
+	const { data } = await supabase.auth.getUser();
 
 	return (
 		<div className="flex flex-row items-center gap-2 lg:gap-4">
@@ -15,7 +13,7 @@ export default async function Profile() {
 			<CiSearch size={32} className="block" />
 			{/* 구독 알람 => 페이지?*/}
 			<CiBellOn size={32} className="cursor-pointer" />
-			{user ? <LoginButton /> : <NotLoginButton />}
+			{data.user ? <LoginButton /> : <NotLoginButton />}
 		</div>
 	);
 }

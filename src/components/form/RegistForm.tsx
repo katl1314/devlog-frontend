@@ -1,8 +1,8 @@
 'use client';
 import { Label } from '@radix-ui/react-label';
-import { Input } from './ui/input';
+import { Input } from '../ui/input';
 import { registUser } from '@/actions/actions';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { useActionState } from 'react';
 import { useSearchParams } from 'next/navigation';
 

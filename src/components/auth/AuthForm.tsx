@@ -1,9 +1,9 @@
 'use client';
 
-import { Label } from './ui/label';
+import { Label } from '../ui/label';
 import { signInWithGoogle, signInWithGithub } from '@/utils/supabase/actions';
-import Button from './Button';
-import { Separator } from './ui/separator';
+import Button from '../common/Button';
+import { Separator } from '../ui/separator';
 import { useEffect, useRef } from 'react';
 
 export default function AuthForm() {
