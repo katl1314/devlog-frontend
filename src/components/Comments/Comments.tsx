@@ -30,9 +30,10 @@ export default function Comments({
 				icon: <GoAlert />
 			});
 			return;
-		} else {
+		} else if (status === 'OK') {
 			// 성공 시 리프레시
-			router.refresh();
+			//router.refresh(); // 서버 컴포넌트만 리렌더링
+			location.reload();
 		}
 	}, [state, router]);
 
