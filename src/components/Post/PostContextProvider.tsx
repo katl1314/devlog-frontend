@@ -3,22 +3,19 @@
 import { createContext, useEffect, useState, useRef } from 'react';
 import { toggleLike } from '@/actions/actions';
 
-type FuncType = (prev: boolean) => void;
-type FuncType2 = (prev: boolean, path: string) => void;
+type FuncType = (prev: boolean, path: string) => void;
 
 export const PostContext = createContext<{
 	userId: string | null | undefined;
 	nLike: number;
 	isLiked: boolean;
 	toggle: boolean;
-	setTrigger: FuncType; // 사용자가 직접 눌렀을때
-	setToggle: FuncType2;
+	setToggle: FuncType;
 }>({
 	userId: null,
 	nLike: 0,
 	toggle: false,
 	isLiked: false,
-	setTrigger: (arg: boolean) => {},
 	setToggle: (arg: boolean, path: string) => {}
 });
 
@@ -44,12 +41,13 @@ export default function PostContextProvider({ userId, children, isLike, like }: 
 	}, [isLiked]);
 
 	const handleToggle = async (newToggle: boolean, path: string) => {
+		!isTrigger && setTrigger(true);
+		await toggleLike(path);
 		setToggle(newToggle);
-		await toggleLike(path); // 갱신
 	};
 
 	return (
-		<PostContext.Provider value={{ userId, isLiked, nLike, toggle, setTrigger, setToggle: handleToggle }}>
+		<PostContext.Provider value={{ userId, isLiked, nLike, toggle, setToggle: handleToggle }}>
 			{children}
 		</PostContext.Provider>
 	);

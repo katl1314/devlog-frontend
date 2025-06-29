@@ -3,21 +3,25 @@
 import Link from 'next/link';
 import { IPost, User } from '@/types/type';
 import { PropsWithChildren, ReactNode, useContext } from 'react';
-import { GoComment, GoShareAndroid, GoBookmark } from 'react-icons/go';
+import { GoComment, GoShareAndroid, GoBookmark, GoAlert } from 'react-icons/go';
 import { FaHeart } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
 import { PostContext } from '@/components/post/PostContextProvider';
+import { toast } from 'sonner';
 
 export default function SideActionBar({ comments, path, user }: IPost & { user: User }) {
-	const { isLiked, toggle, nLike, setToggle, setTrigger } = useContext(PostContext);
+	const { isLiked, toggle, nLike, setToggle } = useContext(PostContext);
 
 	const handleLike = () => {
 		if (user) {
-			setTrigger(true);
 			setToggle(!toggle, path);
 			return;
 		}
-		alert('어허!');
+		toast('로그인 이용자만이 이용가능합니다.', {
+			position: 'top-right',
+			duration: 2000,
+			icon: <GoAlert />
+		});
 	};
 
 	const LikeButton = isLiked ? (

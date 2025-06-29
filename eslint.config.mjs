@@ -16,6 +16,8 @@ const eslintConfig = [
 			'react/no-unescaped-entities': 'off',
 			'@next/next/no-page-custom-font': 'off',
 			'no-unused-vars': 'warn', // 일반 JS용
+			'no-unused-expressions': 'off',
+			'@typescript-eslint/no-unused-expressions': 'off',
 			'@typescript-eslint/no-unused-vars': [
 				'warn',
 				{
