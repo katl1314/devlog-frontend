@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import type { IPost } from '@/types/type';
-import { GoHeart } from 'react-icons/go';
+import { GoHeart, GoComment } from 'react-icons/go';
 
 export default function PostCard({ path, title, created_at, thumbnail, summary, userId, comments, like }: IPost) {
 	return (
@@ -18,7 +18,10 @@ export default function PostCard({ path, title, created_at, thumbnail, summary, 
 				<CardContent className="flex flex-col h-[120px] justify-end px-2">
 					<div className="flex flex-row gap-3 py-3 text-neutral-500">
 						<PostMeta date={created_at} />
-						<Label>{comments}개의 댓글</Label>
+						<div className="flex items-center gap-1">
+							<GoComment />
+							{comments}
+						</div>
 						<div className="flex items-center gap-1">
 							<GoHeart />
 							{like}

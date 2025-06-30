@@ -3,8 +3,7 @@ import Link from 'next/link';
 import type { IPost } from '@/types/type';
 import PostMeta from '@/components/post/PostMeta';
 import Thumbnail from './Thumbnail';
-import { Label } from '@/components/ui/label';
-import { GoHeart } from 'react-icons/go';
+import { GoHeart, GoComment } from 'react-icons/go';
 
 export default function PostCard({ thumbnail, path, title, created_at, summary, comments, like }: IPost) {
 	return (
@@ -15,7 +14,10 @@ export default function PostCard({ thumbnail, path, title, created_at, summary, 
 					<PostDescription title={title} summary={summary} />
 					<div className="flex flex-row gap-3 py-3 text-neutral-500">
 						<PostMeta date={created_at} />
-						<Label>{comments}개의 댓글</Label>
+						<div className="flex items-center gap-1">
+							<GoComment />
+							{comments}
+						</div>
 						<div className="flex items-center gap-1">
 							<GoHeart />
 							{like}
