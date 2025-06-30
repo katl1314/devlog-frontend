@@ -11,6 +11,7 @@ import { createClientByBrowser } from '@/utils/supabase/client';
 export default function CommentFooter({ path, id, level }: TComments) {
 	const [open, setOpen] = useState(false);
 	const [comments, setComments] = useState<TComments[]>([]);
+	const [refreshTrigger, setRefreshTrigger] = useState(0);
 
 	useEffect(() => {
 		const supabase = createClientByBrowser();
@@ -22,7 +23,7 @@ export default function CommentFooter({ path, id, level }: TComments) {
 			.then(children => {
 				setComments(children.data as TComments[]);
 			});
-	}, [id]);
+	}, [id, open, refreshTrigger]);
 
 	return (
 		<div className="my-6">
@@ -39,7 +40,7 @@ export default function CommentFooter({ path, id, level }: TComments) {
 			{open && (
 				<div className="mt-6 ml-5 lg:ml-15">
 					<CommentsList data={comments} />
-					<Comments path={path} pid={id} level={level} />
+					<Comments path={path} pid={id} level={level} onSuccess={() => setRefreshTrigger(prev => prev + 1)} />
 				</div>
 			)}
 		</div>

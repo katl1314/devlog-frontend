@@ -1,8 +1,7 @@
 'use client';
 
-import { ChangeEventHandler, FormEvent, startTransition, useActionState, useEffect, useState } from 'react';
+import { ChangeEventHandler, FormEvent, startTransition, useActionState, useEffect, useState, useRef } from 'react';
 import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
 import { saveComments } from '@/actions/actions';
 import { GoAlert } from 'react-icons/go';
 import { toast } from 'sonner';
@@ -11,15 +10,18 @@ import { useRouter } from 'next/navigation';
 export default function Comments({
 	path,
 	pid,
-	level
+	level,
+	onSuccess
 }: {
 	path: string;
 	pid?: number | undefined | null;
 	level?: number | undefined | null;
+	onSuccess?: () => void;
 }) {
 	const [comments, setComments] = useState('');
 	const [state, formAction, isPending] = useActionState(saveComments, { message: '', status: '' });
 	const router = useRouter();
+	const textRef = useRef<HTMLTextAreaElement | null>(null);
 
 	useEffect(() => {
 		const { status, message } = state;
@@ -31,9 +33,9 @@ export default function Comments({
 			});
 			return;
 		} else if (status === 'OK') {
-			// 성공 시 리프레시
-			//router.refresh(); // 서버 컴포넌트만 리렌더링
-			location.reload();
+			router.refresh(); // 서버 컴포넌트만 리렌더링
+			onSuccess?.();
+			setComments(''); // 댓글 입력 초기화
 		}
 	}, [state, router]);
 
@@ -55,16 +57,26 @@ export default function Comments({
 		setComments(target.value);
 	};
 
+	const handleResizeHeight = () => {
+		if (textRef.current) {
+			textRef.current.style.height = 'auto';
+			textRef.current.style.height = textRef.current.scrollHeight + 'px';
+		}
+	};
+
 	return (
 		<div>
 			<form onSubmit={handleSubmit}>
-				<Textarea
-					className="h-[72px] py-4"
+				<textarea
+					className="p-4 w-full min-h-[100px] max-h-[300px] border-1"
 					placeholder="댓글을 입력하세요."
 					value={comments}
+					rows={1}
 					onChange={handleChange}
+					onInput={handleResizeHeight}
+					ref={textRef}
 					required
-				/>
+				></textarea>
 				<div className="flex flex-row justify-end my-6">
 					<Button type="submit" disabled={isPending}>
 						댓글 작성
