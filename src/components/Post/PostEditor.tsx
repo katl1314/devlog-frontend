@@ -14,7 +14,7 @@ import { GoAlert } from 'react-icons/go';
 import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
 import { redirect } from 'next/navigation';
-import PostSetting from './PostSetting';
+import PostSetting from '../Post/PostSetting';
 
 const Editor = dynamic(() => import('../editor/Editor'));
 const CustomModal = dynamic(() => import('@/components/modal/CustomModal'), { ssr: false }); // 지연 로딩
@@ -85,7 +85,7 @@ export default function PostEditor() {
 					onChange={ev => setTitle(ev.target.value)}
 				/>
 				<TagEditor tags={tags} onChange={setTags} />
-				<Editor name="content" setContent={setContent} defaultValue={content} />
+				<Editor setContent={setContent} content={content} />
 			</div>
 			<div className="w-full flex justify-between items-center">
 				<div className="flex gap-4">

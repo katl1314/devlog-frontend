@@ -1,42 +1,62 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+import './styles.scss';
 
-const MDEditor = dynamic(() => import('@uiw/react-md-editor'));
+import { useEditor, EditorContent } from '@tiptap/react';
+import Document from '@tiptap/extension-document';
+import Heading from '@tiptap/extension-heading';
+import Paragraph from '@tiptap/extension-paragraph';
+import Text from '@tiptap/extension-text';
+import ListItem from '@tiptap/extension-list-item';
+import OrderedList from '@tiptap/extension-ordered-list';
+import BulletList from '@tiptap/extension-bullet-list';
+import { Label } from '../ui/label';
 
-type Preview = 'live' | 'edit' | 'preview';
+export default function Editor({ content, setContent }: { content: string; setContent: (content: string) => void }) {
+	const editor = useEditor({
+		extensions: [
+			Document,
+			Paragraph,
+			Text,
+			Heading.configure({
+				levels: [1, 2, 3]
+			}),
+			BulletList,
+			OrderedList,
+			ListItem
+		],
+		content: content,
+		onUpdate: function ({ editor }) {
+			debugger;
+			console.log(editor);
+		}
+	});
 
-interface Editor {
-	placeholder?: string;
-	name?: string;
-	preview?: Preview;
-	height?: number;
-	maxHeight?: number;
-	setContent: (value: string) => void;
-	defaultValue: string;
-}
-
-export default function CustomEditor({
-	placeholder,
-	setContent,
-	defaultValue,
-	name,
-	preview = 'edit',
-	height = 650,
-	maxHeight = 1000
-}: Editor) {
 	return (
-		<MDEditor
-			value={defaultValue}
-			onChange={html => setContent(html!)}
-			autoFocus={true}
-			preview={preview}
-			height={height}
-			maxHeight={maxHeight}
-			textareaProps={{
-				placeholder: placeholder || '내용을 입력하세요.',
-				name: name || 'content'
-			}}
-		/>
+		<div className="markdown-body">
+			<div className="control-group">
+				<div className="button-group">
+					<Label
+						onClick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
+						className={editor?.isActive('heading', { level: 1 }) ? 'isActive' : ''}
+					>
+						H1
+					</Label>
+					<Label
+						onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
+						className={editor?.isActive('heading', { level: 2 }) ? 'isActive' : ''}
+					>
+						H2
+					</Label>
+					<Label
+						onClick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
+						className={editor?.isActive('heading', { level: 3 }) ? 'isActive' : ''}
+					>
+						H3
+					</Label>
+				</div>
+			</div>
+			<EditorContent editor={editor} height={500} />
+		</div>
 	);
 }
