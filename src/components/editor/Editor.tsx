@@ -11,6 +11,7 @@ import ListItem from '@tiptap/extension-list-item';
 import OrderedList from '@tiptap/extension-ordered-list';
 import BulletList from '@tiptap/extension-bullet-list';
 import { Label } from '../ui/label';
+import { cn } from '@/lib/utils';
 
 export default function Editor({ content, setContent }: { content: string; setContent: (content: string) => void }) {
 	const editor = useEditor({
@@ -27,36 +28,40 @@ export default function Editor({ content, setContent }: { content: string; setCo
 		],
 		content: content,
 		onUpdate: function ({ editor }) {
-			debugger;
-			console.log(editor);
+			setContent(editor.view.dom.innerHTML);
+		},
+		editorProps: {
+			attributes: {
+				class: 'flex-1 h-[500px] p-3'
+			}
 		}
 	});
 
 	return (
 		<div className="markdown-body">
-			<div className="control-group">
-				<div className="button-group">
+			<div className="control-group mb-1">
+				<div className="flex gap-2">
 					<Label
 						onClick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
-						className={editor?.isActive('heading', { level: 1 }) ? 'isActive' : ''}
+						className={cn(editor?.isActive('heading', { level: 1 }) ? 'bg-neutral-400' : '', 'text-lg')}
 					>
 						H1
 					</Label>
 					<Label
 						onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
-						className={editor?.isActive('heading', { level: 2 }) ? 'isActive' : ''}
+						className={cn(editor?.isActive('heading', { level: 2 }) ? 'bg-neutral-400' : '', 'text-lg')}
 					>
 						H2
 					</Label>
 					<Label
 						onClick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
-						className={editor?.isActive('heading', { level: 3 }) ? 'isActive' : ''}
+						className={cn(editor?.isActive('heading', { level: 3 }) ? 'bg-neutral-400' : '', 'text-lg')}
 					>
 						H3
 					</Label>
 				</div>
 			</div>
-			<EditorContent editor={editor} height={500} />
+			<EditorContent editor={editor} />
 		</div>
 	);
 }

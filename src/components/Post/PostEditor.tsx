@@ -15,8 +15,8 @@ import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
 import { redirect } from 'next/navigation';
 import PostSetting from '../Post/PostSetting';
+import Editor from '../editor/Editor';
 
-const Editor = dynamic(() => import('../editor/Editor'));
 const CustomModal = dynamic(() => import('@/components/modal/CustomModal'), { ssr: false }); // 지연 로딩
 const TagEditor = dynamic(() => import('../editor/TagEditor'));
 
@@ -78,7 +78,7 @@ export default function PostEditor() {
 		<div className="flex flex-col justify-between">
 			<div className="flex flex-col mt-10 gap-2 flex-1">
 				<Input
-					className="h-[50px] font-bold text-3xl border-0 shadow-none"
+					className="h-[50px] font-bold text-3xl border-0 shadow-none px-0"
 					placeholder="제목을 입력하세요."
 					id="title"
 					value={title}
