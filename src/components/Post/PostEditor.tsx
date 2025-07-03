@@ -75,10 +75,10 @@ export default function PostEditor() {
 	};
 
 	return (
-		<div className="flex flex-col justify-between">
-			<div className="flex flex-col mt-10 gap-2 flex-1">
+		<div className="flex flex-col justify-between h-[100vh]">
+			<div className="flex flex-col mt-10 gap-4 flex-1">
 				<Input
-					className="h-[50px] font-bold text-3xl border-0 shadow-none px-0"
+					className="h-[50px] font-bold text-5xl border-0 shadow-none px-3"
 					placeholder="제목을 입력하세요."
 					id="title"
 					value={title}
@@ -87,7 +87,7 @@ export default function PostEditor() {
 				<TagEditor tags={tags} onChange={setTags} />
 				<Editor setContent={setContent} content={content} />
 			</div>
-			<div className="w-full flex justify-between items-center">
+			<div className="w-full flex justify-between items-center mb-[30px]">
 				<div className="flex gap-4">
 					<Link href="/" className="flex items-center p-2 gap-2 group hover:bg-black transition-colors duration-300">
 						<FiArrowLeft size={28} className="group-hover:stroke-[white] cursor-pointer" />

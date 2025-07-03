@@ -51,7 +51,7 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 		}
 	};
 	return (
-		<div className="flex h-[36px]">
+		<div className="flex h-[36px] px-3">
 			<div id="tags" className="flex flex-wrap gap-2">
 				{tags.map(tag => (
 					<div key={tag} className="bg-gray-200 rounded-md px-2 py-1 active:outline text-lg mr-2">

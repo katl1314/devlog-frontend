@@ -175,6 +175,14 @@ body {
 	overflow: hidden;
 }
 
+:focus-visible {
+	outline: 0;
+}
+
+:focus {
+	outline: none;
+}
+
 .column-half {
 	display: flex;
 	flex-direction: column;

@@ -10,10 +10,15 @@ import Text from '@tiptap/extension-text';
 import ListItem from '@tiptap/extension-list-item';
 import OrderedList from '@tiptap/extension-ordered-list';
 import BulletList from '@tiptap/extension-bullet-list';
-import { Label } from '../ui/label';
-import { cn } from '@/lib/utils';
+import Placeholder from '@tiptap/extension-placeholder';
+import ControlPanel from './ControlPanel';
 
-export default function Editor({ content, setContent }: { content: string; setContent: (content: string) => void }) {
+interface Editor {
+	content: string;
+	setContent: (content: string) => void;
+}
+
+export default function Editor({ content, setContent }: Editor) {
 	const editor = useEditor({
 		extensions: [
 			Document,
@@ -24,43 +29,26 @@ export default function Editor({ content, setContent }: { content: string; setCo
 			}),
 			BulletList,
 			OrderedList,
-			ListItem
+			ListItem,
+			Placeholder.configure({
+				placeholder: '무엇이든 입력하세요.'
+			})
 		],
 		content: content,
 		onUpdate: function ({ editor }) {
 			setContent(editor.view.dom.innerHTML);
 		},
+
 		editorProps: {
 			attributes: {
-				class: 'flex-1 h-[500px] p-3'
+				class: 'flex-1 max-h-[calc(100vh-300px)] p-3 overflow-auto'
 			}
 		}
 	});
 
 	return (
-		<div className="markdown-body">
-			<div className="control-group mb-1">
-				<div className="flex gap-2">
-					<Label
-						onClick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
-						className={cn(editor?.isActive('heading', { level: 1 }) ? 'bg-neutral-400' : '', 'text-lg')}
-					>
-						H1
-					</Label>
-					<Label
-						onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
-						className={cn(editor?.isActive('heading', { level: 2 }) ? 'bg-neutral-400' : '', 'text-lg')}
-					>
-						H2
-					</Label>
-					<Label
-						onClick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
-						className={cn(editor?.isActive('heading', { level: 3 }) ? 'bg-neutral-400' : '', 'text-lg')}
-					>
-						H3
-					</Label>
-				</div>
-			</div>
+		<div className="markdown-body px-3">
+			<ControlPanel editor={editor!} />
 			<EditorContent editor={editor} />
 		</div>
 	);
