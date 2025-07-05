@@ -36,15 +36,15 @@
 	}
 
 	h1 {
-		font-size: 1.4rem;
+		font-size: 2rem;
 	}
 
 	h2 {
-		font-size: 1.2rem;
+		font-size: 1.6rem;
 	}
 
 	h3 {
-		font-size: 1.1rem;
+		font-size: 1.3rem;
 	}
 
 	h4,
@@ -88,6 +88,15 @@
 		border: none;
 		border-top: 1px solid var(--gray-2);
 		margin: 2rem 0;
+	}
+
+	/* Placeholder (at the top) */
+	p.is-editor-empty:first-child::before {
+		color: var(--gray-4);
+		content: attr(data-placeholder);
+		float: left;
+		height: 0;
+		pointer-events: none;
 	}
 
 	/* Highlight specific styles */
@@ -285,5 +294,44 @@ body {
 				background-color: var(--red);
 			}
 		}
+	}
+}
+
+.tool {
+	padding: 10px 4px;
+	cursor: pointer;
+	border-radius: 3px;
+	&:hover {
+		background-color: var(--tool-hover-bg);
+		transition-timing-function: ease-in;
+		transition-property: background-color;
+		transition-duration: 200ms;
+	}
+
+	&.isActive {
+		background-color: var(--tool-active-bg);
+	}
+
+	&:focus-visible {
+		border: 2px solid rgb(175, 174, 174);
+	}
+}
+
+/* Code and preformatted text styles */
+code {
+	background-color: var(--purple-light);
+	border-radius: 0.4rem;
+	color: var(--black);
+	font-size: 0.85rem;
+	padding: 0.25em 0.3em;
+}
+
+/* Link styles */
+a {
+	color: var(--purple);
+	cursor: pointer;
+
+	&:hover {
+		color: var(--purple-contrast);
 	}
 }

@@ -12,13 +12,20 @@ import OrderedList from '@tiptap/extension-ordered-list';
 import BulletList from '@tiptap/extension-bullet-list';
 import Placeholder from '@tiptap/extension-placeholder';
 import ControlPanel from './ControlPanel';
+import Bold from '@tiptap/extension-bold';
+import Italic from '@tiptap/extension-italic';
+import Link from '@tiptap/extension-link';
+import Code from '@tiptap/extension-code';
+import CodeBlock from '@tiptap/extension-code-block';
+import { useCallback } from 'react';
 
-interface Editor {
+interface IEditor {
 	content: string;
+	placeholder: string;
 	setContent: (content: string) => void;
 }
 
-export default function Editor({ content, setContent }: Editor) {
+export default function Editor({ content, setContent, placeholder = '무엇이든 입력하세요.' }: IEditor) {
 	const editor = useEditor({
 		extensions: [
 			Document,
@@ -30,8 +37,70 @@ export default function Editor({ content, setContent }: Editor) {
 			BulletList,
 			OrderedList,
 			ListItem,
+			Bold,
+			Italic,
+			Code,
+			CodeBlock,
 			Placeholder.configure({
-				placeholder: '무엇이든 입력하세요.'
+				placeholder
+			}),
+			Link.configure({
+				openOnClick: false,
+				autolink: true,
+				defaultProtocol: 'https',
+				protocols: ['https', 'http'],
+				isAllowedUri: (url, ctx) => {
+					try {
+						const parsedUrl = url.includes(':') ? new URL(url) : new URL(`${ctx.defaultProtocol}://${url}`);
+
+						// use default validation
+						if (!ctx.defaultValidate(parsedUrl.href)) {
+							return false;
+						}
+
+						// 허용하지 않은 프로토콜
+						const disallowedProtocols = ['ftp', 'file', 'mnailto'];
+						const protocol = parsedUrl.protocol.replace(':', '');
+
+						if (disallowedProtocols.includes(protocol)) {
+							return false;
+						}
+
+						// only allow protocols specified in ctx.protocols
+						const allowedProtocols = ctx.protocols.map(p => (typeof p === 'string' ? p : p.scheme));
+
+						if (!allowedProtocols.includes(protocol)) {
+							return false;
+						}
+
+						// disallowed domains
+						const disallowedDomains = ['example-phishing.com', 'malicious-site.net'];
+						const domain = parsedUrl.hostname;
+
+						if (disallowedDomains.includes(domain)) {
+							return false;
+						}
+
+						// all checks have passed
+						return true;
+					} catch {
+						return false; // 에러 발생하면 false
+					}
+				},
+				shouldAutoLink: url => {
+					try {
+						// construct URL
+						const parsedUrl = url.includes(':') ? new URL(url) : new URL(`https://${url}`);
+
+						// only auto-link if the domain is not in the disallowed list
+						const disallowedDomains = ['example-no-autolink.com', 'another-no-autolink.com'];
+						const domain = parsedUrl.hostname;
+
+						return !disallowedDomains.includes(domain);
+					} catch {
+						return false;
+					}
+				}
 			})
 		],
 		content: content,
@@ -45,6 +114,28 @@ export default function Editor({ content, setContent }: Editor) {
 			}
 		}
 	});
+
+	const setLink = useCallback(() => {
+		const previousUrl = editor?.getAttributes('link').href;
+		const url = window.prompt('URL', previousUrl);
+
+		// cancelled
+		if (url === null) {
+			return;
+		}
+
+		// empty
+		if (url === '') {
+			editor?.chain().focus().extendMarkRange('link').unsetLink().run();
+
+			return;
+		}
+
+		// update link
+		try {
+			editor?.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+		} catch (e) {}
+	}, [editor]);
 
 	return (
 		<div className="markdown-body px-3">

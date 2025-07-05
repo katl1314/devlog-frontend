@@ -96,7 +96,7 @@ export default function PostEditor() {
 				</div>
 				<div className="flex gap-4">
 					<Button type="button" className="rounded-0 cursor-pointer" variant="outline">
-						미리 저장
+						임시저장
 					</Button>
 					<Button type="button" className="rounded-0 cursor-pointer" onClick={() => setModalOpen(true)}>
 						다음
