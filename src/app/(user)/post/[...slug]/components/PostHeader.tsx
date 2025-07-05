@@ -1,11 +1,11 @@
 import Button from '@/components/common/Button';
 import LockBadge from '@/components/common/LockBadge';
-import TagView from '@/components/post/TagView';
+import TagView from '@/components/Post/TagView';
 import Link from 'next/link';
 import LikeButton from './LikeButton';
 import { Label } from '@/components/ui/label';
 import { IPost } from '@/types/type';
-import PostMeta from '@/components/post/PostMeta';
+import PostMeta from '@/components/Post/PostMeta';
 import { createClientByServer } from '@/utils/supabase/server';
 
 export default async function PostHeader({ title, path, userId, created_at, auth_cd }: IPost) {

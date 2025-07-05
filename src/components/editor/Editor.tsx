@@ -41,7 +41,7 @@ export default function Editor({ content, setContent }: Editor) {
 
 		editorProps: {
 			attributes: {
-				class: 'flex-1 max-h-[calc(100vh-300px)] p-3 overflow-auto'
+				class: 'flex-1 max-h-[calc(100vh-300px)] py-3 overflow-auto'
 			}
 		}
 	});

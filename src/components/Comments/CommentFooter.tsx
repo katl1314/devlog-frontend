@@ -2,8 +2,8 @@
 
 import { Comments as TComments } from '@/types/type';
 import { CiSquareMinus, CiSquarePlus } from 'react-icons/ci';
-import CommentsList from './CommentsList';
-import Comments from './Comments';
+import CommentsList from '../Comments/CommentsList';
+import Comments from '../Comments/Comments';
 import { useEffect, useState } from 'react';
 import { createClientByBrowser } from '@/utils/supabase/client';
 

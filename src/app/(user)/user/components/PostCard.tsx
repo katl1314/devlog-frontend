@@ -1,7 +1,7 @@
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import type { IPost } from '@/types/type';
-import PostMeta from '@/components/post/PostMeta';
+import PostMeta from '@/components/Post/PostMeta';
 import Thumbnail from './Thumbnail';
 import { GoHeart, GoComment } from 'react-icons/go';
 
