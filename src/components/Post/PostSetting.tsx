@@ -6,9 +6,9 @@ import ImageFileupload from '../image/ImageFileupload';
 import ImagePreview from '../image/ImagePreview';
 import { RadioGroup, RadioItem } from '../form/RadioGroup';
 import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
 import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
+import { Textarea } from '../ui/textarea';
 import { Input } from '../ui/input';
 
 export default function PostSetting() {
@@ -45,8 +45,8 @@ export default function PostSetting() {
 					<Label className="text-base mb-2 text-neutral-700">URL 설정</Label>
 					<div className="flex h-[32px] border-1 border-[#e5e5e5] px-2">
 						<Label className="text-base text-neutral-500">/@{userId}/</Label>
-						<Input
-							className="border-0 py-0 h-[30px] pl-[1px]"
+						<input
+							className="border-0 py-0 h-[30px] pl-[1px] w-full"
 							value={path}
 							placeholder="URL을 입력하세요."
 							onChange={handlePathChange}
@@ -62,7 +62,12 @@ export default function PostSetting() {
 				</div>
 				<div className="mb-3">
 					<Label className="text-base mb-2 text-neutral-700">포스트 요약</Label>
-					<Textarea value={summary} onChange={ev => setSummary(ev.target.value)} placeholder="요약을 입력하세요." />
+					<textarea
+						value={summary}
+						onChange={ev => setSummary(ev.target.value)}
+						placeholder="요약을 입력하세요."
+						className="w-full border-1 border-[#e5e5e5] p-2"
+					/>
 				</div>
 				<div className="mb-3">
 					<Button type="submit" className="rounded-0 cursor-pointer w-full">

@@ -1,6 +1,6 @@
 'use client';
 import { useTheme } from '@/store/theme';
-import { MdNightlightRound, MdSunny } from 'react-icons/md';
+import { CiLight, CiDark } from 'react-icons/ci';
 
 export default function ThemeToggle() {
 	const { theme, setTheme } = useTheme();
@@ -12,10 +12,14 @@ export default function ThemeToggle() {
 		}
 	};
 
-	const fill = theme === 'dark' ? 'white' : 'gray';
+	const fill = theme === 'dark' ? 'white' : 'black';
 	return (
 		<div onClick={toggleTheme}>
-			{theme === 'dark' ? <MdNightlightRound size={32} fill={fill} /> : <MdSunny size={32} fill={fill} />}
+			{theme === 'dark' ? (
+				<CiDark size={32} fill={fill} className="cursor-pointer" />
+			) : (
+				<CiLight size={32} fill={fill} className="cursor-pointer" />
+			)}
 		</div>
 	);
 }

@@ -25,9 +25,7 @@ export default function ImageFileupload({ onChangeFile }: IImageFileupload) {
 			<div className="cursor-pointer h-48 flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 group">
 				<IoImageOutline size={45} color="gray" className="mb-2" />
 				<Label className="text-base text-gray-500 mb-2 group-hover:cursor-pointer">클릭하여 이미지 업로드</Label>
-				<Label className="text-sm text-gray-500 mb-2 group-hover:cursor-pointer">
-					JPG, PNG, GIF, HEIC, HEIF (최대 5MB)
-				</Label>
+				<Label className="text-sm text-gray-500 mb-2 group-hover:cursor-pointer">JPG (최대 5MB)</Label>
 			</div>
 		</div>
 	);
