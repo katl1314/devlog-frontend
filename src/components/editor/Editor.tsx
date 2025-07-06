@@ -17,11 +17,13 @@ import Italic from '@tiptap/extension-italic';
 import Link from '@tiptap/extension-link';
 import Code from '@tiptap/extension-code';
 import CodeBlock from '@tiptap/extension-code-block';
-import { useCallback } from 'react';
+import HorizontalRule from '@tiptap/extension-horizontal-rule';
+import Blockquote from '@tiptap/extension-blockquote';
+import Strikethrough from '@tiptap/extension-strike';
 
 interface IEditor {
 	content: string;
-	placeholder: string;
+	placeholder?: string;
 	setContent: (content: string) => void;
 }
 
@@ -32,7 +34,7 @@ export default function Editor({ content, setContent, placeholder = '무엇이�
 			Paragraph,
 			Text,
 			Heading.configure({
-				levels: [1, 2, 3]
+				levels: [1, 2, 3, 4]
 			}),
 			BulletList,
 			OrderedList,
@@ -40,14 +42,17 @@ export default function Editor({ content, setContent, placeholder = '무엇이�
 			Bold,
 			Italic,
 			Code,
+			HorizontalRule,
+			Blockquote,
+			Strikethrough,
 			CodeBlock.configure({
 				languageClassPrefix: 'language-',
 				exitOnArrowDown: true,
 				defaultLanguage: 'plaintext'
 			}),
-			// Placeholder.configure({
-			// 	placeholder
-			// }),
+			Placeholder.configure({
+				placeholder
+			}),
 			Link.configure({
 				openOnClick: false,
 				autolink: true,
@@ -118,28 +123,6 @@ export default function Editor({ content, setContent, placeholder = '무엇이�
 			}
 		}
 	});
-
-	const setLink = useCallback(() => {
-		const previousUrl = editor?.getAttributes('link').href;
-		const url = window.prompt('URL', previousUrl);
-
-		// cancelled
-		if (url === null) {
-			return;
-		}
-
-		// empty
-		if (url === '') {
-			editor?.chain().focus().extendMarkRange('link').unsetLink().run();
-
-			return;
-		}
-
-		// update link
-		try {
-			editor?.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
-		} catch (e) {}
-	}, [editor]);
 
 	return (
 		<div className="markdown-body px-3">

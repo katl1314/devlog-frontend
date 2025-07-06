@@ -170,17 +170,23 @@
 
 	/* Link styles */
 	a {
-		color: var(--purple);
+		color: var(--link);
 		cursor: pointer;
 
 		&:hover {
-			color: var(--purple-contrast);
+			text-decoration: underline;
 		}
 	}
 
 	br.ProseMirror-trailingBreak {
 		display: block;
 	}
+}
+
+blockquote {
+	border-left: 3px solid var(--gray-3);
+	margin: 1.5rem 0;
+	padding-left: 1rem;
 }
 
 .col-group {
@@ -329,4 +335,8 @@ body {
 	&:focus-visible {
 		border: 2px solid rgb(175, 174, 174);
 	}
+}
+
+.control-group {
+	overflow-x: auto;
 }

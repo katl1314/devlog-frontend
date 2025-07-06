@@ -84,6 +84,8 @@ a {
 	--black: oklch(0 0 0);
 	--white: oklch(100% 0 0);
 	--purple-light: rgba(88, 5, 255, 0.05);
+	--link: #2563eb;
+	--gray-3: rgba(61, 37, 20, 0.12);
 }
 /*
   ---break---
