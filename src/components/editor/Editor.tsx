@@ -119,7 +119,7 @@ export default function Editor({ content, setContent, placeholder = '무엇이�
 
 		editorProps: {
 			attributes: {
-				class: 'flex-1 max-h-[calc(100vh-400px)] py-3 overflow-auto'
+				class: 'flex-1 max-h-[calc(100vh-350px)] py-3 overflow-auto'
 			}
 		}
 	});

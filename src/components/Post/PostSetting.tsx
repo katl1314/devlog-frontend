@@ -8,8 +8,6 @@ import { RadioGroup, RadioItem } from '../form/RadioGroup';
 import { Button } from '../ui/button';
 import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
-import { Textarea } from '../ui/textarea';
-import { Input } from '../ui/input';
 
 export default function PostSetting() {
 	const { summary, setSummary, file, setFile, setVisibility, visibility, path, setPath } = usePost();
@@ -30,7 +28,7 @@ export default function PostSetting() {
 	const handlePathChange: ChangeEventHandler<HTMLInputElement> = ev => setPath(`${ev.target.value}`);
 
 	return (
-		<div className="my-0 mx-auto min-h-[250px]">
+		<div className="mx-auto min-h-[250px]">
 			<div className="px-4 py-2">
 				<div className="mb-3">
 					<Label className="text-lg font-bold text-center mb-3">포스트 게시하기</Label>

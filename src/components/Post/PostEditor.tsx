@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Label } from '../ui/label';
 import dynamic from 'next/dynamic';
-import { Input } from '../ui/input';
 import { FormEventHandler, startTransition, useActionState, useEffect, useState } from 'react';
 import { savePost } from '@/actions/actions';
 import { validatePost } from '@/utils/validation';
@@ -75,19 +74,31 @@ export default function PostEditor() {
 	};
 
 	return (
-		<div className="flex flex-col justify-between h-[80vh]">
-			<div className="flex flex-col mt-5 gap-4 flex-1">
-				<Input
-					className="h-[50px] font-bold border-0 shadow-none px-3 text-3xl lg:text-5xl"
-					placeholder="제목을 입력하세요."
-					id="title"
-					value={title}
-					onChange={ev => setTitle(ev.target.value)}
-				/>
-				<TagEditor tags={tags} onChange={setTags} />
-				<Editor setContent={setContent} content={content} />
+		<>
+			<div className="flex flex-col justify-between h-[80vh]">
+				<div className="flex flex-col mt-5 gap-4 flex-1">
+					<input
+						className="h-[50px] font-bold border-0 shadow-none px-3 text-3xl lg:text-5xl"
+						placeholder="제목을 입력하세요."
+						id="title"
+						value={title}
+						onChange={ev => setTitle(ev.target.value)}
+					/>
+					<TagEditor tags={tags} onChange={setTags} />
+					<Editor setContent={setContent} content={content} />
+				</div>
+				{isModalOpen && (
+					<CustomModal
+						afterCloseModal={() => setModalOpen(open => !open)}
+						className="w-full mt-[5%] md:min-w-[500px] md:w-[25%]"
+					>
+						<form onSubmit={handleSubmit}>
+							<PostSetting />
+						</form>
+					</CustomModal>
+				)}
 			</div>
-			<div className="w-full flex justify-between items-center mb-[30px]">
+			<div className="w-full flex justify-between items-center">
 				<div className="flex gap-4">
 					<Link
 						href="/"
@@ -106,16 +117,6 @@ export default function PostEditor() {
 					</Button>
 				</div>
 			</div>
-			{isModalOpen && (
-				<CustomModal
-					afterCloseModal={() => setModalOpen(open => !open)}
-					className="w-full mt-[5%] md:min-w-[500px] md:w-[25%]"
-				>
-					<form onSubmit={handleSubmit}>
-						<PostSetting />
-					</form>
-				</CustomModal>
-			)}
-		</div>
+		</>
 	);
 }

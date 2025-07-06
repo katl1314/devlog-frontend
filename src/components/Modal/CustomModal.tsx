@@ -42,7 +42,7 @@ export default function SignUpModal({ children, afterCloseModal, className = '' 
 	return createPortal(
 		<dialog
 			ref={modalRef}
-			className={cn('border-none rounded-[5px] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] w-full', className)}
+			className={cn('top-15 border-none rounded-[5px] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] w-full', className)}
 			onClose={e => afterCloseModal?.(e.target)}
 			onClick={handleClose}
 		>
