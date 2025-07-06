@@ -167,6 +167,20 @@
 		user-select: none;
 		white-space: nowrap;
 	}
+
+	/* Link styles */
+	a {
+		color: var(--purple);
+		cursor: pointer;
+
+		&:hover {
+			color: var(--purple-contrast);
+		}
+	}
+
+	br.ProseMirror-trailingBreak {
+		display: block;
+	}
 }
 
 .col-group {
@@ -314,24 +328,5 @@ body {
 
 	&:focus-visible {
 		border: 2px solid rgb(175, 174, 174);
-	}
-}
-
-/* Code and preformatted text styles */
-code {
-	background-color: var(--purple-light);
-	border-radius: 0.4rem;
-	color: var(--black);
-	font-size: 0.85rem;
-	padding: 0.25em 0.3em;
-}
-
-/* Link styles */
-a {
-	color: var(--purple);
-	cursor: pointer;
-
-	&:hover {
-		color: var(--purple-contrast);
 	}
 }

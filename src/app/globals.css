@@ -83,6 +83,7 @@ a {
 	--tool-active-bg: oklch(0.8294 0 0);
 	--black: oklch(0 0 0);
 	--white: oklch(100% 0 0);
+	--purple-light: rgba(88, 5, 255, 0.05);
 }
 /*
   ---break---

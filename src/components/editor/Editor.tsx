@@ -40,10 +40,14 @@ export default function Editor({ content, setContent, placeholder = '무엇이�
 			Bold,
 			Italic,
 			Code,
-			CodeBlock,
-			Placeholder.configure({
-				placeholder
+			CodeBlock.configure({
+				languageClassPrefix: 'language-',
+				exitOnArrowDown: true,
+				defaultLanguage: 'plaintext'
 			}),
+			// Placeholder.configure({
+			// 	placeholder
+			// }),
 			Link.configure({
 				openOnClick: false,
 				autolink: true,
