@@ -14,9 +14,9 @@ import { GoAlert } from 'react-icons/go';
 import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
 import { redirect } from 'next/navigation';
-import PostSetting from './PostSetting';
+import PostSetting from '../Post/PostSetting';
+import Editor from '../editor/Editor';
 
-const Editor = dynamic(() => import('../editor/Editor'));
 const CustomModal = dynamic(() => import('@/components/modal/CustomModal'), { ssr: false }); // 지연 로딩
 const TagEditor = dynamic(() => import('../editor/TagEditor'));
 
@@ -75,28 +75,31 @@ export default function PostEditor() {
 	};
 
 	return (
-		<div className="flex flex-col justify-between">
-			<div className="flex flex-col mt-10 gap-2 flex-1">
+		<div className="flex flex-col justify-between h-[90vh]">
+			<div className="flex flex-col mt-10 gap-4 flex-1">
 				<Input
-					className="h-[50px] font-bold text-3xl border-0 shadow-none"
+					className="h-[50px] font-bold border-0 shadow-none px-3 text-3xl lg:text-5xl"
 					placeholder="제목을 입력하세요."
 					id="title"
 					value={title}
 					onChange={ev => setTitle(ev.target.value)}
 				/>
 				<TagEditor tags={tags} onChange={setTags} />
-				<Editor name="content" setContent={setContent} defaultValue={content} />
+				<Editor setContent={setContent} content={content} />
 			</div>
-			<div className="w-full flex justify-between items-center">
+			<div className="w-full flex justify-between items-center mb-[30px]">
 				<div className="flex gap-4">
-					<Link href="/" className="flex items-center p-2 gap-2 group hover:bg-black transition-colors duration-300">
+					<Link
+						href="/"
+						className="flex items-center p-2 gap-2 group hover:bg-neutral-500 transition-colors duration-100"
+					>
 						<FiArrowLeft size={28} className="group-hover:stroke-[white] cursor-pointer" />
 						<Label className="group-hover:text-white lg:text-lg font-bold cursor-pointer">이전</Label>
 					</Link>
 				</div>
 				<div className="flex gap-4">
 					<Button type="button" className="rounded-0 cursor-pointer" variant="outline">
-						미리 저장
+						임시저장
 					</Button>
 					<Button type="button" className="rounded-0 cursor-pointer" onClick={() => setModalOpen(true)}>
 						다음

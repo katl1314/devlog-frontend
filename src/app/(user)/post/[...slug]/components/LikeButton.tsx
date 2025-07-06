@@ -1,6 +1,6 @@
 'use client';
 
-import { PostContext } from '@/components/post/PostContextProvider';
+import { PostContext } from '@/components/Post/PostContextProvider';
 import { cn } from '@/lib/utils';
 import { User } from '@/types/type';
 import { useContext } from 'react';

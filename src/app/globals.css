@@ -78,6 +78,14 @@ a {
 	--skeleton-bg: oklch(0.9401 0 0);
 	--toggle-bg: oklch(0.708 0 0);
 	--toggle-hover-bg: oklch(0.8294 0 0);
+
+	--tool-hover-bg: oklch(92.494% 0.00011 271.152 / 0.918);
+	--tool-active-bg: oklch(0.8294 0 0);
+	--black: oklch(0 0 0);
+	--white: oklch(100% 0 0);
+	--purple-light: rgba(88, 5, 255, 0.05);
+	--link: #2563eb;
+	--gray-3: rgba(61, 37, 20, 0.12);
 }
 /*
   ---break---
@@ -120,8 +128,11 @@ a {
 	--toggle-bg: oklch(0.9401 0 0);
 	--toggle-hover-bg: oklch(0.3249 0 0);
 
+	--tool-hover-bg: oklch(70.994% 0.00579 16.527);
+	--tool-active-bg: oklch(52.959% 0.00248 15.899);
+
 	div.tabview > .active {
-		color: oklch(70.5% 0.015 286.067);
+		color: oklch(70.5% 0 286);
 	}
 }
 /*

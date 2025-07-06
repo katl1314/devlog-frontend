@@ -6,7 +6,7 @@ import { PropsWithChildren, ReactNode, useContext } from 'react';
 import { GoComment, GoShareAndroid, GoBookmark, GoAlert } from 'react-icons/go';
 import { FaHeart } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
-import { PostContext } from '@/components/post/PostContextProvider';
+import { PostContext } from '@/components/Post/PostContextProvider';
 import { toast } from 'sonner';
 
 export default function SideActionBar({ comments, path, user }: IPost & { user: User }) {

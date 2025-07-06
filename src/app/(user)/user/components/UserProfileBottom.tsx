@@ -1,14 +1,13 @@
 import { FaGithub, FaHome } from 'react-icons/fa';
 import { User } from '@/types/type';
 import { createClientByServer } from '@/utils/supabase/server';
-import Button from '@/components/common/Button';
 
 export default async function UserProfileBottom({ userId }: User) {
 	const supabase = await createClientByServer();
 	const { data } = await supabase.auth.getUser();
 
 	const profiles = await supabase.from('profiles').select('id').eq('userId', userId).single();
-	const isMyProfile = profiles.data?.id === data.user?.id;
+	// const isMyProfile = profiles.data?.id === data.user?.id;
 
 	return (
 		<div className="my-2">

@@ -3,15 +3,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Comments as TComments } from '@/types/type';
-import CommentFooter from './CommentFooter';
+import CommentFooter from '../Comments/CommentFooter';
 import { Separator } from '../ui/separator';
 import { useContext, useEffect, useState } from 'react';
 import { createClientByBrowser } from '@/utils/supabase/client';
-import PostMeta from '@/components/post/PostMeta';
+import PostMeta from '@/components/Post/PostMeta';
 import { useProfile } from '@/store/profile';
 import { deleteComments } from '@/actions/actions';
 import { ConfirmDialog } from '../Dialog/CustomDialog';
-import { PostContext } from '@/components/post/PostContextProvider';
+import { PostContext } from '@/components/Post/PostContextProvider';
 import { useRouter } from 'next/navigation';
 
 // 일단 대댓글은 2depth까지 보여준다.
