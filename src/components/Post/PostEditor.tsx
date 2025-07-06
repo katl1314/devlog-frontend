@@ -89,7 +89,10 @@ export default function PostEditor() {
 			</div>
 			<div className="w-full flex justify-between items-center mb-[30px]">
 				<div className="flex gap-4">
-					<Link href="/" className="flex items-center p-2 gap-2 group hover:bg-black transition-colors duration-300">
+					<Link
+						href="/"
+						className="flex items-center p-2 gap-2 group hover:bg-neutral-500 transition-colors duration-100"
+					>
 						<FiArrowLeft size={28} className="group-hover:stroke-[white] cursor-pointer" />
 						<Label className="group-hover:text-white lg:text-lg font-bold cursor-pointer">이전</Label>
 					</Link>
