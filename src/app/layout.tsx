@@ -6,7 +6,6 @@ import UserInit from '@/components/state/UserInit';
 import { User } from '@/types/type';
 import { Toaster } from '@/components/ui/sonner';
 import ThemeProvider from '@/components/theme/ThemeProvider';
-import ThemeToggle from '@/components/theme/ThemeToggle';
 
 const inter = Fira_Mono({
 	weight: '400',
@@ -33,7 +32,6 @@ export default async function RootLayout({ children, modal }: Readonly<IRootLayo
 		<UserInit user={user.data as User}>
 			<html lang="ko">
 				<body className={`${inter.className} relative`}>
-					<ThemeToggle />
 					<ThemeProvider />
 					{children}
 					{modal}
