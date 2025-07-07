@@ -231,3 +231,17 @@ body {
 		bottom: 0;
 	}
 }
+
+input.title {
+	height: 50px;
+	font-weight: bold;
+	border: 0;
+	padding-left: 12px;
+	font-size: 30px;
+}
+
+@media screen and (min-width: 1024px) {
+	input.title {
+		font-size: 48px;
+	}
+}

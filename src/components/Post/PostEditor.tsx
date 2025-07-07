@@ -78,7 +78,7 @@ export default function PostEditor() {
 			<div className="flex flex-col justify-between h-[80vh]">
 				<div className="flex flex-col mt-5 lg:mt-10 gap-4 flex-1">
 					<input
-						className="h-[50px] font-bold border-0 shadow-none px-3 text-3xl lg:text-5xl"
+						className="title"
 						placeholder="제목을 입력하세요."
 						id="title"
 						value={title}
