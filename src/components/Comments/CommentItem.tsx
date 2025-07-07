@@ -14,8 +14,11 @@ import { ConfirmDialog } from '../Dialog/CustomDialog';
 import { PostContext } from '@/components/Post/PostContextProvider';
 import { useRouter } from 'next/navigation';
 
+interface ICommentItem extends TComments {
+	onSuccess?: () => void;
+}
 // 일단 대댓글은 2depth까지 보여준다.
-export default function CommentItem(comment: TComments) {
+export default function CommentItem(comment: ICommentItem) {
 	const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 	const profile = useProfile();
 	const post = useContext(PostContext); // post작성 사용자
@@ -37,7 +40,13 @@ export default function CommentItem(comment: TComments) {
 
 	return (
 		<div className="mt-6">
-			<CommentHeader {...comment} avatar_url={avatarUrl} isDelete={isDelete} isEdit={isEdit} />
+			<CommentHeader
+				{...comment}
+				avatar_url={avatarUrl}
+				isDelete={isDelete}
+				isEdit={isEdit}
+				onSuccess={comment.onSuccess}
+			/>
 			<div className="my-6">{comment.comments}</div>
 			{(comment.level ?? 0) < 2 && <CommentFooter {...comment} />}
 			<Separator />
@@ -45,15 +54,16 @@ export default function CommentItem(comment: TComments) {
 	);
 }
 
-type ICommentHeader = TComments & { avatar_url?: string | null | undefined; isEdit: boolean; isDelete: boolean };
+type ICommentHeader = ICommentItem & { avatar_url?: string | null | undefined; isEdit: boolean; isDelete: boolean };
 
-export function CommentHeader({ userId, avatar_url, created_at, isEdit, isDelete, id }: ICommentHeader) {
+export function CommentHeader({ userId, avatar_url, created_at, isEdit, isDelete, id, onSuccess }: ICommentHeader) {
 	const router = useRouter();
 	const handleDeletComment = async () => {
 		const { status, message } = await deleteComments(id);
 
 		if (status === 'OK') {
 			router.refresh();
+			onSuccess?.();
 			return;
 		}
 

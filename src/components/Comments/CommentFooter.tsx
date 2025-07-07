@@ -39,7 +39,7 @@ export default function CommentFooter({ path, id, level }: TComments) {
 			</div>
 			{open && (
 				<div className="mt-6 ml-5 lg:ml-15">
-					<CommentsList data={comments} />
+					<CommentsList data={comments} onSuccess={() => setRefreshTrigger(prev => prev + 1)} />
 					<Comments path={path} pid={id} level={level} onSuccess={() => setRefreshTrigger(prev => prev + 1)} />
 				</div>
 			)}

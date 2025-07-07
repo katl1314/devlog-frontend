@@ -6,11 +6,11 @@ const CommentItem = dynamic(() => import('../Comments/CommentItem'), {
 	loading: () => <CommentSkeleton />
 });
 
-export default function CommentsList({ data }: { data: Comments[] }) {
+export default function CommentsList({ data, onSuccess }: { data: Comments[]; onSuccess?: () => void }) {
 	return (
 		<div className="mt-6">
 			{data.map(data => (
-				<CommentItem key={data.id} {...data} />
+				<CommentItem key={data.id} onSuccess={onSuccess} {...data} />
 			))}
 		</div>
 	);
