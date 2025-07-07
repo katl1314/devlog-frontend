@@ -20,6 +20,7 @@ import CodeBlock from '@tiptap/extension-code-block';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Blockquote from '@tiptap/extension-blockquote';
 import Strikethrough from '@tiptap/extension-strike';
+import { useEffect } from 'react';
 
 interface IEditor {
 	content: string;
@@ -29,6 +30,7 @@ interface IEditor {
 
 export default function Editor({ content, setContent, placeholder = '무엇이든 입력하세요.' }: IEditor) {
 	const editor = useEditor({
+		immediatelyRender: false,
 		extensions: [
 			Document,
 			Paragraph,
@@ -122,6 +124,12 @@ export default function Editor({ content, setContent, placeholder = '무엇이�
 				class: 'flex-1 max-h-[calc(100vh-350px)] py-3 overflow-auto'
 			}
 		}
+	});
+
+	useEffect(() => {
+		return () => {
+			document.body.style.overflow = 'auto';
+		};
 	});
 
 	return (

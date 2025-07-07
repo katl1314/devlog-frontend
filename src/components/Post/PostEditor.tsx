@@ -14,8 +14,8 @@ import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
 import { redirect } from 'next/navigation';
 import PostSetting from '../Post/PostSetting';
-import Editor from '../editor/Editor';
 
+const Editor = dynamic(() => import('../editor/Editor')); // 지연 로딩
 const CustomModal = dynamic(() => import('@/components/modal/CustomModal'), { ssr: false }); // 지연 로딩
 const TagEditor = dynamic(() => import('../editor/TagEditor'));
 
@@ -76,7 +76,7 @@ export default function PostEditor() {
 	return (
 		<>
 			<div className="flex flex-col justify-between h-[80vh]">
-				<div className="flex flex-col mt-5 gap-4 flex-1">
+				<div className="flex flex-col mt-5 lg:mt-10 gap-4 flex-1">
 					<input
 						className="h-[50px] font-bold border-0 shadow-none px-3 text-3xl lg:text-5xl"
 						placeholder="제목을 입력하세요."
@@ -109,10 +109,10 @@ export default function PostEditor() {
 					</Link>
 				</div>
 				<div className="flex gap-4">
-					<Button type="button" className="rounded-0 cursor-pointer" variant="outline">
+					<Button type="button" className="rounded-0" variant="outline">
 						임시저장
 					</Button>
-					<Button type="button" className="rounded-0 cursor-pointer" onClick={() => setModalOpen(true)}>
+					<Button type="button" className="rounded-0" onClick={() => setModalOpen(true)}>
 						다음
 					</Button>
 				</div>

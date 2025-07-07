@@ -19,7 +19,7 @@ export default function NotLoginButton() {
 
 	return (
 		<>
-			<Button variant="outline" onClick={handleSignUp} value="로그인" />
+			<Button variant="secondary" onClick={handleSignUp} value="로그인" className="px-5 py-0 font-bold" />
 			{open && (
 				<CustomModal afterCloseModal={handleAfterCloseModal} className="lg:w-[35%] mt-[35%] lg:mt-[15%]">
 					<AuthForm />

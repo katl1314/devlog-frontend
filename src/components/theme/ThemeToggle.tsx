@@ -14,15 +14,22 @@ export default function ThemeToggle() {
 
 	const fill = theme === 'dark' ? 'white' : 'black';
 	return (
-		<div
-			onClick={toggleTheme}
-			className="cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full p-0.5"
-		>
+		<>
 			{theme === 'dark' ? (
-				<CiDark size={32} fill={fill} className="cursor-pointer" />
+				<CiDark
+					size={38}
+					fill={fill}
+					onClick={toggleTheme}
+					className="cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full p-0.5"
+				/>
 			) : (
-				<CiLight size={32} fill={fill} className="cursor-pointer" />
+				<CiLight
+					size={38}
+					fill={fill}
+					onClick={toggleTheme}
+					className="cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full p-0.5"
+				/>
 			)}
-		</div>
+		</>
 	);
 }

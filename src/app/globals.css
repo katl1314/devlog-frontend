@@ -49,8 +49,8 @@ a {
 	--popover-foreground: oklch(0.145 0 0);
 	--primary: oklch(0.7324 0.1036 137);
 	--primary-foreground: oklch(0.985 0 0);
-	--secondary: oklch(0.97 0 0);
-	--secondary-foreground: oklch(0.205 0 0);
+	--secondary: oklch(0.2 0 0);
+	--secondary-foreground: oklch(0.975 0 0);
 	--muted: oklch(0.97 0 0);
 	--muted-foreground: oklch(0.556 0 0);
 	--accent: oklch(0.97 0 0);
@@ -132,6 +132,8 @@ a {
 	--tool-hover-bg: oklch(70.994% 0.00579 16.527);
 	--tool-active-bg: oklch(52.959% 0.00248 15.899);
 	--placeholder: oklch(0.708 0 0);
+	--login-button: oklch(0.97 0 0);
+	--login-button-foreground: oklch(0.205 0 0);
 	div.tabview > .active {
 		color: oklch(70.5% 0 286);
 	}
