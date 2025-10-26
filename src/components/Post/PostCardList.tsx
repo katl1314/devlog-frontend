@@ -25,10 +25,10 @@ export default function PostCardList({ tab }: { tab: string }) {
 		fetchPosts({ tab, pageParam: pageParam as number });
 
 	const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<FetchPostsResponse>({
-		queryKey: ['posts', tab],
-		queryFn,
-		initialPageParam: 0,
-		getNextPageParam: (lastPage, allPages) => (lastPage.hasMore ? allPages.length * 10 : undefined)
+		queryKey: ['posts'], // 쿼리의 고유 키, 캐싱/리패칭 기준 일반적으로 배열 (어떤 게시물의 쿼리인가)
+		queryFn, // 실제 데이터를 패치하는 함수 다음 페이지 fetch시 실행
+		initialPageParam: 0, // 첫번째 페이지 파라미터 값 보통 0, 1 커서 기반인 경우 커서의 초기값
+		getNextPageParam: (lastPage, allPages) => (lastPage.hasMore ? allPages.length * 10 : undefined) // 다음 페이지 불러올때 다음 파라미터 계산하는 함수
 	});
 
 	const observer = useRef<IntersectionObserver>(null);
