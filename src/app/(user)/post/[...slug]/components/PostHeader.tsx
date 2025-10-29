@@ -9,9 +9,7 @@ export default async function PostHeader({ title, path, userId, created_at, auth
 	const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/tag?path=${path}`);
 	if (!res.ok) throw new Error('태그 정보를 가져오는중 에러가 발생하였습니다');
 
-	const { data } = await res.json(); // 태그이름들
-	const tags = (data as { name: string }[]).map(({ name }) => name);
-
+	const { data } = await res.json();
 	return (
 		<div className="mb-4">
 			<div className="font-bold mb-4 text-3xl lg:text-5xl">{title}</div>
@@ -33,7 +31,7 @@ export default async function PostHeader({ title, path, userId, created_at, auth
 			</div>
 			{/* 태그 */}
 			<div className="mb-4">
-				<TagView tags={tags} />
+				<TagView tags={data} />
 			</div>
 		</div>
 	);
