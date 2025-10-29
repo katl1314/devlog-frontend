@@ -1,12 +1,9 @@
-import Button from '@/components/common/Button';
 import LockBadge from '@/components/common/LockBadge';
 import TagView from '@/components/Post/TagView';
 import Link from 'next/link';
-import LikeButton from './LikeButton';
 import { Label } from '@/components/ui/label';
 import { IPost } from '@/types/type';
 import PostMeta from '@/components/Post/PostMeta';
-import { createClientByServer } from '@/utils/supabase/server';
 
 export default async function PostHeader({ title, path, userId, created_at, auth_cd }: IPost) {
 	const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/tag?path=${path}`);
@@ -14,11 +11,6 @@ export default async function PostHeader({ title, path, userId, created_at, auth
 
 	const { data } = await res.json(); // 태그이름들
 	const tags = (data as { name: string }[]).map(({ name }) => name);
-
-	const supabase = await createClientByServer();
-	const {
-		data: { user }
-	} = await supabase.auth.getUser();
 
 	return (
 		<div className="mb-4">
@@ -35,8 +27,8 @@ export default async function PostHeader({ title, path, userId, created_at, auth
 					{auth_cd === 'PRIVATE' && <LockBadge />}
 				</div>
 				<div className="flex flex-row gap-2 items-center">
-					<Button value="팔로우" variant="outline" className="py-1 max-h-[32px] rounded-[10px] lg:px-5 lg:py-2" />
-					<LikeButton path={path} user={user} />
+					{/* TODO 만약 본인이 작성자면 삭제 기능 추가 */}
+					{/* TODO 다른 사람이면 팔로잉 */}
 				</div>
 			</div>
 			{/* 태그 */}
