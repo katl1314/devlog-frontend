@@ -42,7 +42,7 @@ export async function middleware(req: NextRequest) {
 				.eq('id', user?.id)
 				.single();
 
-			if (data.auth_cd === 'PRIVATE') {
+			if (data?.auth_cd === 'PRIVATE') {
 				// 만약 권한이 PRIVATE이면 로그인한 사용자와 비교한다.
 
 				if (data.userId !== profile.data?.userId) {
