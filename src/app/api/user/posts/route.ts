@@ -11,11 +11,12 @@ export async function GET(request: NextRequest) {
 	const likes = await supabase.from('like').select();
 
 	const posts = await supabase
-		.from('posts')
+		.from('posts_with_userinfo')
 		.select()
-		.eq('userId', userId)
+		.eq('userid', userId)
 		.range(pageParam, pageParam + 9)
 		.order('created_at', { ascending: false });
+	console.log(posts);
 
 	const { error, data } = posts;
 
@@ -24,7 +25,10 @@ export async function GET(request: NextRequest) {
 	}
 
 	if (comments.error) {
-		return NextResponse.json({ error: comments.error.message }, { status: 500 });
+		return NextResponse.json(
+			{ error: comments.error.message },
+			{ status: 500 }
+		);
 	}
 
 	if (likes.error) {
@@ -34,7 +38,9 @@ export async function GET(request: NextRequest) {
 	// 썸네일
 	let resData = data.map(post => {
 		if (post.thumbnail) {
-			const { data } = supabase.storage.from('thumbnail').getPublicUrl(post.thumbnail);
+			const { data } = supabase.storage
+				.from('thumbnail')
+				.getPublicUrl(post.thumbnail);
 			return { ...post, thumbnail: data.publicUrl };
 		}
 		return post;

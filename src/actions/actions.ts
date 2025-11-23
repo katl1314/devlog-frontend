@@ -18,12 +18,16 @@ export const registUser = async (_: unknown, formData: FormData) => {
 	const username = formData.get('username')?.toString();
 	const description = formData.get('content')?.toString();
 
-	const profiles = await supabase.from('profiles').insert([{ id, userId, avatar_url, username, description }]);
+	const profiles = await supabase
+		.from('profiles')
+		.insert([{ id, userId, avatar_url, username, description }]);
 
 	if (profiles.error) throw new Error(profiles.error.message);
 
 	// 블로그 생성
-	const blog = await supabase.from('blog').insert({ userId, title: `${userId}.log` });
+	const blog = await supabase
+		.from('blog')
+		.insert({ userId, title: `${userId}.log` });
 	if (blog.error) throw new Error(blog.error.message);
 
 	redirect('/');
@@ -34,10 +38,10 @@ export const savePost = async (_: unknown, formData: FormData) => {
 		// TODO 트랜잭션 처리 추가필요
 		const supabase = await createClientByServer();
 		const auth = await supabase.auth.getUser();
-		let user;
 		// 포스트 등록에 유효한 사용자인지 확인한다.
-		if ((user = await validateByUser(auth.data.user?.id))) {
-			const { title, content, visibility, file, path, summary, tags } = parseFormData(formData, { tags: 'object' });
+		if (await validateByUser(auth.data.user?.id)) {
+			const { title, content, visibility, file, path, summary, tags } =
+				parseFormData(formData, { tags: 'object' });
 
 			// 만약 중복된 path가 있으면 에러를 반환해야한다.
 			const { data } = await supabase.from('posts').select().eq('path', path);
@@ -54,8 +58,7 @@ export const savePost = async (_: unknown, formData: FormData) => {
 				path,
 				summary,
 				auth_cd: visibility,
-				thumbnail: uploadImage?.path,
-				userId: user.userId
+				thumbnail: uploadImage?.path
 			};
 
 			await supabase.from('posts').insert(post);
@@ -75,7 +78,11 @@ export const savePost = async (_: unknown, formData: FormData) => {
 
 const validateByUser = async (id?: string) => {
 	const supabase = await createClientByServer();
-	const { data } = await supabase.from('profiles').select('userId').eq('id', id).single();
+	const { data } = await supabase
+		.from('profiles')
+		.select('userId')
+		.eq('id', id)
+		.single();
 
 	if (!data) {
 		return;
@@ -91,7 +98,9 @@ const saveStorageImage = async (file: File | undefined | null) => {
 
 	if (!file) return null; // 파일이 없어도 무조건 true한다.
 
-	const { data, error } = await supabase.storage.from(bucket).upload(file?.name, file, { upsert: true });
+	const { data, error } = await supabase.storage
+		.from(bucket)
+		.upload(file?.name, file, { upsert: true });
 
 	if (error) throw new Error(error.message);
 
@@ -112,7 +121,10 @@ const saveHashTags = async (tags: string[], path: string) => {
 
 	if (tagResult.error) return false;
 
-	const { data: tagIds } = await supabase.from('tag').select('tag_id').in('name', tags);
+	const { data: tagIds } = await supabase
+		.from('tag')
+		.select('tag_id')
+		.in('name', tags);
 
 	const rows = tagIds?.map(tag => ({ ...tag, path }));
 
@@ -133,7 +145,11 @@ export const saveComments = async (_: unknown, formData: FormData) => {
 		const auth = await supabase.auth.getUser();
 		if (auth.error) throw new Error(auth.error.message);
 
-		const user = await supabase.from('profiles').select('userId').eq('id', auth.data.user.id).single();
+		const user = await supabase
+			.from('profiles')
+			.select('userId')
+			.eq('id', auth.data.user.id)
+			.single();
 
 		if (user.error) throw new Error(user.error.message);
 
@@ -145,7 +161,9 @@ export const saveComments = async (_: unknown, formData: FormData) => {
 
 		if (comments === '') throw new Error('댓글을 입력하세요.');
 
-		const { error } = await supabase.from('comments').insert({ pid, path, userId, comments, level });
+		const { error } = await supabase
+			.from('comments')
+			.insert({ pid, path, userId, comments, level });
 
 		if (error) throw new Error(error.message);
 
@@ -185,17 +203,29 @@ export const toggleLike = async (path: string) => {
 
 		if (auth.error) throw new Error('로그인 정보가 없습니다.');
 
-		const profile = await supabase.from('profiles').select('userId').eq('id', auth.data.user.id).single();
+		const profile = await supabase
+			.from('profiles')
+			.select('userId')
+			.eq('id', auth.data.user.id)
+			.single();
 		const userId = profile.data?.userId;
 
 		// 만약 테이블에 값이 있으면 삭제, 없으면 추가
-		const { error, data } = await supabase.from('like').select().eq('path', path).eq('userId', userId);
+		const { error, data } = await supabase
+			.from('like')
+			.select()
+			.eq('path', path)
+			.eq('userId', userId);
 
 		if (error) throw new Error(error.message);
 
 		if (data.length > 0) {
 			// 삭제
-			await supabase.from('like').delete().eq('path', path).eq('userId', userId);
+			await supabase
+				.from('like')
+				.delete()
+				.eq('path', path)
+				.eq('userId', userId);
 		} else {
 			// 추가
 			const test = await supabase.from('like').insert({ path, userId });

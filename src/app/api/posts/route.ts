@@ -9,7 +9,11 @@ export async function GET(request: NextRequest) {
 	const pageParam = Number(searchParams.get('pageParam'));
 	const comments = await supabase.from('comments').select();
 	const likes = await supabase.from('like').select();
-	const { data } = await supabase.from('profiles').select('userId').eq('id', authId).single();
+	const { data } = await supabase
+		.from('profiles')
+		.select('userId')
+		.eq('id', authId)
+		.single();
 
 	let posts;
 	if (searchParams.size < 1) {
@@ -30,7 +34,10 @@ export async function GET(request: NextRequest) {
 	}
 
 	if (comments.error) {
-		return NextResponse.json({ error: comments.error.message }, { status: 500 });
+		return NextResponse.json(
+			{ error: comments.error.message },
+			{ status: 500 }
+		);
 	}
 
 	if (likes.error) {
@@ -40,7 +47,9 @@ export async function GET(request: NextRequest) {
 	// 썸네일
 	let resData = posts.data.map(post => {
 		if (post.thumbnail) {
-			const { data } = supabase.storage.from('thumbnail').getPublicUrl(post.thumbnail);
+			const { data } = supabase.storage
+				.from('thumbnail')
+				.getPublicUrl(post.thumbnail);
 			return { ...post, thumbnail: data.publicUrl };
 		}
 		return post;
@@ -57,7 +66,9 @@ export async function GET(request: NextRequest) {
 	resData = resData.map(post => {
 		const path = post.path;
 		const like = likes.data.filter(d => d.path === path).length;
-		const isLike = likes.data.filter(d => d.path === path && d.userId === data?.userId).length > 0;
+		const isLike =
+			likes.data.filter(d => d.path === path && d.userId === data?.userId)
+				.length > 0;
 		return { ...post, like, isLike };
 	});
 

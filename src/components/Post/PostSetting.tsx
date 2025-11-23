@@ -10,7 +10,16 @@ import { usePost } from '@/store/post';
 import { useProfile } from '@/store/profile';
 
 export default function PostSetting() {
-	const { summary, setSummary, file, setFile, setVisibility, visibility, path, setPath } = usePost();
+	const {
+		summary,
+		setSummary,
+		file,
+		setFile,
+		setVisibility,
+		visibility,
+		path,
+		setPath
+	} = usePost();
 	const [thumbnail, setThumbnail] = useState<string>();
 	const { userId } = useProfile();
 
@@ -25,13 +34,16 @@ export default function PostSetting() {
 	}, [file]);
 
 	const handleChangeImage = (imageUrl: string) => setThumbnail(imageUrl);
-	const handlePathChange: ChangeEventHandler<HTMLInputElement> = ev => setPath(`${ev.target.value}`);
+	const handlePathChange: ChangeEventHandler<HTMLInputElement> = ev =>
+		setPath(`${ev.target.value}`);
 
 	return (
 		<div className="mx-auto min-h-[250px]">
 			<div className="px-4 py-2">
 				<div className="mb-3">
-					<Label className="text-lg font-bold text-center mb-3">포스트 게시하기</Label>
+					<Label className="text-lg font-bold text-center mb-3">
+						포스트 게시하기
+					</Label>
 					<Label className="text-base mb-2 text-neutral-700">대표 이미지</Label>
 					{thumbnail ? (
 						<ImagePreview src={thumbnail} onChangeImage={handleChangeImage} />
@@ -53,7 +65,11 @@ export default function PostSetting() {
 				</div>
 				<div className="mb-3">
 					<Label className="text-base mb-2 text-neutral-700">게시물 공개</Label>
-					<RadioGroup value={visibility} onChangeItem={setVisibility} name="postType">
+					<RadioGroup
+						value={visibility}
+						onChangeItem={setVisibility}
+						name="postType"
+					>
 						<RadioItem value="PUBLIC">공개</RadioItem>
 						<RadioItem value="PRIVATE">비공개</RadioItem>
 					</RadioGroup>

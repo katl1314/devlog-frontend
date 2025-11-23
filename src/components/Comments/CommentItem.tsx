@@ -54,9 +54,21 @@ export default function CommentItem(comment: ICommentItem) {
 	);
 }
 
-type ICommentHeader = ICommentItem & { avatar_url?: string | null | undefined; isEdit: boolean; isDelete: boolean };
+type ICommentHeader = ICommentItem & {
+	avatar_url?: string | null | undefined;
+	isEdit: boolean;
+	isDelete: boolean;
+};
 
-export function CommentHeader({ userId, avatar_url, created_at, isEdit, isDelete, id, onSuccess }: ICommentHeader) {
+export function CommentHeader({
+	userId,
+	avatar_url,
+	created_at,
+	isEdit,
+	isDelete,
+	id,
+	onSuccess
+}: ICommentHeader) {
 	const router = useRouter();
 	const handleDeletComment = async () => {
 		const { status, message } = await deleteComments(id);
@@ -76,7 +88,12 @@ export function CommentHeader({ userId, avatar_url, created_at, isEdit, isDelete
 				<div className="relative w-[60px] h-[60px]">
 					{avatar_url && (
 						<Link href={`/@${userId}`}>
-							<Image src={avatar_url} alt="이미지" fill className="rounded-[50%]"></Image>
+							<Image
+								src={avatar_url}
+								alt="이미지"
+								fill
+								className="rounded-[50%]"
+							></Image>
 						</Link>
 					)}
 				</div>

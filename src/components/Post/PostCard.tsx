@@ -1,19 +1,37 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import PostMeta from '../Post/PostMeta';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle
+} from '@/components/ui/card';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import type { IPost } from '@/types/type';
 import { GoHeart, GoComment } from 'react-icons/go';
 
-export default function PostCard({ path, title, created_at, thumbnail, summary, userId, comments, like }: IPost) {
+export default function PostCard({
+	path,
+	title,
+	created_at,
+	thumbnail,
+	summary,
+	userid,
+	comments,
+	like
+}: IPost) {
 	return (
 		<Card>
 			<Link href={path}>
 				<PostHeader thumbnail={thumbnail!}>
 					<CardTitle>{title}</CardTitle>
-					<CardDescription className="pt-2 line-clamp-4 text-ellipsis">{summary}</CardDescription>
+					<CardDescription className="pt-2 line-clamp-4 text-ellipsis">
+						{summary}
+					</CardDescription>
 				</PostHeader>
 				<CardContent className="flex flex-col h-[120px] justify-end px-2">
 					<div className="flex flex-row gap-3 py-3 text-neutral-500">
@@ -32,7 +50,7 @@ export default function PostCard({ path, title, created_at, thumbnail, summary, 
 			<Separator />
 			<CardFooter className="flex justify-between py-3">
 				<Label>
-					<Link href={`/@${userId}`}>{userId}</Link>
+					<Link href={`/@${userid}`}>{userid}</Link>
 				</Label>
 			</CardFooter>
 		</Card>
@@ -49,7 +67,12 @@ const PostHeader = ({
 }) => {
 	const ThumbnailView = thumbnail && (
 		<div className="relative w-full min-h-[200px]">
-			<Image src={thumbnail!} alt={'thumbnail'} fill className="object-cover rounded-t-xl"></Image>
+			<Image
+				src={thumbnail}
+				alt={'thumbnail'}
+				fill
+				className="object-cover rounded-t-xl"
+			></Image>
 		</div>
 	);
 	return (

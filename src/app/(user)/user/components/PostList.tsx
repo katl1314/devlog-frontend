@@ -22,15 +22,21 @@ const fetchPosts: fetchPostsFncByUser = async ({ userId, pageParam = 0 }) => {
 };
 
 export default function PostList({ userId }: { userId: string }) {
-	const queryFn: QueryFunction<FetchPostsResponseUser, readonly unknown[], unknown> = ({ pageParam = 0 }) =>
+	const queryFn: QueryFunction<
+		FetchPostsResponseUser,
+		readonly unknown[],
+		unknown
+	> = ({ pageParam = 0 }) =>
 		fetchPosts({ userId, pageParam: pageParam as number });
 
-	const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery<FetchPostsResponseUser>({
-		queryKey: ['posts', userId],
-		queryFn,
-		initialPageParam: 0,
-		getNextPageParam: (lastPage, allPages) => (lastPage.hasMore ? allPages.length * 10 : undefined)
-	});
+	const { data, fetchNextPage, hasNextPage } =
+		useSuspenseInfiniteQuery<FetchPostsResponseUser>({
+			queryKey: ['posts', userId],
+			queryFn,
+			initialPageParam: 0,
+			getNextPageParam: (lastPage, allPages) =>
+				lastPage.hasMore ? allPages.length * 10 : undefined
+		});
 
 	const observer = useRef<IntersectionObserver>(null);
 
