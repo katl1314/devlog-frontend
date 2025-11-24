@@ -1,15 +1,14 @@
-import { createClientByBrowser } from '@/utils/supabase/client';
 import { Suspense } from 'react';
-import PostList from '../components/PostList';
+import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
 import PostSkeleton from '@/components/skeleton/PostSkeleton';
 
-export async function generateStaticParams() {
-	const supabase = createClientByBrowser();
-	const { error, data } = await supabase.from('profiles').select();
-	if (error) throw new Error(error.message);
-	return data.map(({ userId }) => ({ slug: userId }));
-}
+// PRIVATE 포스트의 RLS 정책으로 인한 hydration 에러 방지를 위해 클라이언트에서만 렌더링
+const PostList = dynamic(() => import('../components/PostList'), {
+	ssr: false
+});
+
+export async function generateStaticParams() {}
 
 export const dynamicParams = false;
 
@@ -27,7 +26,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	};
 }
 
-export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+export default async function Page({
+	params
+}: {
+	params: Promise<{ slug: string }>;
+}) {
 	const userId = (await params).slug;
 	return (
 		<Suspense fallback={<PostFallback />}>

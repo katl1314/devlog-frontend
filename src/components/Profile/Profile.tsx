@@ -1,12 +1,10 @@
 import { CiBellOn, CiSearch } from 'react-icons/ci';
 import NotLoginButton from './NotLoginButton';
 import LoginButton from './LoginButton';
-import { createClientByServer } from '@/utils/supabase/server';
 import ThemeToggle from '../theme/ThemeToggle';
-
+import { auth } from '@/auth';
 export default async function Profile() {
-	const supabase = await createClientByServer();
-	const { data } = await supabase.auth.getUser();
+	const session = await auth(); // 로그인한 사용자 세션
 
 	return (
 		<div className="flex flex-row items-center gap-2 lg:gap-4">
@@ -21,7 +19,7 @@ export default async function Profile() {
 				size={38}
 				className="cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full block p-1"
 			/>
-			{data.user ? <LoginButton /> : <NotLoginButton />}
+			{session ? <LoginButton /> : <NotLoginButton />}
 		</div>
 	);
 }

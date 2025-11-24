@@ -6,7 +6,6 @@ import { Comments as TComments } from '@/types/type';
 import CommentFooter from '../Comments/CommentFooter';
 import { Separator } from '../ui/separator';
 import { useContext, useEffect, useState } from 'react';
-import { createClientByBrowser } from '@/utils/supabase/client';
 import PostMeta from '@/components/Post/PostMeta';
 import { useProfile } from '@/store/profile';
 import { deleteComments } from '@/actions/actions';
@@ -23,17 +22,7 @@ export default function CommentItem(comment: ICommentItem) {
 	const profile = useProfile();
 	const post = useContext(PostContext); // post작성 사용자
 
-	useEffect(() => {
-		const supabase = createClientByBrowser();
-		supabase
-			.from('profiles')
-			.select('avatar_url')
-			.eq('userId', comment.userId)
-			.single()
-			.then(({ data }) => {
-				setAvatarUrl(data?.avatar_url);
-			});
-	}, [comment.userId]);
+	useEffect(() => {}, [comment.userId]);
 
 	const isEdit = profile.userId === comment.userId;
 	const isDelete = !!post.userId && isEdit;
@@ -71,15 +60,13 @@ export function CommentHeader({
 }: ICommentHeader) {
 	const router = useRouter();
 	const handleDeletComment = async () => {
-		const { status, message } = await deleteComments(id);
-
-		if (status === 'OK') {
-			router.refresh();
-			onSuccess?.();
-			return;
-		}
-
-		alert(message); // 수정 필
+		// const { status, message } = await deleteComments(id);
+		// if (status === 'OK') {
+		// 	router.refresh();
+		// 	onSuccess?.();
+		// 	return;
+		// }
+		// alert(message);
 	};
 
 	return (

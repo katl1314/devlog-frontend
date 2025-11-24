@@ -1,18 +1,17 @@
 'use client';
 
-import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
-import { useCallback, useRef } from 'react';
 import PostCard from '@/components/Post/PostCard';
-import { FetchPostsResponse, fetchPostsFnc } from '@/types/type';
 import CardLayout from '../layout/CardLayout';
 import EmptyContent from '../Post/EmptyContent';
+import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { useCallback, useRef } from 'react';
+import { FetchPostsResponse, fetchPostsFnc } from '@/types/type';
 
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFnc = async ({ pageParam = 0 }) => {
 	const posts = await fetch(
 		`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts?pageParam=${pageParam}`
 	);
-
 	if (!posts.ok) {
 		throw new Error('데이터를 불러오는데 실패했습니다.');
 	}

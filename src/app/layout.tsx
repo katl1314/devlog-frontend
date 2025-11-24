@@ -1,12 +1,9 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Fira_Mono } from 'next/font/google';
-import { createClientByServer } from '@/utils/supabase/server';
-import UserInit from '@/components/state/UserInit';
-import { User } from '@/types/type';
 import { Toaster } from '@/components/ui/sonner';
 import ThemeProvider from '@/components/theme/ThemeProvider';
-
+import { SessionProvider } from '@/providers/session';
 const inter = Fira_Mono({
 	weight: '400',
 	subsets: ['latin']
@@ -22,23 +19,21 @@ interface IRootLayout {
 	modal: React.ReactNode;
 }
 
-export default async function RootLayout({ children, modal }: Readonly<IRootLayout>) {
-	const supabase = await createClientByServer();
-	const session = await supabase.auth.getUser();
-	const id = session.data.user?.id;
-	const user = await supabase.from('profiles').select().match({ id }).single();
-
+export default async function RootLayout({
+	children,
+	modal
+}: Readonly<IRootLayout>) {
 	return (
-		<UserInit user={user.data as User}>
-			<html lang="ko">
-				<body className={`${inter.className} relative`}>
+		<html lang="ko">
+			<body className={`${inter.className} relative`}>
+				<SessionProvider>
 					<ThemeProvider />
 					{children}
 					{modal}
 					<div id="modal" className="absolute top-0"></div>
 					<Toaster position="top-right" closeButton={true} />
-				</body>
-			</html>
-		</UserInit>
+				</SessionProvider>
+			</body>
+		</html>
 	);
 }

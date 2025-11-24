@@ -18,6 +18,7 @@ const eslintConfig = [
 			'no-unused-vars': 'warn', // 일반 JS용
 			'no-unused-expressions': 'off',
 			'@typescript-eslint/no-unused-expressions': 'off',
+			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/no-unused-vars': [
 				'warn',
 				{

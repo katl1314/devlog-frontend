@@ -1,8 +1,7 @@
-import { Suspense } from 'react';
 import PostCardSkeleton from '@/components/skeleton/PostCardSkeleton';
-import PostCardList from '@/components/Post/PostCardList';
 import CardLayout from '@/components/layout/CardLayout';
-import { createClientByBrowser } from '@/utils/supabase/client';
+import { Suspense } from 'react';
+import PostCardList from '@/components/Post/PostCardList';
 
 export const dynamicParams = false; // false 시 404페이지를 발생한다.
 
@@ -11,13 +10,7 @@ interface IPage {
 }
 
 export async function generateStaticParams() {
-	const supabase = createClientByBrowser();
-	const { data, error } = await supabase.from('tabs').select().eq('isUse', 'Y');
-
-	if (error) throw new Error(error.message);
-	const params = data.map(({ tab, text, href }) => ({ slug: tab, text, href }));
-
-	return params;
+	return [{ slug: 'new', text: '최신', href: '/' }];
 }
 
 export default async function Page({ params }: IPage) {

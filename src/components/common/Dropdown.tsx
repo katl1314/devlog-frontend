@@ -9,51 +9,49 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { useProfile } from '@/store/profile';
 import Link from 'next/link';
-import { createClientByBrowser } from '@/utils/supabase/client';
 
 interface IDropdown {
 	children: React.ReactNode;
 }
 
 export function Dropdown({ children }: IDropdown) {
-	const { userId, logout } = useProfile();
-	const supabase = createClientByBrowser();
-	const handleLogout = () => {
-		// 로그아웃
-		supabase.auth.signOut().then(() => {
-			logout();
-			window.location.reload();
-		});
-	};
-
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
 			<DropdownMenuContent className="w-56">
 				<DropdownMenuGroup>
 					<DropdownMenuItem>
-						<Link href={`/@${userId}`} className="flex justify-start items-center gap-3">
+						<Link
+							// href={`/@${userId}`}
+							href="/"
+							className="flex justify-start items-center gap-3"
+						>
 							<User />
 							<span>내 블로그</span>
 						</Link>
 					</DropdownMenuItem>
 					<DropdownMenuItem className="block lg:hidden">
-						<Link href="/write" className="flex justify-start items-center gap-3">
+						<Link
+							href="/write"
+							className="flex justify-start items-center gap-3"
+						>
 							<User />
 							<span>새 글 작성</span>
 						</Link>
 					</DropdownMenuItem>
 					<DropdownMenuItem>
-						<Link href="/settings" className="flex justify-start items-center gap-3">
+						<Link
+							href="/settings"
+							className="flex justify-start items-center gap-3"
+						>
 							<Settings />
 							<span>설정</span>
 						</Link>
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem onClick={handleLogout}>
+				<DropdownMenuItem onClick={() => {}}>
 					<LogOut />
 					<span>로그아웃</span>
 				</DropdownMenuItem>
