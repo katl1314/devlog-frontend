@@ -6,7 +6,7 @@ import { Button } from '../ui/button';
 
 export default function NotLoginButton() {
 	const handleSignUp: MouseEventHandler = () => {
-		redirect('/sign');
+		redirect('/auth');
 	};
 
 	return (

@@ -3,7 +3,6 @@
 import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
 import { fetchPostsFncByUser, FetchPostsResponseUser } from '@/types/type';
-import EmptyContent from '@/components/Post/EmptyContent';
 import PostCard from './PostCard';
 
 // 데이터를 fetch하는 함수
@@ -13,7 +12,7 @@ const fetchPosts: fetchPostsFncByUser = async ({ userId, pageParam = 0 }) => {
 	);
 
 	if (!posts.ok) {
-		throw new Error('데이터를 불러오는데 실패했습니다.');
+		console.error('데이터를 불러오는데 실패했습니다.');
 	}
 
 	const { data } = await posts.json();
@@ -55,11 +54,6 @@ export default function PostList({ userId }: { userId: string }) {
 		},
 		[hasNextPage, fetchNextPage]
 	);
-
-	if (data.pages[0].posts.length < 1) {
-		// 만약 조회한 데이터가 없으면?
-		return <EmptyContent message="게시물이 존재하지 않습니다." />;
-	}
 
 	return (
 		<>

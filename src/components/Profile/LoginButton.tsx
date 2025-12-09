@@ -1,9 +1,11 @@
 import { Dropdown } from '../common/Dropdown';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import Link from 'next/link';
 import { Skeleton } from '../ui/skeleton';
-
+import { auth } from '@/auth';
+import Link from 'next/link';
 export default async function LoginButton() {
+	const session = await auth(); // 로그인한 사용자 세션
+	const image: string = session?.user?.image ?? '';
 	return (
 		<>
 			<Link
@@ -14,7 +16,7 @@ export default async function LoginButton() {
 			</Link>
 			<Dropdown>
 				<Avatar className="cursor-pointer">
-					{/* <AvatarImage src={avatar_url} /> */}
+					<AvatarImage src={image} />
 					<AvatarFallback>
 						<Skeleton className="h-8 w-8 rounded-full" />
 					</AvatarFallback>

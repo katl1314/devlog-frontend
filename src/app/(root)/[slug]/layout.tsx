@@ -18,7 +18,10 @@ export default async function Layout({
 		feed: <MdOutlineRssFeed size={24} />
 	};
 
-	const data: TabItem[] = [{ href: '/new', tab: 'new', text: '최신' }];
+	const data: TabItem[] = [
+		{ href: '/new', tab: 'new', text: '최신' },
+		{ href: '/trends', tab: 'trends', text: '트렌드' }
+	];
 
 	return (
 		<>

@@ -10,12 +10,15 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-
+import { signOut } from 'next-auth/react';
 interface IDropdown {
 	children: React.ReactNode;
 }
 
 export function Dropdown({ children }: IDropdown) {
+	const handleSignOut = () => {
+		signOut();
+	};
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
@@ -51,7 +54,7 @@ export function Dropdown({ children }: IDropdown) {
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem onClick={() => {}}>
+				<DropdownMenuItem onClick={handleSignOut}>
 					<LogOut />
 					<span>로그아웃</span>
 				</DropdownMenuItem>

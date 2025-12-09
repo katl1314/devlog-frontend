@@ -10,7 +10,10 @@ interface IPage {
 }
 
 export async function generateStaticParams() {
-	return [{ slug: 'new', text: '최신', href: '/' }];
+	return [
+		{ slug: 'new', text: '최신', href: '/new' },
+		{ slug: 'trends', text: '트렌드', href: '/trends' }
+	];
 }
 
 export default async function Page({ params }: IPage) {

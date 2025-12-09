@@ -2,23 +2,21 @@
 
 import PostCard from '@/components/Post/PostCard';
 import CardLayout from '../layout/CardLayout';
-import EmptyContent from '../Post/EmptyContent';
 import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useRef } from 'react';
 import { FetchPostsResponse, fetchPostsFnc } from '@/types/type';
 
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFnc = async ({ pageParam = 0 }) => {
-	const posts = await fetch(
-		`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts?pageParam=${pageParam}`
-	);
+	const action = `${process.env.NEXT_PUBLIC_SITE_URL}/api/posts?pageParam=${pageParam}`;
+	const posts = await fetch(action);
 	if (!posts.ok) {
-		throw new Error('데이터를 불러오는데 실패했습니다.');
+		console.error('데이터를 불러오는데 실패했습니다.');
 	}
 
-	const { data } = await posts.json();
+	// const { data } = await posts.json();
 
-	return { posts: data, hasMore: data.length > 0 };
+	return { posts: [], hasMore: [].length > 0 };
 };
 
 export default function PostCardList({ tab }: { tab: string }) {
@@ -55,11 +53,6 @@ export default function PostCardList({ tab }: { tab: string }) {
 		},
 		[hasNextPage, fetchNextPage]
 	);
-
-	if (data.pages[0].posts.length < 1) {
-		// 만약 조회한 데이터가 없으면?
-		return <EmptyContent message="게시물이 존재하지 않습니다." />;
-	}
 
 	return (
 		<CardLayout>
