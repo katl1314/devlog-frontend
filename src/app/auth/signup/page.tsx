@@ -1,8 +1,8 @@
-import RegistForm from '@/components/form/RegistForm';
 import { base64ToString } from '@/lib/utils';
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import RegistForm from '@/components/form/RegistForm';
 
 export default async function page() {
 	const cookie = await cookies();
@@ -13,7 +13,6 @@ export default async function page() {
 	}
 	const encodeToken: string = base64ToString(token);
 	const data = JSON.parse(encodeToken);
-
 	return (
 		<>
 			<h1 className="text-5xl md:text-7xl font-bold">환영합니다!</h1>

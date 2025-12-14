@@ -1,7 +1,7 @@
 'use client';
 import { Label } from '@radix-ui/react-label';
 import { Input } from '../ui/input';
-import { registerUser } from '@/actions/actions';
+import { createUser } from '@/actions/actions';
 import { Button } from '../ui/button';
 import { ChangeEventHandler, useActionState, useEffect, useState } from 'react';
 import { Textarea } from '../ui/textarea';
@@ -12,6 +12,7 @@ interface User {
 	name: string;
 	userId: string;
 	description: string;
+	image: string;
 	provider: ProviderType;
 }
 interface IRegistForm {
@@ -22,7 +23,11 @@ interface IRegistForm {
 
 export default function RegistForm({ user, provider, accountId }: IRegistForm) {
 	// provider와 account는 첫번째 인자로 무조건 넣는다.
-	const registerUserAction = registerUser.bind(null, { provider, accountId });
+	const registerUserAction = createUser.bind(null, {
+		provider,
+		accountId,
+		image: user.image
+	});
 	const [formState, formAction, isPending] = useActionState<
 		RegisterType,
 		FormData
@@ -93,8 +98,8 @@ export default function RegistForm({ user, provider, accountId }: IRegistForm) {
 				{/* 한 줄 소개 */}
 				<Label className="md:text-xl">한 줄 소개</Label>
 				<Textarea
-					id="content"
-					name="content"
+					id="description"
+					name="description"
 					className="bg-white"
 					value={description}
 					onChange={changeDescription}

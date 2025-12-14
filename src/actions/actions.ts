@@ -4,18 +4,20 @@ import { ProviderType, RegisterSchema, RegisterType } from '@/app/schema';
 import { signIn } from '@/auth';
 import { saveUser } from '@/lib/db';
 
-// 회원가입 액션
-export const registerUser = async (
-	extra: { provider: ProviderType; accountId: string },
+// 서비스 회원가입 액션
+export const createUser = async (
+	extra: { provider: ProviderType; accountId: string; image: string },
 	state: RegisterType,
 	formData: FormData
 ): Promise<RegisterType> => {
-	const name = String(formData.get('name'));
+	const name = String(formData.get('username'));
 	const email = String(formData.get('email'));
 	const userId = String(formData.get('userId'));
 	const description = String(formData.get('description'));
 	const provider = extra.provider;
-	const accountId = extra.accountId;
+	const image = extra.image;
+
+	// avatar_url을 추가할것
 
 	// 유효성 검사
 	const validated = RegisterSchema.safeParse({
@@ -45,8 +47,14 @@ export const registerUser = async (
 	}
 
 	// TODO 사용자 DB에 추가
-	const result = await saveUser({ name, email, user_id: userId, description });
-	console.log('result ----', result);
+	await saveUser({
+		name,
+		email,
+		description,
+		user_id: userId,
+		avatar_url: image
+	});
+
 	await signIn(provider, { redirectTo: '/' });
 	return {
 		name,
