@@ -3,7 +3,11 @@ import Header from './user/components/Header';
 import QueryProvider from '@/components/state/QueryProvider';
 import { headers } from 'next/headers';
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+	children
+}: {
+	children: React.ReactNode;
+}) {
 	const headerList = await headers();
 	const pathname = headerList.get('x-pathname') || '';
 	const userId = pathname.substring(pathname.indexOf('@') + 1).split('/')[0];
@@ -11,7 +15,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 	return (
 		<QueryProvider>
 			<PageLayout>
-				<Header userId={userId} />
+				<Header userId={userId} title={`${userId}의 블로그`} />
 				<div className="mx-auto">{children}</div>
 			</PageLayout>
 		</QueryProvider>

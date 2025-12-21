@@ -7,9 +7,9 @@ import PostCard from './PostCard';
 
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFncByUser = async ({ userId, pageParam = 0 }) => {
-	const posts = await fetch(
-		`${process.env.NEXT_PUBLIC_SITE_URL}/api/user/posts?userId=${userId}&pageParam=${pageParam}`
-	);
+	// http://localhost:3000/api/user/posts?userId={userId}&pageParam=${pageParam}
+	const action = `${process.env.NEXT_PUBLIC_SITE_URL}/api/user/posts?userId=${userId}&pageParam=${pageParam}`;
+	const posts = await fetch(action);
 
 	if (!posts.ok) {
 		console.error('데이터를 불러오는데 실패했습니다.');

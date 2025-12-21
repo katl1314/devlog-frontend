@@ -9,8 +9,11 @@ export const hasUser = async (email: string) => {
 		method: 'GET',
 		cache: 'no-store'
 	});
-	if (!res.ok) throw new Error('API 에러');
-	return res.json();
+	if (!res.ok) {
+		throw new Error('API 에러');
+	}
+
+	return await res.json();
 };
 
 export const saveUser = async (user: any) => {
@@ -27,8 +30,7 @@ export const saveUser = async (user: any) => {
 		if (!res.ok) throw new Error('API 에러');
 
 		return res.json();
-	} catch (error: unknown) {
-		console.log('error', (error as Error).message);
+	} catch {
 		return;
 	}
 };
@@ -45,7 +47,7 @@ export const searchUser = async (id: string) => {
 	return res.json();
 };
 
-// 조회
+// 조회 (이메일)
 export const searchUserByEmail = async (email: string) => {
 	const action = authAction.users + `/email/${encodeURIComponent(email)}`;
 	const res = await fetch(action, {
@@ -54,5 +56,16 @@ export const searchUserByEmail = async (email: string) => {
 	});
 	if (!res.ok) throw new Error('API 에러');
 
+	return res.json();
+};
+
+// 모든 사용자 조회
+export const allUser = async () => {
+	const action = authAction.users;
+	const res = await fetch(action, {
+		method: 'GET',
+		cache: 'no-store'
+	});
+	if (!res.ok) throw new Error('API 에러');
 	return res.json();
 };

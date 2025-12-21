@@ -1,16 +1,20 @@
-import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import { Metadata } from 'next';
 import PostSkeleton from '@/components/skeleton/PostSkeleton';
+import { Suspense } from 'react';
+import { Metadata } from 'next';
+import { allUser } from '@/lib/db';
 
 // PRIVATE 포스트의 RLS 정책으로 인한 hydration 에러 방지를 위해 클라이언트에서만 렌더링
-const PostList = dynamic(() => import('../components/PostList'), {
-	ssr: false
-});
-
-export async function generateStaticParams() {}
 
 export const dynamicParams = false;
+const PostList = dynamic(() => import('../components/PostList'));
+
+export async function generateStaticParams() {
+	const users = (await allUser()) as Array<{ user_id: string }>;
+	return users.map(({ user_id }) => ({
+		slug: user_id
+	}));
+}
 
 type Props = {
 	params: Promise<{ slug: string }>;
@@ -34,7 +38,7 @@ export default async function Page({
 	const userId = (await params).slug;
 	return (
 		<Suspense fallback={<PostFallback />}>
-			<PostList userId={userId} />
+			{/*<PostList userId={userId} />*/}
 		</Suspense>
 	);
 }

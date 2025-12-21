@@ -36,13 +36,8 @@ export async function middleware(req: NextRequest) {
 		url.pathname = `${pathname}new`;
 		return NextResponse.rewrite(url);
 	} else if (pathname === '/write') {
-		// if (true) {
-		// 	url.pathname = '/';
-		// 	return NextResponse.redirect(url);
-		// }
 		return NextResponse.next();
 	} else {
-		console.log('이외 페이지..');
 	}
 
 	return NextResponse.next(); // 다른 경로는 그대로

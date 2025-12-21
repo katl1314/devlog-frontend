@@ -1,9 +1,10 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
-import { hasUser, searchUser } from './lib/db';
+import { hasUser, searchUser, searchUserByEmail } from './lib/db';
 import { cookies } from 'next/headers';
 import { stringToBase64 } from './lib/utils';
+import { User } from './types/type';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
 	session: {
@@ -17,17 +18,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				email: { label: 'Email', type: 'email' },
 				password: { label: 'Password', type: 'password' }
 			},
-			async authorize(credentials) {
+			async authorize({ email, password }) {
 				// 실제 DB 또는 인증 로직이 없을 경우 테스트용으로 고정 유저 반환
-				if (
-					credentials?.email === 'test@example.com' &&
-					credentials.password === 'test'
-				) {
+				if (email === 'test@example.com' && password === 'test') {
 					return {
 						id: '1',
 						name: 'Test User',
 						email: 'test@example.com',
-						role: 'user' // 필요한 추가 필드도 넣을 수 있음
+						role: 'user'
 					};
 				}
 				// 그 외의 경우 인증 실패 처리
@@ -40,17 +38,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 		})
 	],
 	pages: {
-		signIn: '/auth'
+		signIn: '/auth',
+		error: '/error' // 에러 발생시 페이지
 	},
 	events: {
-		async signOut(message) {
-			console.log('signOut event ----', message);
-		}
+		async signOut() {}
 	},
 	callbacks: {
 		async signIn({ user, account }) {
 			try {
-				console.log('signIn -------');
 				const verifyUser = await hasUser(user.email!);
 				if (!verifyUser) {
 					const signInfo = JSON.stringify({
@@ -67,18 +63,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 					});
 					return '/auth/signup';
 				}
+				const userInfo = await searchUserByEmail(user.email!);
+				(user as User).userId = userInfo.user_id;
 				return true;
-			} catch (err: unknown) {
-				console.log('failed -----', (err as Error).message);
+			} catch {
 				return false;
 			}
 		},
 
 		async jwt({ token, user, account }) {
 			// 로그인 시 user 정보를 JWT에 싣기
-			console.log('jwt ------------');
 			if (user) {
-				token.id = user.id;
+				token.id = (user as User).userId;
 				token.role = (user as any).role;
 				token.provider = account?.provider;
 				token.accountId = account?.providerAccountId;

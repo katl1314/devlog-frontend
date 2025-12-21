@@ -1,6 +1,6 @@
 'use client';
-import { LogOut, Settings, User } from 'lucide-react';
 
+import { LogOut, Settings, User } from 'lucide-react';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -9,16 +9,18 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import Link from 'next/link';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 interface IDropdown {
+	userId: string;
 	children: React.ReactNode;
 }
 
-export function Dropdown({ children }: IDropdown) {
+export function Dropdown({ userId, children }: IDropdown) {
 	const handleSignOut = () => {
 		signOut();
 	};
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
@@ -26,8 +28,7 @@ export function Dropdown({ children }: IDropdown) {
 				<DropdownMenuGroup>
 					<DropdownMenuItem>
 						<Link
-							// href={`/@${userId}`}
-							href="/"
+							href={`/@${userId}`}
 							className="flex justify-start items-center gap-3"
 						>
 							<User />

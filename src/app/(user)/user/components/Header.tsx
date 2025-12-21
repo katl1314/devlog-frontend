@@ -3,8 +3,9 @@ import Logo from '@/components/common/Logo';
 import dynamic from 'next/dynamic';
 import { Skeleton } from '@/components/ui/skeleton';
 
-interface Header {
+interface HeaderProps {
 	userId: string | null | undefined;
+	title: string;
 }
 
 // Profile 컴포넌트 렌더링 동안 Skeleton을 보여준다.
@@ -19,7 +20,7 @@ const Profile = dynamic(() => import('@/components/Profile/Profile'), {
 	)
 });
 
-export default async function Header({ userId }: Header) {
+export default async function Header({ userId, title }: HeaderProps) {
 	return (
 		<header>
 			<div className="box-border max-h-[70px] mx-auto my-0">
@@ -32,9 +33,9 @@ export default async function Header({ userId }: Header) {
 							href={`/@${userId}`}
 							className="text-lg lg:text-xl ml-[12px] flex items-center"
 						>
-							{/* <span className="font-bold whitespace-nowrap overflow-ellipsis  overflow-hidden w-[110px] lg:w-full">
-								{data.title}
-							</span> */}
+							<span className="font-bold whitespace-nowrap overflow-ellipsis  overflow-hidden w-[110px] lg:w-full">
+								{title}
+							</span>
 						</Logo>
 					</div>
 					<Profile />

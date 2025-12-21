@@ -4,8 +4,9 @@ import { Skeleton } from '../ui/skeleton';
 import { auth } from '@/auth';
 import Link from 'next/link';
 export default async function LoginButton() {
-	const session = await auth(); // 로그인한 사용자 세션
-	const image: string = session?.user?.image ?? '';
+	const session = (await auth())!; // 로그인한 사용자 세션
+	const image: string = session.user?.image ?? '';
+	const userId = session.user!.id as string;
 	return (
 		<>
 			<Link
@@ -14,7 +15,7 @@ export default async function LoginButton() {
 			>
 				새 글 작성
 			</Link>
-			<Dropdown>
+			<Dropdown userId={userId}>
 				<Avatar className="cursor-pointer">
 					<AvatarImage src={image} />
 					<AvatarFallback>
