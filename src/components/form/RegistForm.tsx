@@ -1,11 +1,11 @@
 'use client';
 import { Label } from '@radix-ui/react-label';
 import { Input } from '../ui/input';
-import { createUser } from '@/actions/actions';
 import { Button } from '../ui/button';
-import { ChangeEventHandler, useActionState, useEffect, useState } from 'react';
 import { Textarea } from '../ui/textarea';
+import { createUser } from '@/actions/actions';
 import { formInitialState, ProviderType, RegisterType } from '@/app/schema';
+import { ChangeEventHandler, useActionState, useEffect, useState } from 'react';
 
 interface User {
 	email: string;

@@ -8,7 +8,7 @@ export default async function page() {
 	const cookie = await cookies();
 	const token = cookie.get('signup_token')?.value ?? '';
 
-	if (!!token === false) {
+	if (!token) {
 		redirect('/');
 	}
 	const encodeToken: string = base64ToString(token);

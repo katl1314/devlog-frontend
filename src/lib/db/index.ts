@@ -1,5 +1,6 @@
 const authAction = {
-	users: `${process.env.SERVER_URL}/auth/users`
+	users: `${process.env.SERVER_URL}/auth/users`,
+	blogs: `${process.env.SERVER_URL}/blogs`,
 };
 
 // db에 사용자가 있는지 확인한다.
@@ -17,7 +18,6 @@ export const hasUser = async (email: string) => {
 };
 
 export const saveUser = async (user: any) => {
-	try {
 		const action = authAction.users;
 		const res = await fetch(action, {
 			body: JSON.stringify(user),
@@ -27,12 +27,9 @@ export const saveUser = async (user: any) => {
 			method: 'POST'
 		});
 
-		if (!res.ok) throw new Error('API 에러');
+		if (!res.ok) throw new Error();
 
 		return res.json();
-	} catch {
-		return;
-	}
 };
 
 // 조회
