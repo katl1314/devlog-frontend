@@ -10,32 +10,53 @@ export const createUser = async (
   state: RegisterType,
   formData: FormData,
 ): Promise<RegisterType> => {
-  const name = String(formData.get('username'));
-  const email = String(formData.get('email'));
-  const userId = String(formData.get('userId'));
-  const description = String(formData.get('description'));
-  const provider = extra.provider;
-  const image = extra.image;
+  try {
+    const name = String(formData.get('username'));
+    const email = String(formData.get('email'));
+    const userId = String(formData.get('userId'));
+    const description = String(formData.get('description'));
+    const provider = extra.provider;
+    const image = extra.image;
 
-  // avatar_url을 추가할것
+    // avatar_url을 추가할것
 
-  // 유효성 검사
-  const validated = RegisterSchema.safeParse({
-    name,
-    email,
-    userId,
-    description,
-  });
-
-  const errors: Record<string, string> = {};
-
-  // 유효성 검사 실패 시...
-  if (!validated.success) {
-    validated.error.issues.forEach(issue => {
-      errors[issue.path[0] as string] = issue.message;
+    // 유효성 검사
+    const validated = RegisterSchema.safeParse({
+      name,
+      email,
+      userId,
+      description,
     });
 
-    // 유효성 에러가 있으면 그대로 상태를 리턴 (리다이렉트 X)
+    const errors: Record<string, string> = {};
+
+    // 유효성 검사 실패 시...
+    if (!validated.success) {
+      validated.error.issues.forEach(issue => {
+        errors[issue.path[0] as string] = issue.message;
+      });
+
+      // 유효성 에러가 있으면 그대로 상태를 리턴 (리다이렉트 X)
+      return {
+        name,
+        email,
+        userId,
+        description,
+        errors,
+        provider,
+      };
+    }
+
+    // TODO 사용자 DB에 추가
+    await saveUser({
+      name,
+      email,
+      description,
+      user_id: userId,
+      avatar_url: image,
+    });
+
+    await signIn(provider, { redirectTo: '/' });
     return {
       name,
       email,
@@ -44,26 +65,9 @@ export const createUser = async (
       errors,
       provider,
     };
+  } catch {
+    return {} as RegisterType;
   }
-
-  // TODO 사용자 DB에 추가
-  await saveUser({
-    name,
-    email,
-    description,
-    user_id: userId,
-    avatar_url: image,
-  });
-
-  await signIn(provider, { redirectTo: '/' });
-  return {
-    name,
-    email,
-    userId,
-    description,
-    errors,
-    provider,
-  };
 };
 
 // export const savePost = async (_: unknown, formData: FormData) => {};
