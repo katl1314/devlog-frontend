@@ -18,8 +18,6 @@ export const createUser = async (
     const provider = extra.provider;
     const image = extra.image;
 
-    // avatar_url을 추가할것
-
     // 유효성 검사
     const validated = RegisterSchema.safeParse({
       name,
@@ -47,7 +45,6 @@ export const createUser = async (
       };
     }
 
-    // TODO 사용자 DB에 추가
     await saveUser({
       name,
       email,
@@ -71,10 +68,9 @@ export const createUser = async (
 };
 
 // export const savePost = async (_: unknown, formData: FormData) => {};
-// const validateByUser = async (id?: string) => {};
 // const saveStorageImage = async (file: File | undefined | null) => {};
 // const saveHashTags = async (tags: string[], path: string) => {};
 // export const saveComments = async (_: unknown, formData: FormData) => {};
 // export const deleteComments = async (id: number) => {};
 // export const updateComments = async (_: unknown, formData: FormData) => {};
-// export const toggleLike = async (path: string) => {};
+

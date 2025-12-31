@@ -22,8 +22,7 @@ interface IRegistForm {
 }
 
 export default function RegistForm({ user, provider, accountId }: IRegistForm) {
-	// provider와 account는 첫번째 인자로 무조건 넣는다.
-	const registerUserAction = createUser.bind(null, {
+	const createUserAction = createUser.bind(null, {
 		provider,
 		accountId,
 		image: user.image
@@ -31,7 +30,7 @@ export default function RegistForm({ user, provider, accountId }: IRegistForm) {
 	const [formState, formAction, isPending] = useActionState<
 		RegisterType,
 		FormData
-	>(registerUserAction, formInitialState);
+	>(createUserAction, formInitialState);
 	const [username, setUserName] = useState(user.name);
 	const [userId, setUserId] = useState(user.userId || '');
 	const [description, setDescription] = useState(user.description);
