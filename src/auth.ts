@@ -1,10 +1,9 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
-import { hasUser, searchUser, searchUserByEmail } from './lib/db';
-import { cookies } from 'next/headers';
+import { hasUser, searchUserByEmail } from './lib/db';
 import { stringToBase64 } from './lib/utils';
-import { User } from './types/type';
+import { cookies } from 'next/headers';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
 	session: {
@@ -28,7 +27,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 						role: 'user'
 					};
 				}
-				// 그 외의 경우 인증 실패 처리
+
+				// OAuth 로그인 이후 처리
+				if (password === 'signup-complete') {
+					const dbUser = await searchUserByEmail(email as string);  // lib/db에 추가
+					console.log('signup-complete >>>', dbUser);
+					if (dbUser) {
+						return {
+							id: dbUser.user_id,      // DB PK
+							email: dbUser.email,
+							name: dbUser.user_name,
+							image: dbUser.avatar_url,
+							role: 'user'
+						};
+					}
+				}
 				return null;
 			}
 		}),
@@ -51,42 +64,38 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 				if (!verifyUser) {
 					const signInfo = JSON.stringify({
 						user,
-						accountId: account?.providerAccountId,
 						provider: account?.provider
 					});
 					const token = stringToBase64(signInfo);
-					// 회원가입을 위한 정보를 쿠키에 저장한다.
-					(await cookies()).set('signup_token', token, {
+					const cookieStore = await cookies();
+					cookieStore.set('signup_token', token, {
 						httpOnly: true,
 						maxAge: 15 * 60, // 15분
 						path: '/'
 					});
-					return '/auth/signup';
+					return '/auth/signup'
 				}
-				const userInfo = await searchUserByEmail(user.email!);
-				(user as User).userId = userInfo.user_id;
 				return true;
-			} catch {
+			} catch (err) {
 				return false;
 			}
 		},
 
-		async jwt({ token, user, account }) {
-			// 로그인 시 user 정보를 JWT에 싣기
+		async jwt({ token, user }) {
 			if (user) {
-				token.id = (user as User).userId;
-				token.role = (user as any).role;
-				token.provider = account?.provider;
-				token.accountId = account?.providerAccountId;
 				token.email = user.email;
+				token.userId = user.id;
+				token.role = (user as any).role;
+				token.image = user?.image;
 			}
 			return token;
 		},
 		async session({ session, token }) {
 			// 클라이언트에서 사용할 세션 필드 구성
 			if (token) {
-				(session as any).user.id = token.id;
+				(session as any).user.id = session.userId;
 				(session as any).user.role = token.role;
+				(session as any).user.image = token.image;
 			}
 			return session;
 		}

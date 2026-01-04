@@ -4,8 +4,8 @@ import { signIn } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
-const handleSignInGoogle = () => {
-	signIn('google', {
+const handleSignInGoogle = async () => {
+	await signIn('google', {
 		redirect: true,
 		redirectTo: '/'
 	});

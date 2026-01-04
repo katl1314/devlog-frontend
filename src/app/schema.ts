@@ -7,7 +7,8 @@ export const RegisterSchema = z.object({
 	name: z.string().min(1),
 	userId: z.string().min(1).max(20),
 	description: z.string().optional(),
-	provider: z.enum(['google', 'github', 'email']).optional(),
+	// provider: z.enum(['google', 'github', 'email']).optional(),
+	provider: z.string(),
 	errors: z.record(z.string(), z.string()).optional()
 });
 

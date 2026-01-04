@@ -3,10 +3,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Skeleton } from '../ui/skeleton';
 import { auth } from '@/auth';
 import Link from 'next/link';
+import { searchUserByEmail } from '@/lib/db';
 export default async function LoginButton() {
 	const session = (await auth())!; // 로그인한 사용자 세션
 	const image: string = session.user?.image ?? '';
-	const userId = session.user!.id as string;
+	const email = session.user!.email!;
+	const { user_id } = await searchUserByEmail(email);
+
 	return (
 		<>
 			<Link
@@ -15,7 +18,7 @@ export default async function LoginButton() {
 			>
 				새 글 작성
 			</Link>
-			<Dropdown userId={userId}>
+			<Dropdown userId={user_id}>
 				<Avatar className="cursor-pointer">
 					<AvatarImage src={image} />
 					<AvatarFallback>

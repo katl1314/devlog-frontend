@@ -1,42 +1,43 @@
+import UserProfileBottom from '../components/UserProfileBottom';
+import Header from '@/app/(user)/user/components/Header';
 import UserLayout from '@/components/layout/UserLayout';
 import UserProfile from '../components/UserProfile';
-import UserProfileBottom from '../components/UserProfileBottom';
 import { Card } from '@/components/ui/card';
-import { headers } from 'next/headers';
-import { searchUser } from '@/lib/db';
 import { notFound } from 'next/navigation';
+import { searchUser } from '@/lib/db';
 
 export default async function Layout({
-	children
+	children,
+	params
 }: {
 	children: React.ReactNode;
+	params: Promise<{ slug: string }>
 }) {
 	try {
-		const headerList = await headers();
-		const pathname = headerList.get('x-pathname') || '';
-		const userId = pathname.substring(pathname.indexOf('@') + 1);
-		const {  name, user_id, avatar_url, description  } = await searchUser(userId);
-
-		/**
-		 *  userId,
-		 *  username,
-		 *  avatar_url,
-		 *  description
-		 */
+		const { slug } = await params;
+		console.log('slug >>>>>', slug);
+		const { user_name, user_id, avatar_url, blog  } = await searchUser(slug);
 
 		const data = {
-			description, avatar_url, username: name, userId: user_id
+			avatar_url,
+			description: blog.description, username: user_name, userId: user_id
 		};
+
 		return (
-			<UserLayout>
-				<Card className="p-2 rounded-[0px] lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
-					<UserProfile {...data} />
-					<UserProfileBottom />
-				</Card>
-				<Card className="mt-4 p-2 rounded-[0px] lg:mt-6 lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
-					<section className="min-h-[500px]">{children}</section>
-				</Card>
-			</UserLayout>
+			<>
+				<Header userId={slug} title={blog.title} />
+				<div className="mx-auto">
+					<UserLayout>
+						<Card className="p-2 rounded-[0px] lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
+							<UserProfile {...data} />
+							<UserProfileBottom />
+						</Card>
+						<Card className="mt-4 p-2 rounded-[0px] lg:mt-6 lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
+							<section className="min-h-[500px]">{children}</section>
+						</Card>
+					</UserLayout>
+			</div>
+			</>
 		);
 	} catch {
 		notFound();

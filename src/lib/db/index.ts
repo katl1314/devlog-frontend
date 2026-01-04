@@ -1,11 +1,11 @@
 const authAction = {
-	users: `${process.env.SERVER_URL}/auth/users`,
-	blogs: `${process.env.SERVER_URL}/blogs`,
+	user: `${process.env.SERVER_URL}/auth/users`,
+	blog: `${process.env.SERVER_URL}/blog`,
 };
 
 // db에 사용자가 있는지 확인한다.
 export const hasUser = async (email: string) => {
-	const action = authAction.users + `/${encodeURIComponent(email)}/exists`;
+	const action = authAction.user + `/${encodeURIComponent(email)}/exists`;
 	const res = await fetch(action, {
 		method: 'GET',
 		cache: 'no-store'
@@ -18,7 +18,7 @@ export const hasUser = async (email: string) => {
 };
 
 export const saveUser = async (user: any) => {
-		const action = authAction.users;
+		const action = authAction.user;
 		const res = await fetch(action, {
 			body: JSON.stringify(user),
 			headers: {
@@ -32,9 +32,25 @@ export const saveUser = async (user: any) => {
 		return res.json();
 };
 
+export const saveBlog = async (blog: any) => {
+	const action = authAction.blog;
+	console.log(action);
+	const res = await fetch(action, {
+		body: JSON.stringify(blog),
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		method: 'POST'
+	});
+	console.log(res);
+	if (!res.ok) throw new Error();
+
+	return res.json();
+}
+
 // 조회
 export const searchUser = async (id: string) => {
-	const action = authAction.users + `/${encodeURIComponent(id)}`;
+	const action = authAction.user + `/${encodeURIComponent(id)}`;
 	const res = await fetch(action, {
 		method: 'GET',
 		cache: 'no-store'
@@ -46,19 +62,19 @@ export const searchUser = async (id: string) => {
 
 // 조회 (이메일)
 export const searchUserByEmail = async (email: string) => {
-	const action = authAction.users + `/email/${encodeURIComponent(email)}`;
+	const action = authAction.user + `/email/${encodeURIComponent(email)}`;
 	const res = await fetch(action, {
 		method: 'GET',
 		cache: 'no-store'
 	});
-	if (!res.ok) throw new Error('API 에러');
+	if (!res.ok) return {};
 
 	return res.json();
 };
 
 // 모든 사용자 조회
 export const allUser = async () => {
-	const action = authAction.users;
+	const action = authAction.user;
 	const res = await fetch(action, {
 		method: 'GET',
 		cache: 'no-store'

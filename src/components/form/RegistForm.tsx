@@ -1,11 +1,12 @@
 'use client';
-import { Label } from '@radix-ui/react-label';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
-import { createUser } from '@/actions/actions';
-import { formInitialState, ProviderType, RegisterType } from '@/app/schema';
 import { ChangeEventHandler, useActionState, useEffect, useState } from 'react';
+import { formInitialState, ProviderType, RegisterType } from '@/app/schema';
+import { signIn } from 'next-auth/react';
+import { createUser } from '@/actions/actions';
+import { Label } from '@radix-ui/react-label';
+import { Textarea } from '../ui/textarea';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 interface User {
 	email: string;
@@ -18,19 +19,14 @@ interface User {
 interface IRegistForm {
 	user: User;
 	provider: ProviderType;
-	accountId: string;
 }
 
-export default function RegistForm({ user, provider, accountId }: IRegistForm) {
-	const createUserAction = createUser.bind(null, {
-		provider,
-		accountId,
-		image: user.image
-	});
+export default function RegistForm({ user, provider }: IRegistForm) {
 	const [formState, formAction, isPending] = useActionState<
 		RegisterType,
 		FormData
-	>(createUserAction, formInitialState);
+	>(createUser, formInitialState);
+
 	const [username, setUserName] = useState(user.name);
 	const [userId, setUserId] = useState(user.userId || '');
 	const [description, setDescription] = useState(user.description);
@@ -48,9 +44,22 @@ export default function RegistForm({ user, provider, accountId }: IRegistForm) {
 	};
 
 	useEffect(() => {
+		console.log('>>> formState', formState)
 		if (formState.errors) {
 			// TODO 에러에 대한 처리를 한다.
 			alert(JSON.stringify(formState.errors));
+		}
+		else if (formState.userId) {
+			(async () => {
+				console.log('회원가입 성공', formState);
+				debugger;
+				await signIn('credentials', {
+					email: formState.email,
+					password: 'signup-complete',
+					redirect: false,
+				});
+				debugger;
+			})();
 		}
 	}, [formState]);
 
@@ -109,6 +118,8 @@ export default function RegistForm({ user, provider, accountId }: IRegistForm) {
 					가입
 				</Button>
 			</div>
+			<input id="provider" name="provider" type="hidden" value={provider}/>
+			<input id="image" name="image" type="hidden" value={user.image}/>
 		</form>
 	);
 }

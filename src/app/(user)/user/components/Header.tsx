@@ -1,7 +1,7 @@
-import Image from 'next/image';
+import { Skeleton } from '@/components/ui/skeleton';
 import Logo from '@/components/common/Logo';
 import dynamic from 'next/dynamic';
-import { Skeleton } from '@/components/ui/skeleton';
+import Image from 'next/image';
 
 interface HeaderProps {
 	userId: string | null | undefined;

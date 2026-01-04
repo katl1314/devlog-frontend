@@ -1,28 +1,30 @@
 'use server';
 
-import { ProviderType, RegisterSchema, RegisterType } from '@/app/schema';
-import { signIn } from '@/auth';
-import { saveUser } from '@/lib/db';
+import { RegisterSchema, RegisterType } from '@/app/schema';
+import { saveBlog, saveUser } from '@/lib/db';
 
 // 서비스 회원가입 액션
 export const createUser = async (
-  extra: { provider: ProviderType; accountId: string; image: string },
   state: RegisterType,
   formData: FormData,
-): Promise<RegisterType> => {
-  try {
+) => {
+    // User
     const name = String(formData.get('username'));
     const email = String(formData.get('email'));
     const userId = String(formData.get('userId'));
-    const description = String(formData.get('description'));
-    const provider = extra.provider;
-    const image = extra.image;
+    const provider = String(formData.get('provider'));
+    const image = String(formData.get('image'));
 
-    // 유효성 검사
+    // Blog
+    const title = `${userId}`;
+    const description = String(formData.get('description'));
+    const urlSlug = `/@${userId}`;
+
     const validated = RegisterSchema.safeParse({
       name,
       email,
       userId,
+      provider,
       description,
     });
 
@@ -45,32 +47,25 @@ export const createUser = async (
       };
     }
 
-    await saveUser({
-      name,
+    const user = await saveUser({
       email,
-      description,
+      user_name: name,
       user_id: userId,
       avatar_url: image,
     });
 
-    await signIn(provider, { redirectTo: '/' });
+    await saveBlog({
+      user,
+      title,
+      description,
+      url_slug: urlSlug,
+    })
+
     return {
       name,
       email,
       userId,
       description,
-      errors,
       provider,
     };
-  } catch {
-    return {} as RegisterType;
-  }
 };
-
-// export const savePost = async (_: unknown, formData: FormData) => {};
-// const saveStorageImage = async (file: File | undefined | null) => {};
-// const saveHashTags = async (tags: string[], path: string) => {};
-// export const saveComments = async (_: unknown, formData: FormData) => {};
-// export const deleteComments = async (id: number) => {};
-// export const updateComments = async (_: unknown, formData: FormData) => {};
-

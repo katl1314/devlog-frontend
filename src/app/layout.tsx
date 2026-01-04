@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import './globals.css';
+import Providers from '@/components/Providers';
 import { Fira_Mono } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import ThemeProvider from '@/components/theme/ThemeProvider';
-import { SessionProvider } from '@/providers/session';
+import './globals.css';
+
 const inter = Fira_Mono({
 	weight: '400',
 	subsets: ['latin']
@@ -26,13 +27,13 @@ export default async function RootLayout({
 	return (
 		<html lang="ko">
 			<body className={`${inter.className} relative`}>
-				<SessionProvider>
+				<Providers>
 					<ThemeProvider />
 					{children}
 					{modal}
 					<div id="modal" className="absolute top-0"></div>
 					<Toaster position="top-right" closeButton={true} />
-				</SessionProvider>
+				</Providers>
 			</body>
 		</html>
 	);

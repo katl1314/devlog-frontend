@@ -1,8 +1,8 @@
-import { base64ToString } from '@/lib/utils';
-import { Metadata } from 'next';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import RegistForm from '@/components/form/RegistForm';
+import { base64ToString } from '@/lib/utils';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { Metadata } from 'next';
 
 export default async function page() {
 	const cookie = await cookies();
