@@ -6,7 +6,9 @@ import { ReactNode, useState } from 'react';
 export default function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
 
-  return (<SessionProvider>
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  </SessionProvider>);
+  return (
+    <SessionProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </SessionProvider>
+  );
 }

@@ -8,15 +8,15 @@ import { FormEventHandler, startTransition, useActionState, useEffect, useState 
 import { validatePost } from '@/utils/validation';
 import { FiArrowLeft } from 'react-icons/fi';
 import { savePost } from '@/actions/actions';
-import { useProfile } from '@/store/profile';
+import { useProfile } from '@/hooks/profile';
 import { redirect } from 'next/navigation';
 import { GoAlert } from 'react-icons/go';
-import { usePost } from '@/store/post';
+import { usePost } from '@/hooks/post';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { toast } from 'sonner';
 
-const Modal = dynamic(() => import('@/components/modal/Modal'));
+const Modal = dynamic(() => import('@/components/modal/modal'));
 const TagEditor = dynamic(() => import('../editor/TagEditor'));
 const Editor = dynamic(() => import('../editor/Editor'));
 

@@ -1,5 +1,5 @@
-import Comments from '@/components/Comments/Comments';
-import CommentsList from '@/components/Comments/CommentsList';
+import Comments from '@/components/comment/Comments';
+import CommentsList from '@/components/comment/CommentsList';
 import { Comments as TComments, Post } from '@/types/type';
 
 export default async function PostFooter(post: Post) {

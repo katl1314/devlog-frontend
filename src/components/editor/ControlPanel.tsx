@@ -16,7 +16,7 @@ import {
 	RiStrikethrough2
 } from 'react-icons/ri';
 import { cn } from '@/lib/utils';
-import { useTheme } from '@/store/theme';
+import { useTheme } from '@/hooks/theme';
 import { useCallback } from 'react';
 
 export default function ControlPanel({ editor }: { editor: Editor }) {

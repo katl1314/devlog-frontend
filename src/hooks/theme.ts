@@ -1,6 +1,5 @@
 'use client';
 import { create } from 'zustand';
-import { useEffect } from 'react';
 
 export type Themes = 'dark' | 'light';
 

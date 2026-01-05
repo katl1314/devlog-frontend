@@ -1,6 +1,6 @@
 'use client';
 
-import { Themes, useTheme } from '@/store/theme';
+import { Themes, useTheme } from '@/hooks/theme';
 import { useEffect } from 'react';
 
 export default function ThemeProvider() {

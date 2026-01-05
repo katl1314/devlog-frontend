@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Providers from '@/components/Providers';
+import Providers from '@/components/providers';
 import { Fira_Mono } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
-import ThemeProvider from '@/components/theme/ThemeProvider';
+import ThemeProvider from '@/components/theme/themeProvider';
 import './globals.css';
 
 const inter = Fira_Mono({

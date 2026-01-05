@@ -6,8 +6,8 @@ import ImageFileupload from '../image/ImageFileupload';
 import ImagePreview from '../image/ImagePreview';
 import { RadioGroup, RadioItem } from '../form/RadioGroup';
 import { Button } from '../ui/button';
-import { usePost } from '@/store/post';
-import { useProfile } from '@/store/profile';
+import { usePost } from '@/hooks/post';
+import { useProfile } from '@/hooks/profile';
 
 export default function PostSetting() {
 	const {

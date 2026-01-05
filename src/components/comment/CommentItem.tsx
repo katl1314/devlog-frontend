@@ -7,7 +7,7 @@ import CommentFooter from './CommentFooter';
 import { Separator } from '../ui/separator';
 import { useContext, useEffect, useState } from 'react';
 import PostMeta from '@/components/Post/PostMeta';
-import { useProfile } from '@/store/profile';
+import { useProfile } from '@/hooks/profile';
 import { ConfirmDialog } from '../Dialog/CustomDialog';
 import { PostContext } from '@/components/Post/PostContextProvider';
 import { useRouter } from 'next/navigation';

@@ -1,7 +1,7 @@
 import { CiBellOn, CiSearch } from 'react-icons/ci';
+import ThemeToggle from '../theme/themeToggle';
 import NotLoginButton from './NotLoginButton';
 import LoginButton from './LoginButton';
-import ThemeToggle from '../theme/ThemeToggle';
 import { auth } from '@/auth';
 
 export default async function Profile() {

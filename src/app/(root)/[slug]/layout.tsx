@@ -1,5 +1,5 @@
-import TabView from '@/components/Tab/TabView';
-import Tabs, { TabItem } from '@/components/Tab/Tabs';
+import TabView from '@/components/tab/tabView';
+import Tabs, { TabItem } from '@/components/tab/tabs';
 import {
 	MdOutlineTrendingUp,
 	MdOutlineAccessTime,
