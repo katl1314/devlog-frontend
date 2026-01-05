@@ -44,7 +44,6 @@ export default function RegistForm({ user, provider }: IRegistForm) {
 	};
 
 	useEffect(() => {
-		console.log('>>> formState', formState)
 		if (formState.errors) {
 			// TODO 에러에 대한 처리를 한다.
 			alert(JSON.stringify(formState.errors));

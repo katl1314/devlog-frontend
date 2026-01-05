@@ -1,30 +1,31 @@
 'use client';
 
-import { Button } from '../ui/button';
-import Link from 'next/link';
-import { FiArrowLeft } from 'react-icons/fi';
-import { Label } from '../ui/label';
+import PostSetting from '../Post/PostSetting';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
+
 import { FormEventHandler, startTransition, useActionState, useEffect, useState } from 'react';
-import { savePost } from '@/actions/actions';
 import { validatePost } from '@/utils/validation';
-import { toast } from 'sonner';
-import { GoAlert } from 'react-icons/go';
-import { usePost } from '@/store/post';
+import { FiArrowLeft } from 'react-icons/fi';
+import { savePost } from '@/actions/actions';
 import { useProfile } from '@/store/profile';
 import { redirect } from 'next/navigation';
-import PostSetting from '../Post/PostSetting';
+import { GoAlert } from 'react-icons/go';
+import { usePost } from '@/store/post';
+import { Button } from '../ui/button';
+import { Label } from '../ui/label';
+import { toast } from 'sonner';
 
-const Editor = dynamic(() => import('../editor/Editor')); // 지연 로딩
-const CustomModal = dynamic(() => import('@/components/modal/CustomModal'), { ssr: false }); // 지연 로딩
+const Modal = dynamic(() => import('@/components/modal/Modal'));
 const TagEditor = dynamic(() => import('../editor/TagEditor'));
+const Editor = dynamic(() => import('../editor/Editor'));
 
 export default function PostEditor() {
-	// 모바일인지 아닌지 확인은 해상도를 통해서...
+	const { title, content, visibility, tags, path, summary, file, setTitle, setContent, setTags, setReset } = usePost();
 	const [state, formAction] = useActionState(savePost, { message: '', status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
-	const { title, content, visibility, tags, path, summary, file, setTitle, setContent, setTags, setReset } = usePost();
 	const { userId } = useProfile();
+
 
 	useEffect(() => {
 		const { status, message } = state;
@@ -75,6 +76,15 @@ export default function PostEditor() {
 
 	return (
 		<>
+			<Modal
+				open={isModalOpen}
+				onAfterClose={() => setModalOpen(false)}
+				className="mt-[5%] w-full md:min-w-[500px] md:w-[25%]"
+			>
+				<form onSubmit={handleSubmit}>
+					<PostSetting />
+				</form>
+			</Modal>
 			<div className="flex flex-col justify-between h-[80vh]">
 				<div className="flex flex-col mt-5 lg:mt-10 gap-4 flex-1">
 					<input
@@ -87,16 +97,6 @@ export default function PostEditor() {
 					<TagEditor tags={tags} onChange={setTags} />
 					<Editor setContent={setContent} content={content} />
 				</div>
-				{isModalOpen && (
-					<CustomModal
-						afterCloseModal={() => setModalOpen(open => !open)}
-						className="w-full mt-[5%] md:min-w-[500px] md:w-[25%]"
-					>
-						<form onSubmit={handleSubmit}>
-							<PostSetting />
-						</form>
-					</CustomModal>
-				)}
 			</div>
 			<div className="w-full flex justify-between items-center">
 				<div className="flex gap-4">
@@ -109,10 +109,10 @@ export default function PostEditor() {
 					</Link>
 				</div>
 				<div className="flex gap-4">
-					<Button type="button" className="rounded-0" variant="outline">
+					<Button id="temp_save" type="button" variant="outline">
 						임시저장
 					</Button>
-					<Button type="button" className="rounded-0" onClick={() => setModalOpen(true)}>
+					<Button type="button" onClick={() => setModalOpen(true)}>
 						다음
 					</Button>
 				</div>

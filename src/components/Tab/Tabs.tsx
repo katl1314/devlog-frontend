@@ -46,7 +46,6 @@ function Tab({
 	children?: React.ReactNode;
 	isActive?: boolean;
 }) {
-	// "font-bold before:content-[''] before:absolute before:border-1 before:w-full before:left-0 before:bottom-0 text-black"
 	return (
 		<div
 			key={tab}

@@ -1,5 +1,4 @@
 import TabView from '@/components/Tab/TabView';
-import TabLayout from '@/components/layout/TabLayout';
 import Tabs, { TabItem } from '@/components/Tab/Tabs';
 import {
 	MdOutlineTrendingUp,
@@ -25,11 +24,11 @@ export default async function Layout({
 
 	return (
 		<>
-			<TabLayout className="tablayout">
+			<div>
 				<TabView showOption={true}>
 					<Tabs items={data as TabItem[]} icons={icons} defaultPath="/new" />
 				</TabView>
-			</TabLayout>
+			</div>
 			<div className="my-8 mx-auto px-4">{children}</div>
 		</>
 	);

@@ -2,7 +2,7 @@ import { Comments } from '@/types/type';
 import dynamic from 'next/dynamic';
 import CommentSkeleton from '@/components/skeleton/CommentSkeleton';
 
-const CommentItem = dynamic(() => import('../Comments/CommentItem'), {
+const CommentItem = dynamic(() => import('./CommentItem'), {
 	loading: () => <CommentSkeleton />
 });
 

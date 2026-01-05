@@ -3,6 +3,7 @@ import NotLoginButton from './NotLoginButton';
 import LoginButton from './LoginButton';
 import ThemeToggle from '../theme/ThemeToggle';
 import { auth } from '@/auth';
+
 export default async function Profile() {
 	const session = await auth(); // 로그인한 사용자 세션
 	return (

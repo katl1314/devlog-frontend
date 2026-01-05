@@ -1,23 +1,10 @@
-import QueryProvider from '@/components/state/QueryProvider';
 import PageLayout from '@/components/layout/PageLayout';
+import { PropsWithChildren } from 'react';
 
-export default async function Layout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
-
+export default async function Layout({ children }: PropsWithChildren) {
 	return (
-			<PageLayout>
-				{children}
-			</PageLayout>
+		<PageLayout>
+			{children}
+		</PageLayout>
 	);
 }
-
-// return (
-// 	<QueryProvider>
-// 		<PageLayout>
-// 			{children}
-// 		</PageLayout>
-// 	</QueryProvider>
-// );

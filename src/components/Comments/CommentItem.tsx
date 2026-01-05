@@ -3,12 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Comments as TComments } from '@/types/type';
-import CommentFooter from '../Comments/CommentFooter';
+import CommentFooter from './CommentFooter';
 import { Separator } from '../ui/separator';
 import { useContext, useEffect, useState } from 'react';
 import PostMeta from '@/components/Post/PostMeta';
 import { useProfile } from '@/store/profile';
-import { deleteComments } from '@/actions/actions';
 import { ConfirmDialog } from '../Dialog/CustomDialog';
 import { PostContext } from '@/components/Post/PostContextProvider';
 import { useRouter } from 'next/navigation';

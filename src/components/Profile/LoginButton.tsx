@@ -1,9 +1,10 @@
-import { Dropdown } from '../common/Dropdown';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Dropdown } from '../common/Dropdown';
+import { searchUserByEmail } from '@/lib/db';
 import { Skeleton } from '../ui/skeleton';
 import { auth } from '@/auth';
 import Link from 'next/link';
-import { searchUserByEmail } from '@/lib/db';
+
 export default async function LoginButton() {
 	const session = (await auth())!; // 로그인한 사용자 세션
 	const image: string = session.user?.image ?? '';

@@ -1,57 +1,45 @@
 'use client';
 
-import { ReactNode, useEffect, useRef, useState, MouseEventHandler } from 'react';
+import { ReactNode, useEffect, useState, MouseEventHandler } from 'react';
+import { useModal } from '@/hooks/useModal';
 import { createPortal } from 'react-dom';
-import { useRouter } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 interface ModalProps {
-	children: ReactNode;
-	afterCloseModal?: (target: EventTarget) => void;
+	open: boolean; // (필수) 초기 모달 열려있는지 값
+	children: ReactNode; // (필수) 모달에 렌더링할 엘리먼트
+	onAfterClose: (target: EventTarget) => void; // (필수) 모달 닫혔을때 이벤트
+	className?: string; // (선택) css
 }
 
-export default function Modal({ children, afterCloseModal }: ModalProps) {
-	const modalRef = useRef<HTMLDialogElement>(null);
-	const router = useRouter();
-
-	// ⭐ `document`가 있는 환경에서만 `document.getElementById()` 실행
-	const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
+export default function Modal({ open, children, className, onAfterClose }: ModalProps) {
+	const [root, setRoot] = useState<HTMLElement | null>(null);
+	const modalRef = useModal(open);
 
 	useEffect(() => {
-		// 컴포넌트 마운트 이후 브라우저 환경에서 실행
-		setModalRoot(document.getElementById('modal'));
+		setRoot(document.getElementById('modal'));
 	}, []);
 
-	useEffect(() => {
-		// modalRoot컴포넌트가 null이 아니면
-		if (modalRef.current && !modalRef.current.open) {
-			modalRef.current.showModal();
-			modalRef.current.scrollTo({ top: 0 });
-			modalRef.current.focus({ preventScroll: true });
-		}
-	}, [modalRoot]); // `modalRoot`가 업데이트되면 실행
-
 	const handleClose: MouseEventHandler<HTMLDialogElement> = e => {
-		modalRef.current?.close();
-		afterCloseModal?.(e.target);
+		onAfterClose(e.target);
 	};
 
-	// SSR 환경에서는 null 반환해서 `document is not defined` 에러 방지
-	if (!modalRoot) return null;
+	// 배경(Backdrop) 클릭 시 닫기
+	const handleBackdropClick: MouseEventHandler<HTMLDialogElement> = (e) => {
+		e.target === e.currentTarget && onAfterClose(e.target);
+	};
+
+	if (!root) return null;
 
 	return createPortal(
 		<dialog
 			ref={modalRef}
-			className="w-[100%] border-none rounded-[5px] my-[5%] mx-auto backdrop:bg-[rgba(0,0,0,0.2)] lg:w-[60%] "
-			onClose={e => afterCloseModal?.(e.target)} // 🚀 추가된 모달 닫기 기능
-			onClick={e => {
-				if ((e.target as HTMLElement).nodeName === 'DIALOG') {
-					router.back();
-				}
-				handleClose(e);
-			}}
+			className={cn("border-none rounded-[5px] mx-auto backdrop:bg-[rgba(0,0,0,0.2)]", className)}
+			onClose={handleClose}
+			onClick={handleBackdropClick}
 		>
 			{children}
 		</dialog>,
-		modalRoot
+		root
 	);
 }

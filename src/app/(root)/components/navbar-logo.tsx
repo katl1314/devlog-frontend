@@ -1,7 +1,7 @@
 'use client';
 import { useTheme } from '@/store/theme';
 
-export default function MainLogo() {
+export default function NavbarLogo() {
 	const { theme } = useTheme();
 	const textColor = theme === 'dark' ? '#ffffff' : '#373643';
 	return (

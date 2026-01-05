@@ -1,7 +1,7 @@
+import { Skeleton } from '@/components/ui/skeleton';
 import Logo from '@/components/common/Logo';
+import NavbarLogo from './navbar-logo';
 import dynamic from 'next/dynamic';
-import { Skeleton } from '../ui/skeleton';
-import MainLogo from '../common/MainLogo';
 
 // Profile 컴포넌트 렌더링 동안 Skeleton을 보여준다.
 const Profile = dynamic(() => import('@/components/Profile/Profile'), {
@@ -22,7 +22,7 @@ export default async function Header() {
 				<div className="flex items-center justify-between p-[10px]">
 					<h3 className="flex cursor-pointer">
 						<Logo href="/">
-							<MainLogo />
+							<NavbarLogo />
 						</Logo>
 					</h3>
 					<Profile />
