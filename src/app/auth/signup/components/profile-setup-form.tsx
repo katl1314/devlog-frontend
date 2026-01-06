@@ -1,12 +1,16 @@
 'use client';
 import { ChangeEventHandler, useActionState, useEffect, useState } from 'react';
 import { formInitialState, ProviderType, RegisterType } from '@/app/schema';
-import { signIn } from 'next-auth/react';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 import { createUser } from '@/actions/actions';
 import { Label } from '@radix-ui/react-label';
-import { Textarea } from '../ui/textarea';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
+import { signIn } from 'next-auth/react';
+import { GoAlert } from 'react-icons/go';
+import { toast } from 'sonner';
+
+import { redirect } from 'next/navigation';
 
 interface User {
 	email: string;
@@ -16,12 +20,12 @@ interface User {
 	image: string;
 	provider: ProviderType;
 }
-interface IRegistForm {
+interface IProfileSetupFormProps {
 	user: User;
 	provider: ProviderType;
 }
 
-export default function RegistForm({ user, provider }: IRegistForm) {
+export default function ProfileSetupForm({ user, provider }: IProfileSetupFormProps) {
 	const [formState, formAction, isPending] = useActionState<
 		RegisterType,
 		FormData
@@ -46,18 +50,20 @@ export default function RegistForm({ user, provider }: IRegistForm) {
 	useEffect(() => {
 		if (formState.errors) {
 			// TODO 에러에 대한 처리를 한다.
-			alert(JSON.stringify(formState.errors));
+			toast(JSON.stringify(formState.errors), {
+				position: 'top-right',
+				duration: 2000,
+				icon: <GoAlert />
+			});
 		}
 		else if (formState.userId) {
 			(async () => {
-				console.log('회원가입 성공', formState);
-				debugger;
 				await signIn('credentials', {
 					email: formState.email,
 					password: 'signup-complete',
 					redirect: false,
 				});
-				debugger;
+				redirect('/');
 			})();
 		}
 	}, [formState]);
@@ -65,7 +71,6 @@ export default function RegistForm({ user, provider }: IRegistForm) {
 	return (
 		<form action={formAction}>
 			<div className="mt-4">
-				{/* 프로필 이름 */}
 				<Label className="md:text-xl">프로필 이름</Label>
 				<Input
 					type="text"
@@ -117,8 +122,8 @@ export default function RegistForm({ user, provider }: IRegistForm) {
 					가입
 				</Button>
 			</div>
-			<input id="provider" name="provider" type="hidden" value={provider}/>
-			<input id="image" name="image" type="hidden" value={user.image}/>
+			<Input id="provider" name="provider" type="hidden" value={provider}/>
+			<Input id="image" name="image" type="hidden" value={user.image}/>
 		</form>
 	);
 }

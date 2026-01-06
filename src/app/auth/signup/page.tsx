@@ -1,4 +1,4 @@
-import RegistForm from '@/components/form/RegistForm';
+import ProfileSetupForm from './components/profile-setup-form';
 import { base64ToString } from '@/lib/utils';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
@@ -19,7 +19,7 @@ export default async function page() {
 			<div className="text-xl md:text-5xl mt-3">
 				기본 회원 정보를 등록해주세요.
 			</div>
-			<RegistForm {...data} />
+			<ProfileSetupForm {...data} />
 		</>
 	);
 }
