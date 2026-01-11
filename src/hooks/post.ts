@@ -17,7 +17,6 @@ interface Post {
 	setSummary: (sumary: string) => void;
 	setPath: (path: string) => void;
 	setFile: (file: File) => void;
-	setReset: () => void;
 }
 
 export const usePost = create<Post>(set => ({
@@ -36,16 +35,5 @@ export const usePost = create<Post>(set => ({
 	setVisibility: visibility => set({ visibility }),
 	setSummary: summary => set({ summary }),
 	setPath: path => set({ path }),
-	setReset: () =>
-		set({
-			title: '',
-			content: '',
-			tags: [],
-			thumbnail: '',
-			visibility: 'PUBLIC',
-			summary: '',
-			path: '',
-			file: null
-		}),
 	setFile: file => set({ file })
 }));

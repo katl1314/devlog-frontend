@@ -1,13 +1,13 @@
 'use client';
-import { IoImageOutline } from 'react-icons/io5';
 import { ChangeEventHandler, MouseEventHandler, useRef } from 'react';
+import { IoImageOutline } from 'react-icons/io5';
 import { Label } from '../ui/label';
 
-interface IImageFileupload {
+interface ImageFileUploadProps {
 	onChangeFile: (file: File) => void;
 }
 
-export default function ImageFileupload({ onChangeFile }: IImageFileupload) {
+export default function ImageFileUpload({ onChangeFile }: ImageFileUploadProps) {
 	const imageRef = useRef<HTMLInputElement>(null);
 	const handleFileClick: MouseEventHandler = () => {
 		if (imageRef?.current) {

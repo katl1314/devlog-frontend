@@ -1,7 +1,9 @@
 'use server';
 
 import { RegisterSchema, RegisterType } from '@/app/schema';
-import { saveBlog, saveUser } from '@/lib/db';
+import { parseFormData } from '@/lib/utils';
+import { createAccount } from '@/lib/db';
+import { auth } from '@/auth';
 
 // 서비스 회원가입 액션
 export const createUser = async (
@@ -46,19 +48,21 @@ export const createUser = async (
       };
     }
 
-    const user = await saveUser({
-      email,
-      user_name: name,
-      user_id: userId,
-      avatar_url: image,
-    });
+    const data = {
+      user: {
+        email: email,
+        user_name: name,
+        user_id: userId,
+        avatar_url: image,
+      },
+      blog: {
+        title: title,
+        description: description,
+        url_slug: urlSlug,
+      }
+    }
 
-    await saveBlog({
-      user,
-      title,
-      description,
-      url_slug: urlSlug,
-    })
+    await createAccount(data);
 
     return {
       name,
@@ -69,46 +73,47 @@ export const createUser = async (
     };
 };
 
+// TODO 포스트 등록
 export const savePost = async (state: any, formData: FormData,) => {
   try {
-    // TODO 트랜잭션 처리 추가필요
-    // const supabase = await createClientByServer();
-    // const auth = await supabase.auth.getUser();
-    // let user;
+    const user = await auth();
+    console.log('user ----', user);
 
-    // 포스트 등록에 유효한 사용자인지 확인한다.
-    // if ((user = await validateByUser(auth.data.user?.id))) {
-    //   const { title, content, visibility, file, path, summary, tags } = parseFormData(formData, { tags: 'object' });
+    // TODO user 유효성 체크
+
+    const formObj = parseFormData(formData, { tags: 'object' });
+    console.log('formObj ----', formObj);
+
+    // TODO 썸네일 이미지 추가
+
+    // 만약 중복된 path가 있으면 에러를 반환해야한다.
+    // const { data } = await supabase.from('posts').select().eq('path', path);
     //
-    //   // 만약 중복된 path가 있으면 에러를 반환해야한다.
-    //   const { data } = await supabase.from('posts').select().eq('path', path);
+    // if (data?.length ?? 0 > 0) {
+    //   return { status: 'ERROR', message: '이미 존재하는 URL입니다.' };
+    // }
     //
-    //   if (data?.length ?? 0 > 0) {
-    //     return { status: 'ERROR', message: '이미 존재하는 URL입니다.' };
-    //   }
+    // // 만약 포스트에 썸네일 이미지가 있는경우 storage에 등록한다.
+    // const uploadImage = await saveStorageImage(file as File);
+    // const post = {
+    //   title,
+    //   content,
+    //   path,
+    //   summary,
+    //   auth_cd: visibility,
+    //   thumbnail: uploadImage?.path,
+    //   userId: user.userId
+    // };
     //
-    //   // 만약 포스트에 썸네일 이미지가 있는경우 storage에 등록한다.
-    //   const uploadImage = await saveStorageImage(file as File);
-    //   const post = {
-    //     title,
-    //     content,
-    //     path,
-    //     summary,
-    //     auth_cd: visibility,
-    //     thumbnail: uploadImage?.path,
-    //     userId: user.userId
-    //   };
+    // await supabase.from('posts').insert(post);
     //
-    //   await supabase.from('posts').insert(post);
+    // if (!tags) return { status: 'OK' };
     //
-    //   if (!tags) return { status: 'OK' };
-    //
-    //   if (!(await saveHashTags(tags as string[], path as string))) {
-    //     throw new Error('태그 등록 중 에러가 발생하였습니다.');
-    //   }
+    // if (!(await saveHashTags(tags as string[], path as string))) {
+    //   throw new Error('태그 등록 중 에러가 발생하였습니다.');
     // }
 
-    return { status: 'OK' };
+    return { status: 'ERROR', message: '춘잣 두두두' };
   } catch (err: unknown) {
     return { message: (err as Error).message, status: 'ERROR' };
   }

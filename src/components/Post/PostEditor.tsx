@@ -4,11 +4,10 @@ import PostSetting from '../Post/PostSetting';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { FormEventHandler, startTransition, useActionState, useEffect, useState } from 'react';
+import { startTransition, useActionState, useEffect, useState, useCallback, FormEvent } from 'react';
 import { validatePost } from '@/utils/validation';
 import { FiArrowLeft } from 'react-icons/fi';
 import { savePost } from '@/actions/actions';
-import { useProfile } from '@/hooks/profile';
 import { redirect } from 'next/navigation';
 import { GoAlert } from 'react-icons/go';
 import { usePost } from '@/hooks/post';
@@ -16,19 +15,18 @@ import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { toast } from 'sonner';
 
-const Modal = dynamic(() => import('@/components/modal/modal'));
-const TagEditor = dynamic(() => import('../editor/TagEditor'));
-const Editor = dynamic(() => import('../editor/Editor'));
+const Modal = dynamic(() => import('@/components/modal/modal'), { ssr: false });
+const TagEditor = dynamic(() => import('../editor/TagEditor'), { ssr: false });
+const Editor = dynamic(() => import('../editor/Editor'), { ssr: false });
 
-export default function PostEditor() {
-	const { title, content, visibility, tags, path, summary, file, setTitle, setContent, setTags, setReset } = usePost();
+export default function PostEditor({ blog }: any) {
+	const { title, content, visibility, tags, path, summary, file, setTitle, setContent, setTags } = usePost();
 	const [state, formAction] = useActionState(savePost, { message: '', status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
-	const { userId } = useProfile();
-
 
 	useEffect(() => {
 		const { status, message } = state;
+
 		if (status == 'ERROR') {
 			toast(message, {
 				position: 'top-right',
@@ -39,15 +37,15 @@ export default function PostEditor() {
 		}
 
 		if (status === 'OK') {
-			setReset();
-			redirect('/'); // 생성된 페이지로 리다이렉트가 되어야한다.
+			redirect('/'); 	// 생성된 페이지로 리다이렉트가 되어야한다.
 		}
-	}, [state, setReset]);
+	}, [state]);
 
-	const handleSubmit: FormEventHandler<HTMLFormElement> = function (ev) {
+	const handleSubmit = useCallback((ev: FormEvent<HTMLFormElement>) => {
+		ev.preventDefault(); // 이벤트 기본 동작 방지
 		const error = validatePost({ title, content });
+
 		if (error) {
-			ev.preventDefault(); // 이벤트 기본 동작 방지
 			toast(error, {
 				position: 'top-right',
 				duration: 1500,
@@ -56,9 +54,9 @@ export default function PostEditor() {
 			return;
 		}
 
-		const postPath = path ? `/@${userId}/${path}` : `/@${userId}/${title}`;
-
+		const postPath = path ? `/${path}` : `/${title}`;
 		const formData = new FormData();
+
 		formData.set('title', title);
 		formData.set('content', content);
 		formData.set('visibility', visibility);
@@ -72,7 +70,7 @@ export default function PostEditor() {
 		});
 
 		setModalOpen(false);
-	};
+	}, [title, content, file, visibility, summary, tags, path]);
 
 	return (
 		<>
@@ -82,7 +80,7 @@ export default function PostEditor() {
 				className="mt-[5%] w-full md:min-w-[500px] md:w-[25%]"
 			>
 				<form onSubmit={handleSubmit}>
-					<PostSetting />
+					<PostSetting {...blog}/>
 				</form>
 			</Modal>
 			<div className="flex flex-col justify-between h-[80vh]">

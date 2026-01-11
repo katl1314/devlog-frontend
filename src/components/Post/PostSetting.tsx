@@ -1,15 +1,14 @@
 'use client';
 
 import { ChangeEventHandler, useEffect, useState } from 'react';
-import { Label } from '../ui/label';
-import ImageFileupload from '../image/ImageFileupload';
-import ImagePreview from '../image/ImagePreview';
 import { RadioGroup, RadioItem } from '../form/RadioGroup';
-import { Button } from '../ui/button';
+import ImageFileUpload from '../image/image-fileupload';
+import ImagePreview from '../image/image-preview';
 import { usePost } from '@/hooks/post';
-import { useProfile } from '@/hooks/profile';
+import { Button } from '../ui/button';
+import { Label } from '../ui/label';
 
-export default function PostSetting() {
+export default function PostSetting({ url_slug }: { url_slug: string }) {
 	const {
 		summary,
 		setSummary,
@@ -21,7 +20,6 @@ export default function PostSetting() {
 		setPath
 	} = usePost();
 	const [thumbnail, setThumbnail] = useState<string>();
-	const { userId } = useProfile();
 
 	useEffect(() => {
 		if (!file) {
@@ -48,13 +46,13 @@ export default function PostSetting() {
 					{thumbnail ? (
 						<ImagePreview src={thumbnail} onChangeImage={handleChangeImage} />
 					) : (
-						<ImageFileupload onChangeFile={setFile} />
+						<ImageFileUpload onChangeFile={setFile} />
 					)}
 				</div>
 				<div className="mb-3">
 					<Label className="text-base mb-2 text-neutral-700">URL 설정</Label>
 					<div className="flex h-[32px] border-1 border-[#e5e5e5] px-2">
-						<Label className="text-base text-neutral-500">/@{userId}/</Label>
+						<Label className="text-base text-neutral-500">{url_slug}/</Label>
 						<input
 							className="border-0 py-0 h-[30px] pl-[1px] w-full"
 							value={path}

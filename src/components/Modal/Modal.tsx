@@ -13,11 +13,11 @@ interface ModalProps {
 }
 
 export default function Modal({ open, children, className, onAfterClose }: ModalProps) {
-  const [root, setRoot] = useState<HTMLElement | null>(null);
+  const [mounted, setMounted] = useState<boolean>(false); // 마운트 여부
   const modalRef = useModal(open);
 
   useEffect(() => {
-    setRoot(document.getElementById('modal'));
+    setMounted(true);
   }, []);
 
   const handleClose: MouseEventHandler<HTMLDialogElement> = e => {
@@ -29,7 +29,7 @@ export default function Modal({ open, children, className, onAfterClose }: Modal
     e.target === e.currentTarget && onAfterClose(e.target);
   };
 
-  if (!root) return null;
+  if (!mounted) return null;
 
   return createPortal(
     <dialog
@@ -40,6 +40,6 @@ export default function Modal({ open, children, className, onAfterClose }: Modal
     >
       {children}
     </dialog>,
-    root
+    document.getElementById('modal') as HTMLElement
   );
 }

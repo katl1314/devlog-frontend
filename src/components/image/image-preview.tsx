@@ -1,13 +1,12 @@
 'use client';
-import { useState } from 'react';
 import { RxMinus } from 'react-icons/rx';
 
-interface ImageFileupload {
+interface ImageFilePreviewProps {
 	src: string;
 	onChangeImage: (image: string) => void;
 }
 
-export default function ImagePreview({ src, onChangeImage }: ImageFileupload) {
+export default function ImagePreview({ src, onChangeImage }: ImageFilePreviewProps) {
 	return (
 		<div className="relative group">
 			<img src={src} alt="대표이미지" className="h-48 w-full object-cover" />

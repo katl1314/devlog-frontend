@@ -17,8 +17,9 @@ export const hasUser = async (email: string) => {
 	return await res.json();
 };
 
-export const saveUser = async (user: any) => {
+export const createAccount = async (user: any) => {
 		const action = authAction.user;
+		console.log('action ::', action);
 		const res = await fetch(action, {
 			body: JSON.stringify(user),
 			headers: {
@@ -26,27 +27,27 @@ export const saveUser = async (user: any) => {
 			},
 			method: 'POST'
 		});
-
+	console.log('action ::', res);
 		if (!res.ok) throw new Error();
 
 		return res.json();
 };
 
-export const saveBlog = async (blog: any) => {
-	const action = authAction.blog;
-	console.log(action);
-	const res = await fetch(action, {
-		body: JSON.stringify(blog),
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		method: 'POST'
-	});
-	console.log(res);
-	if (!res.ok) throw new Error();
-
-	return res.json();
-}
+// export const saveBlog = async (blog: any) => {
+// 	const action = authAction.blog;
+// 	console.log(action);
+// 	const res = await fetch(action, {
+// 		body: JSON.stringify(blog),
+// 		headers: {
+// 			'Content-Type': 'application/json'
+// 		},
+// 		method: 'POST'
+// 	});
+// 	console.log(res);
+// 	if (!res.ok) throw new Error();
+//
+// 	return res.json();
+// }
 
 // 조회
 export const searchUser = async (id: string) => {
