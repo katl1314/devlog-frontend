@@ -58,9 +58,8 @@ export default function ProfileSetupForm({ user, provider }: IProfileSetupFormPr
 		}
 		else if (formState.userId) {
 			(async () => {
-				await signIn('credentials', {
+				await signIn('signup-complete', {
 					email: formState.email,
-					password: 'signup-complete',
 					redirect: false,
 				});
 				redirect('/');

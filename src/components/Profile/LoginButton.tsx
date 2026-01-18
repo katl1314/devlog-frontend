@@ -1,15 +1,18 @@
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Dropdown } from '../common/Dropdown';
-import { searchUserByEmail } from '@/lib/db';
 import { Skeleton } from '../ui/skeleton';
 import { auth } from '@/auth';
 import Link from 'next/link';
+import { isEmpty } from '@/lib/utils';
 
 export default async function LoginButton() {
-	const session = (await auth())!; // 로그인한 사용자 세션
-	const image: string = session.user?.image ?? '';
-	const email = session.user!.email!;
-	const { user_id } = await searchUserByEmail(email);
+	const session = await auth(); // 로그인한 사용자 세션
+	const image: string = session!.user?.image ?? '';
+	const userId = session!.user?.id;
+
+	if (isEmpty(userId)) {
+		throw new Error('비 정상적인 접근입니다.');
+	}
 
 	return (
 		<>
@@ -19,7 +22,7 @@ export default async function LoginButton() {
 			>
 				새 글 작성
 			</Link>
-			<Dropdown userId={user_id}>
+			<Dropdown userId={userId}>
 				<Avatar className="cursor-pointer">
 					<AvatarImage src={image} />
 					<AvatarFallback>

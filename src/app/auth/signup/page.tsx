@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 
 export default async function page() {
 	const cookie = await cookies();
-	const token = cookie.get('signup_token')?.value ?? '';
+	const token = cookie.get('signup-token')?.value ?? '';
 
 	if (!token) {
 		redirect('/');

@@ -1,9 +1,5 @@
 'use client';
 
-import PostSetting from '../Post/PostSetting';
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
-
 import { startTransition, useActionState, useEffect, useState, useCallback, FormEvent } from 'react';
 import { validatePost } from '@/utils/validation';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -14,6 +10,9 @@ import { usePost } from '@/hooks/post';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { toast } from 'sonner';
+import PostSetting from '../Post/PostSetting';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
 
 const Modal = dynamic(() => import('@/components/modal/modal'), { ssr: false });
 const TagEditor = dynamic(() => import('../editor/TagEditor'), { ssr: false });
@@ -25,8 +24,7 @@ export default function PostEditor({ blog }: any) {
 	const [isModalOpen, setModalOpen] = useState(false);
 
 	useEffect(() => {
-		const { status, message } = state;
-
+		const { status, message } = state!;
 		if (status == 'ERROR') {
 			toast(message, {
 				position: 'top-right',
