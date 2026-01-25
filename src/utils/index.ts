@@ -1,25 +1,14 @@
 import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { twMerge } from 'tailwind-merge';
+import utc from 'dayjs/plugin/utc';
+import dayjs, { Dayjs } from 'dayjs';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-type DayjsArgType = Parameters<typeof dayjs>;
-
-export const dayjsWithTimezone = (...args: DayjsArgType) =>
-	dayjs(...args).tz('Asia/Seoul');
-
 export const cn = (...inputs: ClassValue[]) => {
 	return twMerge(clsx(inputs));
-};
-
-export const sleep = async (ms: number) => {
-	return new Promise(res => {
-		setTimeout(() => res(null), ms);
-	});
 };
 
 // utf-8 to base64
@@ -73,10 +62,40 @@ export const isEmpty = (val: unknown): val is null | undefined => {
 	);
 };
 
-/*
- * @Description 값이 참 거짓을 의미하는 값인지 확인하는 함수
- *
- */
-export const isBool = (val: unknown): boolean => {
-	return val === true || val === false || val === 'true' || val === 'false';
+
+export function getTimeDiff(timeToCompare: Dayjs): string {
+	const now = dayjs();
+	const years = now.diff(timeToCompare, 'year');
+	if (years > 0) return `${years}년 전`;
+
+	const months = now.diff(timeToCompare, 'month');
+	if (months > 0) return `${months}개월 전`;
+
+	const days = now.diff(timeToCompare, 'day');
+	if (days > 0) return `${days}일 전`;
+
+	const hours = now.diff(timeToCompare, 'hour');
+	if (hours > 0) return `${hours}시간 전`;
+
+	const minutes = now.diff(timeToCompare, 'minute');
+	if (minutes > 0) return `${minutes}분 전`;
+
+	const seconds = now.diff(timeToCompare, 'second');
+	if (seconds > 0) return `${seconds}초 전`;
+
+	return '방금 전';
+}
+
+export type PostFormData = {
+	title?: string;
+	content?: string;
 };
+
+export function validatePost(data: PostFormData) {
+	const { title, content } = data;
+
+	if (!title) return '제목을 입력하세요.';
+	if (!content) return '내용을 입력하세요.';
+
+	return null;
+}

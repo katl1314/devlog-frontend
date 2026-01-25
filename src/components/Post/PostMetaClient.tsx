@@ -1,6 +1,6 @@
 'use client';
 
-import { getTimeDiff } from '@/utils/time';
+import { getTimeDiff } from '@/utils';
 import Dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Label } from '../ui/label';

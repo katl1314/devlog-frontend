@@ -4,7 +4,7 @@ import UserLayout from '@/components/layout/UserLayout';
 import UserProfile from '../components/UserProfile';
 import { Card } from '@/components/ui/card';
 import { notFound } from 'next/navigation';
-import { searchUser } from '@/lib/db';
+import { userService } from '@/services/user.service';
 
 export default async function Layout({
 	children,
@@ -15,8 +15,7 @@ export default async function Layout({
 }) {
 	try {
 		const { slug } = await params;
-		console.log('slug >>>>>', slug);
-		const { user_name, user_id, avatar_url, blog  } = await searchUser(slug);
+		const { user_name, user_id, avatar_url, blog  } = await userService.findUserById(slug);
 
 		const data = {
 			avatar_url,

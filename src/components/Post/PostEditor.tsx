@@ -1,7 +1,7 @@
 'use client';
 
 import { startTransition, useActionState, useEffect, useState, useCallback, FormEvent } from 'react';
-import { validatePost } from '@/utils/validation';
+import { validatePost } from '@/utils/';
 import { FiArrowLeft } from 'react-icons/fi';
 import { savePost } from '@/actions/actions';
 import { redirect } from 'next/navigation';
@@ -20,20 +20,11 @@ const Editor = dynamic(() => import('../editor/Editor'), { ssr: false });
 
 export default function PostEditor({ blog }: any) {
 	const { title, content, visibility, tags, path, summary, file, setTitle, setContent, setTags } = usePost();
-	const [state, formAction] = useActionState(savePost, { message: '', status: '' });
+	const [state, formAction] = useActionState(savePost, { status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
 
 	useEffect(() => {
-		const { status, message } = state!;
-		if (status == 'ERROR') {
-			toast(message, {
-				position: 'top-right',
-				duration: 2000,
-				icon: <GoAlert />
-			});
-			return;
-		}
-
+		const { status } = state!;
 		if (status === 'OK') {
 			redirect('/'); 	// 생성된 페이지로 리다이렉트가 되어야한다.
 		}

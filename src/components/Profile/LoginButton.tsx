@@ -3,7 +3,7 @@ import { Dropdown } from '../common/Dropdown';
 import { Skeleton } from '../ui/skeleton';
 import { auth } from '@/auth';
 import Link from 'next/link';
-import { isEmpty } from '@/lib/utils';
+import { isEmpty } from '@/utils';
 
 export default async function LoginButton() {
 	const session = await auth(); // 로그인한 사용자 세션

@@ -5,7 +5,7 @@ import { IPost, User } from '@/types/type';
 import { PropsWithChildren, ReactNode, useContext } from 'react';
 import { GoComment, GoShareAndroid, GoBookmark, GoAlert } from 'react-icons/go';
 import { FaHeart } from 'react-icons/fa';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils';
 import { PostContext } from '@/components/Post/PostContextProvider';
 import { toast } from 'sonner';
 

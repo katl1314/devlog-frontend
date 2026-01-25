@@ -1,23 +1,14 @@
 'use client';
 
 import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
-import { useCallback, useRef } from 'react';
 import { fetchPostsFncByUser, FetchPostsResponseUser } from '@/types/type';
+import { useCallback, useRef } from 'react';
 import PostCard from './PostCard';
 
 // 데이터를 fetch하는 함수
-const fetchPosts: fetchPostsFncByUser = async ({ userId, pageParam = 0 }) => {
-	// http://localhost:3000/api/user/posts?userId={userId}&pageParam=${pageParam}
-	const action = `${process.env.NEXT_PUBLIC_SITE_URL}/api/user/posts?userId=${userId}&pageParam=${pageParam}`;
-	const posts = await fetch(action);
-
-	if (!posts.ok) {
-		console.error('데이터를 불러오는데 실패했습니다.');
-	}
-
-	const { data } = await posts.json();
-
-	return { posts: data, hasMore: data.length > 0 };
+const fetchPosts: fetchPostsFncByUser = async ({ userId, cursor = 0 }) => {
+	console.log(userId, cursor);
+	return { posts: [], hasMore: [].length > 0 };
 };
 
 export default function PostList({ userId }: { userId: string }) {
@@ -26,7 +17,7 @@ export default function PostList({ userId }: { userId: string }) {
 		readonly unknown[],
 		unknown
 	> = ({ pageParam = 0 }) =>
-		fetchPosts({ userId, pageParam: pageParam as number });
+		fetchPosts({ userId, cursor: pageParam as number });
 
 	const { data, fetchNextPage, hasNextPage } =
 		useSuspenseInfiniteQuery<FetchPostsResponseUser>({

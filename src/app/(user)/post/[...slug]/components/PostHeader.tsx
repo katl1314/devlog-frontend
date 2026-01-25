@@ -11,12 +11,12 @@ export default async function PostHeader({
 	created_at,
 	auth_cd
 }: IPost) {
-	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_SITE_URL}/api/tag?path=${path}`
-	);
-	if (!res.ok) throw new Error('태그 정보를 가져오는중 에러가 발생하였습니다');
-
-	const { data } = await res.json();
+	// const res = await fetch(
+	// 	`${process.env.NEXT_PUBLIC_SITE_URL}/api/tag?path=${path}`
+	// );
+	// if (!res.ok) throw new Error('태그 정보를 가져오는중 에러가 발생하였습니다');
+	//
+	// const { data } = await res.json();
 	return (
 		<div className="mb-4">
 			<div className="font-bold mb-4 text-3xl lg:text-5xl">{title}</div>
@@ -41,9 +41,9 @@ export default async function PostHeader({
 				</div>
 			</div>
 			{/* 태그 */}
-			<div className="mb-4">
-				<TagView tags={data} />
-			</div>
+			{/*<div className="mb-4">*/}
+			{/*	<TagView tags={data} />*/}
+			{/*</div>*/}
 		</div>
 	);
 }

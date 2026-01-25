@@ -1,9 +1,11 @@
 'use server';
 
 import { RegisterSchema, RegisterType } from '@/app/schema';
-import { createAccount, createPost } from '@/lib/db';
-import { parseFormData } from '@/lib/utils';
-
+import { userService } from '@/services/user.service';
+import { postService } from '@/services/post.service';
+import { parseFormData } from '@/utils';
+import { Session } from 'next-auth';
+import { auth } from '@/auth';
 
 // 서비스 회원가입 액션
 export const createUser = async (
@@ -62,7 +64,7 @@ export const createUser = async (
       }
     }
 
-    await createAccount(data);
+    await userService.create(data);
 
     return {
       name,
@@ -76,16 +78,17 @@ export const createUser = async (
 export const savePost = async (_: any, formData: FormData) => {
   try {
     const formObj = parseFormData(formData, { tags: 'object' });
-    // TODO 썸네일 이미지 저장
+    const session = (await auth()) as Session & { accessToken: string };
+    // TODO 썸네일 이미지 처리할 것.
 
-    await createPost({
-      body: {
-        ...formObj,
-        thumbnail: '',
-      }
-    });
+    await postService.create({
+      ...formObj,
+      thumbnail: '',
+    }, session.accessToken);
 
-  } catch (err: unknown) {
-    return { status: 'ERROR', message: (err as Error).message };
+    return { status: 'ok' };
+
+  } catch (status: unknown) {
+    return { status: (status as Error).message };
   }
 }

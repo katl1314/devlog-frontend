@@ -1,7 +1,7 @@
 'use client';
 
 import { PostContext } from '@/components/Post/PostContextProvider';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils';
 import { User } from '@/types/type';
 import { useContext } from 'react';
 import { FaHeart } from 'react-icons/fa';

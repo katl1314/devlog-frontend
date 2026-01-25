@@ -11,31 +11,26 @@ export type IPost = Post & {
 	userid: string;
 	username: string;
 };
+
 export interface FetchPostsResponse {
 	posts: IPost[];
-	hasMore: boolean;
+	nextCursor: number;
 }
 
-export interface FetchPostsResponseUser {
-	posts: IPost[];
-	hasMore: boolean;
-}
+// export interface FetchPostsResponseUser {
+// 	posts: IPost[];
+// 	nextCursor: boolean;
+// 	cursor: {
+// 		after: number
+// 	}
+// }
 
-export interface FetchPostsTab {
-	tab: string;
-	pageParam: number;
-}
+// export interface FetchPostsUser {
+// 	userId: string;
+// 	cursor: number;
+// }
 
-export interface FetchPostsUser {
-	userId: string;
-	pageParam: number;
-}
-
-export type fetchPostsFnc = ({
-	tab,
-	pageParam
-}: FetchPostsTab) => Promise<FetchPostsResponse>;
-export type fetchPostsFncByUser = ({
-	userId,
-	pageParam
-}: FetchPostsUser) => Promise<FetchPostsResponseUser>;
+// export type fetchPostsFncByUser = ({
+// 	userId,
+// 	cursor
+// }: FetchPostsUser) => Promise<FetchPostsResponseUser>;

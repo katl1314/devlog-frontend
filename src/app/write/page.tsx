@@ -1,8 +1,8 @@
 import PostEditor from '@/components/Post/PostEditor';
 import { redirect} from 'next/navigation';
-import { searchUser } from '@/lib/db';
-import { isEmpty } from '@/lib/utils'
+import { isEmpty } from '@/utils'
 import { auth } from '@/auth';
+import { userService } from '@/services/user.service';
 
 export default async function Page() {
 	const session = await auth();
@@ -11,7 +11,7 @@ export default async function Page() {
 		return redirect('/');
 	}
 
-	const user = await searchUser(session.user.id!);
+	const user = await userService.findUserById(session.user.id!);
 	return (
 		<div className="relative">
 			<PostEditor {...user}/>

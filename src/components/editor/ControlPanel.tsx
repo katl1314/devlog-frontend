@@ -15,7 +15,7 @@ import {
 	RiLink,
 	RiStrikethrough2
 } from 'react-icons/ri';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils';
 import { useTheme } from '@/hooks/theme';
 import { useCallback } from 'react';
 

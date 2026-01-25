@@ -3,7 +3,7 @@
 import { ReactNode, useEffect, useState, MouseEventHandler } from 'react';
 import { useModal } from '@/hooks/modal';
 import { createPortal } from 'react-dom';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils';
 
 interface ModalProps {
   open: boolean; // (필수) 초기 모달 열려있는지 값

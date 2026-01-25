@@ -1,5 +1,5 @@
 import ProfileSetupForm from './components/profile-setup-form';
-import { base64ToString } from '@/lib/utils';
+import { base64ToString } from '@/utils';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { Metadata } from 'next';
