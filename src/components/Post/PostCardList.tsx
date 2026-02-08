@@ -8,7 +8,7 @@ import CardLayout from '../layout/CardLayout';
 import { useCallback, useRef } from 'react';
 
 const fetchPosts: any = async ({ cursor = 0 }) => {
-	const posts = await postService.find(cursor);
+	const posts = await postService.getList(cursor);
 	return { posts: posts.data, nextCursor: posts.cursor.after }
 };
 
@@ -16,12 +16,8 @@ export default function PostCardList() {
 	const { data, fetchNextPage, hasNextPage } =
 		useSuspenseInfiniteQuery<FetchPostsResponse>({
 			queryKey: ['posts'], // 쿼리의 고유 키, 캐싱/리패칭 기준 일반적으로 배열 (어떤 게시물의 쿼리인가)
-			getNextPageParam: (lastPage) => {
-				return lastPage.nextCursor ? lastPage.nextCursor + 1 :  undefined
-			},
-			queryFn:  ({ pageParam = 0 }) => {
-				return fetchPosts({ cursor: pageParam as number })
-			},
+			getNextPageParam: (lastPage) => lastPage.nextCursor ? lastPage.nextCursor - 1 :  undefined,
+			queryFn:  ({ pageParam = 0 }) => fetchPosts({ cursor: pageParam as number }),
 			initialPageParam: 0, // 초기값
 		});
 

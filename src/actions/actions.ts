@@ -92,3 +92,8 @@ export const savePost = async (_: any, formData: FormData) => {
     return { status: (status as Error).message };
   }
 }
+
+export const saveComment = async(_: any, formData: FormData) => {
+  console.log(formData);
+  return { message: '', status: '' }
+}

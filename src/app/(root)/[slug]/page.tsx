@@ -20,7 +20,7 @@ export default async function Page({ params }: IPage) {
 	const { slug } = await params;
 	return (
 		<Suspense fallback={<PostCardFallback />}>
-			<PostCardList tab={slug} />
+			<PostCardList />
 		</Suspense>
 	);
 }

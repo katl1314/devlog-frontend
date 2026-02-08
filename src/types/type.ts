@@ -16,21 +16,3 @@ export interface FetchPostsResponse {
 	posts: IPost[];
 	nextCursor: number;
 }
-
-// export interface FetchPostsResponseUser {
-// 	posts: IPost[];
-// 	nextCursor: boolean;
-// 	cursor: {
-// 		after: number
-// 	}
-// }
-
-// export interface FetchPostsUser {
-// 	userId: string;
-// 	cursor: number;
-// }
-
-// export type fetchPostsFncByUser = ({
-// 	userId,
-// 	cursor
-// }: FetchPostsUser) => Promise<FetchPostsResponseUser>;

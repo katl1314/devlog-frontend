@@ -1,15 +1,7 @@
 'use client';
 
-import { cn } from '@/utils';
-import useLayout from '@/hooks/layout';
-
 export default function CardLayout({ children }: { children: React.ReactNode }) {
-	const { layout } = useLayout();
-	const styles = getLayoutCss(layout);
-
-	return <div className={cn('gap-8', styles, 'grid sm:grid-cols-1 md:grid-cols-2')}>{children}</div>;
-}
-
-function getLayoutCss(layout: string) {
-	return layout === 'grid' ? `lg:grid lg:grid-cols-3 2xl:grid-cols-5` : `md:flex md:flex-col`;
+	return <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+		{children}
+	</div>;
 }

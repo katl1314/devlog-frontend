@@ -1,7 +1,6 @@
 'use client';
 
-import { createContext, useEffect, useState, useRef } from 'react';
-import { toggleLike } from '@/actions/actions';
+import { createContext, useEffect, useState, PropsWithChildren } from 'react';
 
 type FuncType = (prev: boolean, path: string) => void;
 
@@ -19,7 +18,7 @@ export const PostContext = createContext<{
 	setToggle: (arg: boolean, path: string) => {}
 });
 
-type IPostContextProvider = React.PropsWithChildren<{ userId: string; isLike: boolean; like: number }>;
+type IPostContextProvider = PropsWithChildren<{ userId: string; isLike: boolean; like: number }>;
 
 export default function PostContextProvider({ userId, children, isLike, like }: IPostContextProvider) {
 	const [isLiked, setIsLiked] = useState(isLike);
@@ -42,7 +41,7 @@ export default function PostContextProvider({ userId, children, isLike, like }: 
 
 	const handleToggle = async (newToggle: boolean, path: string) => {
 		!isTrigger && setTrigger(true);
-		await toggleLike(path);
+		// await toggleLike(path);
 		setToggle(newToggle);
 	};
 

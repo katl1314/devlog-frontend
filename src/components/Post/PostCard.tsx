@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/card';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
-import type { IPost } from '@/types/type';
 import { GoHeart, GoComment } from 'react-icons/go';
 
 export default function PostCard({
@@ -22,11 +21,13 @@ export default function PostCard({
 	summary,
 	userid,
 	comments,
+	user,
 	like
-}: IPost) {
+}: any) {
+	const postPath = `${user.blog.url_slug}${path}`;
 	return (
 		<Card>
-			<Link href={path}>
+			<Link href={postPath}>
 				<PostHeader thumbnail={thumbnail!}>
 					<CardTitle>{title}</CardTitle>
 					<CardDescription className="pt-2 line-clamp-4 text-ellipsis">

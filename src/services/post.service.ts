@@ -11,10 +11,15 @@ export const postService = {
       body: JSON.stringify(post)
     });
   },
-  async find (cursor: any) {
+  async getList(cursor: any) {
     return await apiClient('/post', {
       method: 'GET',
       params: { cursor }
+    })
+  },
+  async findPost(userId: string, path: string) {
+    return await apiClient(`/post/${userId}/${path}`, {
+      method: 'GET',
     })
   }
 }
