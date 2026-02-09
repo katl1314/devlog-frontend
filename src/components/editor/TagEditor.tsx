@@ -1,6 +1,6 @@
 'use client';
 
-import { KeyboardEventHandler } from 'react';
+import { KeyboardEventHandler, useState } from 'react';
 import { toast } from 'sonner';
 
 interface ITagEditor {
@@ -10,61 +10,66 @@ interface ITagEditor {
 }
 
 export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
-	const handleKeyDownEnter = (value: string) => {
-		if (value.length < 1) return;
+	const [inputValue, setInputValue] = useState('');
+
+	// 태그 추가 로직
+	const addTag = (value: string) => {
+		const trimmedValue = value.trim();
+		if (trimmedValue.length < 1) return;
+
 		if (tags.length >= max) {
-			toast(`태그는 최대 ${max}개까지만 입력할 수 있습니다.`, {
-				position: 'top-right',
-				duration: 1500
-			});
+			toast.error(`태그는 최대 ${max}개까지만 입력할 수 있습니다.`);
 			return;
 		}
 
-		if (tags.includes(value)) {
-			toast('이미 동일한 태그가 있습니다.', {
-				position: 'top-right',
-				duration: 1500
-			});
+		if (tags.includes(trimmedValue)) {
+			toast.warning('이미 동일한 태그가 있습니다.');
 			return;
 		}
-		onChange([...tags, value]);
+
+		onChange([...tags, trimmedValue]);
+		setInputValue(''); // 입력창 초기화
 	};
 
-	const handleKeyUp: KeyboardEventHandler<HTMLInputElement> = e => {
-		const value = e.currentTarget.value.trim();
+	// 태그 삭제 로직 (마지막 태그 삭제)
+	const removeLastTag = () => {
+		onChange(tags.slice(0, -1));
+	};
 
-		switch (e.key) {
-			case 'Enter':
-				e.preventDefault();
-				handleKeyDownEnter(value);
-				e.currentTarget.value = '';
-				break;
+	// 키보드 이벤트 핸들러 통합
+	const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+		// 한글 입력 중 조합 문제 방지 (isComposing)
+		if (e.nativeEvent.isComposing) return;
+
+		if (e.key === 'Enter') {
+			e.preventDefault(); // 폼 제출 방지
+			addTag(inputValue);
+		} else if (e.key === 'Backspace' && inputValue === '') {
+			removeLastTag();
 		}
 	};
 
-	const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
-		const value = e.currentTarget.value.trim();
-		if (e.key === 'Backspace') {
-			if (value === '') {
-				onChange(tags.slice(0, -1));
-			}
-		}
-	};
 	return (
-		<div className="flex h-[36px] px-3">
-			<div id="tags" className="flex flex-wrap gap-2">
-				{tags.map(tag => (
-					<div key={tag} className="bg-gray-200 rounded-md px-2 py-1 active:outline mr-2">
-						{tag}
-					</div>
-				))}
-			</div>
+		<div className="w-full flex flex-wrap items-center gap-2 min-h-[40px]">
+			{/* 태그 리스트 */}
+			{tags.map((tag) => (
+				<span
+					key={tag}
+					className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-colors duration-200 cursor-default animate-in fade-in zoom-in-95"
+				>
+          <span className="text-emerald-500 mr-1 font-bold">#</span>
+					{tag}
+        </span>
+			))}
+
+			{/* 입력창 */}
 			<input
 				type="text"
-				className="outline-none text-lg"
-				onKeyUp={handleKeyUp}
+				value={inputValue}
+				onChange={(e) => setInputValue(e.target.value)}
 				onKeyDown={handleKeyDown}
-				placeholder="태그를 입력해주세요."
+				className="flex-1 min-w-[180px] bg-transparent outline-none text-lg text-neutral-800 placeholder:text-neutral-300 placeholder:font-light"
+				placeholder="태그를 입력하세요 (Enter 입력)"
 			/>
 		</div>
 	);

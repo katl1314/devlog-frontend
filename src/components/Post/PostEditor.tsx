@@ -8,7 +8,6 @@ import { redirect } from 'next/navigation';
 import { GoAlert } from 'react-icons/go';
 import { usePost } from '@/hooks/post';
 import { Button } from '../ui/button';
-import { Label } from '../ui/label';
 import { toast } from 'sonner';
 import PostSetting from '../Post/PostSetting';
 import dynamic from 'next/dynamic';
@@ -24,14 +23,14 @@ export default function PostEditor({ blog }: any) {
 	const [isModalOpen, setModalOpen] = useState(false);
 
 	useEffect(() => {
-		const { status } = state!;
-		if (status === 'OK') {
-			redirect('/'); 	// 생성된 페이지로 리다이렉트가 되어야한다.
+		if (state?.status === 'ok') {
+			console.log('write state', state);
+			redirect('/');
 		}
 	}, [state]);
 
 	const handleSubmit = useCallback((ev: FormEvent<HTMLFormElement>) => {
-		ev.preventDefault(); // 이벤트 기본 동작 방지
+		ev.preventDefault();
 		const error = validatePost({ title, content });
 
 		if (error) {
@@ -59,51 +58,82 @@ export default function PostEditor({ blog }: any) {
 		});
 
 		setModalOpen(false);
-	}, [title, content, file, visibility, summary, tags, path]);
+	}, [title, content, file, visibility, summary, tags, path, formAction]);
 
 	return (
 		<>
+			{/* 팝업 (로직 유지) */}
 			<Modal
 				open={isModalOpen}
 				onAfterClose={() => setModalOpen(false)}
-				className="mt-[5%] w-full md:min-w-[500px] md:w-[25%]"
+				className="w-full md:min-w-[700px] md:w-[50%]"
 			>
 				<form onSubmit={handleSubmit}>
-					<PostSetting {...blog}/>
+					<PostSetting {...blog} />
 				</form>
 			</Modal>
-			<div className="flex flex-col justify-between h-[80vh]">
-				<div className="flex flex-col mt-5 lg:mt-10 gap-4 flex-1">
+
+			{/* 메인 에디터 영역 */}
+			<main className="min-h-screen bg-white pb-32">
+				<div className="max-w-4xl mx-auto px-6 pt-12 md:pt-20">
+
+					{/* 제목 입력 */}
 					<input
-						className="title"
-						placeholder="제목을 입력하세요."
+						className="w-full text-4xl md:text-5xl font-extrabold text-neutral-800 placeholder:text-neutral-300 border-none outline-none bg-transparent leading-tight"
+						placeholder="제목을 입력하세요"
 						id="title"
 						value={title}
 						onChange={ev => setTitle(ev.target.value)}
+						autoComplete="off"
 					/>
-					<TagEditor tags={tags} onChange={setTags} />
-					<Editor setContent={setContent} content={content} />
+
+					{/* 디자인 포인트: 구분선 */}
+					<div className="w-16 h-1.5 bg-neutral-800 rounded-sm my-6 md:my-8" />
+
+					{/* 태그 영역 (기존 TagEditor 감싸기) */}
+					<div className="mb-8">
+						<TagEditor tags={tags} onChange={setTags} />
+					</div>
+
+					{/* 본문 에디터 영역 */}
+					<div className="min-h-[500px]">
+						<Editor setContent={setContent} content={content} />
+					</div>
+
 				</div>
-			</div>
-			<div className="w-full flex justify-between items-center">
-				<div className="flex gap-4">
-					<Link
-						href="/"
-						className="flex items-center p-2 gap-2 group hover:bg-neutral-500 transition-colors duration-100"
+			</main>
+
+			{/* 하단 고정 액션바 (Footer) */}
+			<footer className="fixed bottom-0 left-0 w-full h-16 bg-white/95 backdrop-blur border-t border-neutral-100 flex items-center justify-between px-6 md:px-12 z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
+
+				{/* 왼쪽: 뒤로가기 */}
+				<Link
+					href="/"
+					className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 transition-colors"
+				>
+					<FiArrowLeft size={20} />
+					<span className="text-base font-medium">나가기</span>
+				</Link>
+
+				{/* 오른쪽: 버튼 그룹 */}
+				<div className="flex gap-3">
+					<Button
+						id="temp_save"
+						type="button"
+						variant="ghost"
+						className="text-neutral-600 font-bold hover:bg-neutral-100"
 					>
-						<FiArrowLeft size={28} className="group-hover:stroke-[white] cursor-pointer" />
-						<Label className="group-hover:text-white lg:text-lg font-bold cursor-pointer">이전</Label>
-					</Link>
-				</div>
-				<div className="flex gap-4">
-					<Button id="temp_save" type="button" variant="outline">
 						임시저장
 					</Button>
-					<Button type="button" onClick={() => setModalOpen(true)}>
+					<Button
+						type="button"
+						onClick={() => setModalOpen(true)}
+						className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6"
+					>
 						다음
 					</Button>
 				</div>
-			</div>
+			</footer>
 		</>
 	);
 }

@@ -24,7 +24,7 @@ export default async function Layout({
 
 	return (
 		<>
-			<div>
+			<div className="sticky top-0 bg-(--background)">
 				<TabView showOption={true}>
 					<Tabs items={data as TabItem[]} icons={icons} defaultPath="/new" />
 				</TabView>

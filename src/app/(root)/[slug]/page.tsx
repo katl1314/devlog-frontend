@@ -1,4 +1,4 @@
-import PostCardSkeleton from '@/components/skeleton/PostCardSkeleton';
+import PostCardSkeleton from '@/components/skeleton/postCard.skeleton.';
 import CardLayout from '@/components/layout/CardLayout';
 import { Suspense } from 'react';
 import PostCardList from '@/components/Post/PostCardList';
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: IPage) {
-	const { slug } = await params;
+	// const { slug } = await params;
 	return (
 		<Suspense fallback={<PostCardFallback />}>
 			<PostCardList />
