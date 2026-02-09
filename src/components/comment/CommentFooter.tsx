@@ -2,7 +2,6 @@
 
 import { Comments as TComments } from '@/types/type';
 import { CiSquareMinus, CiSquarePlus } from 'react-icons/ci';
-import CommentsList from './CommentsList';
 import Comments from './Comments';
 import { useEffect, useState } from 'react';
 
@@ -35,10 +34,10 @@ export default function CommentFooter({ path, id, level }: TComments) {
 			</div>
 			{open && (
 				<div className="mt-6 ml-5 lg:ml-15">
-					<CommentsList
-						data={comments}
-						onSuccess={() => setRefreshTrigger(prev => prev + 1)}
-					/>
+					{/*<CommentsList*/}
+					{/*	data={comments}*/}
+					{/*	onSuccess={() => setRefreshTrigger(prev => prev + 1)}*/}
+					{/*/>	*/}
 					<Comments
 						path={path}
 						pid={id}

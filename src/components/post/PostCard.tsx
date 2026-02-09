@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import PostMeta from '../Post/PostMeta';
+import PostMeta from '@/components/post/PostMeta';
 import {
 	Card,
 	CardContent,

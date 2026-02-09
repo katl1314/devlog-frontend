@@ -1,8 +1,8 @@
 'use client';
 
 import { postService } from '@/services/post.service';
-import PostCard from '@/components/Post/PostCard';
-import CardLayout from '../layout/CardLayout';
+import PostCard from '@/components/post/PostCard';
+import CardLayout from '../layout/card.layout';
 import useFetch from '@/hooks/fetch';
 
 const fetchPosts: any = async ({ cursor = 0 }) => {

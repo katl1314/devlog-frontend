@@ -4,7 +4,7 @@ import NavbarLogo from './navbar-logo';
 import dynamic from 'next/dynamic';
 
 // Profile 컴포넌트 렌더링 동안 Skeleton을 보여준다.
-const Profile = dynamic(() => import('@/components/Profile/Profile'), {
+const Profile = dynamic(() => import('@/components/profile/Profile'), {
 	loading: () => (
 		<div className="flex flex-row items-center gap-2 lg:gap-4">
 			<Skeleton className="h-8 w-8 rounded-full" />

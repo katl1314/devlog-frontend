@@ -2,11 +2,11 @@
 
 import { ChangeEventHandler, useEffect, useState } from 'react';
 import { usePost } from '@/hooks/post';
-import { Button } from '../ui/button';
-import { Label } from '../ui/label';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import { FiGlobe, FiLock } from 'react-icons/fi';
-import ImageFileUpload from '../image/image-fileupload';
-import ImagePreview from '../image/image-preview';
+import ImageFileUpload from '@/app/write/components/image/image.fileUpload';
+import ImagePreview from '@/app/write/components/image/image.preview';
 
 export default function PostSetting({ url_slug }: { url_slug: string }) {
 	const {

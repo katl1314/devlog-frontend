@@ -1,7 +1,7 @@
 'use client';
 import { ChangeEventHandler, MouseEventHandler, useRef } from 'react';
 import { FiUploadCloud } from 'react-icons/fi';
-import { Label } from '../ui/label';
+import { Label } from '@/components/ui/label';
 
 interface ImageFileUploadProps {
 	onChangeFile: (file: File) => void;

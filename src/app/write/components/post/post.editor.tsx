@@ -1,21 +1,21 @@
 'use client';
 
 import { startTransition, useActionState, useEffect, useState, useCallback, FormEvent } from 'react';
-import { validatePost } from '@/utils/';
+import { validatePost } from '@/utils';
 import { FiArrowLeft } from 'react-icons/fi';
 import { savePost } from '@/actions/actions';
 import { redirect } from 'next/navigation';
 import { GoAlert } from 'react-icons/go';
 import { usePost } from '@/hooks/post';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import PostSetting from '../Post/PostSetting';
+import PostSetting from './post.setting';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 const Modal = dynamic(() => import('@/components/modal/modal'), { ssr: false });
-const TagEditor = dynamic(() => import('../editor/TagEditor'), { ssr: false });
-const Editor = dynamic(() => import('../editor/Editor'), { ssr: false });
+const TagEditor = dynamic(() => import('../../../../components/editor/TagEditor'), { ssr: false });
+const Editor = dynamic(() => import('../../../../components/editor/editor'), { ssr: false });
 
 export default function PostEditor({ blog }: any) {
 	const { title, content, visibility, tags, path, summary, file, setTitle, setContent, setTags } = usePost();
@@ -108,7 +108,7 @@ export default function PostEditor({ blog }: any) {
 
 				{/* 왼쪽: 뒤로가기 */}
 				<Link
-					href="/"
+					href="/public"
 					className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 transition-colors"
 				>
 					<FiArrowLeft size={20} />
