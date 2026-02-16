@@ -1,0 +1,11 @@
+import Comments from '@/components/comment/Comments';
+
+export default async function PostFooter(post: any) {
+	return (
+		<div className="mt-5 mb-12" id="comments">
+			<div className="font-bold text-lg mb-4">{0}개의 댓글</div>
+			<Comments {...post} />
+			{/*<CommentsList data={[] as TComments[]} />*/}
+		</div>
+	);
+}
