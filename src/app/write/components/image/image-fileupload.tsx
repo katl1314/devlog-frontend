@@ -7,7 +7,7 @@ interface ImageFileUploadProps {
 	onChangeFile: (file: File) => void;
 }
 
-export default function ImageFileUpload({ onChangeFile }: ImageFileUploadProps) {
+export default function ImageFileupload({ onChangeFile }: ImageFileUploadProps) {
 	const imageRef = useRef<HTMLInputElement>(null);
 	const handleFileClick: MouseEventHandler = () => {
 		if (imageRef?.current) {

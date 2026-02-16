@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Providers from '@/components/providers';
 import { Fira_Mono } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
-import ThemeProvider from '@/components/theme/themeProvider';
+import ThemeProvider from '@/components/theme/theme-provider';
 import './globals.css';
 
 const inter = Fira_Mono({

@@ -1,6 +1,6 @@
 import { cn } from '@/utils';
 
-export default function TabView({
+export default function Tabview({
 	children,
 	showOption = false,
 	position = 'start',

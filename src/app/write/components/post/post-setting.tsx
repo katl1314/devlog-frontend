@@ -5,8 +5,8 @@ import { usePost } from '@/hooks/post';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { FiGlobe, FiLock } from 'react-icons/fi';
-import ImageFileUpload from '@/app/write/components/image/image.fileUpload';
-import ImagePreview from '@/app/write/components/image/image.preview';
+import ImageFileupload from '@/app/write/components/image/image-fileupload';
+import ImagePreview from '@/app/write/components/image/image-preview';
 
 export default function PostSetting({ url_slug }: { url_slug: string }) {
 	const {
@@ -51,7 +51,7 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 						{thumbnail ? (
 							<ImagePreview src={thumbnail} onChangeImage={handleChangeImage} />
 						) : (
-							<ImageFileUpload onChangeFile={setFile} />
+							<ImageFileupload onChangeFile={setFile} />
 						)}
 					</div>
 

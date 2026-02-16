@@ -1,5 +1,5 @@
 import { CiBellOn, CiSearch } from 'react-icons/ci';
-import ThemeToggle from '../theme/themeToggle';
+import ThemeToggle from '../theme/theme-toggle';
 import NotLoginButton from './NotLoginButton';
 import LoginButton from './LoginButton';
 import { auth } from '@/auth';

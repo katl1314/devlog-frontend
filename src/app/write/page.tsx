@@ -1,4 +1,4 @@
-import PostEditor from '@/app/write/components/post/post.editor';
+import PostEditor from '@/app/write/components/post/post-editor';
 import { redirect} from 'next/navigation';
 import { isEmpty } from '@/utils'
 import { auth } from '@/auth';

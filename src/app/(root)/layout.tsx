@@ -1,4 +1,4 @@
-import PageLayout from '@/components/layout/page.layout';
+import PageLayout from '@/components/layout/page-layout';
 import Header from '@/app/(root)/components/header';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {

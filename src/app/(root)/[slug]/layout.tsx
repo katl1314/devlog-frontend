@@ -1,4 +1,4 @@
-import TabView from '@/components/tab/tabView';
+import Tabview from '@/components/tab/tabview';
 import Tabs, { TabItem } from '@/components/tab/tabs';
 import {
 	MdOutlineTrendingUp,
@@ -25,9 +25,9 @@ export default async function Layout({
 	return (
 		<>
 			<div className="sticky top-0 bg-(--background)">
-				<TabView showOption={true}>
+				<Tabview showOption={true}>
 					<Tabs items={data as TabItem[]} icons={icons} defaultPath="/new" />
-				</TabView>
+				</Tabview>
 			</div>
 			<div className="my-8 mx-auto px-4">{children}</div>
 		</>

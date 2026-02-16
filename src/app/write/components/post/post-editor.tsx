@@ -9,12 +9,12 @@ import { GoAlert } from 'react-icons/go';
 import { usePost } from '@/hooks/post';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import PostSetting from './post.setting';
+import PostSetting from './post-setting';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 const Modal = dynamic(() => import('@/components/modal/modal'), { ssr: false });
-const TagEditor = dynamic(() => import('../../../../components/editor/TagEditor'), { ssr: false });
+const TagEditor = dynamic(() => import('../../../../components/editor/tag-editor'), { ssr: false });
 const Editor = dynamic(() => import('../../../../components/editor/editor'), { ssr: false });
 
 export default function PostEditor({ blog }: any) {

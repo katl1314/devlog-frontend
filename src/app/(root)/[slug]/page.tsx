@@ -1,5 +1,5 @@
-import PostCardSkeleton from '@/components/skeleton/postCard.skeleton.';
-import CardLayout from '@/components/layout/card.layout';
+import CardSkeleton from '@/components/skeleton/card-skeleton.';
+import CardLayout from '@/components/layout/card-layout';
 import { Suspense } from 'react';
 import PostCardList from '@/components/post/PostCardList';
 
@@ -29,7 +29,7 @@ function PostCardFallback() {
 	return (
 		<CardLayout>
 			{Array.from({ length: 10 }).map((_, index) => {
-				return <PostCardSkeleton key={index} />;
+				return <CardSkeleton key={index} />;
 			})}
 		</CardLayout>
 	);

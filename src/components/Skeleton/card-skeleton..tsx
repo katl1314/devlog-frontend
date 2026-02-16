@@ -3,7 +3,7 @@ import { Separator } from '../ui/separator';
 import Skeleton from 'react-loading-skeleton';
 import './skeleton.css';
 
-export default function PostCardSkeleton() {
+export default function CardSkeleton() {
 	return (
 		<Card>
 			<Skeleton className="h-[200px]" />
