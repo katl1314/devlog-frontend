@@ -1,6 +1,6 @@
 import { userService } from '@/services/user.service';
 import { notFound } from 'next/navigation';
-import Header from '../components/Header';
+import Header from '../components/header';
 
 export default async function Layout({
 	children,

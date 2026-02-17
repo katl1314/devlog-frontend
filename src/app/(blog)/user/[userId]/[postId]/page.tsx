@@ -1,4 +1,4 @@
-import PostContextProvider from '@/components/post/PostContextProvider';
+import PostContextProvider from '@/components/post/post-context-provider';
 import { userService } from '@/services/user.service';
 import PostFooter from './components/post-footer';
 import PostHeader from './components/post-header';

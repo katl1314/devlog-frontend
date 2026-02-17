@@ -8,7 +8,7 @@ const levelClasses: { [name: string]: string } = {
 	H3: 'pl-4'
 };
 
-export default function ToC() {
+export default function Toc() {
 	const [hTags, setHTags] = useState<[] | NodeListOf<HTMLElement>>([]);
 	const focusedTag = useRef<HTMLElement | null>(null);
 

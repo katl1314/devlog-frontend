@@ -3,7 +3,7 @@
 import { QueryFunction, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { fetchPostsFncByUser, FetchPostsResponseUser } from '@/types/type';
 import { useCallback, useRef } from 'react';
-import PostCard from './PostCard';
+import PostCard from './post-card';
 
 // 데이터를 fetch하는 함수
 const fetchPosts: fetchPostsFncByUser = async ({ userId, cursor = 0 }) => {

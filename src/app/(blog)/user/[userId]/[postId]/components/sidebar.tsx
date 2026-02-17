@@ -1,15 +1,15 @@
 'use client';
 
-import Link from 'next/link';
-import { IPost, User } from '@/types/type';
-import { PropsWithChildren, ReactNode, useContext } from 'react';
 import { GoComment, GoShareAndroid, GoBookmark, GoAlert } from 'react-icons/go';
+import { PostContext } from '@/components/post/post-context-provider';
+import { PropsWithChildren, ReactNode, useContext } from 'react';
+import { IPost, User } from '@/types/type';
 import { FaHeart } from 'react-icons/fa';
-import { cn } from '@/utils';
-import { PostContext } from '@/components/post/PostContextProvider';
 import { toast } from 'sonner';
+import Link from 'next/link';
+import { cn } from '@/utils';
 
-export default function SideActionBar({ comments, path, user }: IPost & { user: User }) {
+export default function Sidebar({ comments, path, user }: IPost & { user: User }) {
 	const { isLiked, toggle, nLike, setToggle } = useContext(PostContext);
 	const handleLike = () => {
 		if (user) {

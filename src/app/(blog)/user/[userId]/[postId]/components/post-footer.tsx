@@ -1,4 +1,4 @@
-import Comments from '@/components/comment/Comments';
+import Comments from '@/components/comment/comments';
 
 export default async function PostFooter(post: any) {
 	return (

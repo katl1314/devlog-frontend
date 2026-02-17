@@ -1,5 +1,5 @@
 import Dayjs from 'dayjs';
-import PostMetaClient from './PostMetaClient';
+import PostMetaClient from './post-meta-client';
 
 interface IPostMeta {
 	date: string;

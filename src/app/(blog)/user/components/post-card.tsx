@@ -1,8 +1,8 @@
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import type { IPost } from '@/types/type';
-import PostMeta from '@/components/post/PostMeta';
-import Thumbnail from './Thumbnail';
+import PostMeta from '@/components/post/post-meta';
+import Thumbnail from './thumbnail';
 import { GoHeart, GoComment } from 'react-icons/go';
 
 export default function PostCard({ thumbnail, path, title, created_at, summary, comments, like }: IPost) {

@@ -2,7 +2,7 @@
 
 import { Comments as TComments } from '@/types/type';
 import { CiSquareMinus, CiSquarePlus } from 'react-icons/ci';
-import Comments from './Comments';
+import Comments from './comments';
 import { useEffect, useState } from 'react';
 
 // 클라이언트 컴포넌트에서 서버 컴포넌트 API를 사용하면 에러가 발생한다.

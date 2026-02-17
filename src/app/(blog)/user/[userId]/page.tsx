@@ -1,5 +1,5 @@
-import UserProfileBottom from '@/app/(blog)/user/components/UserProfileBottom';
-import UserProfile from '@/app/(blog)/user/components/UserProfile';
+import UserProfileBottom from '@/app/(blog)/user/components/user-profile-bottom';
+import UserProfile from '@/app/(blog)/user/components/user-profile';
 import PostSkeleton from '@/components/skeleton/post-skeleton';
 import UserLayout from '@/components/layout/user-layout';
 import { userService } from '@/services/user.service';
@@ -11,7 +11,7 @@ import { Metadata } from 'next';
 // PRIVATE 포스트의 RLS 정책으로 인한 hydration 에러 방지를 위해 클라이언트에서만 렌더링
 
 export const dynamicParams = false;
-const PostList = dynamic(() => import('../components/PostList'));
+const PostList = dynamic(() => import('../components/post-list'));
 
 export async function generateStaticParams() {
 	const users = (await userService.findAll()) as Array<{ user_id: string }>;

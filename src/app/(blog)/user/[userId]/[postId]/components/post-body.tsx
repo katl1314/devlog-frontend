@@ -1,15 +1,15 @@
-import UserProfile from '@/app/(blog)/user/components/UserProfile';
-import Thumbnail from '@/app/(blog)/user/components/Thumbnail';
-import SideActionBar from './SideActionBar';
+import UserProfile from '@/app/(blog)/user/components/user-profile';
+import Thumbnail from '@/app/(blog)/user/components/thumbnail';
 import ReactMarkdown from 'react-markdown';
 import { IPost, User } from '@/types/type';
-import ToC from './ToC';
+import SideBar from './sidebar';
+import Toc from './toc';
 
 export default async function PostBody(post: IPost & { user: User }) {
 	return (
 		<div>
-			<SideActionBar {...post} />
-			<ToC />
+			<SideBar {...post} />
+			<Toc />
 			<div id="content__entry_point">
 				<Thumbnail thumbnail={post.thumbnail} />
 				<ReactMarkdown>{post.content}</ReactMarkdown>

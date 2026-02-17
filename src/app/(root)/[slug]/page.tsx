@@ -1,7 +1,7 @@
 import CardSkeleton from '@/components/skeleton/card-skeleton.';
 import CardLayout from '@/components/layout/card-layout';
 import { Suspense } from 'react';
-import PostCardList from '@/components/post/PostCardList';
+import PostCardList from '@/components/post/post-card-list';
 
 export const dynamicParams = false; // false 시 404페이지를 발생한다.
 

@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { Dropdown } from '../common/Dropdown';
+import { Dropdown } from '../common/dropdown';
 import { Skeleton } from '../ui/skeleton';
 import { auth } from '@/auth';
 import Link from 'next/link';
