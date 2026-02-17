@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: Promise<{ [name: string
 		return (
 			<PostContextProvider {...post}>
 				<PostHeader {...post} />
-				<PostBody {...post} user={post.user} />
+				<PostBody {...post} />
 				<PostFooter {...post} />
 			</PostContextProvider>
 		);

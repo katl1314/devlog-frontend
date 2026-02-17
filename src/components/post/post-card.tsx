@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import PostMeta from '@/components/post/post-meta';
 import {
@@ -6,12 +5,12 @@ import {
 	CardContent,
 	CardDescription,
 	CardFooter,
-	CardHeader,
 	CardTitle
 } from '@/components/ui/card';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import { GoHeart, GoComment } from 'react-icons/go';
+import PostCardHeader from '@/components/post/post-card-header';
 
 export default function PostCard({
 	path,
@@ -19,21 +18,21 @@ export default function PostCard({
 	created_at,
 	thumbnail,
 	summary,
-	userid,
 	comments,
 	user,
 	like
 }: any) {
-	const postPath = `${user.blog.url_slug}${path}`;
+	const blogPath = user.blog.url_slug;
+	const postPath = `${blogPath}${path}`;
 	return (
 		<Card>
 			<Link href={postPath}>
-				<PostHeader thumbnail={thumbnail!}>
+				<PostCardHeader thumbnail={thumbnail!}>
 					<CardTitle>{title}</CardTitle>
 					<CardDescription className="pt-2 line-clamp-4 text-ellipsis">
 						{summary}
 					</CardDescription>
-				</PostHeader>
+				</PostCardHeader>
 				<CardContent className="flex flex-col h-[120px] justify-end px-2">
 					<div className="flex flex-row gap-3 py-3 text-neutral-500">
 						<PostMeta date={created_at} />
@@ -51,35 +50,11 @@ export default function PostCard({
 			<Separator />
 			<CardFooter className="flex justify-between py-3">
 				<Label>
-					<Link href={`/@${userid}`}>{userid}</Link>
+					<Link href={blogPath}>{user.user_id}</Link>
 				</Label>
 			</CardFooter>
 		</Card>
 	);
 }
 
-const PostHeader = ({
-	children,
-	thumbnail
-}: {
-	children: React.ReactNode | React.ReactNode[];
-	thumbnail?: string;
-	title?: string;
-}) => {
-	const ThumbnailView = thumbnail && (
-		<div className="relative w-full min-h-[200px]">
-			<Image
-				src={thumbnail}
-				alt={'thumbnail'}
-				fill
-				className="object-cover rounded-t-xl"
-			></Image>
-		</div>
-	);
-	return (
-		<CardHeader className="block max-h-[222px] h-[222px]">
-			{ThumbnailView}
-			<div className="px-2 pt-2">{children}</div>
-		</CardHeader>
-	);
-};
+

@@ -38,17 +38,12 @@ export default async function Page({
 	params: Promise<{ userId: string }>;
 }) {
 	const userId = (await params).userId;
-	const { user_name, user_id, avatar_url, blog  } = await userService.findUserById(userId);
-
-	const data = {
-		avatar_url,
-		description: blog.description, username: user_name, userId: user_id
-	};
+	const user = await userService.findUserById(userId);
 
 	return (
 		<UserLayout>
 			<Card className="p-2 rounded-[0px] lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
-				<UserProfile {...data} />
+				<UserProfile {...user} />
 				<UserProfileBottom />
 			</Card>
 			<Card className="mt-4 p-2 rounded-[0px] lg:mt-6 lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">

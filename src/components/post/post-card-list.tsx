@@ -1,7 +1,7 @@
 'use client';
 
 import { postService } from '@/services/post.service';
-import PostCard from '@/components/post/PostCard';
+import PostCard from '@/components/post/post-card';
 import CardLayout from '../layout/card-layout';
 import useFetch from '@/hooks/fetch';
 

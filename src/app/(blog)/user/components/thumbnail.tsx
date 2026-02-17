@@ -7,7 +7,7 @@ export default function Thumbnail({
 }) {
 	if (!thumbnail) return <></>;
 	return (
-		<div className="relative w-full h-[200px] lg:h-[400px]">
+		<div className="w-full h-80 relative bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 font-bold mb-12 overflow-hidden">
 			<Image
 				src={thumbnail}
 				alt="썸네일 이미지"
@@ -15,5 +15,5 @@ export default function Thumbnail({
 				className="object-cover"
 			></Image>
 		</div>
-	);
+	)
 }

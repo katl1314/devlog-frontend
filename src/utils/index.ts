@@ -2,10 +2,10 @@ import { type ClassValue, clsx } from 'clsx';
 import timezone from 'dayjs/plugin/timezone';
 import { twMerge } from 'tailwind-merge';
 import utc from 'dayjs/plugin/utc';
-import dayjs, { Dayjs } from 'dayjs';
+import Dayjs from 'dayjs';
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
+Dayjs.extend(utc);
+Dayjs.extend(timezone);
 
 export const cn = (...inputs: ClassValue[]) => {
 	return twMerge(clsx(inputs));
@@ -63,27 +63,41 @@ export const isEmpty = (val: unknown): val is null | undefined => {
 };
 
 
-export function getTimeDiff(timeToCompare: Dayjs): string {
-	const now = dayjs();
-	const years = now.diff(timeToCompare, 'year');
-	if (years > 0) return `${years}년 전`;
+export function getTimeDiff(date: string): string {
+	try {
+		if (isNaN(Number(new Date(date)))) {
+			// Invalid Date 인지 검증한다.
+			throw new Error('유효하지 않은 시간입니다.');
+		}
 
-	const months = now.diff(timeToCompare, 'month');
-	if (months > 0) return `${months}개월 전`;
+		const timeToCompare = Dayjs(date); // 작성한 시간
+		const now = Dayjs(); // 현재 시간
+		const years = now.diff(timeToCompare, 'year');
+		if (years > 0) return `${years}년 전`;
 
-	const days = now.diff(timeToCompare, 'day');
-	if (days > 0) return `${days}일 전`;
+		const months = now.diff(timeToCompare, 'month');
+		if (months > 0) return `${months}개월 전`;
 
-	const hours = now.diff(timeToCompare, 'hour');
-	if (hours > 0) return `${hours}시간 전`;
+		const days = now.diff(timeToCompare, 'day');
+		if (days > 0) return `${days}일 전`;
 
-	const minutes = now.diff(timeToCompare, 'minute');
-	if (minutes > 0) return `${minutes}분 전`;
+		const hours = now.diff(timeToCompare, 'hour');
+		if (hours > 0) return `${hours}시간 전`;
 
-	const seconds = now.diff(timeToCompare, 'second');
-	if (seconds > 0) return `${seconds}초 전`;
+		const minutes = now.diff(timeToCompare, 'minute');
+		if (minutes > 0) return `${minutes}분 전`;
 
-	return '방금 전';
+		const seconds = now.diff(timeToCompare, 'second');
+		if (seconds > 0) return `${seconds}초 전`;
+
+		return '방금 전';
+	} catch {
+		return '';
+	}
+}
+
+export function getTimeFormat(date: string, format: string): string {
+	return Dayjs(date).format(format);
 }
 
 export type PostFormData = {

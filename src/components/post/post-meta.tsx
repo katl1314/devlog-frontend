@@ -1,13 +1,20 @@
-import Dayjs from 'dayjs';
-import PostMetaClient from './post-meta-client';
+'use client';
 
-interface IPostMeta {
+import { getTimeDiff, getTimeFormat } from '@/utils';
+import { useEffect, useState } from 'react';
+import { Label } from '../ui/label';
+
+interface IPostMetaClient {
 	date: string;
 	className?: string;
 }
 
-// hydration mismatch로 인해서 fallback으로 절대시간을 보여준다.
-export default function PostMeta({ date, className }: IPostMeta) {
-	const formatted = Dayjs(date).format('YYYY-MM-DD');
-	return <PostMetaClient date={date} fallback={formatted} className={className} />;
+export default function PostMeta({ date, className }: IPostMetaClient) {
+	const [relative, setRelative] = useState<string | null>(getTimeFormat(date, 'YYYY-MM-DD'));
+
+	useEffect(() => {
+		setRelative(getTimeDiff(date));
+	}, [date]);
+
+	return <Label className={className}>{relative}</Label>;
 }
