@@ -9,7 +9,7 @@ export default function NotFound() {
 	return (
 		<div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-gray-900 px-4">
 			<div className="max-w-md w-full text-center">
-				{/* 404 Number Area */}
+
 				<div className="relative mb-8">
 					<h1
 						className="text-[9rem] font-black leading-none text-[#12b886] tracking-tighter select-none animate-float"
@@ -17,8 +17,6 @@ export default function NotFound() {
 					>
 						404
 					</h1>
-					{/* Shadow Effect */}
-					<div className="w-32 h-3 bg-black rounded-full mx-auto mt-[-10px] animate-shadow-scale"></div>
 				</div>
 
 				{/* Text Content */}

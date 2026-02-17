@@ -4,14 +4,11 @@ import PostSkeleton from '@/components/skeleton/post-skeleton';
 import UserLayout from '@/components/layout/user-layout';
 import { userService } from '@/services/user.service';
 import { Card } from '@/components/ui/card';
-import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 
-// PRIVATE 포스트의 RLS 정책으로 인한 hydration 에러 방지를 위해 클라이언트에서만 렌더링
-
 export const dynamicParams = false;
-const PostList = dynamic(() => import('../components/post-list'));
+
 
 export async function generateStaticParams() {
 	const users = (await userService.findAll()) as Array<{ user_id: string }>;
@@ -58,7 +55,7 @@ export default async function Page({
 				<section className="min-h-[500px]">
 					<Suspense fallback={<PostFallback />}>
 						<div>메인페이지</div>
-						{/*<PostList userId={userId} />*/}
+						{/* List를 그려야한다. */}
 					</Suspense>
 				</section>
 			</Card>

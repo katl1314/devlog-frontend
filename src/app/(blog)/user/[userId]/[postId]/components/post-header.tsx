@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 
 // 작성자 본인 여부를 판단할 수 있는 props가 있다면 추가 (예: isOwner)
 interface PostHeaderProps {
@@ -21,9 +21,10 @@ export default function PostHeader({
 	 	title,
 		created_at,
 	 	tags = [],
-	 	user,
 		user_id,
  }: PostHeaderProps) {
+
+	tags = ['javascript', 'python', 'front']; // 태그 테스트
 
 	// 날짜 포맷팅 헬퍼 (예: "3일 전", "방금 전")
 	const formatTimeAgo = (dateString: string | Date) => {
@@ -43,7 +44,7 @@ export default function PostHeader({
 	};
 
 	return (
-		<div className="mb-8">
+		<section className="mb-8">
 			{/* 1. 제목 영역 */}
 			<h1 className="text-4xl font-extrabold mb-6 leading-tight break-keep text-gray-900">
 				{title}
@@ -63,23 +64,22 @@ export default function PostHeader({
 					<Label className="text-gray-500">{formatTimeAgo(created_at)}</Label>
 				</div>
 
-				{/* 관리 버튼 (통계, 수정, 삭제) */}
 				{/* 실제 기능 구현 시에는 Client Component로 분리하거나 form action 사용 권장 */}
-				<div className="flex gap-2">
-					<button className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+				<div className="">
+					<Button variant='link' className="px-2 text-gray-500 hover:text-gray-900 transition-colors">
 						통계
-					</button>
-					<button className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+					</Button>
+					<Button variant='link' className="px-2 text-gray-500 hover:text-gray-900 transition-colors">
 						수정
-					</button>
-					<button className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+					</Button>
+					<Button variant='link' className="px-2 text-gray-500 hover:text-gray-900 transition-colors">
 						삭제
-					</button>
+					</Button>
 				</div>
 			</div>
 
 			{/* 3. 태그 영역 */}
-			{tags && tags.length > 0 && (
+			{tags.length > 0 && (
 				<div className="mt-4 flex flex-wrap gap-2">
 					{tags.map((tag, index) => (
 						<Label
@@ -91,6 +91,6 @@ export default function PostHeader({
 					))}
 				</div>
 			)}
-		</div>
+		</section>
 	);
 }
