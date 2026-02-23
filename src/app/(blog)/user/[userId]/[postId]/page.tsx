@@ -22,18 +22,24 @@ export default async function Page({ params }: { params: Promise<{ [name: string
 		const { userId, postId } = await params;
 		const post = await postService.findPost(userId, postId);
 
-		if (post.status === '404') {
+		if (!post || post.status === '404') {
 			return notFound();
 		}
 
+		const likeCount = (post.likes ?? []).length; // 좋아요 개수
+		const commentCount = (post.comments ?? []).length; // 댓글 수
 		return (
-			<PostContextProvider {...post}>
-				<PostHeader {...post} />
-				<PostBody {...post} />
-				<PostFooter {...post} />
+			<PostContextProvider postId={post.id} initIsLiked={false} initLikeCount={likeCount} initCommentCount={commentCount}>
+				<div className="pb-24 lg:pb-8">
+					<PostHeader {...post} />
+					<PostBody {...post} />
+					<PostFooter {...post} />
+				</div>
 			</PostContextProvider>
 		);
 	} catch (error: any) {
 		throw error;
 	}
 }
+
+// <div className="max-w-3xl mx-auto px-4 pb-24 lg:pb-8 pt-8">

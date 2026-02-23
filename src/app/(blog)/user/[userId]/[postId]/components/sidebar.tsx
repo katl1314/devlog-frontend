@@ -6,16 +6,17 @@ import { cn } from '@/utils';
 import { Button } from '@/components/ui/button';
 
 export default function Sidebar() {
-	const { isLiked, toggle, nLike, setToggle } = useContext(PostContext);
+	const { isLiked, likeCount, commentCount, toggleLike } = useContext(PostContext);
 
 	const handleCommentClick = () => {
 		// 특정 요소로 스크롤 이동한다.
 		document.getElementById('comments')?.scrollIntoView({ behavior: 'smooth' });
 	}
 
-	const handleHeartClick = () => {
-
+	const handleLikeIconClick = async () => {
+		await toggleLike();
 	}
+
 	return (
 		<aside className={cn(
 			"backdrop-blur-sm xl:backdrop-blur-none fixed bottom-0 left-0 z-50 w-full py-1 flex justify-center",
@@ -27,14 +28,14 @@ export default function Sidebar() {
 			)}>
 				<ActionItem
 					icon={<HeartIcon filled={isLiked} />} // 아이콘 상태 예시
-					count={nLike || 12}
+					count={likeCount}
 					label="좋아요"
-					onClick={handleHeartClick}
+					onClick={handleLikeIconClick}
 					active={isLiked} // 활성화 상태 전달
 				/>
 				<ActionItem
 					icon={<CommentIcon />}
-					count={4}
+					count={commentCount}
 					label="댓글"
 					onClick={handleCommentClick}
 				/>

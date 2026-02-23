@@ -91,8 +91,8 @@ export default function Toc() {
 
 	// UI 렌더링 (React 방식)
 	return (
-		<div className="hidden lg:block sticky top-[20px] text-neutral-500">
-			<div className="absolute right-[-200px] max-w-[200px] min-w-[100px] xl:h-full">
+		<div className="hidden xl:block sticky top-[20px] text-neutral-500">
+			<div className="absolute right-[-200px] max-w-[200px] min-w-[100px] xl:h-full text-sm">
 				{headings.length > 0 && (
 					<div className="border-l-1 border-l-[#e5e5e5] pl-[10px] xl:sticky xl:top-[30px]">
 						<nav>
