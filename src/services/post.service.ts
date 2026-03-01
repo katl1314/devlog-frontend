@@ -2,7 +2,6 @@ import { apiClient } from '@/utils/db';
 
 export const postService = {
   async create(post: any, accessToken: string) { // 포스트 생성
-    // const session = (await auth()) as Session & { accessToken: string };
     return await apiClient('/post', {
       method: 'POST',
       headers: {
@@ -21,5 +20,14 @@ export const postService = {
     return await apiClient(`/post/${userId}/${path}`, {
       method: 'GET',
     })
+  },
+  async like(postId: number, isLiked: boolean, accessToken: string) {
+    const action = `/post/like/${postId}`;
+    return await apiClient(action, {
+      method: isLiked ? 'POST' : 'DELETE',
+      headers: {
+        'authorization': `Bearer ${accessToken}`,
+      },
+    });
   }
 }

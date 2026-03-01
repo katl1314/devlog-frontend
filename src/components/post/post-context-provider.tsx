@@ -1,6 +1,9 @@
 'use client';
 
 import { createContext, PropsWithChildren, useState } from 'react';
+import { postService } from '@/services/post.service';
+import { useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
 
 interface PostContext {
 	likeCount: number;
@@ -35,37 +38,44 @@ export default function PostContextProvider({
 	const [isLiked, setIsLiked] = useState(initIsLiked || false);
 	const [likeCount, setLikeCount] = useState(initLikeCount || 0);
 	const [commentCount, setCommentCount] = useState(initCommentCount || 0);
+	const { data, status } = useSession();
 
-	// 좋아요 토글 핸들러
-	const toggleLike = async () => {
-		// 변수에 기존 값을 저장한다.
-		const prevIsLiked = isLiked;
-		try {
-			setIsLiked(!isLiked);
-			setLikeCount((prev) => isLiked ? prev - 1 : prev + 1);
+	const isAuth = status === 'authenticated';
+	try {
+		// 좋아요 토글 핸들러
+		const toggleLike = async () => {
+				// 비로그인 일 때
+				if (!isAuth) {
+					throw new Error();
+				}
 
-			console.log(postId);
-			// await postService.like(postId, isLiked);
-		} catch {
-			// API 실패 시 기존값을 덮을 것.
-			setIsLiked(prevIsLiked)
-			setLikeCount(likeCount);
+				const { accessToken } = data as Session & { accessToken: string };
+
+				await postService.like(postId, isLiked, accessToken);
+
+				setIsLiked(!isLiked);
+				setLikeCount((prev) => isLiked ? prev - 1 : prev + 1);
 		}
+
+		// 댓글 작성
+		const saveComment = async () => {
+				// 비로그인 일 때
+				if (!isAuth) {
+					throw new Error('');
+				}
+				// await postService.comment();
+				// setCommentCount(prev => prev + 1);
+		}
+
+		return (
+			<PostContext.Provider value={{ isLiked, likeCount, toggleLike, commentCount, saveComment }}>
+				{children}
+			</PostContext.Provider>
+		)
+	} catch (e: unknown) {
+		// API 요청 중 에러가 발생하거나, 예외 처리가 발생했을때 처리합니다.
+		const error = e as Error;
+		console.log(error);
 	}
 
-	// 댓글 작성
-	const saveComment = async () => {
-		const prevCommentCount = commentCount; // 이전 값 저장하고.
-
-		try {
-			setCommentCount(prev => prev + 1);
-		} catch {
-			// 에러가 발생하면 이전값으로 다시 돌린다.
-			setCommentCount(prevCommentCount);
-		}
-	}
-
-	return <PostContext.Provider value={{ isLiked, likeCount, toggleLike, commentCount, saveComment }}>
-		{children}
-	</PostContext.Provider>
 }

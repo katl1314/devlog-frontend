@@ -68,11 +68,9 @@ function ActionItem({ icon, count, onClick, label, active }: any) {
 			>
 				{icon}
 			</Button>
-			{count && (
-				<span className="text-xs font-bold text-gray-500 mt-1">
-          {count}
-        </span>
-			)}
+			<span className="text-xs font-bold text-gray-500 mt-1">
+				{count || 0}
+			</span>
 		</div>
 	);
 }
