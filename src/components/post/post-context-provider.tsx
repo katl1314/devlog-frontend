@@ -51,7 +51,7 @@ export default function PostContextProvider({
 
 				const { accessToken } = data as Session & { accessToken: string };
 
-				await postService.like(postId, isLiked, accessToken);
+				await postService.like(postId, !isLiked, accessToken);
 
 				setIsLiked(!isLiked);
 				setLikeCount((prev) => isLiked ? prev - 1 : prev + 1);

@@ -2,7 +2,7 @@
 
 import { postService } from '@/services/post.service';
 import PostCard from '@/components/post/post-card';
-import CardLayout from '../layout/card-layout';
+import CardLayout from '@/components/layout/card-layout';
 import useFetch from '@/hooks/fetch';
 
 const fetchPosts: any = async ({ cursor = 0 }) => {
