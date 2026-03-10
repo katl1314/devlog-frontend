@@ -23,7 +23,7 @@ export default async function Page({ params }: { params: Promise<{ [name: string
 	const post = await postService.findPost(userId, postId);
 	
 	// TODO 2026.03.09 체크
-	const isLike = await postService.findPostLikeById(userId, postId);
+	const isLike = false; //await postService.findPostLikeById(userId, postId);
 
 	if (!post || post.status === '404') {
 		return notFound();

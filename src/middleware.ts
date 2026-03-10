@@ -8,6 +8,7 @@ export async function middleware(req: NextRequest) {
 	if (pathname.startsWith('/@')) {
 		const param = pathname.slice(2);
 		url.pathname = `/user/${param}`;
+		console.log(url.pathname)
 		if (req.method === 'GET') {
 			return NextResponse.rewrite(url)
 		}
