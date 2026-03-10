@@ -4,6 +4,7 @@ import { createContext, PropsWithChildren, useState } from 'react';
 import { postService } from '@/services/post.service';
 import { useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
+import { toast } from 'sonner';
 
 interface PostContext {
 	likeCount: number;
@@ -39,14 +40,15 @@ export default function PostContextProvider({
 	const [likeCount, setLikeCount] = useState(initLikeCount || 0);
 	const [commentCount, setCommentCount] = useState(initCommentCount || 0);
 	const { data, status } = useSession();
-
 	const isAuth = status === 'authenticated';
+
 	try {
 		// 좋아요 토글 핸들러
 		const toggleLike = async () => {
 				// 비로그인 일 때
 				if (!isAuth) {
-					throw new Error();
+					toast('로그인 후 이용 가능합니다,');
+					return;
 				}
 
 				const { accessToken } = data as Session & { accessToken: string };
@@ -68,7 +70,7 @@ export default function PostContextProvider({
 		}
 
 		return (
-			<PostContext.Provider value={{ isLiked, likeCount, toggleLike, commentCount, saveComment }}>
+			<PostContext.Provider value={{ isLiked, likeCount, toggleLike, commentCount,  saveComment }}>
 				{children}
 			</PostContext.Provider>
 		)

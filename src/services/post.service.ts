@@ -16,8 +16,13 @@ export const postService = {
       params: { cursor }
     })
   },
-  async findPost(userId: string, path: string) {
-    return await apiClient(`/post/${userId}/${path}`, {
+  async findPost(userId: string, postId: string) {
+    return await apiClient(`/post/${userId}/${postId}`, {
+      method: 'GET',
+    })
+  },
+  async findPostLikeById(userId: string, postId: string) {
+    return await apiClient(`/post/like/${postId}/${userId}`, {
       method: 'GET',
     })
   },
