@@ -11,7 +11,7 @@ export default async function InterceptedPostPage({
   params: Promise<{ userId: string; postId: string }> 
 }) {
   const { userId, postId } = await params;
-  const post = await postService.findPost(userId, postId);
+  const post = await postService.findPost(postId, userId);
   
   return (
     <ModalWrapper>

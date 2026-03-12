@@ -16,18 +16,21 @@ export const postService = {
       params: { cursor }
     })
   },
-  async findPost(userId: string, postId: string) {
+  async findPost(postId: string, userId: string) {
     return await apiClient(`/post/${userId}/${postId}`, {
       method: 'GET',
     })
   },
-  async findPostLikeById(userId: string, postId: string) {
-    return await apiClient(`/post/like/${postId}/${userId}`, {
+  async findLikeById(postId: string, accessToken: string) {
+    return await apiClient(`/post/${postId}/like/me`, {
       method: 'GET',
+      headers: {
+        'authorization': `Bearer ${accessToken}`
+      }
     })
   },
   async like(postId: number, isLiked: boolean, accessToken: string) {
-    const action = `/post/like/${postId}`;
+    const action = `/post/${postId}/like`;
     return await apiClient(action, {
       method: isLiked ? 'POST' : 'DELETE',
       headers: {

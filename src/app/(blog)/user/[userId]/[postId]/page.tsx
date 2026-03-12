@@ -5,6 +5,9 @@ import PostFooter from './components/post-footer';
 import PostHeader from './components/post-header';
 import PostBody from './components/post-body';
 import { notFound } from 'next/navigation';
+import { Session } from 'next-auth';
+import { isEmpty } from '@/utils';
+import { auth } from '@/auth';
 
 // 미리 빌드 시점에 페이지를 생성한다.
 export async function generateStaticParams() {
@@ -19,11 +22,16 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: { params: Promise<{ [name: string]: string }> }) {
-	const { userId, postId } = await params;
-	const post = await postService.findPost(userId, postId);
-	
-	// TODO 2026.03.09 체크
-	const isLike = false; //await postService.findPostLikeById(userId, postId);
+	const { userId: ownerId, postId } = await params;
+	let isLike: boolean = false;
+	const session = await auth();
+	// 포스트 조회
+	const post = await postService.findPost(postId, ownerId);
+	// 좋아요 여부 조회
+	if (!isEmpty(session)) {
+		const { accessToken } = session as Session & { accessToken: string };
+		isLike = await postService.findLikeById(postId, accessToken);
+	}
 
 	if (!post || post.status === '404') {
 		return notFound();
@@ -32,7 +40,7 @@ export default async function Page({ params }: { params: Promise<{ [name: string
 	const likeCount = (post.likes ?? []).length; // 좋아요 개수
 	const commentCount = (post.comments ?? []).length; // 댓글 수
 	return (
-		<PostContextProvider postId={post.id} initIsLiked={false} initLikeCount={likeCount} initCommentCount={commentCount}>
+		<PostContextProvider postId={post.id} initIsLiked={isLike} initLikeCount={likeCount} initCommentCount={commentCount}>
 			<div className="pb-24 lg:pb-8">
 				<PostHeader {...post} />
 				<PostBody {...post} />
