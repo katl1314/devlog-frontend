@@ -50,12 +50,16 @@ export const createUser = async (
       };
     }
 
+    const password = formData.get('password') ? String(formData.get('password')) : undefined;
+
     const data = {
       user: {
         email: email,
         user_name: name,
         user_id: userId,
         avatar_url: image,
+        provider: provider.toUpperCase(),
+        ...(password ? { password } : {}),
       },
       blog: {
         title: title,

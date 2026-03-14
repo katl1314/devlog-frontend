@@ -36,15 +36,15 @@ export const { handlers, auth } = NextAuth({
 			name: 'signup-complete',
 			credentials: {
 				email: { label: 'Email', type: 'email' },
-				signupToken: { label: 'Token', type: 'text' } // 단순 비번 대신 토큰 사용 권장
+				signupToken: { label: 'Token', type: 'text' }
 			},
 			async authorize({ email }) {
 				if (!email) return null;
 
-				const dbUser = await userService.findUserByEmail(email as string);  // lib/db에 추가
+				const dbUser = await userService.findUserByEmail(email as string);
 				if (dbUser) {
 					return {
-						id: dbUser.user_id,      // DB PK
+						id: dbUser.user_id,
 						email: dbUser.email,
 						name: dbUser.user_name,
 						image: dbUser.avatar_url,
@@ -52,6 +52,29 @@ export const { handlers, auth } = NextAuth({
 					};
 				}
 				return null;
+			}
+		}),
+		Credentials({
+			id: 'credentials',
+			name: 'credentials',
+			credentials: {
+				email: { label: 'Email', type: 'email' },
+				password: { label: 'Password', type: 'password' },
+			},
+			async authorize({ email, password }) {
+				if (!email || !password) return null;
+				try {
+					const user = await authService.signInWithCredentials(email as string, password as string);
+					return {
+						id: user.user_id,
+						email: user.email,
+						name: user.user_name,
+						image: user.avatar_url,
+						role: 'user',
+					};
+				} catch {
+					return null;
+				}
 			}
 		}),
 		Google({
@@ -72,6 +95,10 @@ export const { handlers, auth } = NextAuth({
 	},
 	callbacks: {
 		async signIn({ user, account }) {
+			// credentials 계정은 authorize()에서 이미 검증됨
+			if (account?.provider === 'signup-complete' || account?.provider === 'credentials') {
+				return true;
+			}
 			try {
 				const validUser = await userService.has(user.email!);
 				if (!validUser) {
