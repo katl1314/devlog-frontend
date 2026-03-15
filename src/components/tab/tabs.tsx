@@ -37,7 +37,6 @@ function Tab({
 	tab,
 	text,
 	href,
-	children,
 	isActive = false
 }: {
 	tab: string;
@@ -47,15 +46,17 @@ function Tab({
 	isActive?: boolean;
 }) {
 	return (
-		<div
+		<Link
 			key={tab}
+			href={href}
 			className={cn(
-				'py-2 flex gap-2 items-center relative text-zinc-400 text-base ml-2 lg:ml-4',
-				isActive ? 'active' : ''
+				'px-4 py-1.5 rounded-full text-sm font-semibold transition-colors',
+				isActive
+					? 'bg-foreground text-background'
+					: 'text-muted-foreground hover:text-foreground hover:bg-muted'
 			)}
 		>
-			{children}
-			<Link href={href}>{text}</Link>
-		</div>
+			{text}
+		</Link>
 	);
 }
