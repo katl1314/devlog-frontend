@@ -61,9 +61,9 @@ export default async function SidebarNav() {
 				))}
 			</div>
 
-			{/* 새 아티클 작성 버튼 */}
+			{/* 새 아티클 작성 버튼 — 비로그인 시 /auth로 이동 */}
 			<Link
-				href="/write"
+				href={user ? '/write' : '/auth'}
 				className="mt-4 flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-foreground text-background text-sm font-bold hover:opacity-85 transition-opacity shadow-sm"
 			>
 				<IoCreateOutline size={18} />
