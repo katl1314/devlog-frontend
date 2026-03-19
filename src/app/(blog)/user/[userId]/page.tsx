@@ -1,14 +1,12 @@
 import UserProfileBottom from '@/app/(blog)/user/components/user-profile-bottom';
 import UserProfile from '@/app/(blog)/user/components/user-profile';
 import PostSkeleton from '@/components/skeleton/post-skeleton';
-import UserLayout from '@/components/layout/user-layout';
 import { userService } from '@/services/user.service';
 import { Card } from '@/components/ui/card';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 
 export const dynamicParams = false;
-
 
 export async function generateStaticParams() {
 	const users = (await userService.findAll()) as Array<{ user_id: string }>;
@@ -41,7 +39,7 @@ export default async function Page({
 	const user = await userService.findUserById(userId);
 
 	return (
-		<UserLayout>
+		<>
 			<Card className="p-2 rounded-[0px] lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
 				<UserProfile {...user} />
 				<UserProfileBottom />
@@ -54,8 +52,7 @@ export default async function Page({
 					</Suspense>
 				</section>
 			</Card>
-		</UserLayout>
-
+		</>
 	);
 }
 

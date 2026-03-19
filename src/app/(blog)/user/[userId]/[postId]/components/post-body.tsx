@@ -1,11 +1,8 @@
 import UserProfile from '@/app/(blog)/user/components/user-profile';
 import Thumbnail from '@/app/(blog)/user/components/thumbnail';
 import ReactMarkdown from 'react-markdown';
-import SideBar from './sidebar';
-import Toc from './toc';
 
 export default function PostBody(post: any) {
-
 	const dummyMarkdown = `
 # Next.js 15: 완벽 가이드 (H1)
 
@@ -92,54 +89,70 @@ export default async function Page() {
 `;
 	return (
 		<div className="flex relative ">
-			<SideBar />
 			<main id="content__entry_point" className="flex-1 w-full min-w-0 pb-8">
 				<Thumbnail thumbnail={post.thumbnail} />
 				<MarkdownView content={dummyMarkdown} />
 				<UserProfile {...post.user} />
 			</main>
-			<Toc />
 		</div>
 	);
 }
 
 const MarkdownView = ({ content }: { content: string }) => {
 	return (
-		<ReactMarkdown components={
-			{
+		<ReactMarkdown
+			components={{
 				// h1 태그를 만났을 때 적용할 스타일
-				h1: ({node, ...props}) => (
-					<h1 className="text-4xl font-bold mt-10 mb-4 text-gray-900" {...props} />
+				h1: ({ node, ...props }) => (
+					<h1
+						className="text-4xl font-bold mt-10 mb-4 text-gray-900"
+						{...props}
+					/>
 				),
 				// h2, h3 등도 동일하게 설정
-				h2: ({node, ...props}) => (
-					<h3 className="text-3xl font-bold mt-8 mb-4 text-gray-900" {...props} />
+				h2: ({ node, ...props }) => (
+					<h3
+						className="text-3xl font-bold mt-8 mb-4 text-gray-900"
+						{...props}
+					/>
 				),
 				// h2, h3 등도 동일하게 설정
-				h3: ({node, ...props}) => (
-					<h3 className="text-2xl font-bold mt-6 mb-4 text-gray-900" {...props} />
+				h3: ({ node, ...props }) => (
+					<h3
+						className="text-2xl font-bold mt-6 mb-4 text-gray-900"
+						{...props}
+					/>
 				),
 				// p 태그 스타일
-				p: ({node, ...props}) => (
+				p: ({ node, ...props }) => (
 					<p className="mb-6 leading-relaxed text-gray-800" {...props} />
 				),
 				// blockquote 스타일 (아까 작성하신 녹색 테두리 스타일)
-				blockquote: ({node, ...props}) => (
-					<blockquote className="border-l-4 border-[#12b886] bg-gray-50 p-4 my-6 text-gray-600 rounded-r" {...props} />
+				blockquote: ({ node, ...props }) => (
+					<blockquote
+						className="border-l-4 border-[#12b886] bg-gray-50 p-4 my-6 text-gray-600 rounded-r"
+						{...props}
+					/>
 				),
 				// 리스트 스타일
-				ul: ({node, ...props}) => (
+				ul: ({ node, ...props }) => (
 					<ul className="list-disc pl-6 mb-6 space-y-2" {...props} />
 				),
-				pre: ({node, ...props}) => (
-					<pre className="px-3 py-2 text-[0.95rem] font-[monospace] bg-[#212529] text-[#f8f9fa] rounded-[8px] overflow-x-auto mb-[1.5rem] " {...props}/>
+				pre: ({ node, ...props }) => (
+					<pre
+						className="px-3 py-2 text-[0.95rem] font-[monospace] bg-[#212529] text-[#f8f9fa] rounded-[8px] overflow-x-auto mb-[1.5rem] "
+						{...props}
+					/>
 				),
-				a: ({node, ...props}) => (
-					<a className="text-[#12b886] font-medium hover:text-[#0ca678] hover:underline transition-colors duration-200" {...props} />
+				a: ({ node, ...props }) => (
+					<a
+						className="text-[#12b886] font-medium hover:text-[#0ca678] hover:underline transition-colors duration-200"
+						{...props}
+					/>
 				)
-			}
-		}>
+			}}
+		>
 			{content}
 		</ReactMarkdown>
-	)
-}
+	);
+};

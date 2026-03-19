@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import Providers from '@/components/providers';
-import { Fira_Mono } from 'next/font/google';
+import { Roboto } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import ThemeProvider from '@/components/theme/theme-provider';
 import './globals.css';
 
-const inter = Fira_Mono({
+const inter = Roboto({
 	weight: '400',
 	subsets: ['latin']
 });

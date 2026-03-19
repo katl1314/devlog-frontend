@@ -1,9 +1,7 @@
-import UserLayout from '@/components/layout/user-layout';
-
-export default async function Layout({ children }: { children: React.ReactNode }) {
-	return (
-		<UserLayout>
-			<main className="relative">{children}</main>
-		</UserLayout>
-	);
+export default async function Layout({
+	children
+}: {
+	children: React.ReactNode;
+}) {
+	return <main className="relative p-2 py-4">{children}</main>;
 }
