@@ -18,7 +18,7 @@ export default function PostCard({
 	const avatarInitial = (user.user_id?.[0] ?? 'U').toUpperCase();
 
 	return (
-		<article className="px-6 py-5 border-b border-border hover:bg-muted/20 transition-colors">
+		<article className="px-6 py-5 hover:bg-muted/20 transition-colors">
 			{/* 작성자 메타 */}
 			<div className="flex items-center gap-2 mb-3">
 				<Link
@@ -52,7 +52,12 @@ export default function PostCard({
 					{/* 썸네일 */}
 					{thumbnail && (
 						<div className="relative w-[88px] h-[88px] shrink-0 rounded-xl overflow-hidden">
-							<Image src={thumbnail} alt={title} fill className="object-cover" />
+							<Image
+								src={thumbnail}
+								alt={title}
+								fill
+								className="object-cover"
+							/>
 						</div>
 					)}
 				</div>

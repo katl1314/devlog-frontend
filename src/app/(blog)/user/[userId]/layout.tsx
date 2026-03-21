@@ -1,9 +1,7 @@
-import { userService } from '@/services/user.service';
-import { notFound } from 'next/navigation';
-import Header from '@/app/(root)/components/header';
 import MobileBottomNav from '@/app/(root)/components/mobile-bottom-nav';
-import SidebarNav from '@/app/(root)/components/sidebar-nav';
 import SidebarWidgets from '@/app/(root)/components/sidebar-widgets';
+import SidebarNav from '@/app/(root)/components/sidebar-nav';
+import { notFound } from 'next/navigation';
 
 export default async function Layout({
 	children,
@@ -13,14 +11,8 @@ export default async function Layout({
 	params: Promise<{ userId: string }>;
 }) {
 	try {
-		const { userId } = await params;
-		const { blog } = await userService.findUserById(userId);
-
 		return (
 			<>
-				{/* 모바일 전용 헤더 (md 이상에서 숨김) */}
-				<Header />
-
 				{/* 모바일 하단 탭바 (md 이상에서 숨김) */}
 				<MobileBottomNav />
 				<div className="flex justify-center min-h-screen pb-14 md:pb-0">

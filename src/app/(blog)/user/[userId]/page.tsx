@@ -1,5 +1,5 @@
-import UserProfileBottom from '@/app/(blog)/user/components/user-profile-bottom';
-import UserProfile from '@/app/(blog)/user/components/user-profile';
+import UserProfileSection from '@/app/(blog)/user/components/user-profile-section';
+import UserPostCardList from '@/app/(blog)/user/components/user-post-card-list';
 import PostSkeleton from '@/components/skeleton/post-skeleton';
 import { userService } from '@/services/user.service';
 import { Card } from '@/components/ui/card';
@@ -40,15 +40,13 @@ export default async function Page({
 
 	return (
 		<>
-			<Card className="p-2 rounded-[0px] lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
-				<UserProfile {...user} />
-				<UserProfileBottom />
+			<Card className="lg:bg-transparent lg:shadow-none">
+				<UserProfileSection {...user} />
 			</Card>
-			<Card className="mt-4 p-2 rounded-[0px] lg:mt-6 lg:p-0 lg:bg-transparent lg:shadow-none lg:border-0">
+			<Card className="lg:bg-transparent lg:shadow-none">
 				<section className="min-h-[500px]">
 					<Suspense fallback={<PostFallback />}>
-						<div>메인페이지</div>
-						{/* List를 그려야한다. */}
+						<UserPostCardList userId={userId} />
 					</Suspense>
 				</section>
 			</Card>
