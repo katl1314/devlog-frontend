@@ -2,7 +2,6 @@ import UserProfileSection from '@/app/(blog)/user/components/user-profile-sectio
 import UserPostCardList from '@/app/(blog)/user/components/user-post-card-list';
 import PostSkeleton from '@/components/skeleton/post-skeleton';
 import { userService } from '@/services/user.service';
-import { Card } from '@/components/ui/card';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 
@@ -40,16 +39,14 @@ export default async function Page({
 
 	return (
 		<>
-			<Card className="lg:bg-transparent lg:shadow-none">
+			<div className="border-b border-border">
 				<UserProfileSection {...user} />
-			</Card>
-			<Card className="lg:bg-transparent lg:shadow-none">
-				<section className="min-h-[500px]">
-					<Suspense fallback={<PostFallback />}>
-						<UserPostCardList userId={userId} />
-					</Suspense>
-				</section>
-			</Card>
+			</div>
+			<section className="min-h-[500px]">
+				<Suspense fallback={<PostFallback />}>
+					<UserPostCardList userId={userId} />
+				</Suspense>
+			</section>
 		</>
 	);
 }
