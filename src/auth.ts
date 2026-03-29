@@ -120,10 +120,12 @@ export const { handlers, auth } = NextAuth({
 				token.refreshToken = refreshToken;
 			}
 
-			const decoded = jwtDecode(token.accessToken);
-			if (decoded.exp && decoded.exp < Date.now() / 1000) {
-				const { accessToken } = await authService.rotateToken(token.refreshToken);
-				token.accessToken = accessToken;
+			if (token.accessToken) {
+				const decoded = jwtDecode(token.accessToken);
+				if (decoded.exp && decoded.exp < Date.now() / 1000) {
+					const { accessToken } = await authService.rotateToken(token.refreshToken);
+					token.accessToken = accessToken;
+				}
 			}
 		
 		return token;

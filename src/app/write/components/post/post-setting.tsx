@@ -72,9 +72,9 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 						<div className="flex p-1.5 bg-slate-100 rounded-lg">
 							<button
 								type="button"
-								onClick={() => setVisibility('PUBLIC')}
+								onClick={() => setVisibility(true)}
 								className={`flex-1 flex items-center justify-center gap-2 py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${
-									visibility === 'PUBLIC'
+									visibility
 										? 'bg-white text-indigo-600 shadow-sm'
 										: 'text-slate-500 hover:text-slate-700'
 								}`}
@@ -83,9 +83,9 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 							</button>
 							<button
 								type="button"
-								onClick={() => setVisibility('PRIVATE')}
+								onClick={() => setVisibility(false)}
 								className={`flex-1 flex items-center justify-center gap-2 py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${
-									visibility === 'PRIVATE'
+									!visibility
 										? 'bg-white text-indigo-600 shadow-sm'
 										: 'text-slate-500 hover:text-slate-700'
 								}`}

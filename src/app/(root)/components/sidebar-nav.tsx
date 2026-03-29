@@ -1,10 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MdOutlineAccessTime, MdOutlineTrendingUp } from 'react-icons/md';
 import { BiBell, BiBookmark, BiUser } from 'react-icons/bi';
 import { IoCreateOutline } from 'react-icons/io5';
 import NavbarLogo from './navbar-logo';
 import { auth } from '@/auth';
 import Link from 'next/link';
+import SidebarUserMenu from './sidebar-user-menu';
 
 const navItems = [
 	{ href: '/new', icon: <MdOutlineAccessTime size={22} />, label: '홈 피드' },
@@ -80,22 +80,11 @@ export default async function SidebarNav() {
 			{/* 유저 프로필 */}
 			<div className="mt-3">
 				{user ? (
-					<div className="flex items-center gap-3 p-2 rounded-full cursor-pointer hover:bg-muted/50 transition-colors">
-						<Avatar className="w-10 h-10 shrink-0">
-							<AvatarImage src={user.image ?? ''} />
-							<AvatarFallback className="text-sm font-semibold">
-								{user.name?.[0]?.toUpperCase() ?? 'U'}
-							</AvatarFallback>
-						</Avatar>
-						<div className="hidden xl:flex flex-col overflow-hidden flex-1 min-w-0">
-							<span className="text-sm font-semibold truncate">
-								{user.name}
-							</span>
-							<span className="text-xs text-muted-foreground truncate">
-								@{user.id}
-							</span>
-						</div>
-					</div>
+					<SidebarUserMenu
+						name={user.name ?? ''}
+						image={user.image ?? ''}
+						userId={user.id ?? ''}
+					/>
 				) : (
 					<Link
 						href="/auth"

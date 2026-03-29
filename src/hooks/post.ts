@@ -4,7 +4,7 @@ interface Post {
 	title: string;
 	content: string;
 	tags: string[];
-	visibility: 'PUBLIC' | 'PRIVATE';
+	visibility: boolean;
 	path: string;
 	thumbnail: string;
 	summary: string;
@@ -13,7 +13,7 @@ interface Post {
 	setContent: (content: string) => void;
 	setTags: (tags: string[]) => void;
 	setThumbnail: (thumbnail: string) => void;
-	setVisibility: (visibility: 'PUBLIC' | 'PRIVATE') => void;
+	setVisibility: (visibility: boolean) => void;
 	setSummary: (sumary: string) => void;
 	setPath: (path: string) => void;
 	setFile: (file: File) => void;
@@ -24,7 +24,7 @@ export const usePost = create<Post>(set => ({
 	content: '',
 	tags: [],
 	thumbnail: '',
-	visibility: 'PUBLIC',
+	visibility: true,
 	summary: '',
 	path: '',
 	file: null,

@@ -1,7 +1,8 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import { GoHeart, GoComment, GoLock } from 'react-icons/go';
 import PostMeta from '@/components/post/post-meta';
-import { GoHeart, GoComment } from 'react-icons/go';
+import { Label } from '../ui/label';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function PostCard({
 	path,
@@ -11,15 +12,16 @@ export default function PostCard({
 	summary,
 	comments,
 	user,
-	likes
+	likes,
+	visibility
 }: any) {
 	const blogPath = user.blog.url_slug;
 	const postPath = `${blogPath}${path}`;
 	const avatarInitial = (user.user_id?.[0] ?? 'U').toUpperCase();
-
+	
 	return (
 		<article className="px-4 py-4 hover:bg-muted/30 transition-colors border-b border-border last:border-b-0">
-			{/* 작성자 메타 */}
+			{/* 작성자 & 작성시간 & 비공개글... */}
 			<div className="flex items-center gap-2 mb-3">
 				<Link
 					href={blogPath}
@@ -33,8 +35,11 @@ export default function PostCard({
 				>
 					{user.user_id}
 				</Link>
-				<span className="text-muted-foreground text-sm">·</span>
+				<Label className="text-muted-foreground text-sm">·</Label>
 				<PostMeta date={created_at} className="text-sm text-muted-foreground" />
+				{
+					!visibility && <GoLock size={16} fill={"gray"}/>
+				}
 			</div>
 
 			{/* 본문 */}
