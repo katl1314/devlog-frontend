@@ -1,4 +1,4 @@
-import Logo from '@/components/common/logo';
+import Logo from './logo';
 import NavbarLogo from './navbar-logo';
 
 export default async function Header() {
