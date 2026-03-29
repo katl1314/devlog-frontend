@@ -1,5 +1,5 @@
 import Skeleton from 'react-loading-skeleton';
-import './skeleton.css';
+import '@/components/skeleton/skeleton.css';
 
 export default function CardSkeleton() {
 	return (

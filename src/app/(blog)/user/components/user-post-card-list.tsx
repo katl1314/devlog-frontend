@@ -4,7 +4,11 @@ import { postService } from '@/services/post.service';
 import PostCard from '@/components/post/post-card';
 import CardLayout from '@/components/layout/card-layout';
 import useFetch from '@/hooks/fetch';
-import { FetchPostsResponse } from '@/types/type';
+
+export interface FetchPostsResponse {
+	posts: any[];
+	nextCursor: number;
+}
 
 export default function UserPostCardList({ userId }: { userId: string }) {
 	const { data, lastPostRef } = useFetch({

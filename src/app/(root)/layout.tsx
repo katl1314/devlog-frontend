@@ -4,7 +4,11 @@ import SidebarNav from '@/app/(root)/components/sidebar-nav';
 import SidebarWidgets from '@/app/(root)/components/sidebar-widgets';
 import MobileBottomNav from '@/app/(root)/components/mobile-bottom-nav';
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+	children
+}: {
+	children: React.ReactNode;
+}) {
 	return (
 		<PageLayout>
 			{/* 모바일 전용 헤더 (md 이상에서 숨김) */}
@@ -20,7 +24,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 				</aside>
 
 				{/* Main Feed - 최대 너비 제한으로 양옆 여백 확보 */}
-				<div className="w-full max-w-[680px] border-r border-border">
+				<div className="w-full max-w-[780px] border-r border-border">
 					{children}
 				</div>
 

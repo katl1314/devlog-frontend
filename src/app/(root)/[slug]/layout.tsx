@@ -1,4 +1,4 @@
-import Tabs, { TabItem } from '@/components/tab/tabs';
+import Tabs, { TabItem } from './components/tab/tabs';
 import PublicationCards from '@/app/(root)/components/publication-cards';
 
 export default async function Layout({

@@ -1,4 +1,4 @@
-import CardSkeleton from '@/components/skeleton/card-skeleton.';
+import CardSkeleton from './components/skeleton/card-skeleton';
 import CardLayout from '@/components/layout/card-layout';
 import { Suspense } from 'react';
 import PostCardList from '@/components/post/post-card-list';

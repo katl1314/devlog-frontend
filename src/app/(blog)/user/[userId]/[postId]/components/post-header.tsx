@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import Link from 'next/link';
 import PostActions from './post-actions';
+import Link from 'next/link';
+import { TagViewer } from '@/components/tags/tag-viewer';
 
 // 작성자 본인 여부를 판단할 수 있는 props가 있다면 추가 (예: isOwner)
 interface PostHeaderProps {
@@ -81,18 +82,7 @@ export default function PostHeader({
 			</div>
 
 			{/* 3. 태그 */}
-			{tags.length > 0 && (
-				<div className="mt-4 flex flex-wrap gap-2">
-					{tags.map((tag, index) => (
-						<Label
-							key={`${tag}-${index}`}
-							className="inline-block bg-gray-200 text-[#12b886] px-3 py-1 rounded-lg text-sm font-medium cursor-pointer hover:bg-gray-300 transition-colors"
-						>
-							#{tag}
-						</Label>
-					))}
-				</div>
-			)}
+			<TagViewer tags={tags} />
 
 			{/* 4. 좋아요 / 댓글 / 공유 */}
 			<PostActions />

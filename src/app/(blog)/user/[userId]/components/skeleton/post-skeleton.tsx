@@ -1,6 +1,6 @@
-import { Separator } from '../ui/separator';
+import { Separator } from '@/components/ui/separator';
 import Skeleton from 'react-loading-skeleton';
-import './skeleton.css';
+import '@/components/skeleton/skeleton.css';
 
 export default function PostSkeleton() {
 	return (

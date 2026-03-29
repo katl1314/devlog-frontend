@@ -37,7 +37,7 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 	};
 
 	// 키보드 이벤트 핸들러 통합
-	const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+	const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
 		// 한글 입력 중 조합 문제 방지 (isComposing)
 		if (e.nativeEvent.isComposing) return;
 
@@ -52,21 +52,21 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 	return (
 		<div className="w-full flex flex-wrap items-center gap-2 min-h-[40px]">
 			{/* 태그 리스트 */}
-			{tags.map((tag) => (
+			{tags.map(tag => (
 				<span
 					key={tag}
 					className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-colors duration-200 cursor-default animate-in fade-in zoom-in-95"
 				>
-          <span className="text-emerald-500 mr-1 font-bold">#</span>
+					<span className="text-emerald-500 mr-1 font-bold">#</span>
 					{tag}
-        </span>
+				</span>
 			))}
 
 			{/* 입력창 */}
 			<input
 				type="text"
 				value={inputValue}
-				onChange={(e) => setInputValue(e.target.value)}
+				onChange={e => setInputValue(e.target.value)}
 				onKeyDown={handleKeyDown}
 				className="flex-1 min-w-[180px] bg-transparent outline-none text-lg text-neutral-800 placeholder:text-neutral-300 placeholder:font-light"
 				placeholder="태그를 입력하세요 (Enter 입력)"

@@ -1,6 +1,13 @@
 'use client';
 
-import { startTransition, useActionState, useEffect, useState, useCallback, FormEvent } from 'react';
+import {
+	startTransition,
+	useActionState,
+	useEffect,
+	useState,
+	useCallback,
+	FormEvent
+} from 'react';
 import { validatePost } from '@/utils';
 import { FiArrowLeft } from 'react-icons/fi';
 import { savePost } from '@/actions/actions';
@@ -14,11 +21,26 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 const Modal = dynamic(() => import('@/components/modal/modal'), { ssr: false });
-const TagEditor = dynamic(() => import('../../../../components/editor/tag-editor'), { ssr: false });
-const Editor = dynamic(() => import('../../../../components/editor/editor'), { ssr: false });
+const TagEditor = dynamic(() => import('@/components/tags/tag-editor'), {
+	ssr: false
+});
+const Editor = dynamic(() => import('@/components/editor/editor'), {
+	ssr: false
+});
 
 export default function PostEditor({ blog }: any) {
-	const { title, content, visibility, tags, path, summary, file, setTitle, setContent, setTags } = usePost();
+	const {
+		title,
+		content,
+		visibility,
+		tags,
+		path,
+		summary,
+		file,
+		setTitle,
+		setContent,
+		setTags
+	} = usePost();
 	const [state, formAction] = useActionState(savePost, { status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
 
@@ -29,36 +51,39 @@ export default function PostEditor({ blog }: any) {
 		}
 	}, [state]);
 
-	const handleSubmit = useCallback((ev: FormEvent<HTMLFormElement>) => {
-		ev.preventDefault();
-		const error = validatePost({ title, content });
+	const handleSubmit = useCallback(
+		(ev: FormEvent<HTMLFormElement>) => {
+			ev.preventDefault();
+			const error = validatePost({ title, content });
 
-		if (error) {
-			toast(error, {
-				position: 'top-right',
-				duration: 1500,
-				icon: <GoAlert />
+			if (error) {
+				toast(error, {
+					position: 'top-right',
+					duration: 1500,
+					icon: <GoAlert />
+				});
+				return;
+			}
+
+			const postPath = path ? `/${path}` : `/${title}`;
+			const formData = new FormData();
+
+			formData.set('title', title);
+			formData.set('content', content);
+			formData.set('visibility', visibility);
+			formData.set('file', file ?? '');
+			formData.set('path', postPath);
+			formData.set('summary', summary ?? '');
+			formData.set('tags', JSON.stringify(tags));
+
+			startTransition(() => {
+				formAction(formData);
 			});
-			return;
-		}
 
-		const postPath = path ? `/${path}` : `/${title}`;
-		const formData = new FormData();
-
-		formData.set('title', title);
-		formData.set('content', content);
-		formData.set('visibility', visibility);
-		formData.set('file', file ?? '');
-		formData.set('path', postPath);
-		formData.set('summary', summary ?? '');
-		formData.set('tags', JSON.stringify(tags));
-
-		startTransition(() => {
-			formAction(formData);
-		});
-
-		setModalOpen(false);
-	}, [title, content, file, visibility, summary, tags, path, formAction]);
+			setModalOpen(false);
+		},
+		[title, content, file, visibility, summary, tags, path, formAction]
+	);
 
 	return (
 		<>
@@ -76,7 +101,6 @@ export default function PostEditor({ blog }: any) {
 			{/* 메인 에디터 영역 */}
 			<main className="min-h-screen bg-white pb-32">
 				<div className="max-w-4xl mx-auto px-6 pt-12 md:pt-20">
-
 					{/* 제목 입력 */}
 					<input
 						className="w-full text-4xl md:text-5xl font-extrabold text-neutral-800 placeholder:text-neutral-300 border-none outline-none bg-transparent leading-tight"
@@ -99,13 +123,11 @@ export default function PostEditor({ blog }: any) {
 					<div className="min-h-[500px]">
 						<Editor setContent={setContent} content={content} />
 					</div>
-
 				</div>
 			</main>
 
 			{/* 하단 고정 액션바 (Footer) */}
 			<footer className="fixed bottom-0 left-0 w-full h-16 bg-white/95 backdrop-blur border-t border-neutral-100 flex items-center justify-between px-6 md:px-12 z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
-
 				{/* 왼쪽: 뒤로가기 */}
 				<Link
 					href="/public"

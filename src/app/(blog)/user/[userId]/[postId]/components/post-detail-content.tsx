@@ -1,4 +1,4 @@
-import PostContextProvider from '@/components/post/post-context-provider';
+import PostContextProvider from './post-context-provider';
 import PostHeader from './post-header';
 import PostBody from './post-body';
 import PostFooter from './post-footer';
@@ -13,11 +13,14 @@ interface PostDetailContentProps {
 	userId: string;
 }
 
-export default async function PostDetailContent({ postId, userId }: PostDetailContentProps) {
+export default async function PostDetailContent({
+	postId,
+	userId
+}: PostDetailContentProps) {
 	let isLike: boolean = false;
 	const [session, post] = await Promise.all([
 		auth(),
-		postService.findPost(postId, userId),
+		postService.findPost(postId, userId)
 	]);
 
 	if (!post || post.status === '404') {

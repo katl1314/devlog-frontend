@@ -1,7 +1,7 @@
 import UserProfileSection from '@/app/(blog)/user/components/user-profile-section';
 import UserProfileTabNav from '@/app/(blog)/user/components/user-profile-tab-nav';
 import UserPostCardList from '@/app/(blog)/user/components/user-post-card-list';
-import PostSkeleton from '@/components/skeleton/post-skeleton';
+import PostSkeleton from './components/skeleton/post-skeleton';
 import { userService } from '@/services/user.service';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
