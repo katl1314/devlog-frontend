@@ -1,16 +1,24 @@
-import Link from 'next/link';
-import { auth } from '@/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { IoCreateOutline } from 'react-icons/io5';
-import { BiUser } from 'react-icons/bi';
-import { MdOutlineAccessTime } from 'react-icons/md';
 import { TbFileText, TbLayoutList, TbUser } from 'react-icons/tb';
 import NavbarLogo from '@/app/(root)/components/navbar-logo';
+import { MdOutlineAccessTime } from 'react-icons/md';
+import { IoCreateOutline } from 'react-icons/io5';
+import { BiUser } from 'react-icons/bi';
+import { auth } from '@/auth';
+import Link from 'next/link';
 
 const profileNavItems = (userId: string) => [
 	{ href: `/user/${userId}`, icon: <TbFileText size={22} />, label: '포스트' },
-	{ href: `/user/${userId}?tab=series`, icon: <TbLayoutList size={22} />, label: '시리즈' },
-	{ href: `/user/${userId}?tab=about`, icon: <TbUser size={22} />, label: '소개' },
+	{
+		href: `/user/${userId}?tab=series`,
+		icon: <TbLayoutList size={22} />,
+		label: '시리즈'
+	},
+	{
+		href: `/user/${userId}?tab=about`,
+		icon: <TbUser size={22} />,
+		label: '소개'
+	}
 ];
 
 export default async function UserSidebarNav({ userId }: { userId: string }) {
@@ -30,7 +38,14 @@ export default async function UserSidebarNav({ userId }: { userId: string }) {
 					xmlns="http://www.w3.org/2000/svg"
 				>
 					<defs>
-						<linearGradient id="user-nav-grad" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+						<linearGradient
+							id="user-nav-grad"
+							x1="0"
+							y1="0"
+							x2="1"
+							y2="1"
+							gradientUnits="objectBoundingBox"
+						>
 							<stop offset="0%" stopColor="#3b82f6" />
 							<stop offset="100%" stopColor="#8b5cf6" />
 						</linearGradient>
@@ -76,13 +91,13 @@ export default async function UserSidebarNav({ userId }: { userId: string }) {
 				))}
 			</div>
 
-			{/* 새 아티클 작성 */}
+			{/* 새 포스트 작성 */}
 			<Link
 				href={user ? '/write' : '/auth'}
 				className="mt-4 flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-foreground text-background text-sm font-bold hover:opacity-85 transition-opacity shadow-sm"
 			>
 				<IoCreateOutline size={18} />
-				<span className="hidden xl:block">새 아티클 작성</span>
+				<span className="hidden xl:block">새 포스트 작성</span>
 			</Link>
 
 			{/* 유저 프로필 */}
@@ -96,8 +111,12 @@ export default async function UserSidebarNav({ userId }: { userId: string }) {
 							</AvatarFallback>
 						</Avatar>
 						<div className="hidden xl:flex flex-col overflow-hidden flex-1 min-w-0">
-							<span className="text-sm font-semibold truncate">{user.name}</span>
-							<span className="text-xs text-muted-foreground truncate">@{user.id}</span>
+							<span className="text-sm font-semibold truncate">
+								{user.name}
+							</span>
+							<span className="text-xs text-muted-foreground truncate">
+								@{user.id}
+							</span>
 						</div>
 					</div>
 				) : (

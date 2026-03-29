@@ -1,5 +1,5 @@
 import Tabs, { TabItem } from './components/tab/tabs';
-import PublicationCards from '@/app/(root)/components/publication-cards';
+// import PublicationCards from '@/app/(root)/components/publication-cards';
 
 export default async function Layout({
 	children
@@ -21,8 +21,8 @@ export default async function Layout({
 				</div>
 			</div>
 
-			{/* 추천 뉴스레터 카드 */}
-			<PublicationCards />
+			{/* 추천 뉴스레터 카드 (현재 미사용) */}
+			{/* <PublicationCards /> */}
 
 			{/* 오늘의 아티클 섹션 라벨 */}
 			<div className="px-6 py-3 border-b border-border">

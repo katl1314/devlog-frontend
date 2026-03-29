@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import { auth } from '@/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MdOutlineAccessTime, MdOutlineTrendingUp } from 'react-icons/md';
-import { IoCreateOutline } from 'react-icons/io5';
 import { BiBell, BiBookmark, BiUser } from 'react-icons/bi';
+import { IoCreateOutline } from 'react-icons/io5';
 import NavbarLogo from './navbar-logo';
+import { auth } from '@/auth';
+import Link from 'next/link';
 
 const navItems = [
 	{ href: '/new', icon: <MdOutlineAccessTime size={22} />, label: '홈 피드' },
@@ -31,7 +31,14 @@ export default async function SidebarNav() {
 					xmlns="http://www.w3.org/2000/svg"
 				>
 					<defs>
-						<linearGradient id="nav-icon-grad" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+						<linearGradient
+							id="nav-icon-grad"
+							x1="0"
+							y1="0"
+							x2="1"
+							y2="1"
+							gradientUnits="objectBoundingBox"
+						>
 							<stop offset="0%" stopColor="#3b82f6" />
 							<stop offset="100%" stopColor="#8b5cf6" />
 						</linearGradient>
@@ -61,13 +68,13 @@ export default async function SidebarNav() {
 				))}
 			</div>
 
-			{/* 새 아티클 작성 버튼 — 비로그인 시 /auth로 이동 */}
+			{/* 새 포스트 작성 버튼 */}
 			<Link
 				href={user ? '/write' : '/auth'}
 				className="mt-4 flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-foreground text-background text-sm font-bold hover:opacity-85 transition-opacity shadow-sm"
 			>
 				<IoCreateOutline size={18} />
-				<span className="hidden xl:block">새 아티클 작성</span>
+				<span className="hidden xl:block">새 포스트 작성</span>
 			</Link>
 
 			{/* 유저 프로필 */}

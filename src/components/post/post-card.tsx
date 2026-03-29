@@ -11,7 +11,7 @@ export default function PostCard({
 	summary,
 	comments,
 	user,
-	like
+	likes
 }: any) {
 	const blogPath = user.blog.url_slug;
 	const postPath = `${blogPath}${path}`;
@@ -66,11 +66,11 @@ export default function PostCard({
 				<div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
 					<div className="flex items-center gap-1.5 hover:text-rose-500 transition-colors">
 						<GoHeart size={15} />
-						<span>{like}</span>
+						<span>{likes.length}</span>
 					</div>
 					<div className="flex items-center gap-1.5 hover:text-blue-500 transition-colors">
 						<GoComment size={15} />
-						<span>{comments}</span>
+						<span>{comments.length}</span>
 					</div>
 				</div>
 			</Link>

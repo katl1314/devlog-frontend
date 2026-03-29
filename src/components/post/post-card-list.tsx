@@ -23,9 +23,11 @@ export default function PostCardList() {
 		<CardLayout>
 			{data.pages.map(({ posts }) =>
 				posts.map((post: any, index: number) => {
-					const isLastItem = index === posts.length - 1;
 					return (
-						<div key={post.path} ref={isLastItem ? lastPostRef : null}>
+						<div
+							key={post.path}
+							ref={index === posts.length - 1 ? lastPostRef : null}
+						>
 							{<PostCard {...post} />}
 						</div>
 					);
