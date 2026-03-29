@@ -32,7 +32,8 @@ const LoadingSpinner = () => (
 
 type Mode = 'social' | 'login' | 'register';
 
-export default function AuthForm() {
+export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
+	const redirectTo = callbackUrl ?? '/';
 	const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
 	const [mode, setMode] = useState<Mode>('social');
 	const [loginError, setLoginError] = useState<string | null>(null);
@@ -56,7 +57,7 @@ export default function AuthForm() {
 				await signIn('signup-complete', {
 					email: registerState.email,
 					redirect: true,
-					redirectTo: '/'
+					redirectTo
 				});
 			})();
 		}
@@ -64,7 +65,7 @@ export default function AuthForm() {
 
 	const handleGoogleLogin = async () => {
 		setLoadingProvider('google');
-		await signIn('google', { redirect: true, redirectTo: '/' });
+		await signIn('google', { redirect: true, redirectTo });
 		setLoadingProvider(null);
 	};
 
@@ -89,7 +90,7 @@ export default function AuthForm() {
 		if (result?.error) {
 			setLoginError('이메일 또는 비밀번호가 올바르지 않습니다.');
 		} else {
-			window.location.href = '/';
+			window.location.href = redirectTo;
 		}
 	};
 
