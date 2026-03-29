@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 const navItems = [
 	{ href: '/new', icon: MdOutlineAccessTime, label: '홈' },
 	{ href: '/trends', icon: MdOutlineTrendingUp, label: '트렌드' },
-	{ href: '/write', icon: IoCreateOutline, label: '글쓰기' },
+	{ href: '/write', icon: IoCreateOutline, label: '글쓰기' }
 ];
 
 export default function MobileBottomNav() {
@@ -24,7 +24,9 @@ export default function MobileBottomNav() {
 		<nav className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-background/90 backdrop-blur-xl border-t border-border">
 			<div className="flex justify-around items-center h-[56px]">
 				{navItems.map(({ href, icon: Icon, label }) => {
-					const isActive = pathname === href || (href !== '/write' && pathname?.startsWith(href));
+					const isActive =
+						pathname === href ||
+						(href !== '/write' && pathname?.startsWith(href));
 					return (
 						<Link
 							key={href}
@@ -36,7 +38,7 @@ export default function MobileBottomNav() {
 									: 'text-muted-foreground hover:text-foreground'
 							)}
 						>
-							<Icon size={22} />
+							<Icon size={26} />
 							<span className="text-[10px] font-medium">{label}</span>
 						</Link>
 					);
@@ -44,23 +46,20 @@ export default function MobileBottomNav() {
 
 				{/* 프로필 탭 */}
 				{user ? (
-					<button
-						className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground"
-					>
-						<Avatar className="w-[22px] h-[22px]">
+					<button className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground">
+						<Avatar className="w-[30px] h-[30px]">
 							<AvatarImage src={user.image ?? ''} />
 							<AvatarFallback className="text-[10px] font-semibold">
 								{user.name?.[0]?.toUpperCase() ?? 'U'}
 							</AvatarFallback>
 						</Avatar>
-						<span className="text-[10px] font-medium">프로필</span>
 					</button>
 				) : (
 					<Link
-						href="/auth"
+						href={`/auth?callbackUrl=${encodeURIComponent(pathname)}`}
 						className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground hover:text-foreground transition-colors"
 					>
-						<BiUser size={22} />
+						<BiUser size={26} />
 						<span className="text-[10px] font-medium">프로필</span>
 					</Link>
 				)}

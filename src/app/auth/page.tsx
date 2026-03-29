@@ -1,5 +1,10 @@
 import AuthForm from './components/auth-form';
 
-export default function Page() {
-	return <AuthForm />;
+type Props = {
+	searchParams?: Promise<{ callbackUrl?: string }>;
+};
+
+export default async function Page({ searchParams }: Props) {
+	const { callbackUrl } = (await searchParams) ?? {};
+	return <AuthForm callbackUrl={callbackUrl} />;
 }

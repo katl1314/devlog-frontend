@@ -1,11 +1,12 @@
 import UserProfileSection from '@/app/(blog)/user/components/user-profile-section';
+import UserProfileTabNav from '@/app/(blog)/user/components/user-profile-tab-nav';
 import UserPostCardList from '@/app/(blog)/user/components/user-post-card-list';
 import PostSkeleton from '@/components/skeleton/post-skeleton';
 import { userService } from '@/services/user.service';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 
-export const dynamicParams = false;
+export const revalidate = 60;
 
 export async function generateStaticParams() {
 	const users = (await userService.findAll()) as Array<{ user_id: string }>;
@@ -42,6 +43,7 @@ export default async function Page({
 			<div className="border-b border-border">
 				<UserProfileSection {...user} />
 			</div>
+			<UserProfileTabNav userId={userId} />
 			<section className="min-h-[500px]">
 				<Suspense fallback={<PostFallback />}>
 					<UserPostCardList userId={userId} />

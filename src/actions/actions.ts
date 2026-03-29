@@ -6,10 +6,11 @@ import { postService } from '@/services/post.service';
 import { parseFormData } from '@/utils';
 import { Session } from 'next-auth';
 import { auth } from '@/auth';
+import { revalidatePath } from 'next/cache';
 
 // 서비스 회원가입 액션
 export const createUser = async (
-  state: RegisterType,
+  _state: RegisterType,
   formData: FormData,
 ) => {
     const name = String(formData.get('username'));
@@ -69,6 +70,8 @@ export const createUser = async (
     }
 
     await userService.create(data);
+
+    revalidatePath(`/user/${userId}`);
 
     return {
       name,

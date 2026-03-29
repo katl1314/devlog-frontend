@@ -102,7 +102,7 @@ export default async function UserSidebarNav({ userId }: { userId: string }) {
 					</div>
 				) : (
 					<Link
-						href="/auth"
+						href={`/auth?callbackUrl=${encodeURIComponent(`/user/${userId}`)}`}
 						className="flex items-center justify-center gap-2 py-3 px-4 rounded-full border border-border text-sm font-medium hover:bg-muted/50 transition-colors"
 					>
 						<BiUser size={20} />
