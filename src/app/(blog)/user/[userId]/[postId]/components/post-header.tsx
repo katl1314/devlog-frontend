@@ -21,9 +21,8 @@ export default function PostHeader({
 	title,
 	created_at,
 	tags = [],
-	user_id,
+	user_id
 }: PostHeaderProps) {
-
 	tags = ['javascript', 'python', 'front']; // 태그 테스트
 
 	const formatTimeAgo = (dateString: string | Date) => {
@@ -60,13 +59,22 @@ export default function PostHeader({
 					<Label className="text-gray-500">{formatTimeAgo(created_at)}</Label>
 				</div>
 				<div>
-					<Button variant="link" className="px-2 text-gray-500 hover:text-gray-900 transition-colors">
+					<Button
+						variant="link"
+						className="px-2 text-gray-500 hover:text-gray-900 transition-colors"
+					>
 						통계
 					</Button>
-					<Button variant="link" className="px-2 text-gray-500 hover:text-gray-900 transition-colors">
+					<Button
+						variant="link"
+						className="px-2 text-gray-500 hover:text-gray-900 transition-colors"
+					>
 						수정
 					</Button>
-					<Button variant="link" className="px-2 text-gray-500 hover:text-gray-900 transition-colors">
+					<Button
+						variant="link"
+						className="px-2 text-gray-500 hover:text-gray-900 transition-colors"
+					>
 						삭제
 					</Button>
 				</div>
@@ -78,7 +86,7 @@ export default function PostHeader({
 					{tags.map((tag, index) => (
 						<Label
 							key={`${tag}-${index}`}
-							className="inline-block bg-gray-100 text-[#12b886] px-3 py-1 rounded-full text-sm font-medium cursor-pointer hover:bg-gray-200 transition-colors"
+							className="inline-block bg-gray-200 text-[#12b886] px-3 py-1 rounded-lg text-sm font-medium cursor-pointer hover:bg-gray-300 transition-colors"
 						>
 							#{tag}
 						</Label>
