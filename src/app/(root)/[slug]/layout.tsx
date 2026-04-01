@@ -1,4 +1,4 @@
-import Tabs, { TabItem } from './components/tab/tabs';
+import NavTabs, { TabItem } from './components/tab/nav-tabs';
 // import PublicationCards from '@/app/(root)/components/publication-cards';
 
 export default async function Layout({
@@ -17,7 +17,7 @@ export default async function Layout({
 			<div className="sticky top-0 z-10 flex items-center justify-between px-6 h-[60px] bg-background/80 backdrop-blur-xl border-b border-border/50">
 				<h2 className="text-lg font-bold tracking-tight">홈 피드</h2>
 				<div className="flex gap-1">
-					<Tabs items={data as TabItem[]} defaultPath="/new" />
+					<NavTabs items={data as TabItem[]} defaultPath="/new" />
 				</div>
 			</div>
 

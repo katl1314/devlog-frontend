@@ -73,7 +73,7 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 							<button
 								type="button"
 								onClick={() => setVisibility(true)}
-								className={`flex-1 flex items-center justify-center gap-2 py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${
+								className={`flex-1 flex items-center justify-center gap-2 py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 cursor-pointer ${
 									visibility
 										? 'bg-white text-indigo-600 shadow-sm'
 										: 'text-slate-500 hover:text-slate-700'
@@ -84,7 +84,7 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 							<button
 								type="button"
 								onClick={() => setVisibility(false)}
-								className={`flex-1 flex items-center justify-center gap-2 py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${
+								className={`flex-1 flex items-center justify-center gap-2 py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 cursor-pointer ${
 									!visibility
 										? 'bg-white text-indigo-600 shadow-sm'
 										: 'text-slate-500 hover:text-slate-700'

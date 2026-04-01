@@ -16,7 +16,7 @@ interface TabItems {
 	onOptionChange?: (opt: string) => void;
 }
 
-export default function Tabs({ items, icons, defaultPath }: TabItems) {
+export default function NavTabs({ items, icons, defaultPath }: TabItems) {
 	const pathname = usePathname();
 	return (
 		<>

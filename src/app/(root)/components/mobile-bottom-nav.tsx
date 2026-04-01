@@ -19,7 +19,7 @@ export default function MobileBottomNav() {
 	const pathname = usePathname();
 	const { data: session } = useSession();
 	const user = session?.user;
-
+	const userId = user?.id ?? ('U' as string);
 	return (
 		<nav className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-background/90 backdrop-blur-xl border-t border-border">
 			<div className="flex justify-around items-center h-[56px]">
@@ -46,11 +46,11 @@ export default function MobileBottomNav() {
 
 				{/* 프로필 탭 */}
 				{user ? (
-					<button className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground">
+					<button className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground cursor-pointer">
 						<Avatar className="w-[30px] h-[30px]">
 							<AvatarImage src={user.image ?? ''} />
-							<AvatarFallback className="text-gray-300 text-[10px] font-semibold bg-gradient-to-br from-blue-400 to-purple-500">
-								{user.name?.[0]?.toUpperCase() ?? 'U'}
+							<AvatarFallback className="text-gray-300 font-semibold bg-gradient-to-br from-blue-400 to-purple-500">
+								{userId[0]?.toUpperCase() ?? 'U'}
 							</AvatarFallback>
 						</Avatar>
 					</button>

@@ -26,10 +26,10 @@ export default function SidebarUserMenu({
 }: SidebarUserMenuProps) {
 	return (
 		<div className="flex items-center justify-center xl:justify-start gap-3 p-2 rounded-full hover:bg-muted/50 transition-colors">
-			<Avatar className="w-10 h-10 shrink-0">
+			<Avatar className="w-10 h-10 shrink-0 ">
 				<AvatarImage src={image} />
-				<AvatarFallback className="text-sm font-semibold">
-					{name?.[0]?.toUpperCase() ?? 'U'}
+				<AvatarFallback className="font-semibold text-white bg-gradient-to-br from-blue-400 to-purple-500 ">
+					{userId?.[0]?.toUpperCase() ?? 'U'}
 				</AvatarFallback>
 			</Avatar>
 			<div className="hidden xl:flex flex-col overflow-hidden flex-1 min-w-0">
@@ -40,7 +40,7 @@ export default function SidebarUserMenu({
 			</div>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<button className="hidden xl:flex items-center justify-center w-8 h-8 rounded-full hover:bg-muted transition-colors shrink-0">
+					<button className="hidden xl:flex items-center justify-center w-8 h-8 rounded-full hover:bg-muted transition-colors shrink-0 cursor-pointer">
 						<BsThreeDotsVertical size={16} />
 					</button>
 				</DropdownMenuTrigger>

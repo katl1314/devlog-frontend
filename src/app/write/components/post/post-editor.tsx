@@ -21,7 +21,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 const Modal = dynamic(() => import('@/components/modal/modal'), { ssr: false });
-const TagEditor = dynamic(() => import('@/components/tags/tag-editor'), {
+const TagEditor = dynamic(() => import('@/components/tag/tag-editor'), {
 	ssr: false
 });
 const Editor = dynamic(() => import('@/components/editor/editor'), {
@@ -70,7 +70,7 @@ export default function PostEditor({ blog }: any) {
 
 			formData.set('title', title);
 			formData.set('content', content);
-			formData.set('visibility', visibility);
+			formData.set('visibility', String(visibility));
 			formData.set('file', file ?? '');
 			formData.set('path', postPath);
 			formData.set('summary', summary ?? '');

@@ -1,11 +1,10 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
 import React, { useActionState, useEffect, useState } from 'react';
-import { createUser } from '@/actions/actions';
 import { formInitialState, RegisterType } from '@/app/schema';
-import { GoAlert } from 'react-icons/go';
-import { toast } from 'sonner';
+import { createUser } from '@/actions/actions';
+import LogoIcon from '@/components/logo-icon';
+import { signIn } from 'next-auth/react';
 
 const LoadingSpinner = () => (
 	<svg
@@ -37,6 +36,7 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 	const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
 	const [mode, setMode] = useState<Mode>('social');
 	const [loginError, setLoginError] = useState<string | null>(null);
+	const [registerError, setRegisterError] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const [registerState, registerAction, isRegistering] = useActionState<
@@ -47,11 +47,7 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 	// 회원가입 완료 후 자동 로그인
 	useEffect(() => {
 		if (registerState.errors) {
-			toast(JSON.stringify(registerState.errors), {
-				position: 'top-right',
-				duration: 2000,
-				icon: <GoAlert />
-			});
+			setRegisterError(Object.values(registerState.errors).join(' '));
 		} else if (registerState.userId) {
 			(async () => {
 				await signIn('signup-complete', {
@@ -106,10 +102,8 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 				<div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-indigo-100/50 border border-white p-8 md:p-12 transition-all hover:shadow-indigo-200/40">
 					{/* 헤더 */}
 					<div className="text-center mb-8">
-						<div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 mb-6 shadow-lg shadow-indigo-200 ring-4 ring-white">
-							<span className="text-white text-3xl font-bold italic tracking-tighter">
-								D.
-							</span>
+						<div className="inline-flex items-center justify-center mb-6">
+							<LogoIcon size={64} />
 						</div>
 						<h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
 							Dev.log
@@ -123,7 +117,7 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 					<div className="flex rounded-2xl bg-slate-100 p-1 mb-8">
 						<button
 							onClick={() => setMode('social')}
-							className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${mode === 'social' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+							className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${mode === 'social' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
 						>
 							소셜 로그인
 						</button>
@@ -132,13 +126,13 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 								setMode('login');
 								setLoginError(null);
 							}}
-							className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${mode === 'login' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+							className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${mode === 'login' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
 						>
 							이메일 로그인
 						</button>
 						<button
 							onClick={() => setMode('register')}
-							className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${mode === 'register' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+							className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${mode === 'register' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
 						>
 							회원가입
 						</button>
@@ -150,7 +144,7 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 							<button
 								onClick={handleGoogleLogin}
 								disabled={loadingProvider !== null}
-								className="w-full group flex items-center justify-center gap-3 bg-white border border-slate-200 py-4 px-6 rounded-2xl text-slate-700 font-bold transition-all hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98] disabled:opacity-70 shadow-sm"
+								className="w-full group flex items-center justify-center gap-3 bg-white border border-slate-200 py-4 px-6 rounded-2xl text-slate-700 font-bold transition-all hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98] disabled:opacity-70 shadow-sm cursor-pointer"
 							>
 								{loadingProvider === 'google' ? (
 									<LoadingSpinner />
@@ -217,7 +211,7 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 							<button
 								type="submit"
 								disabled={isSubmitting}
-								className="w-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold py-4 rounded-2xl hover:opacity-90 active:scale-[0.98] disabled:opacity-70 transition-all shadow-lg shadow-indigo-200"
+								className="w-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold py-4 rounded-2xl hover:opacity-90 active:scale-[0.98] disabled:opacity-70 transition-all shadow-lg shadow-indigo-200 cursor-pointer"
 							>
 								{isSubmitting ? <LoadingSpinner /> : null}
 								{isSubmitting ? '로그인 중...' : '로그인'}
@@ -291,10 +285,13 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 							</div>
 							<input type="hidden" name="provider" value="email" />
 							<input type="hidden" name="image" value="" />
+							{registerError && (
+								<p className="text-red-500 text-sm font-medium">{registerError}</p>
+							)}
 							<button
 								type="submit"
 								disabled={isRegistering}
-								className="w-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold py-4 rounded-2xl hover:opacity-90 active:scale-[0.98] disabled:opacity-70 transition-all shadow-lg shadow-indigo-200"
+								className="w-full flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold py-4 rounded-2xl hover:opacity-90 active:scale-[0.98] disabled:opacity-70 transition-all shadow-lg shadow-indigo-200 cursor-pointer"
 							>
 								{isRegistering ? <LoadingSpinner /> : null}
 								{isRegistering ? '가입 중...' : '가입하기'}

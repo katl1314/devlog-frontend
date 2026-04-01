@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import PostActions from './post-actions';
 import Link from 'next/link';
-import { TagViewer } from '@/components/tags/tag-viewer';
+import { TagViewer } from '@/components/tag/tag-viewer';
 
 // 작성자 본인 여부를 판단할 수 있는 props가 있다면 추가 (예: isOwner)
 interface PostHeaderProps {

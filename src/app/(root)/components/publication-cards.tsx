@@ -46,7 +46,7 @@ export default function PublicationCards() {
 		<section className="px-6 py-5 border-b border-border">
 			<div className="flex items-center justify-between mb-4">
 				<h3 className="text-sm font-bold text-foreground">추천 뉴스레터</h3>
-				<button className="text-xs font-medium text-blue-500 hover:underline">더보기</button>
+				<button className="text-xs font-medium text-blue-500 hover:underline cursor-pointer">더보기</button>
 			</div>
 			<div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide -mx-1 px-1">
 				{publications.map(pub => (
@@ -73,7 +73,7 @@ export default function PublicationCards() {
 							</p>
 							<div className="flex items-center justify-between">
 								<span className="text-[11px] text-muted-foreground">{pub.count}</span>
-								<button className="text-[11px] font-bold px-3 py-1 rounded-full border border-foreground text-foreground hover:bg-foreground hover:text-background transition-colors">
+								<button className="text-[11px] font-bold px-3 py-1 rounded-full border border-foreground text-foreground hover:bg-foreground hover:text-background transition-colors cursor-pointer">
 									구독
 								</button>
 							</div>
