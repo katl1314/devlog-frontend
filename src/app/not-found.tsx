@@ -1,15 +1,12 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
-	const router = useRouter();
 
 	return (
 		<div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-gray-900 px-4">
 			<div className="max-w-md w-full text-center">
-
 				<div className="relative mb-8">
 					<h1
 						className="text-[9rem] font-black leading-none text-[#12b886] tracking-tighter select-none animate-float"
@@ -25,14 +22,15 @@ export default function NotFound() {
 				</h2>
 
 				<p className="text-gray-500 text-lg mb-10 leading-relaxed break-keep">
-					방문하시려는 페이지의 주소가 잘못 입력되었거나,<br className="hidden sm:block" />
+					방문하시려는 페이지의 주소가 잘못 입력되었거나,
+					<br className="hidden sm:block" />
 					삭제되어 더 이상 존재하지 않습니다.
 				</p>
 
 				{/* Action Buttons */}
 				<div className="flex flex-col sm:flex-row gap-4 justify-center">
 					<Button
-						onClick={() => router.push('/')}
+						onClick={() => window.location.href = '/'}
 						className="
               inline-flex items-center justify-center
               bg-[#12b886] text-white font-bold py-3.5 px-8 rounded-full
@@ -46,7 +44,7 @@ export default function NotFound() {
 					</Button>
 
 					<Button
-						onClick={() => router.back()}
+						onClick={() => window.history.back()}
 						className="
               inline-flex items-center justify-center
               bg-white text-gray-600 font-bold py-3.5 px-8 rounded-full border border-gray-200
