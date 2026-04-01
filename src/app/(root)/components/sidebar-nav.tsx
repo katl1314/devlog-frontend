@@ -1,17 +1,10 @@
-import { MdOutlineAccessTime, MdOutlineTrendingUp } from 'react-icons/md';
-import { BiBell, BiBookmark, BiUser } from 'react-icons/bi';
+import { BiUser } from 'react-icons/bi';
 import { IoCreateOutline } from 'react-icons/io5';
 import NavbarLogo from './navbar-logo';
 import { auth } from '@/auth';
 import Link from 'next/link';
 import SidebarUserMenu from './sidebar-user-menu';
-
-const navItems = [
-	{ href: '/new', icon: <MdOutlineAccessTime size={22} />, label: '홈 피드' },
-	{ href: '/trends', icon: <MdOutlineTrendingUp size={22} />, label: '트렌드' },
-	{ href: '#', icon: <BiBell size={22} />, label: '알림센터' },
-	{ href: '#', icon: <BiBookmark size={22} />, label: '보관함' }
-];
+import SidebarNavItems from './sidebar-nav-items';
 
 export default async function SidebarNav() {
 	const session = await auth();
@@ -53,25 +46,12 @@ export default async function SidebarNav() {
 			</Link>
 
 			{/* Nav items */}
-			<div className="flex flex-col gap-1 flex-1">
-				{navItems.map(item => (
-					<Link
-						key={item.label}
-						href={item.href}
-						className="flex items-center gap-4 px-3 py-3 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors font-medium group"
-					>
-						<span className="flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-							{item.icon}
-						</span>
-						<span className="hidden xl:block text-[15px]">{item.label}</span>
-					</Link>
-				))}
-			</div>
+			<SidebarNavItems />
 
 			{/* 새 포스트 작성 버튼 */}
 			<Link
 				href={user ? '/write' : '/auth'}
-				className="mt-4 flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-foreground text-background text-sm font-bold hover:opacity-85 transition-opacity shadow-sm"
+				className="mt-4 mx-auto xl:mx-0 flex items-center justify-center gap-2 p-3 xl:py-3 xl:px-4 w-10 h-10 xl:w-auto xl:h-auto rounded-full bg-foreground text-background text-sm font-bold hover:opacity-85 transition-opacity shadow-sm"
 			>
 				<IoCreateOutline size={18} />
 				<span className="hidden xl:block">새 포스트 작성</span>

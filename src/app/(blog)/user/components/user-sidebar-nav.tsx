@@ -94,7 +94,7 @@ export default async function UserSidebarNav({ userId }: { userId: string }) {
 			{/* 새 포스트 작성 */}
 			<Link
 				href={user ? '/write' : '/auth'}
-				className="mt-4 flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-foreground text-background text-sm font-bold hover:opacity-85 transition-opacity shadow-sm"
+				className="mt-4 flex items-center justify-center gap-2 p-3 xl:py-3 xl:px-4 w-10 h-10 xl:w-auto xl:h-auto rounded-full bg-foreground text-background text-sm font-bold hover:opacity-85 transition-opacity shadow-sm"
 			>
 				<IoCreateOutline size={18} />
 				<span className="hidden xl:block">새 포스트 작성</span>
