@@ -18,7 +18,7 @@ export default function PostCard({
 	const blogPath = user.blog.url_slug;
 	const postPath = `${blogPath}${path}`;
 	const avatarInitial = (user.user_id?.[0] ?? 'U').toUpperCase();
-	
+
 	return (
 		<article className="px-4 py-4 hover:bg-muted/30 transition-colors border-b border-border last:border-b-0">
 			{/* 작성자 & 작성시간 & 비공개글... */}
@@ -27,7 +27,17 @@ export default function PostCard({
 					href={blogPath}
 					className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-[10px] font-bold shrink-0 hover:opacity-80 transition-opacity"
 				>
-					{avatarInitial}
+					{user.avatar_url ? (
+						<Image
+							src={user.avatar_url}
+							alt={user.user_id}
+							width="24"
+							height="24"
+							className="rounded-full"
+						></Image>
+					) : (
+						avatarInitial
+					)}
 				</Link>
 				<Link
 					href={blogPath}
@@ -37,9 +47,7 @@ export default function PostCard({
 				</Link>
 				<Label className="text-muted-foreground text-sm">·</Label>
 				<PostMeta date={created_at} className="text-sm text-muted-foreground" />
-				{
-					!visibility && <GoLock size={16} fill={"gray"}/>
-				}
+				{!visibility && <GoLock size={16} fill={'gray'} />}
 			</div>
 
 			{/* 본문 */}
