@@ -9,8 +9,9 @@ export default function NavbarLogo() {
 	return (
 		<div className="inline-flex items-center gap-2">
 			<LogoIcon size={32} />
+			{/* PC해상도에서 보여준다. */}
 			<span
-				className={`text-[22px] font-bold tracking-tight leading-none ${textColor}`}
+				className={`hidden xl:block text-[22px] font-bold tracking-tight leading-none ${textColor}`}
 				style={{ letterSpacing: '-0.4px' }}
 			>
 				Dev.Log

@@ -104,3 +104,18 @@ export const saveComment = async(_: any, formData: FormData) => {
   console.log(formData);
   return { message: '', status: '' }
 }
+
+export const updateSettings = async ({
+  name,
+  socials,
+}: {
+  name: string;
+  socials: Record<string, string>;
+}) => {
+  const session = (await auth()) as Session & { accessToken: string };
+  if (!session?.user) throw new Error('Unauthorized');
+
+  const userId = (session.user as any).id;
+  await userService.update(userId, { user_name: name, ...socials }, session.accessToken);
+  revalidatePath('/settings');
+};

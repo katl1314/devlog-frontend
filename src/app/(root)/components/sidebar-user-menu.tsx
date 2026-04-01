@@ -11,7 +11,7 @@ import {
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { BiUser, BiLogOut } from 'react-icons/bi';
+import { BiUser, BiLogOut, BiCog } from 'react-icons/bi';
 
 interface SidebarUserMenuProps {
 	name: string;
@@ -49,6 +49,15 @@ export default function SidebarUserMenu({
 					align="end"
 					className="cursor-pointer w-52 rounded-2xl border-border/50 shadow-xl p-2 gap-0.5"
 				>
+					<DropdownMenuItem asChild>
+						<Link
+							href={`/settings`}
+							className="flex items-center gap-2.5 cursor-pointer rounded-xl px-3 py-2.5 text-sm"
+						>
+							<BiCog size={16} />
+							환경설정
+						</Link>
+					</DropdownMenuItem>
 					<DropdownMenuItem asChild>
 						<Link
 							href={`/@${userId}`}

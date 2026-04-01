@@ -15,5 +15,12 @@ export const userService = {
   },
   async findUserById(id: string) {
     return await apiClient(`/auth/users/${id}`, { method: 'GET', headers: { 'cache': 'no-store' } });
+  },
+  async update(id: string, data: Record<string, unknown>, token: string) {
+    return await apiClient(`/auth/users/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+      headers: { Authorization: `Bearer ${token}` },
+    });
   }
 }

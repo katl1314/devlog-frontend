@@ -14,35 +14,7 @@ export default async function SidebarNav() {
 		<nav className="flex flex-col h-screen sticky top-0 overflow-y-auto py-6 px-3 xl:px-5">
 			{/* Logo */}
 			<Link href="/" className="flex items-center gap-3 mb-8 px-2 xl:px-1">
-				{/* 아이콘만 보이는 좁은 사이드바 */}
-				<svg
-					className="xl:hidden shrink-0"
-					width="36"
-					height="36"
-					viewBox="0 0 32 32"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<defs>
-						<linearGradient
-							id="nav-icon-grad"
-							x1="0"
-							y1="0"
-							x2="1"
-							y2="1"
-							gradientUnits="objectBoundingBox"
-						>
-							<stop offset="0%" stopColor="#3b82f6" />
-							<stop offset="100%" stopColor="#8b5cf6" />
-						</linearGradient>
-					</defs>
-					<rect width="32" height="32" rx="8" fill="url(#nav-icon-grad)" />
-					<path d="M19 3L10 17L16 17L12 29L22 15L16 15Z" fill="white" />
-				</svg>
-				{/* 넓은 사이드바에서 전체 로고 */}
-				<div className="hidden xl:block">
-					<NavbarLogo />
-				</div>
+				<NavbarLogo />
 			</Link>
 
 			{/* Nav items */}

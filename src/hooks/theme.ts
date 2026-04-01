@@ -3,13 +3,15 @@ import { create } from 'zustand';
 
 export type Themes = 'dark' | 'light';
 
+const defaultTheme: Themes = 'light'; // 테마 기본값
+
 interface Theme {
 	theme: Themes;
 	setTheme: (theme: Themes) => void;
 }
 
 const _useTheme = create<Theme>(set => ({
-	theme: 'light',
+	theme: defaultTheme,
 	setTheme: theme => {
 		localStorage.setItem('theme', theme);
 		set({ theme });
