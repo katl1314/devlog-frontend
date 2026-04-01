@@ -5,14 +5,6 @@ import { isEmpty } from './utils';
 
 const matchersForAuth = ['/write']; // 비로그인 시 접근하면 로그인 화면으로 이동한다.
 const matchersForSignIn = ['/signup', '/auth']; // 로그인 관련 화면
-const matchersForMiddleware = [
-	'/',
-	'/@:userId',
-	'/new',
-	'/write',
-	'/auth',
-	'/@:userId/:slug'
-];
 
 export async function middleware(req: NextRequest) {
 	const url = req.nextUrl.clone();
@@ -22,7 +14,8 @@ export async function middleware(req: NextRequest) {
 	if (isMatch(pathname, matchersForAuth)) {
 		const session = await auth();
 		if (isEmpty(session)) {
-			return NextResponse.redirect('/auth');
+			// 반드시 절대좌표이어야 한다.
+			return NextResponse.redirect(new URL('/auth', req.url));
 		}
 	}
 	// 인증 후 회원가입 및 로그인 접근 제어!
@@ -54,5 +47,5 @@ function isMatch(pathname: string, urls: string[]) {
 
 // 미들웨어 적용 대상 경로
 export const config = {
-	matcher: matchersForMiddleware
+	matcher: ['/', '/@:userId', '/new', '/write', '/auth', '/@:userId/:slug']
 };
