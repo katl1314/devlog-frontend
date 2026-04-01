@@ -49,7 +49,7 @@ export default function MobileBottomNav() {
 					<button className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground">
 						<Avatar className="w-[30px] h-[30px]">
 							<AvatarImage src={user.image ?? ''} />
-							<AvatarFallback className="text-[10px] font-semibold">
+							<AvatarFallback className="text-gray-300 text-[10px] font-semibold bg-gradient-to-br from-blue-400 to-purple-500">
 								{user.name?.[0]?.toUpperCase() ?? 'U'}
 							</AvatarFallback>
 						</Avatar>
