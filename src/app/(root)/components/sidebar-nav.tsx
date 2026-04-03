@@ -21,14 +21,15 @@ export default async function SidebarNav() {
 			<SidebarNavItems />
 
 			{/* 새 포스트 작성 버튼 */}
-			<Link
-				href={user ? '/write' : '/auth'}
-				className="mt-4 mx-auto xl:mx-0 flex items-center justify-center gap-2 p-3 xl:py-3 xl:px-4 w-10 h-10 xl:w-auto xl:h-auto rounded-full bg-foreground text-background text-sm font-bold hover:opacity-85 transition-opacity shadow-sm"
-			>
-				<IoCreateOutline size={18} />
-				<span className="hidden xl:block">새 포스트 작성</span>
-			</Link>
-
+			<div className="mt-4">
+				<Link
+					href={user ? '/write' : '/auth'}
+					className="flex items-center justify-center gap-2 xl:py-3 xl:px-4 rounded-full text-sm mx-auto xl:mx-0 w-11 h-11 xl:w-auto xl:h-auto  bg-foreground text-background font-bold hover:opacity-85 transition-opacity shadow-sm"
+				>
+					<IoCreateOutline size={18} />
+					<span className="hidden xl:block">새 포스트 작성</span>
+				</Link>
+			</div>
 			{/* 유저 프로필 */}
 			<div className="mt-3">
 				{user ? (
@@ -40,9 +41,9 @@ export default async function SidebarNav() {
 				) : (
 					<Link
 						href="/auth"
-						className="flex items-center justify-center gap-2 py-3 px-4 rounded-full border border-border text-sm font-medium hover:bg-muted/50 transition-colors"
+						className="flex items-center justify-center gap-2 xl:py-3 xl:px-4 rounded-full text-sm mx-auto xl:mx-0 w-11 h-11 xl:w-auto xl:h-auto  border border-border  font-medium hover:bg-muted/50 transition-colors"
 					>
-						<BiUser size={20} />
+						<BiUser size={18} />
 						<span className="hidden xl:block">로그인</span>
 					</Link>
 				)}

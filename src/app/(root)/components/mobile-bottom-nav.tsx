@@ -8,11 +8,37 @@ import { BiUser } from 'react-icons/bi';
 import { cn } from '@/utils';
 import { useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { BiBookmark } from 'react-icons/bi';
 
 const navItems = [
-	{ href: '/new', icon: MdOutlineAccessTime, label: '홈' },
-	{ href: '/trends', icon: MdOutlineTrendingUp, label: '트렌드' },
-	{ href: '/write', icon: IoCreateOutline, label: '글쓰기' }
+	{
+		id: 'home',
+		href: '/new',
+		icon: MdOutlineAccessTime,
+		label: '홈',
+		match: ['/', '/new']
+	},
+	{
+		id: 'trend',
+		href: '/trend',
+		icon: MdOutlineTrendingUp,
+		label: '트랜드',
+		match: ['/trends']
+	},
+	{
+		id: 'subscribe',
+		href: '/subscribe',
+		icon: BiBookmark,
+		label: '보관함',
+		match: []
+	},
+	{
+		id: 'write',
+		href: '/write',
+		icon: IoCreateOutline,
+		label: '글쓰기',
+		match: []
+	}
 ];
 
 export default function MobileBottomNav() {
@@ -23,13 +49,11 @@ export default function MobileBottomNav() {
 	return (
 		<nav className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-background/90 backdrop-blur-xl border-t border-border">
 			<div className="flex justify-around items-center h-[56px]">
-				{navItems.map(({ href, icon: Icon, label }) => {
-					const isActive =
-						pathname === href ||
-						(href !== '/write' && pathname?.startsWith(href));
+				{navItems.map(({ href, icon: Icon, label, id, match }) => {
+					const isActive = match.includes(pathname);
 					return (
 						<Link
-							key={href}
+							key={id}
 							href={href}
 							className={cn(
 								'flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs transition-colors',

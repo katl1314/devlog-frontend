@@ -7,11 +7,11 @@ export default function NavbarLogo() {
 	const textColor = theme === 'dark' ? 'text-gray-50' : 'text-slate-900';
 
 	return (
-		<div className="inline-flex items-center gap-2">
+		<div className="inline-flex items-center gap-2 align-middle">
 			<LogoIcon size={32} />
-			{/* PC해상도에서 보여준다. */}
+			{/* PC 또는 모바일 해상도에만 보여준다. */}
 			<span
-				className={`hidden xl:block text-[22px] font-bold tracking-tight leading-none ${textColor}`}
+				className={`block md:hidden xl:block text-[22px] font-bold tracking-tight leading-none ${textColor}`}
 				style={{ letterSpacing: '-0.4px' }}
 			>
 				Dev.Log

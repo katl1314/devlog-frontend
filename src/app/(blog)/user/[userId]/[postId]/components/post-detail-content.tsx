@@ -33,7 +33,8 @@ export default async function PostDetailContent({
 
 	if (!isEmpty(session)) {
 		const { accessToken } = session as Session & { accessToken: string };
-		isLike = await postService.findLikeById(post.id, accessToken);
+		isLike =
+			(await postService.findLikeById(post.id, accessToken))?.isLiked ?? false;
 	}
 
 	return (
