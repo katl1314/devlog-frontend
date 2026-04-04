@@ -13,7 +13,7 @@ export const createUser = async (
   _state: RegisterType,
   formData: FormData,
 ) => {
-    const name = String(formData.get('username'));
+    const name = String(formData.get('user_name'));
     const email = String(formData.get('email'));
     const userId = String(formData.get('userId'));
     const provider = String(formData.get('provider'));
