@@ -28,7 +28,7 @@ export default function PostCardList() {
 				posts.map((post: any, index: number) => {
 					return (
 						<div
-							key={post.path}
+							key={post.id}
 							ref={index === posts.length - 1 ? lastPostRef : null}
 						>
 							{<PostCard {...post} />}

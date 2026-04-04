@@ -52,7 +52,7 @@ const PostsCardItems = ({
 				posts.map((post, index) => {
 					const isLastItem = index === posts.length - 1;
 					return (
-						<div key={post.path} ref={isLastItem ? lastPostRef : null}>
+						<div key={post.id} ref={isLastItem ? lastPostRef : null}>
 							<PostCard {...post} />
 						</div>
 					);
