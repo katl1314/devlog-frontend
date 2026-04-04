@@ -1,12 +1,11 @@
 'use client';
 
-import { ChangeEventHandler, useEffect, useState } from 'react';
+import { ChangeEventHandler } from 'react';
 import { usePost } from '@/hooks/post';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { FiGlobe, FiLock } from 'react-icons/fi';
-import ImageFileupload from '@/app/write/components/image/image-fileupload';
-import ImagePreview from '@/app/write/components/image/image-preview';
+import { FiGlobe, FiLock, FiUploadCloud } from 'react-icons/fi';
+import ImageUpload from '@/components/image-upload';
 
 export default function PostSetting({ url_slug }: { url_slug: string }) {
 	const {
@@ -17,24 +16,10 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 		path,
 		setPath,
 		setFile,
-		file,
 	} = usePost();
 
-	const [thumbnail, setThumbnail] = useState<string>();
-	const handleChangeImage = (imageUrl: string) => setThumbnail(imageUrl);
 	const handlePathChange: ChangeEventHandler<HTMLInputElement> = (ev) =>
 		setPath(ev.target.value.replace(/\s+/g, '-').toLowerCase());
-
-
-	useEffect(() => {
-		if (!file) {
-			return;
-		}
-
-		const reader = new FileReader();
-		reader.onloadend = e => handleChangeImage(e.target?.result as string);
-		reader.readAsDataURL(file);
-	}, [file]);
 
 	return (
 		<div className="flex flex-col md:flex-row w-full h-auto md:h-[550px] overflow-hidden rounded-2xl bg-white shadow-xl border border-neutral-100">
@@ -47,13 +32,15 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 				<div className="relative z-10 w-full flex flex-col items-center">
 					<h3 className="text-lg font-bold text-slate-800 mb-4 md:mb-6">포스트 미리보기</h3>
 
-					<div className="w-full aspect-video bg-white rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center text-slate-400 gap-3 group hover:border-indigo-400 hover:text-indigo-500 transition-all duration-300 cursor-pointer">
-						{thumbnail ? (
-							<ImagePreview src={thumbnail} onChangeImage={handleChangeImage} />
-						) : (
-							<ImageFileupload onChangeFile={setFile} />
-						)}
-					</div>
+					<ImageUpload onFileChange={file => file && setFile(file)}>
+						<ImageUpload.Upload className="w-full aspect-video bg-white rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center text-slate-400 gap-3 group hover:border-indigo-400 hover:text-indigo-500 transition-all duration-300 cursor-pointer">
+							<div className="p-3 md:p-4 rounded-full bg-slate-50 group-hover:bg-indigo-50 transition-colors">
+								<FiUploadCloud size={28} className="md:w-8 md:h-8" />
+							</div>
+							<span className="text-xs md:text-sm font-semibold">썸네일 업로드</span>
+						</ImageUpload.Upload>
+						<ImageUpload.Preview className="w-full aspect-video rounded-xl overflow-hidden" />
+					</ImageUpload>
 
 					<p className="mt-4 text-xs text-slate-500 text-center leading-relaxed hidden md:block">
 						16:9 비율의 이미지를 권장합니다.<br/>

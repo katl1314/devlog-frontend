@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { useTheme } from '@/hooks/theme';
 import { updateSettings } from '@/actions/actions';
 import { toast } from 'sonner';
+import ImageUpload, { useImageUpload } from '@/components/image-upload';
 
 type ThemeOption = 'light' | 'dark' | 'system';
 
@@ -109,18 +109,15 @@ export default function SettingsForm({
 					기본 프로필
 				</h3>
 				<div className="flex items-center gap-6">
-					<div className="relative w-20 h-20 rounded-[24px] bg-muted overflow-hidden cursor-pointer group shrink-0">
-						{image ? (
-							<Image src={image} alt="profile" fill className="object-cover" />
-						) : (
-							<div className="w-full h-full flex items-center justify-center text-2xl font-bold text-muted-foreground">
+					<ImageUpload initialUrl={image ?? ''} onFileChange={file => file && void file}>
+						<div className="relative w-20 h-20 rounded-[24px] bg-muted overflow-hidden shrink-0 group">
+							<ImageUpload.Upload className="w-full h-full flex items-center justify-center text-2xl font-bold text-muted-foreground cursor-pointer">
 								{username?.[0]?.toUpperCase()}
-							</div>
-						)}
-						<div className="absolute inset-0 bg-black/40 text-white flex justify-center items-center text-xs font-semibold opacity-0 group-hover:opacity-100 transition">
-							편집
+							</ImageUpload.Upload>
+							<ImageUpload.Preview allowReupload width={80} height={80} />
+							<AvatarEditOverlay />
 						</div>
-					</div>
+					</ImageUpload>
 					<div className="flex-1">
 						<input
 							type="text"
@@ -295,6 +292,18 @@ export default function SettingsForm({
 				</button>
 			</footer>
 		</main>
+	);
+}
+
+function AvatarEditOverlay() {
+	const { triggerInput } = useImageUpload();
+	return (
+		<div
+			onClick={triggerInput}
+			className="absolute inset-0 bg-black/40 text-white flex justify-center items-center text-xs font-semibold opacity-0 group-hover:opacity-100 transition cursor-pointer"
+		>
+			편집
+		</div>
 	);
 }
 
