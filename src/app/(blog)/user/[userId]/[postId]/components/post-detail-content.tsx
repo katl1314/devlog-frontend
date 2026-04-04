@@ -18,23 +18,18 @@ export default async function PostDetailContent({
 	userId
 }: PostDetailContentProps) {
 	let isLike: boolean = false;
-	const [session, post] = await Promise.all([
-		auth(),
-		postService.findPost(postId, userId)
-	]);
+	const session = await auth();
+	const accessToken = (session as Session & { accessToken?: string })?.accessToken;
+
+	const post = await postService.findPost(postId, userId, accessToken);
 
 	if (!post || post.status === '404') {
 		return notFound();
 	}
 
-	if (!post.visibility && session?.user?.id !== post.user_id) {
-		return notFound();
-	}
-
 	if (!isEmpty(session)) {
-		const { accessToken } = session as Session & { accessToken: string };
 		isLike =
-			(await postService.findLikeById(post.id, accessToken))?.isLiked ?? false;
+			(await postService.findLikeById(post.id, accessToken!))?.isLiked ?? false;
 	}
 
 	return (

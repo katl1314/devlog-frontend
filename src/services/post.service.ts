@@ -22,9 +22,10 @@ export const postService = {
       params: { userId, cursor }
     })
   },
-  async findPost(postId: string, userId: string) {
+  async findPost(postId: string, userId: string, accessToken?: string) {
     return await apiClient(`/post/${userId}/${postId}`, {
       method: 'GET',
+      headers: accessToken ? { authorization: `Bearer ${accessToken}` } : undefined,
     })
   },
   async findLikeById(postId: string, accessToken: string) {
