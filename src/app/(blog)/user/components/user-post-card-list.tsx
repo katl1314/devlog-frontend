@@ -4,6 +4,7 @@ import { postService } from '@/services/post.service';
 import PostCard from '@/components/post/post-card';
 import CardLayout from '@/components/layout/card-layout';
 import useFetch from '@/hooks/fetch';
+import { useSession } from 'next-auth/react';
 
 export interface FetchPostsResponse {
 	posts: any[];
@@ -11,13 +12,16 @@ export interface FetchPostsResponse {
 }
 
 export default function UserPostCardList({ userId }: { userId: string }) {
+	const { data: session } = useSession();
+	const accessToken = (session as any)?.accessToken as string | undefined;
+
 	const { data, lastPostRef } = useFetch({
 		initialPageParam: 0,
-		queryKey: ['posts', userId],
+		queryKey: ['posts', userId, accessToken ?? 'anonymous'],
 		getNextPageParam: lastPage =>
 			lastPage.nextCursor ? lastPage.nextCursor - 1 : undefined,
 		queryFn: ({ pageParam = 0 }) =>
-			postService.getListByUser(userId, pageParam).then(res => ({
+			postService.getListByUser(userId, pageParam, accessToken).then(res => ({
 				posts: res.data,
 				nextCursor: res.cursor.after
 			}))
