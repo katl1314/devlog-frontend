@@ -64,7 +64,13 @@ export default function SettingsForm({
 	const handleSave = async () => {
 		setIsPending(true);
 		try {
-			await updateSettings({ name: username, socials });
+			await updateSettings({
+				name: username,
+				socials,
+				theme: selectedTheme,
+				comment_notification: commentNotification,
+				update_notification: updateNotification,
+			});
 			toast.success('변경사항이 저장됐습니다.');
 		} catch {
 			toast.error('저장에 실패했습니다.');

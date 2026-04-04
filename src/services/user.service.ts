@@ -22,5 +22,12 @@ export const userService = {
       body: JSON.stringify(data),
       headers: { Authorization: `Bearer ${token}` },
     });
+  },
+  async updateSettings(id: string, data: Record<string, unknown>, token: string) {
+    return await apiClient(`/auth/users/${id}/settings`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+      headers: { Authorization: `Bearer ${token}` },
+    });
   }
 }

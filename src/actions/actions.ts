@@ -108,14 +108,25 @@ export const saveComment = async(_: any, formData: FormData) => {
 export const updateSettings = async ({
   name,
   socials,
+  theme,
+  comment_notification,
+  update_notification,
 }: {
   name: string;
   socials: Record<string, string>;
+  theme: string;
+  comment_notification: boolean;
+  update_notification: boolean;
 }) => {
   const session = (await auth()) as Session & { accessToken: string };
   if (!session?.user) throw new Error('Unauthorized');
 
   const userId = (session.user as any).id;
-  await userService.update(userId, { user_name: name, ...socials }, session.accessToken);
+  await userService.update(userId, { user_name: name, socials }, session.accessToken);
+  await userService.updateSettings(userId, {
+    theme: theme.toUpperCase(),
+    comment_notification,
+    update_notification,
+  }, session.accessToken);
   revalidatePath('/settings');
 };
