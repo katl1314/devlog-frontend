@@ -15,47 +15,50 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 		setVisibility,
 		path,
 		setPath,
-		setFile,
+		setFile
 	} = usePost();
 
-	const handlePathChange: ChangeEventHandler<HTMLInputElement> = (ev) =>
+	const handlePathChange: ChangeEventHandler<HTMLInputElement> = ev =>
 		setPath(ev.target.value.replace(/\s+/g, '-').toLowerCase());
 
 	return (
 		<div className="flex flex-col md:flex-row w-full h-auto md:h-[550px] overflow-hidden rounded-2xl bg-white shadow-xl border border-neutral-100">
-
 			{/* --- 좌측: 썸네일 영역 --- */}
-			{/* w-full (모바일) -> md:w-2/5 (데스크탑) */}
 			<div className="w-full md:w-2/5 bg-slate-50 border-b md:border-b-0 md:border-r border-slate-100 flex flex-col items-center justify-center p-6 md:p-8 relative min-h-[250px] md:min-h-auto">
 				<div className="absolute inset-0 opacity-40 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:20px_20px]" />
 
 				<div className="relative z-10 w-full flex flex-col items-center">
-					<h3 className="text-lg font-bold text-slate-800 mb-4 md:mb-6">포스트 미리보기</h3>
+					<h3 className="text-lg font-bold text-slate-800 mb-4 md:mb-6">
+						포스트 미리보기
+					</h3>
 
 					<ImageUpload onFileChange={file => file && setFile(file)}>
 						<ImageUpload.Upload className="w-full aspect-video bg-white rounded-xl border-2 border-dashed border-slate-300 flex flex-col items-center justify-center text-slate-400 gap-3 group hover:border-indigo-400 hover:text-indigo-500 transition-all duration-300 cursor-pointer">
 							<div className="p-3 md:p-4 rounded-full bg-slate-50 group-hover:bg-indigo-50 transition-colors">
 								<FiUploadCloud size={28} className="md:w-8 md:h-8" />
 							</div>
-							<span className="text-xs md:text-sm font-semibold">썸네일 업로드</span>
+							<span className="text-xs md:text-sm font-semibold">
+								썸네일 업로드
+							</span>
 						</ImageUpload.Upload>
 						<ImageUpload.Preview className="w-full aspect-video rounded-xl overflow-hidden" />
 					</ImageUpload>
 
 					<p className="mt-4 text-xs text-slate-500 text-center leading-relaxed hidden md:block">
-						16:9 비율의 이미지를 권장합니다.<br/>
+						16:9 비율의 이미지를 권장합니다.
+						<br />
 					</p>
 				</div>
 			</div>
 
 			{/* --- 우측: 설정 폼 영역 --- */}
-			{/* w-full (모바일) -> md:w-3/5 (데스크탑) */}
 			<div className="w-full md:w-3/5 p-6 md:p-8 flex flex-col bg-white">
 				<div className="flex-1 space-y-5 md:space-y-7">
-
 					{/* 1. 공개 범위 설정 */}
 					<div className="space-y-2 md:space-y-3">
-						<Label className="text-sm font-bold text-slate-700">공개 범위</Label>
+						<Label className="text-sm font-bold text-slate-700">
+							공개 범위
+						</Label>
 						<div className="flex p-1.5 bg-slate-100 rounded-lg">
 							<button
 								type="button"
@@ -86,7 +89,9 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 					<div className="space-y-2 md:space-y-3">
 						<Label className="text-sm font-bold text-slate-700">URL 설정</Label>
 						<div className="flex items-center bg-slate-100 rounded-lg px-4 border border-transparent focus-within:border-indigo-500 focus-within:bg-white focus-within:ring-4 focus-within:ring-indigo-500/10 transition-all duration-200">
-							<span className="text-slate-500 text-sm font-medium select-none tracking-tight whitespace-nowrap">{url_slug}/</span>
+							<span className="text-slate-500 text-sm font-medium select-none tracking-tight whitespace-nowrap">
+								{url_slug}/
+							</span>
 							<input
 								type="text"
 								value={path}
@@ -100,14 +105,18 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 					{/* 3. 포스트 요약 */}
 					<div className="space-y-2 md:space-y-3">
 						<div className="flex justify-between items-end">
-							<Label className="text-sm font-bold text-slate-700">포스트 소개</Label>
-							<span className={`text-xs font-medium ${summary?.length > 150 ? 'text-red-500' : 'text-slate-400'}`}>
-                {summary?.length || 0}/150
-              </span>
+							<Label className="text-sm font-bold text-slate-700">
+								포스트 소개
+							</Label>
+							<span
+								className={`text-xs font-medium ${summary?.length > 150 ? 'text-red-500' : 'text-slate-400'}`}
+							>
+								{summary?.length || 0}/150
+							</span>
 						</div>
 						<textarea
 							value={summary}
-							onChange={(ev) => setSummary(ev.target.value)}
+							onChange={ev => setSummary(ev.target.value)}
 							placeholder="이 포스트를 짧게 소개해보세요."
 							className="w-full h-24 md:h-28 bg-slate-100 rounded-lg border border-transparent focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 p-4 text-sm resize-none transition-all duration-200 placeholder:text-slate-400 outline-none"
 							maxLength={150}

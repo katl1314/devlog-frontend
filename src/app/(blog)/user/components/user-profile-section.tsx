@@ -1,7 +1,12 @@
 import Image from 'next/image';
 import { FaGithub, FaHome } from 'react-icons/fa';
 
-export default function UserProfileSection({ user_id, user_name, avatar_url, blog }: any) {
+export default function UserProfileSection({
+	user_id,
+	user_name,
+	avatar_url,
+	blog
+}: any) {
 	const avatarInitial = (user_id?.[0] ?? 'U').toUpperCase();
 
 	return (
@@ -26,22 +31,28 @@ export default function UserProfileSection({ user_id, user_name, avatar_url, blo
 					<span className="text-xl font-bold leading-tight">{user_name}</span>
 					<span className="text-sm text-muted-foreground">@{user_id}</span>
 					{blog?.description && (
-						<span className="text-sm text-muted-foreground">{blog.description}</span>
+						<span className="text-sm text-muted-foreground">
+							{blog.description}
+						</span>
 					)}
 				</div>
 			</div>
 
 			{/* 소셜 아이콘 + 팔로워/팔로잉 */}
-			<div className="flex items-center justify-between">
+			{/* <div className="flex items-center justify-between">
 				<div className="flex items-center gap-3 text-muted-foreground">
 					<FaGithub size={22} />
 					<FaHome size={22} />
 				</div>
 				<div className="flex items-center gap-4 text-sm text-muted-foreground">
-					<span><strong className="text-foreground font-semibold">0</strong> 팔로워</span>
-					<span><strong className="text-foreground font-semibold">0</strong> 팔로잉</span>
+					<span>
+						<strong className="text-foreground font-semibold">0</strong> 팔로워
+					</span>
+					<span>
+						<strong className="text-foreground font-semibold">0</strong> 팔로잉
+					</span>
 				</div>
-			</div>
+			</div> */}
 		</div>
 	);
 }

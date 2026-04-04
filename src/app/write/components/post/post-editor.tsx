@@ -19,6 +19,7 @@ import { toast } from 'sonner';
 import PostSetting from './post-setting';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { Separator } from '@/components/ui/separator';
 
 const Modal = dynamic(() => import('@/components/modal/modal'), { ssr: false });
 const TagEditor = dynamic(() => import('@/components/tag/tag-editor'), {
@@ -111,8 +112,7 @@ export default function PostEditor({ blog }: any) {
 						autoComplete="off"
 					/>
 
-					{/* 디자인 포인트: 구분선 */}
-					<div className="w-16 h-1.5 bg-neutral-800 rounded-sm my-6 md:my-8" />
+					<Separator className="w-16 h-1.5 bg-neutral-800 my-6 md:my-8" />
 
 					{/* 태그 영역 (기존 TagEditor 감싸기) */}
 					<div className="mb-8">

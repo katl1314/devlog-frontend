@@ -1,23 +1,25 @@
 'use client';
 
-import { MdOutlineAccessTime, MdOutlineTrendingUp } from 'react-icons/md';
-import { BiBell, BiBookmark } from 'react-icons/bi';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
-const navItems = [
-	{ href: '/new', label: '홈 피드', icon: <MdOutlineAccessTime size={22} />, match: ['/', '/new'] },
-	{ href: '/trends', label: '트렌드', icon: <MdOutlineTrendingUp size={22} />, match: ['/trends'] },
-	{ href: '#', label: '알림센터', icon: <BiBell size={22} />, match: [] },
-	{ href: '#', label: '보관함', icon: <BiBookmark size={22} />, match: [] },
-];
+interface NavigationItem {
+	href: string;
+	label: string;
+	icon: React.ReactNode;
+	match: string[];
+}
 
-export default function SidebarNavItems() {
+export default function SidebarNavItems({
+	items
+}: {
+	items: NavigationItem[];
+}) {
 	const pathname = usePathname();
 
 	return (
 		<div className="flex flex-col gap-1 flex-1">
-			{navItems.map(item => {
+			{items.map(item => {
 				const isActive = item.match.includes(pathname);
 				return (
 					<Link

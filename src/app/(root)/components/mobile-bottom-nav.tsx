@@ -20,7 +20,7 @@ const navItems = [
 	},
 	{
 		id: 'trend',
-		href: '/trend',
+		href: '/trends',
 		icon: MdOutlineTrendingUp,
 		label: '트랜드',
 		match: ['/trends']
