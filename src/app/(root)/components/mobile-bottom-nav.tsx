@@ -7,7 +7,7 @@ import { IoCreateOutline } from 'react-icons/io5';
 import { BiUser } from 'react-icons/bi';
 import { cn } from '@/utils';
 import { useSession } from 'next-auth/react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import UserAvatar from '@/components/user-avatar';
 import { BiBookmark } from 'react-icons/bi';
 
 const navItems = [
@@ -71,12 +71,7 @@ export default function MobileBottomNav() {
 				{/* 프로필 탭 */}
 				{user ? (
 					<button className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground cursor-pointer">
-						<Avatar className="w-[30px] h-[30px]">
-							<AvatarImage src={user.image ?? ''} />
-							<AvatarFallback className="text-gray-300 font-semibold bg-gradient-to-br from-blue-400 to-purple-500">
-								{userId[0]?.toUpperCase() ?? 'U'}
-							</AvatarFallback>
-						</Avatar>
+						<UserAvatar src={user.image} userId={userId} className="w-[30px] h-[30px]" />
 					</button>
 				) : (
 					<Link

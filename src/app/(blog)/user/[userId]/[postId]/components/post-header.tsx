@@ -44,37 +44,37 @@ export default function PostHeader({
 	return (
 		<section className="mb-8">
 			{/* 1. 제목 */}
-			<h1 className="text-4xl font-extrabold mb-6 leading-tight break-keep text-gray-900">
+			<h1 className="text-4xl font-extrabold mb-6 leading-tight break-keep text-foreground">
 				{title}
 			</h1>
 
 			{/* 2. 메타 정보 (작성자, 날짜, 수정/삭제) */}
 			<div className="flex justify-between items-center text-base mb-4">
-				<div className="flex items-center text-gray-600 font-medium">
+				<div className="flex items-center text-muted-foreground font-medium">
 					<Link href={`/@${user_id}`}>
-						<Label className="text-gray-900 font-bold cursor-pointer hover:underline">
+						<Label className="text-foreground font-bold cursor-pointer hover:underline">
 							{user_id}
 						</Label>
 					</Link>
-					<Label className="mx-2 text-gray-300">·</Label>
-					<Label className="text-gray-500">{formatTimeAgo(created_at)}</Label>
+					<Label className="mx-2 text-border">·</Label>
+					<Label className="text-muted-foreground">{formatTimeAgo(created_at)}</Label>
 				</div>
 				<div>
 					<Button
 						variant="link"
-						className="px-2 text-gray-500 hover:text-gray-900 transition-colors"
+						className="px-2 text-muted-foreground hover:text-foreground transition-colors"
 					>
 						통계
 					</Button>
 					<Button
 						variant="link"
-						className="px-2 text-gray-500 hover:text-gray-900 transition-colors"
+						className="px-2 text-muted-foreground hover:text-foreground transition-colors"
 					>
 						수정
 					</Button>
 					<Button
 						variant="link"
-						className="px-2 text-gray-500 hover:text-gray-900 transition-colors"
+						className="px-2 text-muted-foreground hover:text-foreground transition-colors"
 					>
 						삭제
 					</Button>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import UserAvatar from '@/components/user-avatar';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -32,12 +32,7 @@ const SignOnUserMenu = ({
 	name
 }: Nullable<SidebarUserMenuProps>) => (
 	<div className="flex items-center justify-center xl:justify-start gap-3 p-2 rounded-full hover:bg-muted/50 transition-colors">
-		<Avatar className="w-10 h-10 shrink-0 ">
-			<AvatarImage src={image ?? undefined} />
-			<AvatarFallback className="font-semibold text-white bg-gradient-to-br from-blue-400 to-purple-500 ">
-				{userId?.[0]?.toUpperCase() ?? 'U'}
-			</AvatarFallback>
-		</Avatar>
+		<UserAvatar src={image} userId={userId ?? 'U'} className="w-10 h-10 shrink-0" />
 		<div className="hidden xl:flex flex-col overflow-hidden flex-1 min-w-0">
 			<span className="text-sm font-semibold truncate">{name}</span>
 			<span className="text-xs text-muted-foreground truncate">@{userId}</span>

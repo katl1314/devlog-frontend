@@ -20,7 +20,7 @@ export default function ModalWrapper({ children }: { children: React.ReactNode }
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
       onClick={onClickWrapper}
     >
-      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white p-6">
+      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto scrollbar-thin bg-background border border-border rounded-lg p-6">
         {children}
       </div>
     </div>

@@ -3,14 +3,16 @@
 import {
 	createContext,
 	useContext,
+	useEffect,
 	useState,
 	useCallback,
 	PropsWithChildren
 } from 'react';
+import UserAvatar from '@/components/user-avatar';
 import { useSession } from 'next-auth/react';
-import { Session } from 'next-auth';
+import { Textarea } from '../ui/textarea';
 import { apiClient } from '@/utils/db';
-import Image from 'next/image';
+import { Session } from 'next-auth';
 
 // ─────────────────────────────────────────────
 // Types
@@ -19,8 +21,8 @@ import Image from 'next/image';
 const MAX_LEVEL = 3;
 
 export interface CommentUser {
-	id: string;
 	user_name: string;
+	user_id: string;
 	avatar_url: string;
 }
 
@@ -68,12 +70,14 @@ export function useComment() {
 interface CommentModuleProps extends PropsWithChildren {
 	postId: number;
 	initialComments: CommentTree[];
+	onCountChange: (comments: number) => void;
 }
 
 function CommentModule({
 	postId,
 	initialComments,
-	children
+	children,
+	onCountChange
 }: CommentModuleProps) {
 	const [comments, setComments] = useState<CommentTree[]>(initialComments);
 	const [replyingTo, setReplyingTo] = useState<string | null>(null);
@@ -125,6 +129,10 @@ function CommentModule({
 		[accessToken, refetch]
 	);
 
+	useEffect(() => {
+		onCountChange?.(countAll(comments));
+	}, [comments, onCountChange]);
+
 	return (
 		<CommentContext.Provider
 			value={{
@@ -148,7 +156,6 @@ function CommentModule({
 /** 전체 댓글 수(루트 기준)를 표시한다 */
 function Count({ className }: { className?: string }) {
 	const { comments } = useComment();
-
 	const total = countAll(comments);
 
 	return (
@@ -206,7 +213,7 @@ function Form({ parentId, onClose, placeholder, className }: FormProps) {
 
 	return (
 		<div className={`flex flex-col gap-2 ${className ?? ''}`}>
-			<textarea
+			<Textarea
 				value={content}
 				onChange={e => setContent(e.target.value)}
 				placeholder={placeholder ?? '댓글을 입력하세요...'}
@@ -254,7 +261,7 @@ function List({ className }: { className?: string }) {
 
 	return (
 		<div className={`flex flex-col gap-4 ${className ?? ''}`}>
-			{comments.map((comment) => (
+			{comments.map(comment => (
 				<Item key={comment.id} comment={comment} />
 			))}
 		</div>
@@ -280,23 +287,18 @@ function Item({ comment }: ItemProps) {
 	/** 들여쓰기: 레벨에 따라 좌측 패딩 증가 */
 	const indentClass =
 		comment.level === 1 ? '' : 'ml-8 border-l border-border pl-4';
-
+	console.log(comment.user);
 	return (
 		<div className={indentClass}>
 			{/* 댓글 본문 */}
 			<div className="flex flex-col gap-1.5">
 				{/* 헤더: 아바타 + 작성자 + 날짜 */}
 				<div className="flex items-center gap-2">
-					<div className="relative w-7 h-7 rounded-full overflow-hidden bg-muted shrink-0">
-						{comment.user?.avatar_url && (
-							<Image
-								src={comment.user.avatar_url}
-								alt={comment.user.user_name}
-								fill
-								className="object-cover"
-							/>
-						)}
-					</div>
+					<UserAvatar
+						src={comment.user?.avatar_url}
+						userId={comment.user?.user_id ?? 'U'}
+						className="w-7 h-7 shrink-0"
+					/>
 					<span className="text-sm font-medium">{comment.user?.user_name}</span>
 					<span className="text-xs text-muted-foreground">
 						{formatDate(comment.created_at)}
@@ -343,7 +345,7 @@ function Item({ comment }: ItemProps) {
 			{/* 자식 댓글 재귀 렌더링 */}
 			{comment.children.length > 0 && (
 				<div className="flex flex-col gap-3 mt-3">
-					{comment.children.map((child) => (
+					{comment.children.map(child => (
 						<Item key={child.id} comment={child} />
 					))}
 				</div>
