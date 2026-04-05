@@ -3,12 +3,16 @@
 import { Themes, useTheme } from '@/hooks/theme';
 import { useEffect } from 'react';
 
-export default function ThemeProvider() {
-	const { theme, setTheme } = useTheme();
+interface ThemeProviderProps {
+	initialTheme?: Themes;
+}
+
+export default function ThemeProvider({ initialTheme = 'system' }: ThemeProviderProps) {
+	const { setTheme } = useTheme();
+
 	useEffect(() => {
-		const newTheme = (localStorage.getItem('theme') as Themes) ?? theme;
-		setTheme(newTheme);
-	}, [setTheme, theme]);
+		setTheme(initialTheme);
+	}, [initialTheme, setTheme]);
 
 	return null;
 }

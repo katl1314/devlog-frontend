@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useTheme } from '@/hooks/theme';
+import { Themes, useTheme } from '@/hooks/theme';
 import { updateSettings } from '@/actions/actions';
 import { toast } from 'sonner';
 import ImageUpload, { useImageUpload } from '@/components/image-upload';
 
-type ThemeOption = 'light' | 'dark' | 'system';
+type ThemeOption = Themes;
 
 const SOCIAL_FIELDS = [
 	['github', 'GitHub', 'github.com/username'],
@@ -24,21 +24,21 @@ interface SettingsFormProps {
 	email: string;
 	image: string;
 	userId: string;
+	initialTheme: ThemeOption;
 }
 
 export default function SettingsForm({
 	name,
 	email,
-	image
+	image,
+	initialTheme
 }: SettingsFormProps) {
-	const { theme, setTheme } = useTheme();
+	const { setTheme } = useTheme();
 
 	const [username, setUsername] = useState(name);
 	const [commentNotification, setCommentNotification] = useState(true);
 	const [updateNotification, setUpdateNotification] = useState(false);
-	const [selectedTheme, setSelectedTheme] = useState<ThemeOption>(() => {
-		return theme;
-	});
+	const [selectedTheme, setSelectedTheme] = useState<ThemeOption>(initialTheme);
 	const [socials, setSocials] = useState<Record<SocialKey, string>>({
 		github: '',
 		twitter: '',
@@ -51,14 +51,7 @@ export default function SettingsForm({
 
 	const handleThemeChange = (value: ThemeOption) => {
 		setSelectedTheme(value);
-		if (value === 'system') {
-			const prefersDark = window.matchMedia(
-				'(prefers-color-scheme: dark)'
-			).matches;
-			setTheme(prefersDark ? 'dark' : 'light');
-		} else {
-			setTheme(value);
-		}
+		setTheme(value);
 	};
 
 	const handleSave = async () => {

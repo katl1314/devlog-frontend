@@ -1,35 +1,37 @@
 'use client';
 import { create } from 'zustand';
 
-export type Themes = 'dark' | 'light';
-
-const defaultTheme: Themes = 'light'; // 테마 기본값
+export type Themes = 'dark' | 'light' | 'system';
 
 interface Theme {
 	theme: Themes;
 	setTheme: (theme: Themes) => void;
 }
 
+function applyTheme(theme: Themes) {
+	const resolved =
+		theme === 'system'
+			? window.matchMedia('(prefers-color-scheme: dark)').matches
+				? 'dark'
+				: 'light'
+			: theme;
+
+	const prev = resolved === 'dark' ? 'light' : 'dark';
+	document.documentElement.classList.add(resolved);
+	document.documentElement.classList.remove(prev);
+	document.body.classList.add(resolved);
+	document.body.classList.remove(prev);
+}
+
 const _useTheme = create<Theme>(set => ({
-	theme: defaultTheme,
+	theme: 'system',
 	setTheme: theme => {
-		localStorage.setItem('theme', theme);
+		applyTheme(theme);
 		set({ theme });
-		const htmlEl = document.documentElement;
-		const bodyEl = document.body;
-		if (theme) {
-			const prevClass = theme === 'dark' ? 'light' : 'dark';
-			htmlEl.classList.add(theme);
-			htmlEl.classList.remove(prevClass);
-			bodyEl.classList.add(theme);
-			bodyEl.classList.remove(prevClass);
-		}
 	}
 }));
 
-// 커스텀 훅
 export const useTheme: () => Theme = () => {
 	const { theme, setTheme } = _useTheme();
-
 	return { theme, setTheme };
 };
