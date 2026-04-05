@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { Metadata } from 'next';
 
-// TODO redirect는 middleware에서 처리할것
 export default async function page() {
 	const cookie = await cookies();
 	const token = cookie.get('signup-token')?.value ?? '';

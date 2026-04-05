@@ -7,7 +7,6 @@ import { stringToBase64 } from './utils';
 import { cookies } from 'next/headers';
 import { jwtDecode } from 'jwt-decode';
 
-
 const SESSION_MAX_AGE = 60 * 60 * 24; // 세션 만료 시간
 
 const signUp = async (user: User, account: Account | null | undefined) => {
@@ -22,13 +21,13 @@ const signUp = async (user: User, account: Account | null | undefined) => {
 		maxAge: 15 * 60, // 15분
 		path: '/'
 	});
-	return '/auth/signup'
-}
+	return '/auth/signup';
+};
 
 export const { handlers, auth } = NextAuth({
 	session: {
 		strategy: 'jwt',
-		maxAge: SESSION_MAX_AGE,
+		maxAge: SESSION_MAX_AGE
 	},
 	providers: [
 		Credentials({
@@ -59,18 +58,21 @@ export const { handlers, auth } = NextAuth({
 			name: 'credentials',
 			credentials: {
 				email: { label: 'Email', type: 'email' },
-				password: { label: 'Password', type: 'password' },
+				password: { label: 'Password', type: 'password' }
 			},
 			async authorize({ email, password }) {
 				if (!email || !password) return null;
 				try {
-					const user = await authService.signInWithCredentials(email as string, password as string);
+					const user = await authService.signInWithCredentials(
+						email as string,
+						password as string
+					);
 					return {
 						id: user.user_id,
 						email: user.email,
 						name: user.user_name,
 						image: user.avatar_url,
-						role: 'user',
+						role: 'user'
 					};
 				} catch {
 					return null;
@@ -80,7 +82,7 @@ export const { handlers, auth } = NextAuth({
 		Google({
 			clientId: process.env.GOOGLE_CLIENT_ID!,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-			allowDangerousEmailAccountLinking: false, // 동일 이메일로 가입하면 에러를 발생한다.
+			allowDangerousEmailAccountLinking: false // 동일 이메일로 가입하면 에러를 발생한다.
 		})
 	],
 	pages: {
@@ -96,7 +98,10 @@ export const { handlers, auth } = NextAuth({
 	callbacks: {
 		async signIn({ user, account }) {
 			// credentials 계정은 authorize()에서 이미 검증됨
-			if (account?.provider === 'signup-complete' || account?.provider === 'credentials') {
+			if (
+				account?.provider === 'signup-complete' ||
+				account?.provider === 'credentials'
+			) {
 				return true;
 			}
 			try {
@@ -111,8 +116,10 @@ export const { handlers, auth } = NextAuth({
 		},
 		async jwt({ token, user }) {
 			if (user) {
-				const { accessToken, refreshToken, userId } = await authService.signIn(user);
+				const { accessToken, refreshToken, userId } =
+					await authService.signIn(user);
 				token.email = user.email!;
+				token.name = user.name!;
 				token.userId = userId;
 				token.role = (user as any).role;
 				token.image = user.image!;
@@ -123,18 +130,22 @@ export const { handlers, auth } = NextAuth({
 			if (token.accessToken) {
 				const decoded = jwtDecode(token.accessToken);
 				if (decoded.exp && decoded.exp < Date.now() / 1000) {
-					const { accessToken } = await authService.rotateToken(token.refreshToken);
+					const { accessToken } = await authService.rotateToken(
+						token.refreshToken
+					);
 					token.accessToken = accessToken;
 				}
 			}
-		
-		return token;
+
+			return token;
 		},
 		async session({ session, token }) {
 			// 클라이언트에서 사용할 세션 필드 구성
 			if (token && session.user) {
+				const user = await userService.findUserById(token.userId);
 				(session.user as any).id = token.userId;
 				(session.user as any).role = token.role;
+				session.user.name = user.user_name;
 				(session.user as any).image = token.image;
 				(session as any).accessToken = token.accessToken;
 				(session as any).refreshToken = token.refreshToken;

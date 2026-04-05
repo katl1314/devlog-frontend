@@ -252,7 +252,7 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 								</label>
 								<input
 									type="text"
-									name="username"
+									name="user_name"
 									required
 									placeholder="닉네임"
 									className="w-full border border-slate-200 rounded-2xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent transition-all"

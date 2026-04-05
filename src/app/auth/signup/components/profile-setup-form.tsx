@@ -25,7 +25,10 @@ interface IProfileSetupFormProps {
 	provider: ProviderType;
 }
 
-export default function ProfileSetupForm({ user, provider }: IProfileSetupFormProps) {
+export default function ProfileSetupForm({
+	user,
+	provider
+}: IProfileSetupFormProps) {
 	const [formState, formAction, isPending] = useActionState<
 		RegisterType,
 		FormData
@@ -49,18 +52,16 @@ export default function ProfileSetupForm({ user, provider }: IProfileSetupFormPr
 
 	useEffect(() => {
 		if (formState.errors) {
-			// TODO 에러에 대한 처리를 한다.
 			toast(JSON.stringify(formState.errors), {
 				position: 'top-right',
 				duration: 2000,
 				icon: <GoAlert />
 			});
-		}
-		else if (formState.userId) {
+		} else if (formState.userId) {
 			(async () => {
 				await signIn('signup-complete', {
 					email: formState.email,
-					redirect: false,
+					redirect: false
 				});
 				redirect('/');
 			})();
@@ -73,8 +74,8 @@ export default function ProfileSetupForm({ user, provider }: IProfileSetupFormPr
 				<Label className="md:text-xl">프로필 이름</Label>
 				<Input
 					type="text"
-					id="username"
-					name="username"
+					id="user_name"
+					name="user_name"
 					className="bg-white"
 					value={username}
 					onChange={changeUserName}
@@ -121,8 +122,8 @@ export default function ProfileSetupForm({ user, provider }: IProfileSetupFormPr
 					가입
 				</Button>
 			</div>
-			<Input id="provider" name="provider" type="hidden" value={provider}/>
-			<Input id="image" name="image" type="hidden" value={user.image}/>
+			<Input id="provider" name="provider" type="hidden" value={provider} />
+			<Input id="image" name="image" type="hidden" value={user.image} />
 		</form>
 	);
 }

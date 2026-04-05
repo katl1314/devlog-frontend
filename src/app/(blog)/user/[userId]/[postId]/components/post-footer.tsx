@@ -1,8 +1,20 @@
-export default async function PostFooter(post: any) {
+'use client';
+
+import CommentModule from '@/components/comment';
+
+interface PostFooterProps {
+	id: number;
+	comments: any[];
+}
+
+export default function PostFooter({ id, comments }: PostFooterProps) {
 	return (
 		<div className="mt-5 mb-12" id="comments">
-			<div className="font-bold text-lg mb-4">{0}개의 댓글</div>
-			{/* TODO 댓글 기능 추가 */}
+			<CommentModule postId={id} initialComments={comments}>
+				<CommentModule.Count className="mb-4" />
+				<CommentModule.Form className="mb-6" />
+				<CommentModule.List />
+			</CommentModule>
 		</div>
 	);
 }

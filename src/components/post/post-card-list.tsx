@@ -4,19 +4,22 @@ import { postService } from '@/services/post.service';
 import PostCard from '@/components/post/post-card';
 import CardLayout from '@/components/layout/card-layout';
 import useFetch from '@/hooks/fetch';
-
-const fetchPosts: any = async ({ cursor = 0 }) => {
-	const posts = await postService.getList(cursor);
-	return { posts: posts.data, nextCursor: posts.cursor.after };
-};
+import { useSession } from 'next-auth/react';
 
 export default function PostCardList() {
+	const { data: session } = useSession();
+	const accessToken = (session as any)?.accessToken as string | undefined;
+
 	const { data, lastPostRef } = useFetch({
 		initialPageParam: 0,
-		queryKey: ['posts'],
+		queryKey: ['posts', accessToken ?? 'anonymous'],
 		getNextPageParam: lastPage =>
 			lastPage.nextCursor ? lastPage.nextCursor - 1 : undefined,
-		queryFn: ({ pageParam = 0 }) => fetchPosts({ cursor: pageParam })
+		queryFn: ({ pageParam = 0 }) =>
+			postService.getList(pageParam as number, accessToken).then(posts => ({
+				posts: posts.data,
+				nextCursor: posts.cursor.after
+			}))
 	});
 
 	return (
@@ -25,7 +28,7 @@ export default function PostCardList() {
 				posts.map((post: any, index: number) => {
 					return (
 						<div
-							key={post.path}
+							key={post.id}
 							ref={index === posts.length - 1 ? lastPostRef : null}
 						>
 							{<PostCard {...post} />}

@@ -10,16 +10,18 @@ export const postService = {
       body: JSON.stringify(post)
     });
   },
-  async getList(cursor: any) {
+  async getList(cursor: any, accessToken?: string) {
     return await apiClient('/post', {
       method: 'GET',
-      params: { cursor }
+      params: { cursor },
+      headers: accessToken ? { authorization: `Bearer ${accessToken}` } : undefined,
     })
   },
-  async getListByUser(userId: string, cursor: any) {
+  async getListByUser(userId: string, cursor: any, accessToken?: string) {
     return await apiClient('/post', {
       method: 'GET',
-      params: { userId, cursor }
+      params: { userId, cursor },
+      headers: accessToken ? { authorization: `Bearer ${accessToken}` } : undefined,
     })
   },
   async findPost(postId: string, userId: string, accessToken?: string) {
