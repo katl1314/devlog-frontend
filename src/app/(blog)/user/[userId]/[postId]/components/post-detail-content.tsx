@@ -1,6 +1,7 @@
 import PostContextProvider from './post-context-provider';
 import { postService } from '@/services/post.service';
 import { notFound } from 'next/navigation';
+import { apiClient } from '@/utils/db';
 import PostHeader from './post-header';
 import PostFooter from './post-footer';
 import { Session } from 'next-auth';
@@ -22,8 +23,10 @@ export default async function PostDetailContent({
 		?.accessToken;
 
 	let post: any;
+	let comments: any[];
 	try {
 		post = await postService.findPost(postId, userId, accessToken);
+		comments = await apiClient(`/comment/${post.id}`);
 	} catch {
 		return notFound();
 	}
@@ -43,7 +46,7 @@ export default async function PostDetailContent({
 			<div className="pb-24 lg:pb-8">
 				<PostHeader {...post} />
 				<PostBody {...post} />
-				<PostFooter {...post} />
+				<PostFooter {...post} comments={comments} />
 			</div>
 		</PostContextProvider>
 	);
