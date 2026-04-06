@@ -8,17 +8,17 @@ import {
 	useCallback,
 	PropsWithChildren
 } from 'react';
+import { MAX_COMMENT_LEVEL } from '@/utils/consts';
 import UserAvatar from '@/components/user-avatar';
 import { useSession } from 'next-auth/react';
 import { Textarea } from '../ui/textarea';
 import { apiClient } from '@/utils/db';
 import { Session } from 'next-auth';
+import { getTimeDiff } from '@/utils';
 
 // ─────────────────────────────────────────────
 // Types
 // ─────────────────────────────────────────────
-
-const MAX_LEVEL = 3;
 
 export interface CommentUser {
 	user_name: string;
@@ -81,13 +81,10 @@ function CommentModule({
 }: CommentModuleProps) {
 	const [comments, setComments] = useState<CommentTree[]>(initialComments);
 	const [replyingTo, setReplyingTo] = useState<string | null>(null);
-	const { data: session, status } = useSession();
+	const { data: session } = useSession();
 	const accessToken = (session as Session & { accessToken?: string })
 		?.accessToken;
-	const currentUserId =
-		status === 'authenticated'
-			? ((session as Session & { userId?: string })?.userId ?? null)
-			: null;
+	const currentUserId = session?.user.id ?? null;
 
 	/** 서버에서 최신 댓글 트리를 다시 불러와 동기화한다 */
 	const refetch = useCallback(async () => {
@@ -281,17 +278,17 @@ function Item({ comment }: ItemProps) {
 	const { replyingTo, setReplyingTo, deleteComment, currentUserId } =
 		useComment();
 	const isReplying = replyingTo === comment.id;
-	const isOwner = currentUserId === comment.user_id;
-	const canReply = comment.level < MAX_LEVEL;
+	const isOwner = currentUserId === comment.user.user_id;
+	const canReply = comment.level < MAX_COMMENT_LEVEL;
 
 	/** 들여쓰기: 레벨에 따라 좌측 패딩 증가 */
 	const indentClass =
 		comment.level === 1 ? '' : 'ml-8 border-l border-border pl-4';
-	console.log(comment.user);
+
 	return (
 		<div className={indentClass}>
 			{/* 댓글 본문 */}
-			<div className="flex flex-col gap-1.5">
+			<div className="flex flex-col gap-1.5 mt-2">
 				{/* 헤더: 아바타 + 작성자 + 날짜 */}
 				<div className="flex items-center gap-2">
 					<UserAvatar
@@ -301,7 +298,7 @@ function Item({ comment }: ItemProps) {
 					/>
 					<span className="text-sm font-medium">{comment.user?.user_name}</span>
 					<span className="text-xs text-muted-foreground">
-						{formatDate(comment.created_at)}
+						{getTimeDiff(comment.created_at)}
 					</span>
 				</div>
 
@@ -344,7 +341,7 @@ function Item({ comment }: ItemProps) {
 
 			{/* 자식 댓글 재귀 렌더링 */}
 			{comment.children.length > 0 && (
-				<div className="flex flex-col gap-3 mt-3">
+				<div className="flex flex-col mt-3">
 					{comment.children.map(child => (
 						<Item key={child.id} comment={child} />
 					))}
@@ -352,19 +349,6 @@ function Item({ comment }: ItemProps) {
 			)}
 		</div>
 	);
-}
-
-// ─────────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────────
-
-function formatDate(dateStr: string) {
-	const date = new Date(dateStr);
-	return date.toLocaleDateString('ko-KR', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric'
-	});
 }
 
 // ─────────────────────────────────────────────

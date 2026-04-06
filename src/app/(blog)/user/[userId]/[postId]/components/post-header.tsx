@@ -1,8 +1,10 @@
+import { TagViewer } from '@/components/tag/tag-viewer';
+import { postService } from '@/services/post.service';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import PostActions from './post-actions';
 import Link from 'next/link';
-import { TagViewer } from '@/components/tag/tag-viewer';
+import { getTimeDiff } from '@/utils';
 
 // 작성자 본인 여부를 판단할 수 있는 props가 있다면 추가 (예: isOwner)
 interface PostHeaderProps {
@@ -26,21 +28,6 @@ export default function PostHeader({
 }: PostHeaderProps) {
 	tags = ['javascript', 'python', 'front']; // 태그 테스트
 
-	const formatTimeAgo = (dateString: string | Date) => {
-		const date = new Date(dateString);
-		const now = new Date();
-		const diffMS = now.getTime() - date.getTime();
-		const diffMin = Math.round(diffMS / (1000 * 60));
-		const diffHour = Math.round(diffMS / (1000 * 60 * 60));
-		const diffDay = Math.round(diffMS / (1000 * 60 * 60 * 24));
-
-		if (diffMin < 1) return '방금 전';
-		if (diffMin < 60) return `${diffMin}분 전`;
-		if (diffHour < 24) return `${diffHour}시간 전`;
-		if (diffDay < 7) return `${diffDay}일 전`;
-		return date.toISOString().split('T')[0].replace(/-/g, '.');
-	};
-
 	return (
 		<section className="mb-8">
 			{/* 1. 제목 */}
@@ -57,15 +44,17 @@ export default function PostHeader({
 						</Label>
 					</Link>
 					<Label className="mx-2 text-border">·</Label>
-					<Label className="text-muted-foreground">{formatTimeAgo(created_at)}</Label>
+					<Label className="text-muted-foreground">
+						{getTimeDiff(created_at)}
+					</Label>
 				</div>
 				<div>
-					<Button
+					{/* <Button
 						variant="link"
 						className="px-2 text-muted-foreground hover:text-foreground transition-colors"
 					>
 						통계
-					</Button>
+					</Button> */}
 					<Button
 						variant="link"
 						className="px-2 text-muted-foreground hover:text-foreground transition-colors"
