@@ -21,7 +21,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
 
-const Modal = dynamic(() => import('@/components/modal/modal'), { ssr: false });
+const Modal = dynamic(() => import('@/components/modal'), { ssr: false });
 const TagEditor = dynamic(() => import('@/components/tag/tag-editor'), {
 	ssr: false
 });
@@ -47,8 +47,12 @@ export default function PostEditor({ blog }: any) {
 
 	useEffect(() => {
 		if (state?.status === 'ok') {
-			console.log('write state', state);
 			redirect('/');
+		} else if (state?.status && state.status !== '') {
+			toast.error(state.status, {
+				position: 'top-right',
+				duration: 3000,
+			});
 		}
 	}, [state]);
 
@@ -100,11 +104,11 @@ export default function PostEditor({ blog }: any) {
 			</Modal>
 
 			{/* 메인 에디터 영역 */}
-			<main className="min-h-screen bg-white pb-32">
+			<main className="min-h-screen bg-background pb-32">
 				<div className="max-w-4xl mx-auto px-6 pt-12 md:pt-20">
 					{/* 제목 입력 */}
 					<input
-						className="w-full text-4xl md:text-5xl font-extrabold text-neutral-800 placeholder:text-neutral-300 border-none outline-none bg-transparent leading-tight"
+						className="w-full text-4xl md:text-5xl font-extrabold text-foreground placeholder:text-muted-foreground border-none outline-none bg-transparent leading-tight"
 						placeholder="제목을 입력하세요"
 						id="title"
 						value={title}
@@ -112,7 +116,7 @@ export default function PostEditor({ blog }: any) {
 						autoComplete="off"
 					/>
 
-					<Separator className="w-16 h-1.5 bg-neutral-800 my-6 md:my-8" />
+					<Separator className="w-16 h-1.5 bg-foreground my-6 md:my-8" />
 
 					{/* 태그 영역 (기존 TagEditor 감싸기) */}
 					<div className="mb-8">
@@ -127,7 +131,7 @@ export default function PostEditor({ blog }: any) {
 			</main>
 
 			{/* 하단 고정 액션바 (Footer) */}
-			<footer className="fixed bottom-0 left-0 w-full h-16 bg-white/95 backdrop-blur border-t border-neutral-100 flex items-center justify-between px-6 md:px-12 z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
+			<footer className="fixed bottom-0 left-0 w-full h-16 bg-background/95 backdrop-blur border-t border-border flex items-center justify-between px-6 md:px-12 z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
 				{/* 왼쪽: 뒤로가기 */}
 				<Link
 					href="/public"

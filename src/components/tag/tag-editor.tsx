@@ -55,7 +55,7 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 			{tags.map(tag => (
 				<span
 					key={tag}
-					className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition-colors duration-200 cursor-default animate-in fade-in zoom-in-95"
+					className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-muted text-foreground hover:bg-muted/70 transition-colors duration-200 cursor-default animate-in fade-in zoom-in-95"
 				>
 					<span className="text-emerald-500 mr-1 font-bold">#</span>
 					{tag}
@@ -68,7 +68,7 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 				value={inputValue}
 				onChange={e => setInputValue(e.target.value)}
 				onKeyDown={handleKeyDown}
-				className="flex-1 min-w-[180px] bg-transparent outline-none text-lg text-neutral-800 placeholder:text-neutral-300 placeholder:font-light"
+				className="flex-1 min-w-[180px] bg-transparent outline-none text-lg text-foreground placeholder:text-muted-foreground placeholder:font-light"
 				placeholder="태그를 입력하세요 (Enter 입력)"
 			/>
 		</div>

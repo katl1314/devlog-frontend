@@ -62,16 +62,16 @@ export const isEmpty = (val: unknown): val is null | undefined => {
 	);
 };
 
-
-export function getTimeDiff(date: string): string {
+export function getTimeDiff(date: string | Date): string {
 	try {
 		if (isNaN(Number(new Date(date)))) {
 			// Invalid Date 인지 검증한다.
 			throw new Error('유효하지 않은 시간입니다.');
 		}
 
-		const timeToCompare = Dayjs(date); // 작성한 시간
+		const timeToCompare = Dayjs.utc(date).local(); // 작성한 시간
 		const now = Dayjs(); // 현재 시간
+
 		const years = now.diff(timeToCompare, 'year');
 		if (years > 0) return `${years}년 전`;
 
