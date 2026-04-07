@@ -87,7 +87,7 @@ export const savePost = async (_: any, formData: FormData) => {
 		const session = (await auth()) as Session & { accessToken: string };
 		// TODO 썸네일 이미지 처리할 것.
 
-		await postService.create(
+		const result = await postService.create(
 			{
 				...formObj,
 				thumbnail: ''
@@ -95,14 +95,10 @@ export const savePost = async (_: any, formData: FormData) => {
 			session.accessToken
 		);
 
-		return { status: 'ok' };
+		return { status: 'ok', callbackUrl: result.callbackUrl };
 	} catch (status: unknown) {
 		return { status: (status as Error).message };
 	}
-};
-
-export const saveComment = async (_: any, formData: FormData) => {
-	return { message: '', status: '' };
 };
 
 export const updateSettings = async ({

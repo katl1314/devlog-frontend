@@ -6,12 +6,11 @@ import {
 	useEffect,
 	useState,
 	useCallback,
-	FormEvent
+	SyntheticEvent
 } from 'react';
 import { validatePost } from '@/utils';
 import { FiArrowLeft } from 'react-icons/fi';
 import { savePost } from '@/actions/actions';
-import { redirect } from 'next/navigation';
 import { GoAlert } from 'react-icons/go';
 import { usePost } from '@/hooks/post';
 import { Button } from '@/components/ui/button';
@@ -40,24 +39,31 @@ export default function PostEditor({ blog }: any) {
 		file,
 		setTitle,
 		setContent,
-		setTags
+		setTags,
+		reset
 	} = usePost();
 	const [state, formAction] = useActionState(savePost, { status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
 
 	useEffect(() => {
+		return () => {
+			reset();
+		};
+	}, [reset]);
+
+	useEffect(() => {
 		if (state?.status === 'ok') {
-			redirect('/');
+			window.location.href = state.callbackUrl ?? '/';
 		} else if (state?.status && state.status !== '') {
 			toast.error(state.status, {
 				position: 'top-right',
-				duration: 3000,
+				duration: 3000
 			});
 		}
 	}, [state]);
 
 	const handleSubmit = useCallback(
-		(ev: FormEvent<HTMLFormElement>) => {
+		(ev: SyntheticEvent<HTMLFormElement>) => {
 			ev.preventDefault();
 			const error = validatePost({ title, content });
 
