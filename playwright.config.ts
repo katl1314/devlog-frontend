@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+
 export default defineConfig({
 	testDir: './tests/e2e',
 	globalSetup: './tests/global-setup.ts',
@@ -7,7 +9,11 @@ export default defineConfig({
 	fullyParallel: false,
 	retries: 0,
 	workers: 1,
-	reporter: 'list',
+	reporter: [
+		['list'],
+		['json', { outputFile: `report/results/${timestamp}.json` }],
+		['html', { open: 'never', outputFolder: 'report/html' }]
+	],
 	use: {
 		baseURL: 'http://localhost:3000',
 		trace: 'on-first-retry'

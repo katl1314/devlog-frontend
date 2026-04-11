@@ -15,6 +15,10 @@
 /tests/storage
 /playwright-report
 /test-results
+/report/results
+/report/html
+/report/.next
+/report/node_modules
 
 # next.js
 /.next/
