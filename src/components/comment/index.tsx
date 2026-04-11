@@ -280,38 +280,38 @@ function Item({ comment }: ItemProps) {
 	const isReplying = replyingTo === comment.id;
 	const isOwner = currentUserId === comment.user.user_id;
 	const canReply = comment.level < MAX_COMMENT_LEVEL;
-
-	/** 들여쓰기: 레벨에 따라 좌측 패딩 증가 */
-	const indentClass =
-		comment.level === 1 ? '' : 'ml-8 border-l border-border pl-4';
+	const hasChildren = comment.children.length > 0;
 
 	return (
-		<div className={indentClass}>
+		<div className="relative">
+			{hasChildren && (
+				<div className="absolute left-4.5 top-11 bottom-0 w-px bg-border" />
+			)}
+
 			{/* 댓글 본문 */}
-			<div className="flex flex-col gap-1.5 mt-2">
-				{/* 헤더: 아바타 + 작성자 + 날짜 */}
+			<div className="flex flex-col gap-2 mt-2">
 				<div className="flex items-center gap-2">
 					<UserAvatar
 						src={comment.user?.avatar_url}
 						userId={comment.user?.user_id ?? 'U'}
-						className="w-7 h-7 shrink-0"
+						className="w-9 h-9 shrink-0"
 					/>
-					<span className="text-sm font-medium">{comment.user?.user_name}</span>
-					<span className="text-xs text-muted-foreground">
+					<span className="text-base font-medium">
+						{comment.user?.user_name}
+					</span>
+					<span className="text-sm text-muted-foreground">
 						{getTimeDiff(comment.created_at)}
 					</span>
 				</div>
 
-				{/* 내용 */}
-				<p className="text-sm leading-relaxed pl-9">{comment.content}</p>
+				<p className="text-base leading-relaxed pl-11">{comment.content}</p>
 
-				{/* 액션 버튼 */}
-				<div className="flex items-center gap-3 pl-9">
+				<div className="flex items-center gap-3 pl-11">
 					{canReply && (
 						<button
 							type="button"
 							onClick={() => setReplyingTo(isReplying ? null : comment.id)}
-							className="text-xs text-muted-foreground hover:text-foreground cursor-pointer"
+							className="text-sm text-muted-foreground hover:text-foreground cursor-pointer"
 						>
 							{isReplying ? '취소' : '답글'}
 						</button>
@@ -320,16 +320,15 @@ function Item({ comment }: ItemProps) {
 						<button
 							type="button"
 							onClick={() => deleteComment(comment.id)}
-							className="text-xs text-muted-foreground hover:text-destructive cursor-pointer"
+							className="text-sm text-muted-foreground hover:text-destructive cursor-pointer"
 						>
 							삭제
 						</button>
 					)}
 				</div>
 
-				{/* 인라인 답글 폼 */}
 				{isReplying && (
-					<div className="pl-9 mt-1">
+					<div className="pl-11 mt-1">
 						<Form
 							parentId={comment.id}
 							onClose={() => setReplyingTo(null)}
@@ -340,11 +339,26 @@ function Item({ comment }: ItemProps) {
 			</div>
 
 			{/* 자식 댓글 재귀 렌더링 */}
-			{comment.children.length > 0 && (
-				<div className="flex flex-col mt-3">
-					{comment.children.map(child => (
-						<Item key={child.id} comment={child} />
-					))}
+			{hasChildren && (
+				<div className="mt-1 ml-11 flex flex-col">
+					{comment.children.map((child, index) => {
+						const isLast = index === comment.children.length - 1;
+						return (
+							<div key={child.id} className="relative">
+								<div
+									className="absolute top-0 h-6.5 w-6.5 border-l border-b border-border"
+									style={{ left: '-26px' }}
+								/>
+								{isLast && (
+									<div
+										className="absolute bottom-0 w-px bg-background"
+										style={{ left: '-26px', top: '26px' }}
+									/>
+								)}
+								<Item comment={child} />
+							</div>
+						);
+					})}
 				</div>
 			)}
 		</div>
