@@ -44,7 +44,7 @@ export default async function RootLayout({
 	return (
 		<html lang="ko">
 			<body className={`${inter.className} relative`}>
-				<Providers>
+				<Providers session={session}>
 					<ThemeProvider initialTheme={initialTheme} />
 					{children}
 					{modal}
