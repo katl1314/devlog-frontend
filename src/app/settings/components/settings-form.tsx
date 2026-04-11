@@ -5,6 +5,8 @@ import { Themes, useTheme } from '@/hooks/theme';
 import { updateSettings } from '@/actions/actions';
 import { toast } from 'sonner';
 import ImageUpload, { useImageUpload } from '@/components/image-upload';
+import { FiPlus } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
 
 type ThemeOption = Themes;
 
@@ -34,7 +36,7 @@ export default function SettingsForm({
 	initialTheme
 }: SettingsFormProps) {
 	const { setTheme } = useTheme();
-
+	const { back } = useRouter();
 	const [username, setUsername] = useState(name);
 	const [commentNotification, setCommentNotification] = useState(true);
 	const [updateNotification, setUpdateNotification] = useState(false);
@@ -62,7 +64,7 @@ export default function SettingsForm({
 				socials,
 				theme: selectedTheme,
 				comment_notification: commentNotification,
-				update_notification: updateNotification,
+				update_notification: updateNotification
 			});
 			toast.success('변경사항이 저장됐습니다.');
 		} catch {
@@ -82,16 +84,17 @@ export default function SettingsForm({
 			youtube: '',
 			website: ''
 		});
+		back();
 	};
 
 	return (
-		<main className="bg-card rounded-[32px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-12">
+		<main>
 			{/* 헤더 */}
-			<header className="mb-12">
-				<h1 className="text-[28px] font-extrabold tracking-[-0.8px] mb-2">
+			<header className="mb-10 sm:mb-12">
+				<h1 className="text-[22px] sm:text-[28px] font-extrabold tracking-[-0.8px] mb-2">
 					환경 설정
 				</h1>
-				<p className="text-muted-foreground text-[15px]">
+				<p className="text-muted-foreground text-[14px] sm:text-[15px]">
 					계정 및 인터페이스에 대한 개인 설정을 변경합니다.
 				</p>
 			</header>
@@ -101,20 +104,23 @@ export default function SettingsForm({
 				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">
 					기본 프로필
 				</h3>
-				<div className="flex items-center gap-6">
-					<ImageUpload initialUrl={image ?? ''} onFileChange={file => file && void file}>
-						<div className="relative w-20 h-20 rounded-[24px] bg-muted overflow-hidden shrink-0 group">
-							<ImageUpload.Upload className="w-full h-full flex items-center justify-center text-2xl font-bold text-muted-foreground cursor-pointer">
-								{username?.[0]?.toUpperCase()}
+				<div className="flex flex-col items-center sm:flex-row sm:items-center gap-4 sm:gap-6">
+					<ImageUpload
+						initialUrl={image ?? ''}
+						onFileChange={file => file && void file}
+					>
+						<div className="relative w-32 h-32 rounded-4xl bg-muted overflow-hidden shrink-0 group">
+							<ImageUpload.Upload className="w-full h-full flex items-center justify-center text-muted-foreground cursor-pointer">
+								<FiPlus size={28} strokeWidth={2.5} />
 							</ImageUpload.Upload>
-							<ImageUpload.Preview allowReupload width={80} height={80} />
+							<ImageUpload.Preview allowReupload width={128} height={128} />
 							<AvatarEditOverlay />
 						</div>
 					</ImageUpload>
-					<div className="flex-1">
+					<div className="flex-1 min-w-0 w-full">
 						<input
 							type="text"
-							className="w-full border-none bg-muted px-[18px] py-[14px] rounded-full text-[15px] font-medium outline-none transition focus:bg-purple-50 dark:focus:bg-purple-950/20 focus:ring-2 focus:ring-[#7C3AED]"
+							className="w-full h-12 border-none bg-muted px-5 rounded-full text-[15px] font-medium outline-none"
 							value={username}
 							onChange={e => setUsername(e.target.value)}
 							placeholder="이름을 입력하세요"
@@ -131,11 +137,13 @@ export default function SettingsForm({
 				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">
 					이메일 주소
 				</h3>
-				<div className="flex items-center justify-between bg-muted rounded-full pl-5 pr-5 h-12">
-					<span className="text-[15px] font-extrabold">{email}</span>
+				<div className="flex items-center justify-between bg-muted rounded-full pl-5 pr-5 h-12 gap-3">
+					<span className="text-[15px] font-extrabold truncate min-w-0">
+						{email}
+					</span>
 					<button
 						type="button"
-						className="text-[#12b886] font-bold text-[15px] underline underline-offset-4 cursor-pointer bg-transparent border-none"
+						className="text-[#12b886] font-bold text-[15px] underline underline-offset-4 cursor-pointer bg-transparent border-none shrink-0"
 					>
 						변경
 					</button>
@@ -231,14 +239,14 @@ export default function SettingsForm({
 					{SOCIAL_FIELDS.map(([key, label, placeholder]) => (
 						<div
 							key={key}
-							className="flex items-center bg-muted rounded-full pl-5 h-12"
+							className="flex flex-col sm:flex-row sm:items-center bg-muted rounded-2xl sm:rounded-full px-5 py-3 sm:py-0 sm:h-12 gap-1 sm:gap-0"
 						>
-							<span className="text-sm font-bold text-muted-foreground min-w-[110px]">
+							<span className="text-xs sm:text-sm font-bold text-muted-foreground sm:min-w-27.5 shrink-0">
 								{label}
 							</span>
 							<input
 								type="text"
-								className="flex-1 bg-transparent border-none outline-none text-[15px] font-medium pr-4"
+								className="flex-1 min-w-0 bg-transparent border-none outline-none text-[15px] font-medium sm:pr-4"
 								placeholder={placeholder}
 								value={socials[key]}
 								onChange={e =>
@@ -267,19 +275,19 @@ export default function SettingsForm({
 			</section>
 
 			{/* 푸터 */}
-			<footer className="mt-14 flex justify-end gap-4">
+			<footer className="sticky bottom-0 mt-14 -mx-5 sm:-mx-12 px-5 sm:px-12 py-4 bg-background/80 backdrop-blur-xl border-t border-border/50 flex flex-col-reverse sm:flex-row sm:justify-end gap-6">
 				<button
 					type="button"
 					onClick={handleCancel}
-					className="bg-transparent border-none text-muted-foreground font-semibold cursor-pointer text-[15px]"
+					className="bg-transparent border-none text-muted-foreground font-semibold cursor-pointer text-[15px] px-6 py-3 rounded-full transition hover:bg-muted text-center"
 				>
-					취소
+					이전 페이지로
 				</button>
 				<button
 					type="button"
 					onClick={handleSave}
 					disabled={isPending}
-					className="bg-foreground text-background border-none px-8 py-3.5 rounded-full text-[15px] font-bold cursor-pointer hover:bg-foreground/80 hover:scale-[1.02] transition disabled:opacity-50"
+					className="bg-foreground text-background border-none px-8 py-3.5 rounded-full text-[15px] font-bold cursor-pointer hover:bg-foreground/80 hover:scale-[1.02] transition disabled:opacity-50 w-full sm:w-auto"
 				>
 					{isPending ? '저장 중...' : '변경사항 저장'}
 				</button>
