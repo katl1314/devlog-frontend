@@ -138,9 +138,8 @@ export default function PostEditor({ blog }: any) {
 
 			{/* 하단 고정 액션바 (Footer) */}
 			<footer className="fixed bottom-0 left-0 w-full h-16 bg-background/95 backdrop-blur border-t border-border flex items-center justify-between px-6 md:px-12 z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
-				{/* 왼쪽: 뒤로가기 */}
 				<Link
-					href="/public"
+					href="/"
 					className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 transition-colors"
 				>
 					<FiArrowLeft size={20} />
