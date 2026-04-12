@@ -1,0 +1,23 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: 코드 최신화
+        run: |
+          cd c:/dev/dev.log/frontend
+          git pull origin develop
+
+      - name: 프론트엔드 컨테이너 재빌드
+        run: |
+          cd c:/dev/dev.log
+          docker compose build --no-cache frontend
+          docker compose up -d frontend
+          docker image prune -f
