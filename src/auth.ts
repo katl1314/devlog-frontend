@@ -130,10 +130,15 @@ export const { handlers, auth } = NextAuth({
 			if (token.accessToken) {
 				const decoded = jwtDecode(token.accessToken);
 				if (decoded.exp && decoded.exp < Date.now() / 1000) {
-					const { accessToken } = await authService.rotateToken(
-						token.refreshToken
-					);
-					token.accessToken = accessToken;
+					try {
+						const { accessToken } = await authService.rotateToken(
+							token.refreshToken
+						);
+						token.accessToken = accessToken;
+					} catch {
+						// refresh token 만료/무효 → 세션 무효화
+						return null;
+					}
 				}
 			}
 

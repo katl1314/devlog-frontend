@@ -9,7 +9,7 @@ import { cn } from '@/utils';
 import { useSession, signOut } from 'next-auth/react';
 import UserAvatar from '@/components/user-avatar';
 import { BiBookmark } from 'react-icons/bi';
-import { useRef, useState } from 'react';
+import BottomSheetDialog from '@/components/bottom-sheet-dialog';
 
 const navItems = [
 	{
@@ -42,8 +42,6 @@ const navItems = [
 	}
 ];
 
-const LONG_PRESS_MS = 500;
-
 export default function MobileBottomNav() {
 	const pathname = usePathname();
 	const router = useRouter();
@@ -51,33 +49,11 @@ export default function MobileBottomNav() {
 	const user = session?.user;
 	const userId = user?.id ?? ('U' as string);
 
-	const [menuOpen, setMenuOpen] = useState(false);
-	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-	const longPressedRef = useRef(false);
-
-	const handlePressStart = () => {
-		longPressedRef.current = false;
-		timerRef.current = setTimeout(() => {
-			longPressedRef.current = true;
-			setMenuOpen(true);
-		}, LONG_PRESS_MS);
-	};
-
-	const handlePressEnd = () => {
-		if (timerRef.current) clearTimeout(timerRef.current);
-		if (!longPressedRef.current) {
-			router.push(`/@${userId}`);
-		}
-	};
-
-	const handlePressCancel = () => {
-		if (timerRef.current) clearTimeout(timerRef.current);
-	};
-
 	return (
-		<>
+		<BottomSheetDialog>
 			<nav className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-background/90 backdrop-blur-xl border-t border-border">
 				<div className="flex justify-around items-center h-14">
+					{/* 메뉴 */}
 					{navItems.map(({ href, icon: Icon, label, id, match }) => {
 						const isActive = match.includes(pathname);
 						return (
@@ -99,17 +75,18 @@ export default function MobileBottomNav() {
 
 					{/* 프로필 탭 */}
 					{user ? (
-						<button
-							className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground cursor-pointer select-none"
-							onTouchStart={handlePressStart}
-							onTouchEnd={handlePressEnd}
-							onTouchCancel={handlePressCancel}
-							onMouseDown={handlePressStart}
-							onMouseUp={handlePressEnd}
-							onMouseLeave={handlePressCancel}
+						<BottomSheetDialog.Trigger
+							mode="longPress"
+							onShortPress={() => router.push(`/@${userId}`)}
 						>
-							<UserAvatar src={user.image} userId={userId} className="w-7.5 h-7.5" />
-						</button>
+							<button className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground cursor-pointer select-none">
+								<UserAvatar
+									src={user.image}
+									userId={userId}
+									className="w-7.5 h-7.5"
+								/>
+							</button>
+						</BottomSheetDialog.Trigger>
 					) : (
 						<Link
 							href={`/auth?callbackUrl=${encodeURIComponent(pathname)}`}
@@ -122,65 +99,48 @@ export default function MobileBottomNav() {
 				</div>
 			</nav>
 
-			{/* 바텀 시트 backdrop */}
-			{menuOpen && (
-				<div
-					className="md:hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
-					onClick={() => setMenuOpen(false)}
-				/>
-			)}
-
-			{/* 바텀 시트 */}
-			<div
-				className={cn(
-					'md:hidden fixed bottom-0 left-0 w-full z-50 bg-background rounded-t-3xl shadow-2xl transition-transform duration-300',
-					menuOpen ? 'translate-y-0' : 'translate-y-full'
-				)}
+			<BottomSheetDialog.BackDrop />
+			<BottomSheetDialog.Items
+				onItemClick={id => {
+					if (id === 'blog') router.push(`/@${userId}`);
+					if (id === 'settings') router.push('/settings');
+					if (id === 'logout') signOut({ callbackUrl: '/' });
+				}}
 			>
-				{/* 핸들 */}
-				<div className="flex justify-center pt-3 pb-1">
-					<div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
-				</div>
-
-				{/* 유저 정보 */}
-				<div className="flex items-center gap-3 px-6 py-4 border-b border-border">
-					<UserAvatar src={user?.image} userId={userId} className="w-10 h-10 shrink-0" />
+				<BottomSheetDialog.Caption className="flex items-center gap-3 px-6 py-4 border-b border-border">
+					<UserAvatar
+						src={user?.image}
+						userId={userId}
+						className="w-10 h-10 shrink-0"
+					/>
 					<div className="flex flex-col min-w-0">
 						<span className="text-sm font-semibold truncate">{user?.name}</span>
-						<span className="text-xs text-muted-foreground truncate">@{userId}</span>
+						<span className="text-xs text-muted-foreground truncate">
+							@{userId}
+						</span>
 					</div>
-				</div>
-
-				{/* 메뉴 항목 */}
+				</BottomSheetDialog.Caption>
 				<div className="flex flex-col px-3 py-2">
-					<button
-						className="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-medium hover:bg-muted transition-colors cursor-pointer text-left"
-						onClick={() => { setMenuOpen(false); router.push(`/@${userId}`); }}
-					>
-						<BiUser size={20} />
+					<BottomSheetDialog.Item id="blog" icon={<BiUser size={20} />}>
 						블로그 가기
-					</button>
-					<button
-						className="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-medium hover:bg-muted transition-colors cursor-pointer text-left"
-						onClick={() => { setMenuOpen(false); router.push('/settings'); }}
-					>
-						<BiCog size={20} />
+					</BottomSheetDialog.Item>
+					<BottomSheetDialog.Item id="settings" icon={<BiCog size={20} />}>
 						환경설정
-					</button>
+					</BottomSheetDialog.Item>
 				</div>
 
-				<div className="mx-3 border-t border-border" />
+				<BottomSheetDialog.Separator />
 
-				<div className="flex flex-col px-3 py-2 pb-[calc(env(safe-area-inset-bottom)+56px)]">
-					<button
-						className="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors cursor-pointer text-left"
-						onClick={() => { setMenuOpen(false); signOut({ callbackUrl: '/' }); }}
+				<div className="flex flex-col px-3 py-2">
+					<BottomSheetDialog.Item
+						id="logout"
+						icon={<BiLogOut size={20} />}
+						variant="destructive"
 					>
-						<BiLogOut size={20} />
 						로그아웃
-					</button>
+					</BottomSheetDialog.Item>
 				</div>
-			</div>
-		</>
+			</BottomSheetDialog.Items>
+		</BottomSheetDialog>
 	);
 }

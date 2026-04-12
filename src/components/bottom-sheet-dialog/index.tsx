@@ -1,0 +1,236 @@
+'use client';
+
+import React, {
+	createContext,
+	useContext,
+	useState,
+	useRef,
+	ReactNode,
+	Children,
+	isValidElement,
+	cloneElement
+} from 'react';
+import { cn } from '@/utils';
+
+const LONG_PRESS_MS = 500;
+
+// ─── Main Context ────────────────────────────────────────────────────────────
+
+interface BottomSheetDialogContextValue {
+	open: boolean;
+	setOpen: (open: boolean) => void;
+}
+
+const BottomSheetDialogContext =
+	createContext<BottomSheetDialogContextValue | null>(null);
+
+function useBottomSheetDialogContext() {
+	const ctx = useContext(BottomSheetDialogContext);
+	if (!ctx) throw new Error('BottomSheetDialog 내부에서 사용해야 합니다.');
+	return ctx;
+}
+
+// ─── Items Context (onItemClick 전달용) ──────────────────────────────────────
+
+interface BottomSheetItemsContextValue {
+	onItemClick?: (_id: string) => void;
+}
+
+const BottomSheetItemsContext = createContext<BottomSheetItemsContextValue>({});
+
+// ─── Root ─────────────────────────────────────────────────────────────────────
+
+function BottomSheetDialog({ children }: { children: ReactNode }) {
+	const [open, setOpen] = useState(false);
+	return (
+		<BottomSheetDialogContext.Provider value={{ open, setOpen }}>
+			{children}
+		</BottomSheetDialogContext.Provider>
+	);
+}
+
+// ─── Trigger ──────────────────────────────────────────────────────────────────
+
+interface TriggerProps {
+	children: ReactNode;
+	mode?: 'click' | 'longPress';
+	onShortPress?: () => void;
+}
+
+function Trigger({ children, mode = 'click', onShortPress }: TriggerProps) {
+	const { setOpen } = useBottomSheetDialogContext();
+	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const longPressedRef = useRef(false);
+
+	const child = Children.only(children);
+	if (!isValidElement(child)) return <>{children}</>;
+
+	if (mode === 'click') {
+		const existingOnClick = (child.props as any).onClick;
+		return cloneElement(child as React.ReactElement<any>, {
+			onClick: (e: React.MouseEvent) => {
+				existingOnClick?.(e);
+				setOpen(true);
+			}
+		});
+	}
+
+	// longPress 모드
+	const handlePressStart = () => {
+		longPressedRef.current = false;
+		timerRef.current = setTimeout(() => {
+			longPressedRef.current = true;
+			setOpen(true);
+		}, LONG_PRESS_MS);
+	};
+
+	const handlePressEnd = () => {
+		if (timerRef.current) clearTimeout(timerRef.current);
+		if (!longPressedRef.current) onShortPress?.();
+	};
+
+	const handlePressCancel = () => {
+		if (timerRef.current) clearTimeout(timerRef.current);
+	};
+
+	const p = child.props as any;
+	return cloneElement(child as React.ReactElement<any>, {
+		onTouchStart: (e: React.TouchEvent) => {
+			p.onTouchStart?.(e);
+			handlePressStart();
+		},
+		onTouchEnd: (e: React.TouchEvent) => {
+			p.onTouchEnd?.(e);
+			handlePressEnd();
+		},
+		onTouchCancel: (e: React.TouchEvent) => {
+			p.onTouchCancel?.(e);
+			handlePressCancel();
+		},
+		onMouseDown: (e: React.MouseEvent) => {
+			p.onMouseDown?.(e);
+			handlePressStart();
+		},
+		onMouseUp: (e: React.MouseEvent) => {
+			p.onMouseUp?.(e);
+			handlePressEnd();
+		},
+		onMouseLeave: (e: React.MouseEvent) => {
+			p.onMouseLeave?.(e);
+			handlePressCancel();
+		}
+	});
+}
+
+// ─── BackDrop ─────────────────────────────────────────────────────────────────
+
+function BackDrop({ className }: { className?: string }) {
+	const { open, setOpen } = useBottomSheetDialogContext();
+	if (!open) return null;
+	return (
+		<div
+			className={cn(
+				'md:hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm',
+				className
+			)}
+			onClick={() => setOpen(false)}
+		/>
+	);
+}
+
+// ─── Items ────────────────────────────────────────────────────────────────────
+
+interface ItemsProps {
+	children: ReactNode;
+	onItemClick?: (id: string) => void;
+	className?: string;
+}
+
+function Items({ children, onItemClick, className }: ItemsProps) {
+	const { open } = useBottomSheetDialogContext();
+	return (
+		<BottomSheetItemsContext.Provider value={{ onItemClick }}>
+			<div
+				className={cn(
+					'md:hidden fixed bottom-0 left-0 w-full z-[51] bg-background rounded-t-3xl shadow-2xl transition-transform duration-300',
+					open ? 'translate-y-0' : 'translate-y-full',
+					className
+				)}
+			>
+				<div className="flex justify-center pt-3 pb-1">
+					<div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
+				</div>
+				{children}
+			</div>
+		</BottomSheetItemsContext.Provider>
+	);
+}
+
+// ─── Item ─────────────────────────────────────────────────────────────────────
+
+interface ItemProps {
+	id: string;
+	icon?: ReactNode;
+	children: ReactNode;
+	variant?: 'default' | 'destructive';
+	className?: string;
+}
+
+function Item({
+	id,
+	icon,
+	children,
+	variant = 'default',
+	className
+}: ItemProps) {
+	const { setOpen } = useBottomSheetDialogContext();
+	const { onItemClick } = useContext(BottomSheetItemsContext);
+
+	const handleClick = () => {
+		setOpen(false);
+		onItemClick?.(id);
+	};
+
+	return (
+		<button
+			className={cn(
+				'flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-medium transition-colors cursor-pointer text-left w-full',
+				variant === 'default' && 'hover:bg-muted',
+				variant === 'destructive' && 'text-destructive hover:bg-destructive/10',
+				className
+			)}
+			onClick={handleClick}
+		>
+			{icon}
+			{children}
+		</button>
+	);
+}
+
+// ─── Separator ────────────────────────────────────────────────────────────────
+
+function Separator({ className }: { className?: string }) {
+	return <div className={cn('mx-3 border-t border-border', className)} />;
+}
+
+// ─── Caption ────────────────────────────────────────────────────────────────
+
+function Caption({
+	className,
+	children
+}: {
+	className?: string;
+	children?: React.ReactNode | React.ReactNode[];
+}) {
+	return <div className={className}>{children}</div>;
+}
+// ─── Assign sub-components ───────────────────────────────────────────────────
+
+BottomSheetDialog.Trigger = Trigger;
+BottomSheetDialog.BackDrop = BackDrop;
+BottomSheetDialog.Items = Items;
+BottomSheetDialog.Item = Item;
+BottomSheetDialog.Separator = Separator;
+BottomSheetDialog.Caption = Caption;
+
+export default BottomSheetDialog;
