@@ -9,11 +9,15 @@ import { Metadata } from 'next';
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-	const users = (await userService.findAll()) as Array<{ user_id: string }>;
+	try {
+		const users = (await userService.findAll()) as Array<{ user_id: string }>;
 
-	return users.map(({ user_id }) => ({
-		userId: user_id
-	}));
+		return users.map(({ user_id }) => ({
+			userId: user_id
+		}));
+	} catch {
+		return [];
+	}
 }
 
 type Props = {

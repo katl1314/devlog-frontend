@@ -11,8 +11,12 @@ export const apiClient = async(endpoint: string, options: FetchOptions = {}) => 
 	const queryString = !isEmpty(params)
 		? `?${new URLSearchParams(params)}`
 		: '';
+	// 서버 사이드는 Docker 내부 주소, 클라이언트 사이드는 nginx 경유
+	const baseUrl = typeof window === 'undefined'
+		? process.env.SERVER_URL
+		: process.env.NEXT_PUBLIC_SERVER_URL;
 	// URL 설정
-	const url = `${process.env.NEXT_PUBLIC_SERVER_URL}${endpoint}${queryString}`;
+	const url = `${baseUrl}${endpoint}${queryString}`;
 	// 헤더 설정
 	const defaultHeaders = {
 		'Content-Type': 'application/json',
