@@ -104,7 +104,7 @@ export default function MobileBottomNav() {
 				onItemClick={id => {
 					if (id === 'blog') router.push(`/@${userId}`);
 					if (id === 'settings') router.push('/settings');
-					if (id === 'logout') signOut({ callbackUrl: '/' });
+					if (id === 'logout') signOut({ callbackUrl: window.location.origin });
 				}}
 			>
 				<BottomSheetDialog.Caption className="flex items-center gap-3 px-6 py-4 border-b border-border">

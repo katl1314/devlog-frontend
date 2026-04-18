@@ -168,7 +168,7 @@ export const SignOnUserMenu = (user: Omit<UserMenuProps, 'onAction'>) => {
 	const handleAction = (id: string) => {
 		if (id === 'blog') router.push(`/@${user.id}`);
 		if (id === 'settings') router.push('/settings');
-		if (id === 'logout') signOut({ callbackUrl: '/' });
+		if (id === 'logout') signOut({ callbackUrl: window.location.origin });
 	};
 
 	return (
