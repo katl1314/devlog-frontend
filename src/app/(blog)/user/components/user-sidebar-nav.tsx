@@ -1,4 +1,9 @@
-import SidebarUserMenu from '@/app/(root)/components/sidebar-user-menu';
+import SidebarUserMenu, {
+	SignedIn,
+	SignedOut,
+	SignOnUserMenu,
+	NotSignOnUserMenu
+} from '@/app/(root)/components/sidebar-user-menu';
 import SidebarNavItems from '@/app/(root)/components/sidebar-nav-items';
 import { TbFileText, TbLayoutList, TbUser } from 'react-icons/tb';
 import NavbarLogo from '@/app/(root)/components/navbar-logo';
@@ -65,7 +70,18 @@ export default async function UserSidebarNav({ userId }: { userId: string }) {
 
 			{/* 유저 프로필 */}
 			<div className="mt-3">
-				<SidebarUserMenu {...user} />
+				<SidebarUserMenu isSignedIn={!!user?.id}>
+					<SignedIn>
+						<SignOnUserMenu
+							image={user?.image}
+							id={user?.id}
+							name={user?.name}
+						/>
+					</SignedIn>
+					<SignedOut>
+						<NotSignOnUserMenu />
+					</SignedOut>
+				</SidebarUserMenu>
 			</div>
 		</nav>
 	);

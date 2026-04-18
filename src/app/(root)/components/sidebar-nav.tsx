@@ -1,7 +1,12 @@
 import { MdOutlineAccessTime, MdOutlineTrendingUp } from 'react-icons/md';
 import { BiBell, BiBookmark } from 'react-icons/bi';
 import { IoCreateOutline } from 'react-icons/io5';
-import SidebarUserMenu from './sidebar-user-menu';
+import SidebarUserMenu, {
+	SignedIn,
+	SignedOut,
+	SignOnUserMenu,
+	NotSignOnUserMenu
+} from './sidebar-user-menu';
 import SidebarNavItems from './sidebar-nav-items';
 import NavbarLogo from './navbar-logo';
 import { auth } from '@/auth';
@@ -47,7 +52,18 @@ export default async function SidebarNav() {
 			</div>
 
 			<div className="mt-3">
-				<SidebarUserMenu {...user} />
+				<SidebarUserMenu isSignedIn={!!user?.id}>
+					<SignedIn>
+						<SignOnUserMenu
+							image={user?.image}
+							id={user?.id}
+							name={user?.name}
+						/>
+					</SignedIn>
+					<SignedOut>
+						<NotSignOnUserMenu />
+					</SignedOut>
+				</SidebarUserMenu>
 			</div>
 		</nav>
 	);

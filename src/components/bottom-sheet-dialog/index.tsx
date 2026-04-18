@@ -4,18 +4,17 @@ import React, {
 	createContext,
 	useContext,
 	useState,
+	useEffect,
 	useRef,
 	ReactNode,
 	Children,
 	isValidElement,
 	cloneElement
 } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '@/utils';
 
 const LONG_PRESS_MS = 500;
-
-// ─── Main Context ────────────────────────────────────────────────────────────
-
 interface BottomSheetDialogContextValue {
 	open: boolean;
 	setOpen: (open: boolean) => void;
@@ -30,15 +29,11 @@ function useBottomSheetDialogContext() {
 	return ctx;
 }
 
-// ─── Items Context (onItemClick 전달용) ──────────────────────────────────────
-
 interface BottomSheetItemsContextValue {
 	onItemClick?: (_id: string) => void;
 }
 
 const BottomSheetItemsContext = createContext<BottomSheetItemsContextValue>({});
-
-// ─── Root ─────────────────────────────────────────────────────────────────────
 
 function BottomSheetDialog({ children }: { children: ReactNode }) {
 	const [open, setOpen] = useState(false);
@@ -48,8 +43,6 @@ function BottomSheetDialog({ children }: { children: ReactNode }) {
 		</BottomSheetDialogContext.Provider>
 	);
 }
-
-// ─── Trigger ──────────────────────────────────────────────────────────────────
 
 interface TriggerProps {
 	children: ReactNode;
@@ -122,23 +115,22 @@ function Trigger({ children, mode = 'click', onShortPress }: TriggerProps) {
 	});
 }
 
-// ─── BackDrop ─────────────────────────────────────────────────────────────────
-
 function BackDrop({ className }: { className?: string }) {
 	const { open, setOpen } = useBottomSheetDialogContext();
-	if (!open) return null;
-	return (
+	const [mounted, setMounted] = useState(false);
+	useEffect(() => setMounted(true), []);
+	if (!mounted || !open) return null;
+	return createPortal(
 		<div
 			className={cn(
-				'md:hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm',
+				'fixed inset-0 z-50 bg-black/40 backdrop-blur-sm',
 				className
 			)}
 			onClick={() => setOpen(false)}
-		/>
+		/>,
+		document.body
 	);
 }
-
-// ─── Items ────────────────────────────────────────────────────────────────────
 
 interface ItemsProps {
 	children: ReactNode;
@@ -148,11 +140,14 @@ interface ItemsProps {
 
 function Items({ children, onItemClick, className }: ItemsProps) {
 	const { open } = useBottomSheetDialogContext();
-	return (
+	const [mounted, setMounted] = useState(false);
+	useEffect(() => setMounted(true), []);
+	if (!mounted) return null;
+	return createPortal(
 		<BottomSheetItemsContext.Provider value={{ onItemClick }}>
 			<div
 				className={cn(
-					'md:hidden fixed bottom-0 left-0 w-full z-[51] bg-background rounded-t-3xl shadow-2xl transition-transform duration-300',
+					'fixed bottom-0 left-0 w-full z-51 bg-background rounded-t-3xl shadow-2xl transition-transform duration-300',
 					open ? 'translate-y-0' : 'translate-y-full',
 					className
 				)}
@@ -162,11 +157,10 @@ function Items({ children, onItemClick, className }: ItemsProps) {
 				</div>
 				{children}
 			</div>
-		</BottomSheetItemsContext.Provider>
+		</BottomSheetItemsContext.Provider>,
+		document.body
 	);
 }
-
-// ─── Item ─────────────────────────────────────────────────────────────────────
 
 interface ItemProps {
 	id: string;
@@ -207,13 +201,9 @@ function Item({
 	);
 }
 
-// ─── Separator ────────────────────────────────────────────────────────────────
-
 function Separator({ className }: { className?: string }) {
 	return <div className={cn('mx-3 border-t border-border', className)} />;
 }
-
-// ─── Caption ────────────────────────────────────────────────────────────────
 
 function Caption({
 	className,
@@ -224,7 +214,6 @@ function Caption({
 }) {
 	return <div className={className}>{children}</div>;
 }
-// ─── Assign sub-components ───────────────────────────────────────────────────
 
 BottomSheetDialog.Trigger = Trigger;
 BottomSheetDialog.BackDrop = BackDrop;
