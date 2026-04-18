@@ -25,7 +25,6 @@ export default function LogoIcon({ size = 32, variant = 'dark' }: ILogoIcon) {
 		);
 	}
 
-	// dark (default): 라이트/다크 배경 모두에서 동일하게 보이는 다크 스타일
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -47,8 +46,11 @@ export default function LogoIcon({ size = 32, variant = 'dark' }: ILogoIcon) {
 					<stop offset="100%" stopColor="#18181b" />
 				</linearGradient>
 			</defs>
-			<rect width="32" height="32" rx="8" fill={`url(#${gradId})`} />
-			<path d="M19 3L10 17L16 17L12 29L22 15L16 15Z" fill="white" />
+			{/* 라이트 모드: 다크 그라디언트 배경 */}
+			<rect width="32" height="32" rx="8" fill={`url(#${gradId})`} className="dark:hidden" />
+			{/* 다크 모드: 밝은 배경 */}
+			<rect width="32" height="32" rx="8" fill="white" fillOpacity="0.9" className="hidden dark:block" />
+			<path d="M19 3L10 17L16 17L12 29L22 15L16 15Z" className="fill-white dark:fill-zinc-800" />
 		</svg>
 	);
 }
