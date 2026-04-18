@@ -81,6 +81,10 @@ export const createUser = async (_state: RegisterType, formData: FormData) => {
 	};
 };
 
+export const checkEmail = async (email: string): Promise<boolean> => {
+	return userService.has(email);
+};
+
 export const savePost = async (_: any, formData: FormData) => {
 	try {
 		const formObj = parseFormData(formData, { tags: 'object' });

@@ -23,8 +23,12 @@ const eslintConfig = [
 			'@typescript-eslint/no-unused-vars': [
 				'warn',
 				{
-					argsIgnorePattern: '^_', // _로 시작하는 unused args 허용
-					varsIgnorePattern: '^_' // _로 시작하는 unused var 허용 (옵션)
+					args: 'all',
+					argsIgnorePattern: '^_',
+					varsIgnorePattern: '^_',
+					caughtErrorsIgnorePattern: '^_',
+					destructuredArrayIgnorePattern: '^_',
+					ignoreRestSiblings: true
 				}
 			]
 		}
