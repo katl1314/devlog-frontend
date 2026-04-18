@@ -14,8 +14,8 @@ export const apiClient = async (
 	// 서버 사이드는 Docker 내부 주소, 클라이언트 사이드는 nginx 경유
 	const baseUrl =
 		typeof window === 'undefined'
-			? process.env.SERVER_URL
-			: process.env.NEXT_PUBLIC_SERVER_URL;
+			? (process.env.SERVER_URL ?? '')
+			: (process.env.NEXT_PUBLIC_SERVER_URL ?? '');
 	// URL 설정
 	const url = `${baseUrl}${endpoint}${queryString}`;
 	// 헤더 설정
