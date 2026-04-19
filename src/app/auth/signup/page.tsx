@@ -26,7 +26,14 @@ export default async function page({
 		};
 		provider: ProviderType;
 	} = {
-		user: { email: emailParam, name: '', userId: '', description: '', image: '', provider: 'email' },
+		user: {
+			email: emailParam,
+			name: '',
+			userId: '',
+			description: '',
+			image: '',
+			provider: 'email'
+		},
 		provider: 'email'
 	};
 
@@ -62,7 +69,7 @@ export default async function page({
 					</p>
 				</div>
 
-				<p className="text-zinc-300 text-xs">© 2025 Dev.log</p>
+				<p className="text-zinc-300 text-xs">© 2026 Dev.log Platform</p>
 			</div>
 
 			{/* 폼 패널 */}

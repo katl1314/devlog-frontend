@@ -91,7 +91,7 @@ export default function SidebarWidgets() {
 				<a href="#" className="hover:underline">
 					개인정보
 				</a>
-				<p className="w-full mt-1">© 2026 dev.log Platform</p>
+				<p className="w-full mt-1">© 2026 Dev.log Platform</p>
 			</footer>
 		</div>
 	);

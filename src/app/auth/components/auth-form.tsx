@@ -133,7 +133,7 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 					</p>
 				</div>
 
-				<p className="text-zinc-300 text-xs">© 2025 Dev.log</p>
+				<p className="text-zinc-300 text-xs">© 2026 Dev.log Platform</p>
 			</div>
 
 			<div className="md:flex-1 md:flex md:flex-col md:items-center md:justify-center md:py-14 px-6 py-25 bg-background">
