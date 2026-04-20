@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import LogoIcon from '@/components/logo-icon';
+import Logo from '@/components/logo';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { checkEmail } from '@/actions/actions';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
+import Link from 'next/link';
 
 const LoadingSpinner = () => (
 	<svg
@@ -110,13 +111,9 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 	return (
 		<div className="min-h-screen flex">
 			<div className="hidden md:flex md:w-105 lg:w-120 shrink-0 bg-zinc-950 flex-col justify-between p-10 lg:p-14">
-				<div className="flex items-center gap-2.5">
-					<LogoIcon size={40} variant="white" />
-					<span className="text-white font-semibold text-xl tracking-tight">
-						Dev.log
-					</span>
-				</div>
-
+				<Link href="/">
+					<Logo size={40} variant="white" />
+				</Link>
 				<div className="space-y-4">
 					<p className="text-zinc-500 text-xs font-medium uppercase tracking-widest">
 						개발자 블로그 플랫폼
@@ -137,11 +134,8 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 			</div>
 
 			<div className="md:flex-1 md:flex md:flex-col md:items-center md:justify-center md:py-14 px-6 py-25 bg-background">
-				<div className="md:hidden flex items-center gap-2 mb-10">
-					<LogoIcon size={40} variant="dark" />
-					<span className="font-semibold text-xl text-foreground tracking-tight">
-						Dev.log
-					</span>
+				<div className="md:hidden mb-10">
+					<Logo size={40} variant="dark" />
 				</div>
 
 				<div className="w-full max-w-85">

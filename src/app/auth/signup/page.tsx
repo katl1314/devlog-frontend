@@ -3,7 +3,7 @@ import { base64ToString } from '@/utils';
 import { cookies } from 'next/headers';
 import { Metadata } from 'next';
 import { ProviderType } from '@/app/schema';
-import LogoIcon from '@/components/logo-icon';
+import Logo from '@/components/logo';
 import Link from 'next/link';
 
 export default async function page({
@@ -46,11 +46,8 @@ export default async function page({
 		<div className="min-h-screen flex">
 			{/* 브랜드 패널 */}
 			<div className="hidden md:flex md:w-105 lg:w-120 shrink-0 bg-zinc-950 flex-col justify-between p-10 lg:p-14">
-				<Link href="/auth" className="flex items-center gap-2.5">
-					<LogoIcon size={40} variant="white" />
-					<span className="text-white font-semibold text-xl tracking-tight">
-						Dev.log
-					</span>
+				<Link href="/auth">
+					<Logo size={40} variant="white" />
 				</Link>
 
 				<div className="space-y-4">
@@ -74,11 +71,8 @@ export default async function page({
 
 			{/* 폼 패널 */}
 			<div className="md:flex-1 md:flex md:flex-col md:items-center md:justify-center md:py-14 px-6 py-16 bg-background">
-				<div className="md:hidden flex items-center gap-2 mb-10">
-					<LogoIcon size={40} variant="dark" />
-					<span className="font-semibold text-xl text-foreground tracking-tight">
-						Dev.log
-					</span>
+				<div className="md:hidden mb-10">
+					<Logo size={40} variant="dark" />
 				</div>
 
 				<div className="w-full max-w-85">
