@@ -4,28 +4,27 @@ import { notFound } from 'next/navigation';
 import { apiClient } from '@/utils/db';
 import PostHeader from './post-header';
 import PostFooter from './post-footer';
-import { Session } from 'next-auth';
 import PostBody from './post-body';
 import { isEmpty } from '@/utils';
 import { auth } from '@/auth';
 
 interface PostDetailContentProps {
-	postId: string;
+	path: string;
 	userId: string;
 }
 
 export default async function PostDetailContent({
-	postId,
+	path,
 	userId
 }: PostDetailContentProps) {
 	const session = await auth();
-	const accessToken = (session as Session & { accessToken?: string })
-		?.accessToken;
+	const accessToken = session?.accessToken;
 
 	let post: any;
 	let comments: any[];
+
 	try {
-		post = await postService.findPost(postId, userId, accessToken);
+		post = await postService.findPost({ userId, path }, accessToken);
 		comments = await apiClient(`/comment/${post.id}`);
 	} catch {
 		return notFound();

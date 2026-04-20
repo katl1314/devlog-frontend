@@ -10,8 +10,8 @@ export async function generateStaticParams() {
 
 		return data.flatMap(({ posts, user_id }) => {
 			return posts.map((post: any) => {
-				const postId = String(post.path).slice(1);
-				return { userId: user_id, postId };
+				const path = String(post.path).slice(1);
+				return { userId: user_id, path };
 			});
 		});
 	} catch {
@@ -24,6 +24,6 @@ export default async function Page({
 }: {
 	params: Promise<{ [name: string]: string }>;
 }) {
-	const { userId, postId } = await params;
-	return <PostDetailContent postId={postId} userId={userId} />;
+	const { userId, path } = await params;
+	return <PostDetailContent path={path} userId={userId} />;
 }

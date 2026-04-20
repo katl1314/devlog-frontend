@@ -1,5 +1,11 @@
 import { Label } from '@/components/ui/label';
-export const TagViewer = ({ tags }: { tags: string[] }) => {
+
+interface Tag {
+	id: string;
+	name: string;
+}
+
+export const TagViewer = ({ tags }: { tags: Tag[] }) => {
 	return (
 		<>
 			{tags.length > 0 && (
@@ -9,7 +15,7 @@ export const TagViewer = ({ tags }: { tags: string[] }) => {
 							key={`${tag}-${index}`}
 							className="inline-block bg-muted text-[#12b886] px-3 py-1 rounded-lg text-sm font-medium cursor-pointer hover:bg-muted/70 transition-colors"
 						>
-							#{tag}
+							#{tag.name}
 						</Label>
 					))}
 				</div>

@@ -1,12 +1,11 @@
+import PostOwnerActionButton from './post-owner-action-button';
 import { TagViewer } from '@/components/tag/tag-viewer';
-import { postService } from '@/services/post.service';
-import { Button } from '@/components/ui/button';
+import PostOwnerActions from './post-owner-actions';
 import { Label } from '@/components/ui/label';
 import PostActions from './post-actions';
-import Link from 'next/link';
 import { getTimeDiff } from '@/utils';
+import Link from 'next/link';
 
-// 작성자 본인 여부를 판단할 수 있는 props가 있다면 추가 (예: isOwner)
 interface PostHeaderProps {
 	title: string;
 	path: string;
@@ -26,16 +25,11 @@ export default function PostHeader({
 	tags = [],
 	user_id
 }: PostHeaderProps) {
-	tags = ['javascript', 'python', 'front']; // 태그 테스트
-
 	return (
 		<section className="mb-8">
-			{/* 1. 제목 */}
 			<h1 className="text-4xl font-extrabold mb-6 leading-tight break-keep text-foreground">
 				{title}
 			</h1>
-
-			{/* 2. 메타 정보 (작성자, 날짜, 수정/삭제) */}
 			<div className="flex justify-between items-center text-base mb-4">
 				<div className="flex items-center text-muted-foreground font-medium">
 					<Link href={`/@${user_id}`}>
@@ -48,32 +42,11 @@ export default function PostHeader({
 						{getTimeDiff(created_at)}
 					</Label>
 				</div>
-				<div>
-					{/* <Button
-						variant="link"
-						className="px-2 text-muted-foreground hover:text-foreground transition-colors"
-					>
-						통계
-					</Button> */}
-					<Button
-						variant="link"
-						className="px-2 text-muted-foreground hover:text-foreground transition-colors"
-					>
-						수정
-					</Button>
-					<Button
-						variant="link"
-						className="px-2 text-muted-foreground hover:text-foreground transition-colors"
-					>
-						삭제
-					</Button>
-				</div>
+				<PostOwnerActions userId={user_id}>
+					<PostOwnerActionButton />
+				</PostOwnerActions>
 			</div>
-
-			{/* 3. 태그 */}
 			<TagViewer tags={tags} />
-
-			{/* 4. 좋아요 / 댓글 / 공유 */}
 			<PostActions />
 		</section>
 	);

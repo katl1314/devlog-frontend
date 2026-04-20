@@ -3,10 +3,10 @@
 import { createContext, PropsWithChildren, useState } from 'react';
 import { postService } from '@/services/post.service';
 import { useSession } from 'next-auth/react';
-import { Session } from 'next-auth';
 import { toast } from 'sonner';
 
 interface PostContext {
+	postId?: number;
 	likeCount: number;
 	isLiked: boolean;
 	toggleLike: () => Promise<void>;
@@ -51,7 +51,8 @@ export default function PostContextProvider({
 				return;
 			}
 
-			const { accessToken } = data as Session & { accessToken: string };
+			const accessToken = data?.accessToken;
+			if (!accessToken) return;
 
 			await postService.like(postId, !isLiked, accessToken);
 
@@ -62,6 +63,7 @@ export default function PostContextProvider({
 		return (
 			<PostContext.Provider
 				value={{
+					postId,
 					isLiked,
 					likeCount,
 					toggleLike,
