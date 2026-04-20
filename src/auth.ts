@@ -148,12 +148,13 @@ export const { handlers, auth } = NextAuth({
 			// 클라이언트에서 사용할 세션 필드 구성
 			if (token && session.user) {
 				const user = await userService.findUserById(token.userId);
-				(session.user as any).id = token.userId;
-				(session.user as any).role = token.role;
+				session.user.id = token.userId;
+				session.user.userId = token.userId;
+				session.user.role = token.role;
 				session.user.name = user.user_name;
-				(session.user as any).image = token.image;
-				(session as any).accessToken = token.accessToken;
-				(session as any).refreshToken = token.refreshToken;
+				session.user.image = token.image;
+				session.accessToken = token.accessToken;
+				session.refreshToken = token.refreshToken;
 			}
 			return session;
 		}

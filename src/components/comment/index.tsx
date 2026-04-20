@@ -13,7 +13,6 @@ import UserAvatar from '@/components/user-avatar';
 import { useSession } from 'next-auth/react';
 import { Textarea } from '../ui/textarea';
 import { apiClient } from '@/utils/db';
-import { Session } from 'next-auth';
 import { getTimeDiff } from '@/utils';
 
 // ─────────────────────────────────────────────
@@ -82,8 +81,7 @@ function CommentModule({
 	const [comments, setComments] = useState<CommentTree[]>(initialComments);
 	const [replyingTo, setReplyingTo] = useState<string | null>(null);
 	const { data: session } = useSession();
-	const accessToken = (session as Session & { accessToken?: string })
-		?.accessToken;
+	const accessToken = session?.accessToken;
 	const currentUserId = session?.user.id ?? null;
 
 	/** 서버에서 최신 댓글 트리를 다시 불러와 동기화한다 */
@@ -101,7 +99,7 @@ function CommentModule({
 			if (!accessToken) return;
 			await apiClient(`/comment/${postId}`, {
 				method: 'POST',
-				headers: { authorization: `Bearer ${accessToken}` },
+				accessToken,
 				body: JSON.stringify({ content, parent_id: parentId ?? null })
 			});
 			await refetch();
@@ -119,7 +117,7 @@ function CommentModule({
 			if (!accessToken) return;
 			await apiClient(`/comment/${commentId}`, {
 				method: 'DELETE',
-				headers: { authorization: `Bearer ${accessToken}` }
+				accessToken
 			});
 			await refetch();
 		},

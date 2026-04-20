@@ -4,7 +4,6 @@ import { RegisterSchema, RegisterType } from '@/app/schema';
 import { userService } from '@/services/user.service';
 import { postService } from '@/services/post.service';
 import { parseFormData } from '@/utils';
-import { Session } from 'next-auth';
 import { auth } from '@/auth';
 import { revalidatePath } from 'next/cache';
 
@@ -88,7 +87,8 @@ export const checkEmail = async (email: string): Promise<boolean> => {
 export const savePost = async (_: any, formData: FormData) => {
 	try {
 		const formObj = parseFormData(formData, { tags: 'object' });
-		const session = (await auth()) as Session & { accessToken: string };
+		const session = await auth();
+		if (!session?.accessToken) throw new Error('Unauthorized');
 		// TODO 썸네일 이미지 처리할 것.
 
 		const result = await postService.create(
@@ -118,10 +118,10 @@ export const updateSettings = async ({
 	comment_notification: boolean;
 	update_notification: boolean;
 }) => {
-	const session = (await auth()) as Session & { accessToken: string };
-	if (!session?.user) throw new Error('Unauthorized');
+	const session = await auth();
+	if (!session?.user || !session.accessToken) throw new Error('Unauthorized');
 
-	const userId = (session.user as any).id;
+	const userId = session.user.id!;
 	await userService.update(
 		userId,
 		{ user_name: name, socials },

@@ -13,7 +13,7 @@ export interface FetchPostsResponse {
 
 export default function UserPostCardList({ userId }: { userId: string }) {
 	const { data: session } = useSession();
-	const accessToken = (session as any)?.accessToken as string | undefined;
+	const accessToken = session?.accessToken;
 
 	const { data, lastPostRef } = useFetch({
 		initialPageParam: 0,

@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 
 export default function PostCardList() {
 	const { data: session } = useSession();
-	const accessToken = (session as any)?.accessToken as string | undefined;
+	const accessToken = session?.accessToken;
 
 	const { data, lastPostRef } = useFetch({
 		initialPageParam: 0,

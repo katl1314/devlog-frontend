@@ -1,36 +1,49 @@
 import { isEmpty } from '@/utils';
 
-type FetchOptions = RequestInit & {
+type FetchOptions = Omit<RequestInit, 'headers'> & {
 	params?: Record<string, string>;
+	headers?: Record<string, string>;
+	accessToken?: string;
 };
 
+/**
+ * 백엔드 API 호출 래퍼.
+ *
+ * @remarks
+ * - `accessToken`이 주어지면 `Authorization: Bearer <token>` 헤더를 자동 주입한다.
+ *   서비스 레이어에서 헤더를 수동으로 조립하지 않고 이 옵션으로 위임한다.
+ * - `params`가 주어지면 쿼리스트링으로 직렬화한다.
+ * - 서버 사이드는 `SERVER_URL`, 클라이언트 사이드는 `NEXT_PUBLIC_SERVER_URL`을 사용한다.
+ *
+ * @param endpoint - `/post` 등 백엔드 경로
+ * @param options  - `fetch` 옵션 + `params`, `accessToken`
+ * @returns JSON 파싱 결과
+ * @throws {Error} 응답이 `!ok`일 때, 서버 메시지 또는 기본 메시지로 throw
+ */
 export const apiClient = async (
 	endpoint: string,
 	options: FetchOptions = {}
-) => {
-	const { params, headers, ...other } = options;
-	// URL 파라미터 조립
+): Promise<any> => {
+	const { params, headers, accessToken, ...other } = options;
+
 	const queryString = !isEmpty(params) ? `?${new URLSearchParams(params)}` : '';
-	// 서버 사이드는 Docker 내부 주소, 클라이언트 사이드는 nginx 경유
 	const baseUrl =
 		typeof window === 'undefined'
 			? (process.env.SERVER_URL ?? '')
 			: (process.env.NEXT_PUBLIC_SERVER_URL ?? '');
-	// URL 설정
 	const url = `${baseUrl}${endpoint}${queryString}`;
-	// 헤더 설정
-	const defaultHeaders = {
+
+	const finalHeaders: Record<string, string> = {
 		'Content-Type': 'application/json',
+		...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
 		...headers
 	};
 
-	// 요청
 	const res = await fetch(url, {
 		...other,
-		headers: defaultHeaders
+		headers: finalHeaders
 	});
 
-	// 요청 실패 시
 	if (!res.ok) {
 		const errorData = await res.json().catch(() => ({}));
 		throw new Error(errorData.message || 'API 호출 중 에러가 발생하였습니다.');
