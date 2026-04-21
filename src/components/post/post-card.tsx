@@ -23,8 +23,15 @@ export default function PostCard({
 		<article className="px-4 py-4 hover:bg-muted/30 transition-colors border-b border-border last:border-b-0">
 			{/* 작성자 & 작성시간 & 비공개글... */}
 			<div className="flex items-center gap-2 mb-3">
-				<Link href={blogPath} className="shrink-0 hover:opacity-80 transition-opacity">
-					<UserAvatar src={user.avatar_url} userId={user.user_id} className="w-6 h-6" />
+				<Link
+					href={blogPath}
+					className="shrink-0 hover:opacity-80 transition-opacity"
+				>
+					<UserAvatar
+						src={user.avatar_url}
+						userId={user.user_id}
+						className="w-6 h-6"
+					/>
 				</Link>
 				<Link
 					href={blogPath}
@@ -38,7 +45,7 @@ export default function PostCard({
 			</div>
 
 			{/* 본문 */}
-			<Link href={postPath} className="block group">
+			<Link href={postPath} className="block group" scroll={false}>
 				<div className="flex justify-between items-start gap-4">
 					{/* 텍스트 */}
 					<div className="flex-1 min-w-0">
