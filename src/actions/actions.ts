@@ -3,9 +3,10 @@
 import { RegisterSchema, RegisterType } from '@/app/schema';
 import { userService } from '@/services/user.service';
 import { postService } from '@/services/post.service';
-import { parseFormData } from '@/utils';
+import { isEmpty, parseFormData } from '@/utils';
 import { auth } from '@/auth';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 // 서비스 회원가입 액션
 export const createUser = async (_state: RegisterType, formData: FormData) => {
@@ -137,4 +138,16 @@ export const updateSettings = async ({
 		session.accessToken
 	);
 	revalidatePath('/settings');
+};
+
+export const deletePostAction = async (postId?: number) => {
+	if (isEmpty(postId)) return;
+
+	try {
+		const session = await auth();
+		await postService.delete(postId, session?.accessToken);
+		revalidatePath('/', 'layout');
+	} catch {
+		return;
+	}
 };

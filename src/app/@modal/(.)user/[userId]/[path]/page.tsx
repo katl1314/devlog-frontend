@@ -9,7 +9,7 @@ export default async function InterceptedPostPage({
 	const { userId, path } = await params;
 	return (
 		<ModalWrapper>
-			<PostDetailContent path={path} userId={userId} />
+			<PostDetailContent path={path} userId={userId} isModal={true} />
 		</ModalWrapper>
 	);
 }

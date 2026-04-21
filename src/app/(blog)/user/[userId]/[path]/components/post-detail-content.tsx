@@ -11,11 +11,13 @@ import { auth } from '@/auth';
 interface PostDetailContentProps {
 	path: string;
 	userId: string;
+	isModal: boolean;
 }
 
 export default async function PostDetailContent({
 	path,
-	userId
+	userId,
+	isModal = false
 }: PostDetailContentProps) {
 	const session = await auth();
 	const accessToken = session?.accessToken;
@@ -38,6 +40,7 @@ export default async function PostDetailContent({
 	return (
 		<PostContextProvider
 			postId={post.id}
+			isModal={isModal}
 			initIsLiked={isLike}
 			initLikeCount={(post.likes ?? []).length}
 			initCommentCount={(post.comments ?? []).length}
