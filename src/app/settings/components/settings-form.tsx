@@ -7,6 +7,8 @@ import { toast } from 'sonner';
 import ImageUpload, { useImageUpload } from '@/components/image-upload';
 import { FiPlus } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 type ThemeOption = Themes;
 
@@ -21,34 +23,48 @@ const SOCIAL_FIELDS = [
 
 type SocialKey = (typeof SOCIAL_FIELDS)[number][0];
 
+export type SocialLinks = Record<SocialKey, string>;
+
+export const EMPTY_SOCIALS: SocialLinks = {
+	github: '',
+	twitter: '',
+	instagram: '',
+	linkedin: '',
+	youtube: '',
+	website: ''
+};
+
 interface SettingsFormProps {
 	name: string;
 	email: string;
 	image: string;
 	userId: string;
 	initialTheme: ThemeOption;
+	initialSocials: SocialLinks;
+	initialCommentNotification: boolean;
+	initialUpdateNotification: boolean;
 }
 
 export default function SettingsForm({
 	name,
 	email,
 	image,
-	initialTheme
+	initialTheme,
+	initialSocials,
+	initialCommentNotification,
+	initialUpdateNotification
 }: SettingsFormProps) {
 	const { setTheme } = useTheme();
 	const { back } = useRouter();
 	const [username, setUsername] = useState(name);
-	const [commentNotification, setCommentNotification] = useState(true);
-	const [updateNotification, setUpdateNotification] = useState(false);
+	const [commentNotification, setCommentNotification] = useState(
+		initialCommentNotification
+	);
+	const [updateNotification, setUpdateNotification] = useState(
+		initialUpdateNotification
+	);
 	const [selectedTheme, setSelectedTheme] = useState<ThemeOption>(initialTheme);
-	const [socials, setSocials] = useState<Record<SocialKey, string>>({
-		github: '',
-		twitter: '',
-		instagram: '',
-		linkedin: '',
-		youtube: '',
-		website: ''
-	});
+	const [socials, setSocials] = useState<SocialLinks>(initialSocials);
 	const [isPending, setIsPending] = useState(false);
 
 	const handleThemeChange = (value: ThemeOption) => {
@@ -76,14 +92,10 @@ export default function SettingsForm({
 
 	const handleCancel = () => {
 		setUsername(name);
-		setSocials({
-			github: '',
-			twitter: '',
-			instagram: '',
-			linkedin: '',
-			youtube: '',
-			website: ''
-		});
+		setSocials(initialSocials);
+		setCommentNotification(initialCommentNotification);
+		setUpdateNotification(initialUpdateNotification);
+		setSelectedTheme(initialTheme);
 		back();
 	};
 
@@ -118,7 +130,7 @@ export default function SettingsForm({
 						</div>
 					</ImageUpload>
 					<div className="flex-1 min-w-0 w-full">
-						<input
+						<Input
 							type="text"
 							className="w-full h-12 border-none bg-muted px-5 rounded-full text-[15px] font-medium outline-none"
 							value={username}
@@ -141,12 +153,13 @@ export default function SettingsForm({
 					<span className="text-[15px] font-extrabold truncate min-w-0">
 						{email}
 					</span>
-					<button
+					<Button
 						type="button"
-						className="text-[#12b886] font-bold text-[15px] underline underline-offset-4 cursor-pointer bg-transparent border-none shrink-0"
+						variant="link"
+						className="text-[#12b886] font-bold text-[15px] underline-offset-4 shrink-0 p-0 h-auto"
 					>
 						변경
-					</button>
+					</Button>
 				</div>
 				<p className="text-xs text-muted-foreground mt-2 ml-3">
 					회원 인증 또는 시스템에서 발송하는 이메일을 수신하는 주소입니다.
@@ -186,7 +199,7 @@ export default function SettingsForm({
 				<div className="grid grid-cols-3 gap-4">
 					{(['light', 'dark', 'system'] as const).map(t => (
 						<label key={t} className="cursor-pointer text-center">
-							<input
+							<Input
 								type="radio"
 								name="ui-theme"
 								className="hidden"
@@ -244,7 +257,7 @@ export default function SettingsForm({
 							<span className="text-xs sm:text-sm font-bold text-muted-foreground sm:min-w-27.5 shrink-0">
 								{label}
 							</span>
-							<input
+							<Input
 								type="text"
 								className="flex-1 min-w-0 bg-transparent border-none outline-none text-[15px] font-medium sm:pr-4"
 								placeholder={placeholder}
@@ -263,12 +276,13 @@ export default function SettingsForm({
 				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">
 					회원 탈퇴
 				</h3>
-				<button
+				<Button
 					type="button"
-					className="bg-[#ff6b6b] text-white border-none px-6 py-3 rounded-[10px] font-bold text-sm cursor-pointer"
+					variant="destructive"
+					className="px-6 py-3 h-auto rounded-[10px] font-bold"
 				>
 					회원 탈퇴
-				</button>
+				</Button>
 				<p className="text-xs text-muted-foreground mt-3">
 					탈퇴 시 작성하신 포스트 및 댓글이 모두 삭제되며 복구되지 않습니다.
 				</p>
@@ -276,21 +290,22 @@ export default function SettingsForm({
 
 			{/* 푸터 */}
 			<footer className="sticky bottom-0 mt-14 -mx-5 sm:-mx-12 px-5 sm:px-12 py-4 bg-background/80 backdrop-blur-xl border-t border-border/50 flex flex-col-reverse sm:flex-row sm:justify-end gap-6">
-				<button
+				<Button
 					type="button"
+					variant="ghost"
 					onClick={handleCancel}
-					className="bg-transparent border-none text-muted-foreground font-semibold cursor-pointer text-[15px] px-6 py-3 rounded-full transition hover:bg-muted text-center"
+					className="text-muted-foreground font-semibold text-[15px] px-6 py-3 h-auto rounded-full"
 				>
 					이전 페이지로
-				</button>
-				<button
+				</Button>
+				<Button
 					type="button"
 					onClick={handleSave}
 					disabled={isPending}
-					className="bg-foreground text-background border-none px-8 py-3.5 rounded-full text-[15px] font-bold cursor-pointer hover:bg-foreground/80 hover:scale-[1.02] transition disabled:opacity-50 w-full sm:w-auto"
+					className="px-8 py-3.5 h-auto rounded-full text-[15px] font-bold hover:bg-foreground/80 hover:scale-[1.02] w-full sm:w-auto"
 				>
 					{isPending ? '저장 중...' : '변경사항 저장'}
-				</button>
+				</Button>
 			</footer>
 		</main>
 	);
@@ -317,7 +332,7 @@ function Toggle({
 }) {
 	return (
 		<label className="relative inline-block w-12 h-[26px] cursor-pointer">
-			<input
+			<Input
 				type="checkbox"
 				className="sr-only"
 				checked={checked}
