@@ -1,13 +1,6 @@
 'use client';
 
-import {
-	startTransition,
-	useActionState,
-	useEffect,
-	useState,
-	useCallback,
-	SyntheticEvent
-} from 'react';
+import { startTransition, useActionState, useEffect, useState, useCallback, SyntheticEvent } from 'react';
 import { validatePost } from '@/utils';
 import { FiArrowLeft } from 'react-icons/fi';
 import { savePost } from '@/actions/actions';
@@ -29,19 +22,7 @@ const Editor = dynamic(() => import('@/components/editor/editor'), {
 });
 
 export default function PostEditor({ blog }: any) {
-	const {
-		title,
-		content,
-		visibility,
-		tags,
-		path,
-		summary,
-		file,
-		setTitle,
-		setContent,
-		setTags,
-		reset
-	} = usePost();
+	const { title, content, visibility, tags, path, summary, file, setTitle, setContent, setTags, reset } = usePost();
 	const [state, formAction] = useActionState(savePost, { status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
 
@@ -99,11 +80,7 @@ export default function PostEditor({ blog }: any) {
 	return (
 		<>
 			{/* 팝업 (로직 유지) */}
-			<Modal
-				open={isModalOpen}
-				onAfterClose={() => setModalOpen(false)}
-				className="w-full md:min-w-[700px] md:w-[50%]"
-			>
+			<Modal open={isModalOpen} onAfterClose={() => setModalOpen(false)} className="w-full md:min-w-[700px] md:w-[50%]">
 				<form onSubmit={handleSubmit}>
 					<PostSetting {...blog} />
 				</form>
@@ -138,10 +115,7 @@ export default function PostEditor({ blog }: any) {
 
 			{/* 하단 고정 액션바 (Footer) */}
 			<footer className="fixed bottom-0 left-0 w-full h-16 bg-background/95 backdrop-blur border-t border-border flex items-center justify-between px-6 md:px-12 z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
-				<Link
-					href="/"
-					className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 transition-colors"
-				>
+				<Link href="/" className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 transition-colors">
 					<FiArrowLeft size={20} />
 					<span className="text-base font-medium">나가기</span>
 				</Link>
