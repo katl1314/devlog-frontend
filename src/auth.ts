@@ -3,6 +3,7 @@ import { userService } from '@/services/user.service';
 import { authService } from '@/services/auth.service';
 import NextAuth, { Account, User } from 'next-auth';
 import Google from 'next-auth/providers/google';
+import GitHub from 'next-auth/providers/github';
 import { stringToBase64 } from './utils';
 import { cookies } from 'next/headers';
 import { jwtDecode } from 'jwt-decode';
@@ -83,6 +84,11 @@ export const { handlers, auth } = NextAuth({
 			clientId: process.env.GOOGLE_CLIENT_ID!,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
 			allowDangerousEmailAccountLinking: false // 동일 이메일로 가입하면 에러를 발생한다.
+		}),
+		GitHub({
+			clientId: process.env.GITHUB_CLIENT_ID!,
+			clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+			allowDangerousEmailAccountLinking: false
 		})
 	],
 	pages: {
@@ -105,19 +111,32 @@ export const { handlers, auth } = NextAuth({
 				return true;
 			}
 			try {
-				const validUser = await userService.has(user.email!);
-				if (!validUser) {
+				let dbUser;
+				try {
+					dbUser = await userService.findUserByEmail(user.email!);
+				} catch {
+					// 404 → 신규 유저 → 회원가입 플로우
 					return await signUp(user, account);
+				}
+				const registered = String(dbUser.provider ?? '').toUpperCase();
+				const incoming = String(account?.provider ?? '').toUpperCase();
+				if (registered && incoming && registered !== incoming) {
+					return `/auth?error=provider_mismatch&registered=${encodeURIComponent(registered.toLowerCase())}`;
 				}
 				return true;
 			} catch {
 				return false;
 			}
 		},
-		async jwt({ token, user }) {
+		async jwt({ token, user, account }) {
 			if (user) {
+				const isOAuth =
+					account?.provider === 'google' || account?.provider === 'github';
 				const { accessToken, refreshToken, userId } =
-					await authService.signIn(user);
+					await authService.signIn({
+						...user,
+						...(isOAuth && { provider: account!.provider.toUpperCase() })
+					});
 				token.email = user.email!;
 				token.name = user.name!;
 				token.userId = userId;

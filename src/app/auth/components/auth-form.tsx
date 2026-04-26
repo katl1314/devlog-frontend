@@ -53,6 +53,21 @@ const GoogleIcon = () => (
 	</svg>
 );
 
+const GitHubIcon = () => (
+	<svg
+		className="w-4 h-4 shrink-0"
+		viewBox="0 0 24 24"
+		fill="currentColor"
+		aria-hidden="true"
+	>
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.87-1.54-3.87-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39s1.97.13 2.89.39c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.77 1.06.77 2.13 0 1.54-.01 2.78-.01 3.16 0 .31.21.68.8.56 4.57-1.52 7.86-5.83 7.86-10.91C23.5 5.73 18.27.5 12 .5z"
+		/>
+	</svg>
+);
+
 type Mode = 'social' | 'email' | 'password';
 
 const inputCls =
@@ -61,7 +76,23 @@ const inputCls =
 const labelCls =
 	'block text-xs font-medium text-foreground mb-1.5 tracking-wide';
 
-export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
+interface AuthFormProps {
+	callbackUrl?: string;
+	error?: string;
+	registered?: string;
+}
+
+const PROVIDER_LABEL: Record<string, string> = {
+	google: 'Google',
+	github: 'GitHub',
+	email: '이메일'
+};
+
+export default function AuthForm({
+	callbackUrl,
+	error,
+	registered
+}: AuthFormProps) {
 	const redirectTo = callbackUrl ?? '/';
 	const router = useRouter();
 	const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
@@ -70,9 +101,20 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 	const [loginError, setLoginError] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
+	const providerMismatchMessage =
+		error === 'provider_mismatch' && registered
+			? `이미 ${PROVIDER_LABEL[registered] ?? registered}로 가입된 계정입니다. 원래 가입한 방법으로 로그인해주세요.`
+			: null;
+
 	const handleGoogleLogin = async () => {
 		setLoadingProvider('google');
 		await signIn('google', { redirect: true, redirectTo });
+		setLoadingProvider(null);
+	};
+
+	const handleGithubLogin = async () => {
+		setLoadingProvider('github');
+		await signIn('github', { redirect: true, redirectTo });
 		setLoadingProvider(null);
 	};
 
@@ -148,6 +190,15 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 						</p>
 					</div>
 
+					{providerMismatchMessage && (
+						<div
+							role="alert"
+							className="mb-5 rounded-md border border-destructive/30 bg-destructive/10 px-3.5 py-3 text-xs leading-relaxed text-destructive"
+						>
+							{providerMismatchMessage}
+						</div>
+					)}
+
 					<Button
 						variant="outline"
 						onClick={handleGoogleLogin}
@@ -156,6 +207,16 @@ export default function AuthForm({ callbackUrl }: { callbackUrl?: string }) {
 					>
 						{loadingProvider === 'google' ? <LoadingSpinner /> : <GoogleIcon />}
 						{loadingProvider === 'google' ? '연결 중...' : 'Google로 계속하기'}
+					</Button>
+
+					<Button
+						variant="outline"
+						onClick={handleGithubLogin}
+						disabled={loadingProvider !== null}
+						className="w-full gap-2.5 py-2.5 mt-2.5"
+					>
+						{loadingProvider === 'github' ? <LoadingSpinner /> : <GitHubIcon />}
+						{loadingProvider === 'github' ? '연결 중...' : 'GitHub로 계속하기'}
 					</Button>
 
 					<div className="relative my-5">

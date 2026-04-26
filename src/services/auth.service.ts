@@ -1,8 +1,8 @@
 import { apiClient } from '@/utils/db';
 
 export const authService = {
-	/** 로그인 (OAuth 프로필 기반) */
-	async signIn(payload: unknown) {
+	/** 로그인 (OAuth 프로필 기반) — provider는 대문자 enum 값(GOOGLE/GITHUB). 없으면 backend에서 검증 스킵 */
+	async signIn(payload: Record<string, unknown> & { provider?: string }) {
 		return apiClient('/auth/signIn', {
 			method: 'POST',
 			body: JSON.stringify(payload)
