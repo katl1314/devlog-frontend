@@ -3,8 +3,8 @@ import { TagViewer } from '@/components/tag/tag-viewer';
 import PostOwnerActions from './post-owner-actions';
 import { Label } from '@/components/ui/label';
 import PostActions from './post-actions';
+import PostAuthorLink from './post-author-link';
 import { getTimeDiff } from '@/utils';
-import Link from 'next/link';
 
 interface PostHeaderProps {
 	title: string;
@@ -17,30 +17,18 @@ interface PostHeaderProps {
 		user_name: string;
 		avatar_url: string;
 	};
+	isModal: boolean;
 }
 
-export default function PostHeader({
-	title,
-	created_at,
-	tags = [],
-	user_id
-}: PostHeaderProps) {
+export default function PostHeader({ title, created_at, tags = [], user_id, isModal }: PostHeaderProps) {
 	return (
 		<section className="mb-8">
-			<h1 className="text-4xl font-extrabold mb-6 leading-tight break-keep text-foreground">
-				{title}
-			</h1>
+			<h1 className="text-4xl font-extrabold mb-6 leading-tight break-keep text-foreground">{title}</h1>
 			<div className="flex justify-between items-center text-base mb-4">
 				<div className="flex items-center text-muted-foreground font-medium">
-					<Link href={`/@${user_id}`}>
-						<Label className="text-foreground font-bold cursor-pointer hover:underline">
-							{user_id}
-						</Label>
-					</Link>
+					<PostAuthorLink userId={user_id} isModal={isModal} />
 					<Label className="mx-2 text-border">·</Label>
-					<Label className="text-muted-foreground">
-						{getTimeDiff(created_at)}
-					</Label>
+					<Label className="text-muted-foreground">{getTimeDiff(created_at)}</Label>
 				</div>
 				<PostOwnerActions userId={user_id}>
 					<PostOwnerActionButton />

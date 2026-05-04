@@ -14,11 +14,7 @@ interface PostDetailContentProps {
 	isModal: boolean;
 }
 
-export default async function PostDetailContent({
-	path,
-	userId,
-	isModal = false
-}: PostDetailContentProps) {
+export default async function PostDetailContent({ path, userId, isModal = false }: PostDetailContentProps) {
 	const session = await auth();
 	const accessToken = session?.accessToken;
 
@@ -33,8 +29,7 @@ export default async function PostDetailContent({
 	}
 
 	const isLike = !isEmpty(session)
-		? ((await postService.findLikeById(post.id, accessToken!))?.isLiked ??
-			false)
+		? ((await postService.findLikeById(post.id, accessToken!))?.isLiked ?? false)
 		: false;
 
 	return (
@@ -46,7 +41,7 @@ export default async function PostDetailContent({
 			initCommentCount={(post.comments ?? []).length}
 		>
 			<div className="pb-24 lg:pb-8">
-				<PostHeader {...post} />
+				<PostHeader {...post} isModal={isModal} />
 				<PostBody {...post} />
 				<PostFooter {...post} comments={comments} />
 			</div>
