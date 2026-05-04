@@ -57,12 +57,8 @@ export default function SettingsForm({
 	const { setTheme } = useTheme();
 	const { back } = useRouter();
 	const [username, setUsername] = useState(name);
-	const [commentNotification, setCommentNotification] = useState(
-		initialCommentNotification
-	);
-	const [updateNotification, setUpdateNotification] = useState(
-		initialUpdateNotification
-	);
+	const [commentNotification, setCommentNotification] = useState(initialCommentNotification);
+	const [updateNotification, setUpdateNotification] = useState(initialUpdateNotification);
 	const [selectedTheme, setSelectedTheme] = useState<ThemeOption>(initialTheme);
 	const [socials, setSocials] = useState<SocialLinks>(initialSocials);
 	const [isPending, setIsPending] = useState(false);
@@ -103,9 +99,7 @@ export default function SettingsForm({
 		<main>
 			{/* 헤더 */}
 			<header className="mb-10 sm:mb-12">
-				<h1 className="text-[22px] sm:text-[28px] font-extrabold tracking-[-0.8px] mb-2">
-					환경 설정
-				</h1>
+				<h1 className="text-[22px] sm:text-[28px] font-extrabold tracking-[-0.8px] mb-2">환경 설정</h1>
 				<p className="text-muted-foreground text-[14px] sm:text-[15px]">
 					계정 및 인터페이스에 대한 개인 설정을 변경합니다.
 				</p>
@@ -113,14 +107,9 @@ export default function SettingsForm({
 
 			{/* 기본 프로필 */}
 			<section className="mb-10">
-				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">
-					기본 프로필
-				</h3>
+				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">기본 프로필</h3>
 				<div className="flex flex-col items-center sm:flex-row sm:items-center gap-4 sm:gap-6">
-					<ImageUpload
-						initialUrl={image ?? ''}
-						onFileChange={file => file && void file}
-					>
+					<ImageUpload initialUrl={image ?? ''} onFileChange={file => file && void file}>
 						<div className="relative w-32 h-32 rounded-4xl bg-muted overflow-hidden shrink-0 group">
 							<ImageUpload.Upload className="w-full h-full flex items-center justify-center text-muted-foreground cursor-pointer">
 								<FiPlus size={28} strokeWidth={2.5} />
@@ -137,29 +126,16 @@ export default function SettingsForm({
 							onChange={e => setUsername(e.target.value)}
 							placeholder="이름을 입력하세요"
 						/>
-						<p className="text-xs text-muted-foreground mt-2 ml-3">
-							공개 프로필에 표시될 이름입니다.
-						</p>
+						<p className="text-xs text-muted-foreground mt-2 ml-3">공개 프로필에 표시될 이름입니다.</p>
 					</div>
 				</div>
 			</section>
 
 			{/* 이메일 주소 */}
 			<section className="mb-10">
-				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">
-					이메일 주소
-				</h3>
+				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">이메일 주소</h3>
 				<div className="flex items-center justify-between bg-muted rounded-full pl-5 pr-5 h-12 gap-3">
-					<span className="text-[15px] font-extrabold truncate min-w-0">
-						{email}
-					</span>
-					<Button
-						type="button"
-						variant="link"
-						className="text-[#12b886] font-bold text-[15px] underline-offset-4 shrink-0 p-0 h-auto"
-					>
-						변경
-					</Button>
+					<span className="text-[15px] font-extrabold truncate min-w-0">{email}</span>
 				</div>
 				<p className="text-xs text-muted-foreground mt-2 ml-3">
 					회원 인증 또는 시스템에서 발송하는 이메일을 수신하는 주소입니다.
@@ -174,28 +150,18 @@ export default function SettingsForm({
 				<div className="flex flex-col gap-3">
 					<div className="flex items-center justify-between bg-muted rounded-full pl-5 pr-3 h-12">
 						<span className="text-[15px] font-extrabold">댓글 알림</span>
-						<Toggle
-							checked={commentNotification}
-							onChange={setCommentNotification}
-						/>
+						<Toggle checked={commentNotification} onChange={setCommentNotification} />
 					</div>
 					<div className="flex items-center justify-between bg-muted rounded-full pl-5 pr-3 h-12">
-						<span className="text-[15px] font-extrabold">
-							Dev.Log 업데이트 소식
-						</span>
-						<Toggle
-							checked={updateNotification}
-							onChange={setUpdateNotification}
-						/>
+						<span className="text-[15px] font-extrabold">Dev.Log 업데이트 소식</span>
+						<Toggle checked={updateNotification} onChange={setUpdateNotification} />
 					</div>
 				</div>
 			</section>
 
 			{/* 인터페이스 테마 */}
 			<section className="mb-10">
-				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">
-					인터페이스 테마
-				</h3>
+				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">인터페이스 테마</h3>
 				<div className="grid grid-cols-3 gap-4">
 					{(['light', 'dark', 'system'] as const).map(t => (
 						<label key={t} className="cursor-pointer text-center">
@@ -227,8 +193,7 @@ export default function SettingsForm({
 									<div
 										className="h-full"
 										style={{
-											background:
-												'linear-gradient(135deg, #fff 50%, #1a1a1a 50%)'
+											background: 'linear-gradient(135deg, #fff 50%, #1a1a1a 50%)'
 										}}
 									/>
 								)}
@@ -245,26 +210,20 @@ export default function SettingsForm({
 
 			{/* 소셜 네트워크 */}
 			<section className="mb-10">
-				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">
-					소셜 네트워크
-				</h3>
+				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">소셜 네트워크</h3>
 				<div className="flex flex-col gap-3">
 					{SOCIAL_FIELDS.map(([key, label, placeholder]) => (
 						<div
 							key={key}
 							className="flex flex-col sm:flex-row sm:items-center bg-muted rounded-2xl sm:rounded-full px-5 py-3 sm:py-0 sm:h-12 gap-1 sm:gap-0"
 						>
-							<span className="text-xs sm:text-sm font-bold text-muted-foreground sm:min-w-27.5 shrink-0">
-								{label}
-							</span>
+							<span className="text-xs sm:text-sm font-bold text-muted-foreground sm:min-w-27.5 shrink-0">{label}</span>
 							<Input
 								type="text"
 								className="flex-1 min-w-0 bg-transparent border-none outline-none text-[15px] font-medium sm:pr-4"
 								placeholder={placeholder}
 								value={socials[key]}
-								onChange={e =>
-									setSocials(prev => ({ ...prev, [key]: e.target.value }))
-								}
+								onChange={e => setSocials(prev => ({ ...prev, [key]: e.target.value }))}
 							/>
 						</div>
 					))}
@@ -273,14 +232,8 @@ export default function SettingsForm({
 
 			{/* 회원 탈퇴 */}
 			<section className="mb-10">
-				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">
-					회원 탈퇴
-				</h3>
-				<Button
-					type="button"
-					variant="destructive"
-					className="px-6 py-3 h-auto rounded-[10px] font-bold"
-				>
+				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">회원 탈퇴</h3>
+				<Button type="button" variant="destructive" className="px-6 py-3 h-auto rounded-[10px] font-bold">
 					회원 탈퇴
 				</Button>
 				<p className="text-xs text-muted-foreground mt-3">
@@ -323,24 +276,11 @@ function AvatarEditOverlay() {
 	);
 }
 
-function Toggle({
-	checked,
-	onChange
-}: {
-	checked: boolean;
-	onChange: (v: boolean) => void;
-}) {
+function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
 	return (
 		<label className="relative inline-block w-12 h-[26px] cursor-pointer">
-			<Input
-				type="checkbox"
-				className="sr-only"
-				checked={checked}
-				onChange={e => onChange(e.target.checked)}
-			/>
-			<span
-				className={`absolute inset-0 rounded-full transition-colors ${checked ? 'bg-[#7C3AED]' : 'bg-border'}`}
-			/>
+			<Input type="checkbox" className="sr-only" checked={checked} onChange={e => onChange(e.target.checked)} />
+			<span className={`absolute inset-0 rounded-full transition-colors ${checked ? 'bg-[#7C3AED]' : 'bg-border'}`} />
 			<span
 				className={`absolute top-[3px] left-[3px] w-5 h-5 bg-white rounded-full shadow-sm transition-transform ${checked ? 'translate-x-[22px]' : ''}`}
 			/>

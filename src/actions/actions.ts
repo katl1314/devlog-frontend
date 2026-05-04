@@ -4,9 +4,9 @@ import { RegisterSchema, RegisterType } from '@/app/schema';
 import { userService } from '@/services/user.service';
 import { postService } from '@/services/post.service';
 import { isEmpty, parseFormData } from '@/utils';
-import { auth } from '@/auth';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { auth } from '@/auth';
 
 // 서비스 회원가입 액션
 export const createUser = async (_state: RegisterType, formData: FormData) => {
@@ -48,9 +48,31 @@ export const createUser = async (_state: RegisterType, formData: FormData) => {
 		};
 	}
 
-	const password = formData.get('password')
-		? String(formData.get('password'))
-		: undefined;
+	const password = formData.get('password') ? String(formData.get('password')) : undefined;
+	const passwordConfirm = formData.get('passwordConfirm') ? String(formData.get('passwordConfirm')) : undefined;
+
+	if (provider === 'email') {
+		if (!password || password.length < 8) {
+			return {
+				name,
+				email,
+				userId,
+				description,
+				provider,
+				errors: { password: '비밀번호는 최소 8자 이상이어야 합니다.' }
+			};
+		}
+		if (password !== passwordConfirm) {
+			return {
+				name,
+				email,
+				userId,
+				description,
+				provider,
+				errors: { passwordConfirm: '비밀번호가 일치하지 않습니다.' }
+			};
+		}
+	}
 
 	const data = {
 		user: {
@@ -82,6 +104,8 @@ export const createUser = async (_state: RegisterType, formData: FormData) => {
 };
 
 export const checkEmail = async (email: string): Promise<boolean> => {
+	const cookieStore = await cookies();
+	cookieStore.delete('signup-token');
 	return userService.has(email);
 };
 
@@ -123,11 +147,7 @@ export const updateSettings = async ({
 	if (!session?.user || !session.accessToken) throw new Error('Unauthorized');
 
 	const userId = session.user.id!;
-	await userService.update(
-		userId,
-		{ user_name: name, socials },
-		session.accessToken
-	);
+	await userService.update(userId, { user_name: name, socials }, session.accessToken);
 	await userService.updateSettings(
 		userId,
 		{

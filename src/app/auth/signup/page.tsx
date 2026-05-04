@@ -37,7 +37,7 @@ export default async function page({
 		provider: 'email'
 	};
 
-	if (token) {
+	if (token && !emailParam) {
 		const encodeToken: string = base64ToString(token);
 		data = JSON.parse(encodeToken);
 	}

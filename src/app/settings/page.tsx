@@ -1,28 +1,29 @@
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { Session } from 'next-auth';
-import SettingsForm, {
-	EMPTY_SOCIALS,
-	SocialLinks
-} from './components/settings-form';
+import SettingsForm, { EMPTY_SOCIALS, SocialLinks } from './components/settings-form';
 import { Metadata } from 'next';
 import { userService } from '@/services/user.service';
 import { Themes } from '@/hooks/theme';
+import { isEmpty } from '@/utils';
 
 export default async function SettingsPage() {
 	const session = (await auth()) as Session & { accessToken: string };
 
-	if (!session?.user) {
+	if (isEmpty(session?.user)) {
 		redirect('/auth');
 	}
 
-	const user = session.user as any;
+	if (isEmpty(session.user.id)) {
+		redirect('/auth');
+	}
+	const user = await userService.findUserById(session.user.id);
 
 	let initialTheme: Themes = 'system';
 	let initialCommentNotification = true;
 	let initialUpdateNotification = true;
 	try {
-		const settings = await userService.getSettings(user.id, session.accessToken);
+		const settings = await userService.getSettings(user.user_id, session.accessToken);
 		initialTheme = (settings?.theme?.toLowerCase() as Themes) ?? 'system';
 		initialCommentNotification = settings?.comment_notification ?? true;
 		initialUpdateNotification = settings?.update_notification ?? true;
@@ -32,7 +33,7 @@ export default async function SettingsPage() {
 
 	let initialSocials: SocialLinks = EMPTY_SOCIALS;
 	try {
-		const profile = await userService.findUserById(user.id);
+		const profile = await userService.findUserById(user.user_id);
 		initialSocials = { ...EMPTY_SOCIALS, ...(profile?.socials ?? {}) };
 	} catch {
 		// 프로필 조회 실패 시 빈 값 유지
@@ -45,7 +46,7 @@ export default async function SettingsPage() {
 					name={user.name ?? ''}
 					email={user.email ?? ''}
 					image={user.image ?? ''}
-					userId={user.id ?? ''}
+					userId={user.user_id ?? ''}
 					initialTheme={initialTheme}
 					initialSocials={initialSocials}
 					initialCommentNotification={initialCommentNotification}
