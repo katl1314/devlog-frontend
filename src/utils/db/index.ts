@@ -6,6 +6,17 @@ type FetchOptions = Omit<RequestInit, 'headers'> & {
 	accessToken?: string;
 };
 
+export class ApiError extends Error {
+	constructor(
+		public readonly status: number,
+		message: string,
+		public readonly data?: unknown
+	) {
+		super(message);
+		this.name = 'ApiError';
+	}
+}
+
 /**
  * 백엔드 API 호출 래퍼.
  *
@@ -46,7 +57,11 @@ export const apiClient = async (
 
 	if (!res.ok) {
 		const errorData = await res.json().catch(() => ({}));
-		throw new Error(errorData.message || 'API 호출 중 에러가 발생하였습니다.');
+		throw new ApiError(
+			res.status,
+			errorData.message || 'API 호출 중 에러가 발생하였습니다.',
+			errorData
+		);
 	}
 
 	return await res.json();

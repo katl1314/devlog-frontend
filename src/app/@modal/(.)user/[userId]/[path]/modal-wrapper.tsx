@@ -1,28 +1,55 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { FiX } from 'react-icons/fi';
 
 export default function ModalWrapper({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
+	const router = useRouter();
+	const [mounted, setMounted] = useState(false);
 
-  const onDismiss = () => {
-    router.back();
-  };
+	const onDismiss = () => {
+		router.back();
+	};
 
-  const onClickWrapper = (e: MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onDismiss();
-    }
-  };
+	const onClickBackdrop = (e: MouseEvent) => {
+		if (e.target === e.currentTarget) {
+			onDismiss();
+		}
+	};
 
-  return (
-    <div 
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-      onClick={onClickWrapper}
-    >
-      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto scrollbar-thin bg-background border border-border rounded-lg p-6">
-        {children}
-      </div>
-    </div>
-  );
+	useEffect(() => {
+		setMounted(true);
+		const prev = document.body.style.overflow;
+		document.body.style.overflow = 'hidden';
+		return () => {
+			document.body.style.overflow = prev;
+		};
+	}, []);
+
+	if (!mounted) return null;
+
+	const modalRoot = document.getElementById('modal') ?? document.body;
+
+	return createPortal(
+		<div
+			className="fixed inset-0 z-100 flex md:items-center md:justify-center md:bg-black/75 md:p-6"
+			onClick={onClickBackdrop}
+			role="dialog"
+			aria-modal="true"
+		>
+			<button
+				type="button"
+				onClick={onDismiss}
+				aria-label="닫기"
+				className="absolute right-4 top-4 z-10 p-2 rounded-full transition-colors text-muted-foreground hover:text-foreground hover:bg-muted md:text-white/60 md:hover:text-white md:hover:bg-white/10"
+			>
+				<FiX size={24} />
+			</button>
+			<div className="relative flex flex-col w-full h-full md:h-auto md:max-w-4xl md:max-h-[90vh] bg-background md:border md:border-border md:rounded-lg overflow-hidden">
+				<div className="flex-1 overflow-y-auto scrollbar-thin p-6">{children}</div>
+			</div>
+		</div>,
+		modalRoot
+	);
 }

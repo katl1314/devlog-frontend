@@ -1,8 +1,12 @@
 import UserProfileSection from '@/app/(blog)/user/components/user-profile-section';
 import UserProfileTabNav from '@/app/(blog)/user/components/user-profile-tab-nav';
-import UserPostCardList from '@/app/(blog)/user/components/user-post-card-list';
+import PostList from '@/components/post/post-list';
+import PostCardList from '@/components/post/post-card-list';
 import PostSkeleton from './components/skeleton/post-skeleton';
+import { FiFileText } from 'react-icons/fi';
 import { userService } from '@/services/user.service';
+import { ApiError } from '@/utils/db';
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 
@@ -34,13 +38,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	};
 }
 
-export default async function Page({
-	params
-}: {
-	params: Promise<{ userId: string }>;
-}) {
+export default async function Page({ params }: { params: Promise<{ userId: string }> }) {
 	const userId = (await params).userId;
-	const user = await userService.findUserById(userId);
+
+	let user;
+	try {
+		user = await userService.findUserById(userId);
+	} catch (error) {
+		if (error instanceof ApiError && error.status === 404) {
+			notFound();
+		}
+		throw error;
+	}
 
 	return (
 		<>
@@ -50,7 +59,7 @@ export default async function Page({
 			<UserProfileTabNav userId={userId} />
 			<section className="min-h-[500px]">
 				<Suspense fallback={<PostFallback />}>
-					<UserPostCardList userId={userId} />
+					<PostList userId={userId} />
 				</Suspense>
 			</section>
 		</>

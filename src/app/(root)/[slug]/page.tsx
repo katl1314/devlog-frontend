@@ -1,7 +1,8 @@
 import CardSkeleton from './components/skeleton/card-skeleton';
 import CardLayout from '@/components/layout/card-layout';
+import PostList from '@/components/post/post-list';
+
 import { Suspense } from 'react';
-import PostCardList from '@/components/post/post-card-list';
 
 export const dynamicParams = false; // false 시 404페이지를 발생한다.
 
@@ -17,10 +18,10 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: IPage) {
-	// const { slug } = await params;
+	const { slug } = await params;
 	return (
 		<Suspense fallback={<PostCardFallback />}>
-			<PostCardList />
+			<PostList />
 		</Suspense>
 	);
 }

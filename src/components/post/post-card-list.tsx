@@ -1,41 +1,76 @@
 'use client';
 
-import { postService } from '@/services/post.service';
+import { createContext, useContext, RefCallback } from 'react';
+import { QueryFunction } from '@tanstack/react-query';
 import PostCard from '@/components/post/post-card';
 import CardLayout from '@/components/layout/card-layout';
-import useFetch from '@/hooks/fetch';
-import { useSession } from 'next-auth/react';
+import useFetch, { FetchPostsResponse } from '@/hooks/fetch';
 
-export default function PostCardList() {
-	const { data: session } = useSession();
-	const accessToken = session?.accessToken;
+interface PostCardListContextValue {
+	posts: any[];
+	isEmpty: boolean;
+	lastPostRef: RefCallback<HTMLDivElement>;
+}
 
+const PostCardListContext = createContext<PostCardListContextValue | null>(null);
+
+export const usePostCardList = () => {
+	const ctx = useContext(PostCardListContext);
+	if (!ctx) {
+		throw new Error('usePostCardList must be used within <PostCardList>');
+	}
+	return ctx;
+};
+
+interface PostCardListProps {
+	queryKey: string[];
+	queryFn: QueryFunction<FetchPostsResponse, readonly unknown[], unknown>;
+	children: React.ReactNode;
+}
+
+function PostCardList({ queryKey, queryFn, children }: PostCardListProps) {
 	const { data, lastPostRef } = useFetch({
 		initialPageParam: 0,
-		queryKey: ['posts', accessToken ?? 'anonymous'],
-		getNextPageParam: lastPage =>
-			lastPage.nextCursor ? lastPage.nextCursor - 1 : undefined,
-		queryFn: ({ pageParam = 0 }) =>
-			postService.getList(pageParam as number, accessToken).then(posts => ({
-				posts: posts.data,
-				nextCursor: posts.cursor.after
-			}))
+		queryKey,
+		queryFn,
+		getNextPageParam: lastPage => lastPage.nextCursor ?? undefined
 	});
 
+	const posts = data.pages.flatMap(page => page.posts);
+	const isEmpty = posts.length === 0;
+
 	return (
-		<CardLayout>
-			{data.pages.map(({ posts }) =>
-				posts.map((post: any, index: number) => {
-					return (
-						<div
-							key={post.id}
-							ref={index === posts.length - 1 ? lastPostRef : null}
-						>
-							{<PostCard {...post} />}
-						</div>
-					);
-				})
-			)}
-		</CardLayout>
+		<PostCardListContext.Provider value={{ posts, isEmpty, lastPostRef }}>
+			<CardLayout>{children}</CardLayout>
+		</PostCardListContext.Provider>
 	);
 }
+
+function Item() {
+	const { posts, isEmpty, lastPostRef } = usePostCardList();
+	if (isEmpty) return null;
+
+	return (
+		<>
+			{posts.map((post, index) => {
+				const isLast = index === posts.length - 1;
+				return (
+					<div key={post.id} ref={isLast ? lastPostRef : null}>
+						<PostCard {...post} />
+					</div>
+				);
+			})}
+		</>
+	);
+}
+
+function Empty({ children }: { children: React.ReactNode }) {
+	const { isEmpty } = usePostCardList();
+	if (!isEmpty) return null;
+	return <>{children}</>;
+}
+
+PostCardList.Item = Item;
+PostCardList.Empty = Empty;
+
+export default PostCardList;
