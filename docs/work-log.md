@@ -1,5 +1,53 @@
 # 작업 로그
 
+## 2026-05-02
+
+### 완료된 작업
+
+#### PostCardList Compound Component 리팩토링 + 공통 wrapper 도입
+
+**배경**
+- `PostCardList`(전체 피드)와 `UserPostCardList`(유저 피드)가 `useFetch` + `useSession` + `CardLayout` 구조를 거의 동일하게 중복 구현
+- `UserPostCardList`만 빈 상태 UI를 가지고 있었고 분기 처리(`isEmpty ? ... : <PostsCardItems />`)가 컴포넌트 내부에 노출됨
+- 컴포넌트 설계 가이드(`docs/component-design-guide.md`)의 Compound Component 패턴에 맞지 않음
+
+**변경 사항**
+
+| 파일 | 변경 내용 |
+| ---- | --------- |
+| `src/components/post/post-card-list.tsx` | Compound 컴포넌트로 전환. `queryKey` / `queryFn` prop 수신, Context로 `posts` / `isEmpty` / `lastPostRef` 공급. `PostCardList.Item`, `PostCardList.Empty` 서브컴포넌트 제공 |
+| `src/components/post/post-list.tsx` | 신규. 공통 wrapper. `userId?: string` prop으로 전체/유저 피드 분기, `useSession` 처리, 호출부의 `<PostCardList.Empty>`를 children으로 받음 |
+| `src/app/(root)/[slug]/components/post-feed.tsx` | 삭제 (`post-list.tsx`로 통합) |
+| `src/app/(blog)/user/components/user-post-card-list.tsx` | 삭제 (`post-list.tsx`로 통합) |
+| `src/app/(root)/[slug]/page.tsx` | `<PostList>` + `<PostCardList.Empty>` 직접 사용 |
+| `src/app/(blog)/user/[userId]/page.tsx` | `<PostList userId={userId}>` + `<PostCardList.Empty>` 사용 |
+
+**API**
+
+```tsx
+// 전체 피드
+<PostList>
+  <PostCardList.Empty>
+    <EmptyUI message="아직 작성된 포스트가 없습니다" />
+  </PostCardList.Empty>
+</PostList>
+
+// 유저 피드
+<PostList userId={userId}>
+  <PostCardList.Empty>
+    <EmptyUI message="아직 작성한 포스트가 없습니다" />
+  </PostCardList.Empty>
+</PostList>
+```
+
+**효과**
+- 페칭 + 무한 스크롤 + 빈 상태 분기 로직이 `PostCardList` (compound) 와 `PostList` (wrapper)에 캡슐화
+- `useFetch` / `useSession` 호출 중복 제거 (2곳 → 1곳, `post-list.tsx`로 통합)
+- 호출부는 빈 상태 UI만 작성하면 됨
+- 가이드의 "소비자에게 구현 세부사항 노출 금지" 원칙에 부합
+
+---
+
 ## 2026-03-17
 
 ### 완료된 작업

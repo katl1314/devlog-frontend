@@ -2,13 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { MdOutlineAccessTime, MdOutlineTrendingUp } from 'react-icons/md';
+import { MdOutlineAccessTime } from 'react-icons/md';
 import { IoCreateOutline } from 'react-icons/io5';
-import { BiUser, BiLogOut, BiCog } from 'react-icons/bi';
+import { BiUser, BiLogOut, BiCog, BiGroup, BiBell } from 'react-icons/bi';
 import { cn } from '@/utils';
 import { useSession, signOut } from 'next-auth/react';
 import UserAvatar from '@/components/user-avatar';
-import { BiBookmark } from 'react-icons/bi';
 import BottomSheetDialog from '@/components/bottom-sheet-dialog';
 
 const navItems = [
@@ -20,18 +19,18 @@ const navItems = [
 		match: ['/', '/new']
 	},
 	{
-		id: 'trend',
-		href: '/trends',
-		icon: MdOutlineTrendingUp,
-		label: '트랜드',
-		match: ['/trends']
+		id: 'notifications',
+		href: '#',
+		icon: BiBell,
+		label: '알림',
+		match: []
 	},
 	{
-		id: 'subscribe',
-		href: '/subscribe',
-		icon: BiBookmark,
-		label: '보관함',
-		match: []
+		id: 'following',
+		href: '/following',
+		icon: BiGroup,
+		label: '팔로잉',
+		match: ['/following']
 	},
 	{
 		id: 'write',

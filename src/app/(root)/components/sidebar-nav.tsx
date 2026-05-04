@@ -1,12 +1,7 @@
 import { MdOutlineAccessTime, MdOutlineTrendingUp } from 'react-icons/md';
-import { BiBell, BiBookmark } from 'react-icons/bi';
+import { BiBell, BiGroup } from 'react-icons/bi';
 import { IoCreateOutline } from 'react-icons/io5';
-import SidebarUserMenu, {
-	SignedIn,
-	SignedOut,
-	SignOnUserMenu,
-	NotSignOnUserMenu
-} from './sidebar-user-menu';
+import SidebarUserMenu, { SignedIn, SignedOut, SignOnUserMenu, NotSignOnUserMenu } from './sidebar-user-menu';
 import SidebarNavItems from './sidebar-nav-items';
 import NavbarLogo from './navbar-logo';
 import { auth } from '@/auth';
@@ -29,8 +24,8 @@ export default async function SidebarNav() {
 			icon: <MdOutlineTrendingUp size={22} />,
 			match: ['/trends']
 		},
-		{ href: '#', label: '알림센터', icon: <BiBell size={22} />, match: [] },
-		{ href: '#', label: '보관함', icon: <BiBookmark size={22} />, match: [] }
+		{ href: '#', label: '알림', icon: <BiBell size={22} />, match: [] },
+		{ href: '#', label: '팔로잉', icon: <BiGroup size={22} />, match: [] }
 	];
 
 	return (
@@ -54,11 +49,7 @@ export default async function SidebarNav() {
 			<div className="mt-3">
 				<SidebarUserMenu isSignedIn={!!user?.id}>
 					<SignedIn>
-						<SignOnUserMenu
-							image={user?.image}
-							id={user?.id}
-							name={user?.name}
-						/>
+						<SignOnUserMenu image={user?.image} id={user?.id} name={user?.name} />
 					</SignedIn>
 					<SignedOut>
 						<NotSignOnUserMenu />

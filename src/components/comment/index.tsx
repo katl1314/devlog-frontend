@@ -200,8 +200,13 @@ function Form({ parentId, onClose, placeholder, className }: FormProps) {
 
 	if (!isAuth) {
 		return (
-			<div className={`text-sm text-muted-foreground py-3 ${className ?? ''}`}>
-				댓글을 작성하려면 로그인이 필요합니다.
+			<div className={`flex flex-col gap-2 ${className ?? ''}`}>
+				<Textarea
+					disabled
+					placeholder="댓글을 작성하려면 로그인이 필요합니다."
+					rows={3}
+					className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-70"
+				/>
 			</div>
 		);
 	}
