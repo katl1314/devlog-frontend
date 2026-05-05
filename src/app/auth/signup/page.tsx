@@ -70,8 +70,8 @@ export default async function page({
 			</div>
 
 			{/* 폼 패널 */}
-			<div className="md:flex-1 md:flex md:flex-col md:items-center md:justify-center md:py-14 px-6 py-16 bg-background">
-				<div className="md:hidden mb-10">
+			<div className="flex-1 md:flex md:flex-col md:items-center md:justify-center px-6 py-8 md:py-14 bg-background">
+				<div className="md:hidden mb-6">
 					<Logo size={40} variant="dark" />
 				</div>
 

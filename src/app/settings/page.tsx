@@ -1,23 +1,14 @@
-import { auth } from '@/auth';
-import { redirect } from 'next/navigation';
-import { Session } from 'next-auth';
 import SettingsForm, { EMPTY_SOCIALS, SocialLinks } from './components/settings-form';
-import { Metadata } from 'next';
 import { userService } from '@/services/user.service';
 import { Themes } from '@/hooks/theme';
-import { isEmpty } from '@/utils';
+import { Session } from 'next-auth';
+import { Metadata } from 'next';
+import { auth } from '@/auth';
 
 export default async function SettingsPage() {
 	const session = (await auth()) as Session & { accessToken: string };
 
-	if (isEmpty(session?.user)) {
-		redirect('/auth');
-	}
-
-	if (isEmpty(session.user.id)) {
-		redirect('/auth');
-	}
-	const user = await userService.findUserById(session.user.id);
+	const user = await userService.findUserById(session.user.id!);
 
 	let initialTheme: Themes = 'system';
 	let initialCommentNotification = true;

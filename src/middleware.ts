@@ -3,7 +3,7 @@ import { match } from 'path-to-regexp';
 import { auth } from './auth';
 import { isEmpty } from './utils';
 
-const matchersForAuth = ['/write']; // 비로그인 시 접근하면 로그인 화면으로 이동한다.
+const matchersForAuth = ['/write', '/notifications', '/following', '/settings']; // 비로그인 시 접근하면 로그인 화면으로 이동한다.
 const matchersForSignIn = ['/signup', '/auth']; // 로그인 관련 화면
 
 export async function middleware(req: NextRequest) {
@@ -15,14 +15,12 @@ export async function middleware(req: NextRequest) {
 		const session = await auth();
 		if (isEmpty(session)) {
 			// 반드시 절대좌표이어야 한다.
-			return NextResponse.redirect(new URL('/auth', req.url));
+			return NextResponse.redirect(new URL(`/auth?callbackUrl=${pathname}`, req.url));
 		}
 	}
 	// 인증 후 회원가입 및 로그인 접근 제어!
 	if (isMatch(pathname, matchersForSignIn)) {
-		return (await auth())
-			? NextResponse.redirect(new URL('/', req.url))
-			: NextResponse.next();
+		return (await auth()) ? NextResponse.redirect(new URL('/', req.url)) : NextResponse.next();
 	}
 
 	if (pathname.startsWith('/@')) {
@@ -47,5 +45,5 @@ function isMatch(pathname: string, urls: string[]) {
 
 // 미들웨어 적용 대상 경로
 export const config = {
-	matcher: ['/', '/@:userId', '/new', '/write', '/auth', '/@:userId/:slug']
+	matcher: ['/', '/@:userId', '/new', '/write', '/auth', '/@:userId/:slug', '/notifications', '/following', '/settings']
 };
