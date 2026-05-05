@@ -4,18 +4,28 @@ import { PostContext } from './post-context-provider';
 import { useContext } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils';
+import { toast } from 'sonner';
 
 export default function PostActions() {
-	const { isLiked, likeCount, commentCount, toggleLike } =
-		useContext(PostContext);
+	const { isLiked, likeCount, commentCount, toggleLike } = useContext(PostContext);
 
 	const handleCommentClick = () => {
 		document.getElementById('comments')?.scrollIntoView({ behavior: 'smooth' });
 	};
 
+	const handleShare = async () => {
+		const url = window.location.href;
+		const title = document.title;
+		if (navigator.share) {
+			await navigator.share({ title, url });
+		} else {
+			await navigator.clipboard.writeText(url);
+		}
+		toast('링크가 복사됐습니다.', { duration: 2000 });
+	};
+
 	return (
 		<div className="flex items-center gap-2 mt-6 pt-6 border-t border-border">
-			{/* 좋아요 */}
 			<Button
 				variant="outline"
 				size="sm"
@@ -29,7 +39,6 @@ export default function PostActions() {
 				<span>{likeCount}</span>
 			</Button>
 
-			{/* 댓글 */}
 			<Button
 				variant="outline"
 				size="sm"
@@ -40,11 +49,10 @@ export default function PostActions() {
 				<span>{commentCount}</span>
 			</Button>
 
-			{/* 공유 */}
 			<Button
 				variant="outline"
 				size="sm"
-				onClick={() => navigator.clipboard?.writeText(window.location.href)}
+				onClick={handleShare}
 				className="flex items-center gap-1.5 rounded-full text-sm text-muted-foreground ml-auto"
 			>
 				<ShareIcon />
@@ -68,27 +76,13 @@ const HeartIcon = ({ filled }: { filled: boolean }) => (
 );
 
 const CommentIcon = () => (
-	<svg
-		width="16"
-		height="16"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		strokeWidth="2"
-	>
+	<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 		<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
 	</svg>
 );
 
 const ShareIcon = () => (
-	<svg
-		width="16"
-		height="16"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		strokeWidth="2"
-	>
+	<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 		<circle cx="18" cy="5" r="3" />
 		<circle cx="6" cy="12" r="3" />
 		<circle cx="18" cy="19" r="3" />

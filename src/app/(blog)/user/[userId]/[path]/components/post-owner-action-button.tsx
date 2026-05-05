@@ -6,18 +6,21 @@ import { Button } from '@/components/ui/button';
 import { useContext } from 'react';
 import { deletePostAction } from '@/actions/actions';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 const PostOwnerActionButton = () => {
 	const { postId, isModal } = useContext(PostContext);
 	const router = useRouter();
+	const queryClient = useQueryClient();
+
 	const handleDeletePost = async () => {
 		await deletePostAction(postId);
+		await queryClient.invalidateQueries({ queryKey: ['posts'] });
 		if (isModal) {
-			router.back(); // 모달일떼 router.replace로 처리하는 경우 안되는 이슈
+			router.back();
 		} else {
 			router.replace('/');
 		}
-		router.refresh(); // 새로고침
 	};
 
 	const handleUpdatePost = () => {
