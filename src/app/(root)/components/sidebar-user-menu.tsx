@@ -37,27 +37,16 @@ interface SidebarUserMenuProps {
 }
 
 const SidebarUserMenu = ({ isSignedIn, children }: SidebarUserMenuProps) => {
-	return (
-		<SidebarUserMenuContext.Provider value={{ isSignedIn }}>
-			{children}
-		</SidebarUserMenuContext.Provider>
-	);
+	return <SidebarUserMenuContext.Provider value={{ isSignedIn }}>{children}</SidebarUserMenuContext.Provider>;
 };
 
 const TabletMenu = ({ image, id: userId, name, onAction }: UserMenuProps) => {
 	const router = useRouter();
 	return (
 		<BottomSheetDialog>
-			<BottomSheetDialog.Trigger
-				mode="longPress"
-				onShortPress={() => router.push(`/@${userId}`)}
-			>
+			<BottomSheetDialog.Trigger mode="longPress" onShortPress={() => router.push(`/@${userId}`)}>
 				<div className="xl:hidden flex items-center justify-center p-2 rounded-full hover:bg-muted/50 transition-colors cursor-pointer select-none">
-					<UserAvatar
-						src={image ?? undefined}
-						userId={userId ?? 'U'}
-						className="w-10 h-10 shrink-0"
-					/>
+					<UserAvatar src={image ?? undefined} userId={userId ?? 'U'} className="w-10 h-10 shrink-0" />
 				</div>
 			</BottomSheetDialog.Trigger>
 			<BottomSheetDialog.BackDrop />
@@ -65,9 +54,7 @@ const TabletMenu = ({ image, id: userId, name, onAction }: UserMenuProps) => {
 				<BottomSheetDialog.Caption className="flex items-center gap-3 px-6 py-4 border-b border-border">
 					<div className="flex flex-col min-w-0">
 						<span className="text-sm font-semibold truncate">{name}</span>
-						<span className="text-xs text-muted-foreground truncate">
-							@{userId}
-						</span>
+						<span className="text-xs text-muted-foreground truncate">@{userId}</span>
 					</div>
 				</BottomSheetDialog.Caption>
 				<div className="flex flex-col px-3 py-2">
@@ -80,11 +67,7 @@ const TabletMenu = ({ image, id: userId, name, onAction }: UserMenuProps) => {
 				</div>
 				<BottomSheetDialog.Separator />
 				<div className="flex flex-col px-3 py-2">
-					<BottomSheetDialog.Item
-						id="logout"
-						icon={<BiLogOut size={20} />}
-						variant="destructive"
-					>
+					<BottomSheetDialog.Item id="logout" icon={<BiLogOut size={20} />} variant="destructive">
 						로그아웃
 					</BottomSheetDialog.Item>
 				</div>
@@ -96,16 +79,10 @@ const TabletMenu = ({ image, id: userId, name, onAction }: UserMenuProps) => {
 const DesktopMenu = ({ image, id: userId, name, onAction }: UserMenuProps) => {
 	return (
 		<div className="hidden xl:flex items-center justify-start gap-3 p-2 rounded-full hover:bg-muted/50 transition-colors">
-			<UserAvatar
-				src={image ?? undefined}
-				userId={userId ?? 'U'}
-				className="w-10 h-10 shrink-0"
-			/>
+			<UserAvatar src={image ?? undefined} userId={userId ?? 'U'} className="w-10 h-10 shrink-0" />
 			<div className="flex flex-col overflow-hidden flex-1 min-w-0">
 				<span className="text-sm font-semibold truncate">{name}</span>
-				<span className="text-xs text-muted-foreground truncate">
-					@{userId}
-				</span>
+				<span className="text-xs text-muted-foreground truncate">@{userId}</span>
 			</div>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
@@ -119,10 +96,7 @@ const DesktopMenu = ({ image, id: userId, name, onAction }: UserMenuProps) => {
 					className="cursor-pointer w-52 rounded-2xl border-border/50 shadow-xl p-2 gap-0.5"
 				>
 					<DropdownMenuItem asChild>
-						<Link
-							href="/settings"
-							className="flex items-center gap-2.5 cursor-pointer rounded-xl px-3 py-2.5 text-sm"
-						>
+						<Link href="/settings" className="flex items-center gap-2.5 cursor-pointer rounded-xl px-3 py-2.5 text-sm">
 							<BiCog size={16} />
 							환경설정
 						</Link>

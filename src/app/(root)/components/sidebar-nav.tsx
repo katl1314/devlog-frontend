@@ -24,8 +24,8 @@ export default async function SidebarNav() {
 			icon: <MdOutlineTrendingUp size={22} />,
 			match: ['/trends']
 		},
-		{ href: '#', label: '알림', icon: <BiBell size={22} />, match: [] },
-		{ href: '#', label: '팔로잉', icon: <BiGroup size={22} />, match: [] }
+		{ href: '/notifications', label: '알림', icon: <BiBell size={22} />, match: ['/notifications'] },
+		{ href: '/following', label: '팔로잉', icon: <BiGroup size={22} />, match: ['/following'] }
 	];
 
 	return (

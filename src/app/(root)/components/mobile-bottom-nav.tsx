@@ -20,10 +20,10 @@ const navItems = [
 	},
 	{
 		id: 'notifications',
-		href: '#',
+		href: '/notifications',
 		icon: BiBell,
 		label: '알림',
-		match: []
+		match: ['/notifications']
 	},
 	{
 		id: 'following',
@@ -61,9 +61,7 @@ export default function MobileBottomNav() {
 								href={href}
 								className={cn(
 									'flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs transition-colors',
-									isActive
-										? 'text-foreground'
-										: 'text-muted-foreground hover:text-foreground'
+									isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
 								)}
 							>
 								<Icon size={26} />
@@ -74,16 +72,9 @@ export default function MobileBottomNav() {
 
 					{/* 프로필 탭 */}
 					{user ? (
-						<BottomSheetDialog.Trigger
-							mode="longPress"
-							onShortPress={() => router.push(`/@${userId}`)}
-						>
+						<BottomSheetDialog.Trigger mode="longPress" onShortPress={() => router.push(`/@${userId}`)}>
 							<button className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground cursor-pointer select-none">
-								<UserAvatar
-									src={user.image}
-									userId={userId}
-									className="w-7.5 h-7.5"
-								/>
+								<UserAvatar src={user.image} userId={userId} className="w-7.5 h-7.5" />
 							</button>
 						</BottomSheetDialog.Trigger>
 					) : (
@@ -107,16 +98,10 @@ export default function MobileBottomNav() {
 				}}
 			>
 				<BottomSheetDialog.Caption className="flex items-center gap-3 px-6 py-4 border-b border-border">
-					<UserAvatar
-						src={user?.image}
-						userId={userId}
-						className="w-10 h-10 shrink-0"
-					/>
+					<UserAvatar src={user?.image} userId={userId} className="w-10 h-10 shrink-0" />
 					<div className="flex flex-col min-w-0">
 						<span className="text-sm font-semibold truncate">{user?.name}</span>
-						<span className="text-xs text-muted-foreground truncate">
-							@{userId}
-						</span>
+						<span className="text-xs text-muted-foreground truncate">@{userId}</span>
 					</div>
 				</BottomSheetDialog.Caption>
 				<div className="flex flex-col px-3 py-2">
@@ -131,11 +116,7 @@ export default function MobileBottomNav() {
 				<BottomSheetDialog.Separator />
 
 				<div className="flex flex-col px-3 py-2">
-					<BottomSheetDialog.Item
-						id="logout"
-						icon={<BiLogOut size={20} />}
-						variant="destructive"
-					>
+					<BottomSheetDialog.Item id="logout" icon={<BiLogOut size={20} />} variant="destructive">
 						로그아웃
 					</BottomSheetDialog.Item>
 				</div>
