@@ -88,10 +88,10 @@ export default function PostEditor({ blog }: any) {
 
 			{/* 메인 에디터 영역 */}
 			<main className="min-h-screen bg-background pb-32">
-				<div className="max-w-4xl mx-auto px-6 pt-12 md:pt-20">
+				<div className="max-w-4xl mx-auto md:px-6 pt-10 md:pt-20">
 					{/* 제목 입력 */}
 					<input
-						className="w-full text-4xl md:text-5xl font-extrabold text-foreground placeholder:text-muted-foreground border-none outline-none bg-transparent leading-tight"
+						className="w-full text-3xl md:text-5xl font-extrabold text-foreground placeholder:text-muted-foreground border-none outline-none bg-transparent leading-tight"
 						placeholder="제목을 입력하세요"
 						id="title"
 						value={title}

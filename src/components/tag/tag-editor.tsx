@@ -2,6 +2,7 @@
 
 import { KeyboardEventHandler, useState } from 'react';
 import { toast } from 'sonner';
+import { FiPlus } from 'react-icons/fi';
 
 interface ITagEditor {
 	onChange: (tags: string[]) => void;
@@ -41,8 +42,8 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 		// 한글 입력 중 조합 문제 방지 (isComposing)
 		if (e.nativeEvent.isComposing) return;
 
-		if (e.key === 'Enter') {
-			e.preventDefault(); // 폼 제출 방지
+		if (e.key === 'Enter' || e.key === ',') {
+			e.preventDefault();
 			addTag(inputValue);
 		} else if (e.key === 'Backspace' && inputValue === '') {
 			removeLastTag();
@@ -50,7 +51,7 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 	};
 
 	return (
-		<div className="w-full flex flex-wrap items-center gap-2 min-h-[40px]">
+		<div className="w-full flex flex-wrap items-center gap-2 min-h-10">
 			{/* 태그 리스트 */}
 			{tags.map(tag => (
 				<span
@@ -62,15 +63,26 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 				</span>
 			))}
 
-			{/* 입력창 */}
-			<input
-				type="text"
-				value={inputValue}
-				onChange={e => setInputValue(e.target.value)}
-				onKeyDown={handleKeyDown}
-				className="flex-1 min-w-[180px] bg-transparent outline-none text-lg text-foreground placeholder:text-muted-foreground placeholder:font-light"
-				placeholder="태그를 입력하세요 (Enter 입력)"
-			/>
+			{/* 입력창 + 추가 버튼 */}
+			<div className="flex-1 flex items-center gap-1 min-w-45">
+				<input
+					type="text"
+					value={inputValue}
+					onChange={e => setInputValue(e.target.value)}
+					onKeyDown={handleKeyDown}
+					className="flex-1 bg-transparent outline-none text-lg text-foreground placeholder:text-muted-foreground placeholder:font-light"
+					placeholder="태그 입력 후 Enter, , 또는 + 클릭"
+				/>
+				{inputValue.trim() && (
+					<button
+						type="button"
+						onClick={() => addTag(inputValue)}
+						className="shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500 text-white hover:bg-emerald-600 transition-colors cursor-pointer"
+					>
+						<FiPlus size={14} />
+					</button>
+				)}
+			</div>
 		</div>
 	);
 }

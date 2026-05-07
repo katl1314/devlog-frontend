@@ -1,9 +1,7 @@
 import UserProfileSection from '@/app/(blog)/user/components/user-profile-section';
 import UserProfileTabNav from '@/app/(blog)/user/components/user-profile-tab-nav';
 import PostList from '@/components/post/post-list';
-import PostCardList from '@/components/post/post-card-list';
 import PostSkeleton from './components/skeleton/post-skeleton';
-import { FiFileText } from 'react-icons/fi';
 import { userService } from '@/services/user.service';
 import { ApiError } from '@/utils/db';
 import { notFound } from 'next/navigation';
@@ -50,14 +48,17 @@ export default async function Page({ params }: { params: Promise<{ userId: strin
 		}
 		throw error;
 	}
-
 	return (
 		<>
 			<div className="border-b border-border">
-				<UserProfileSection {...user} />
+				<UserProfileSection
+					{...user}
+					followerCount={user.followers?.length ?? 0}
+					followingCount={user.following?.length ?? 0}
+				/>
 			</div>
 			<UserProfileTabNav userId={userId} />
-			<section className="min-h-[500px]">
+			<section className="min-h-125">
 				<Suspense fallback={<PostFallback />}>
 					<PostList userId={userId} />
 				</Suspense>

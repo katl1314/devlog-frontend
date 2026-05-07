@@ -70,5 +70,14 @@ export const postService = {
 			method: isLiked ? 'POST' : 'DELETE',
 			accessToken
 		});
+	},
+
+	/** 팔로잉 피드 조회 (인증 필수) */
+	async getFollowingFeed(cursor: number, accessToken: string) {
+		return apiClient('/post/following', {
+			method: 'GET',
+			params: { cursor: String(cursor) },
+			accessToken
+		});
 	}
 };

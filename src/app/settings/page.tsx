@@ -34,7 +34,7 @@ export default async function SettingsPage() {
 		<div className="min-h-screen flex justify-center py-12 px-5">
 			<div className="w-full max-w-2xl">
 				<SettingsForm
-					name={user.name ?? ''}
+					name={user.user_name ?? ''}
 					email={user.email ?? ''}
 					image={user.image ?? ''}
 					userId={user.user_id ?? ''}

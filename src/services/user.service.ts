@@ -69,5 +69,36 @@ export const userService = {
 			body: JSON.stringify(data),
 			accessToken
 		});
+	},
+
+	/** 팔로우 상태 조회 (인증 필수) */
+	async getFollowStatus(targetUserId: string, accessToken: string): Promise<{ following: boolean }> {
+		return apiClient(`/auth/users/${targetUserId}/follow/status`, {
+			method: 'GET',
+			accessToken
+		});
+	},
+
+	/** 팔로워/팔로잉 수 조회 */
+	async getFollowCounts(userId: string): Promise<{ followerCount: number; followingCount: number }> {
+		return apiClient(`/auth/users/${userId}/follow/counts`, {
+			method: 'GET'
+		});
+	},
+
+	/** 팔로우 (인증 필수) */
+	async follow(targetUserId: string, accessToken: string): Promise<{ following: boolean }> {
+		return apiClient(`/auth/users/${targetUserId}/follow`, {
+			method: 'POST',
+			accessToken
+		});
+	},
+
+	/** 언팔로우 (인증 필수) */
+	async unfollow(targetUserId: string, accessToken: string): Promise<{ following: boolean }> {
+		return apiClient(`/auth/users/${targetUserId}/follow`, {
+			method: 'DELETE',
+			accessToken
+		});
 	}
 };

@@ -246,6 +246,57 @@ input.title {
 	}
 }
 
+/* 유저 프로필 sticky 축소 */
+@keyframes profile-shrink {
+	from { padding-top: 2rem; padding-bottom: 1.25rem; }
+	to   { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+}
+@keyframes profile-avatar-shrink {
+	from { width: 5rem; height: 5rem; }
+	to   { width: 2rem; height: 2rem; }
+}
+@keyframes profile-fade-out {
+	from { opacity: 1; max-height: 6rem; }
+	to   { opacity: 0; max-height: 0; overflow: hidden; }
+}
+@keyframes profile-name-shrink {
+	from { font-size: 1.25rem; }
+	to   { font-size: 0.875rem; }
+}
+@keyframes profile-row-gap {
+	from { gap: 1.25rem; margin-bottom: 1.25rem; }
+	to   { gap: 0.75rem; margin-bottom: 0; }
+}
+
+.profile-section {
+	position: sticky;
+	top: 0;
+	z-index: 40;
+	animation: profile-shrink linear both;
+	animation-timeline: scroll(root);
+	animation-range: 0px 150px;
+}
+.profile-avatar {
+	animation: profile-avatar-shrink linear both;
+	animation-timeline: scroll(root);
+	animation-range: 0px 150px;
+}
+.profile-collapsible {
+	animation: profile-fade-out linear both;
+	animation-timeline: scroll(root);
+	animation-range: 0px 150px;
+}
+.profile-name {
+	animation: profile-name-shrink linear both;
+	animation-timeline: scroll(root);
+	animation-range: 0px 150px;
+}
+.profile-header-row {
+	animation: profile-row-gap linear both;
+	animation-timeline: scroll(root);
+	animation-range: 0px 150px;
+}
+
 /* 스크롤바 숨기기 */
 .scrollbar-hide {
 	-ms-overflow-style: none;
