@@ -42,6 +42,7 @@ export default async function Page({ params }: { params: Promise<{ userId: strin
 	let user;
 	try {
 		user = await userService.findUserById(userId);
+		console.log('user', user);
 	} catch (error) {
 		if (error instanceof ApiError && error.status === 404) {
 			notFound();

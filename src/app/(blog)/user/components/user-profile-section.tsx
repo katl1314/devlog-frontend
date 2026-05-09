@@ -1,6 +1,18 @@
 import UserAvatar from '@/components/user-avatar';
-import { FaGithub, FaHome } from 'react-icons/fa';
+import { FaGithub, FaYoutube, FaLinkedin, FaInstagram, FaGlobe } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import UserFollowSection from './user-follow-section';
+import Link from 'next/link';
+import { IconType } from 'react-icons';
+
+interface Socials {
+	github?: string;
+	twitter?: string;
+	website?: string;
+	youtube?: string;
+	linkedin?: string;
+	instagram?: string;
+}
 
 interface UserProfileSectionProps {
 	user_id: string;
@@ -9,9 +21,27 @@ interface UserProfileSectionProps {
 	blog?: { description?: string };
 	followerCount: number;
 	followingCount: number;
+	socials?: Socials;
 }
 
-export default function UserProfileSection({ user_id, user_name, avatar_url, blog, followerCount, followingCount }: UserProfileSectionProps) {
+const SOCIAL_ICONS: { key: keyof Socials; Icon: IconType }[] = [
+	{ key: 'github', Icon: FaGithub },
+	{ key: 'twitter', Icon: FaXTwitter },
+	{ key: 'website', Icon: FaGlobe },
+	{ key: 'youtube', Icon: FaYoutube },
+	{ key: 'linkedin', Icon: FaLinkedin },
+	{ key: 'instagram', Icon: FaInstagram },
+];
+
+export default function UserProfileSection({
+	user_id,
+	user_name,
+	avatar_url,
+	blog,
+	followerCount,
+	followingCount,
+	socials
+}: UserProfileSectionProps) {
 	return (
 		<div className="px-4 pt-8 pb-5">
 			<div className="flex items-center gap-5 mb-5">
@@ -25,8 +55,11 @@ export default function UserProfileSection({ user_id, user_name, avatar_url, blo
 
 			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-3 text-muted-foreground">
-					<FaGithub size={22} />
-					<FaHome size={22} />
+					{SOCIAL_ICONS.map(({ key, Icon }) => {
+						const href = socials?.[key];
+						if (!href) return null;
+						return <SocialLink key={key} href={href} Icon={Icon} />;
+					})}
 				</div>
 				<UserFollowSection
 					targetUserId={user_id}
@@ -37,3 +70,11 @@ export default function UserProfileSection({ user_id, user_name, avatar_url, blo
 		</div>
 	);
 }
+
+const SocialLink = ({ href, Icon }: { href: string; Icon: IconType }) => {
+	return (
+		<Link href={href} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors cursor-pointer">
+			<Icon size={22} />
+		</Link>
+	);
+};
