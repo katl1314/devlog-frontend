@@ -30,7 +30,7 @@ const SOCIAL_ICONS: { key: keyof Socials; Icon: IconType }[] = [
 	{ key: 'website', Icon: FaGlobe },
 	{ key: 'youtube', Icon: FaYoutube },
 	{ key: 'linkedin', Icon: FaLinkedin },
-	{ key: 'instagram', Icon: FaInstagram },
+	{ key: 'instagram', Icon: FaInstagram }
 ];
 
 export default function UserProfileSection({
@@ -73,7 +73,12 @@ export default function UserProfileSection({
 
 const SocialLink = ({ href, Icon }: { href: string; Icon: IconType }) => {
 	return (
-		<Link href={href} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors cursor-pointer">
+		<Link
+			href={href}
+			target="_blank"
+			rel="noopener noreferrer"
+			className="hover:text-foreground transition-colors cursor-pointer"
+		>
 			<Icon size={22} />
 		</Link>
 	);

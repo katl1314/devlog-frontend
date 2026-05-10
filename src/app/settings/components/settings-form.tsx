@@ -177,14 +177,14 @@ export default function SettingsForm({
 							>
 								{t === 'light' && (
 									<div className="p-2.5 h-full bg-white">
-										<div className="h-[6px] w-[40%] rounded-sm mb-2 bg-[#eee]" />
+										<div className="h-1.5 w-[40%] rounded-sm mb-2 bg-[#eee]" />
 										<div className="h-1 w-[80%] rounded-sm mb-1 bg-[#f5f5f5]" />
 										<div className="h-1 w-[50%] rounded-sm bg-[#f5f5f5]" />
 									</div>
 								)}
 								{t === 'dark' && (
 									<div className="p-2.5 h-full bg-[#1a1a1a]">
-										<div className="h-[6px] w-[40%] rounded-sm mb-2 bg-[#333]" />
+										<div className="h-1.5 w-[40%] rounded-sm mb-2 bg-[#333]" />
 										<div className="h-1 w-[80%] rounded-sm mb-1 bg-[#2a2a2a]" />
 										<div className="h-1 w-[50%] rounded-sm bg-[#2a2a2a]" />
 									</div>
@@ -222,7 +222,7 @@ export default function SettingsForm({
 								type="text"
 								className="flex-1 min-w-0 bg-transparent border-none outline-none text-[15px] font-medium sm:pr-4"
 								placeholder={placeholder}
-								value={socials[key]}
+								value={socials[key] || ''}
 								onChange={e => setSocials(prev => ({ ...prev, [key]: e.target.value }))}
 							/>
 						</div>
