@@ -100,5 +100,15 @@ export const userService = {
 			method: 'DELETE',
 			accessToken
 		});
+	},
+
+	/** 팔로워 목록 조회 */
+	async getFollowers(userId: string): Promise<{ user_id: string; user_name: string; avatar_url: string }[]> {
+		return apiClient(`/auth/users/${userId}/followers`, { method: 'GET' });
+	},
+
+	/** 팔로잉 목록 조회 */
+	async getFollowings(userId: string): Promise<{ user_id: string; user_name: string; avatar_url: string }[]> {
+		return apiClient(`/auth/users/${userId}/followings`, { method: 'GET' });
 	}
 };

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import FollowButton from './follow-button';
 import ClientNotOwnerGuard from './client-not-owner-guard';
-import Link from 'next/link';
+import FollowListDialog from './follow-list-dialog';
 
 interface UserFollowSectionProps {
 	targetUserId: string;
@@ -25,12 +25,8 @@ export default function UserFollowSection({
 	return (
 		<div className="flex gap-2 text-sm">
 			<div className="flex items-center gap-4 text-muted-foreground">
-				<Link href="#">
-					<strong className="text-foreground font-semibold">{followerCount}</strong> 팔로워
-				</Link>
-				<Link href="#">
-					<strong className="text-foreground font-semibold">{initialFollowingCount}</strong> 팔로잉
-				</Link>
+				<FollowListDialog type="followers" targetUserId={targetUserId} count={followerCount} label="팔로워" />
+				<FollowListDialog type="followings" targetUserId={targetUserId} count={initialFollowingCount} label="팔로잉" />
 			</div>
 			<div className="">
 				<ClientNotOwnerGuard ownerId={targetUserId}>
