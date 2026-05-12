@@ -39,16 +39,20 @@ interface SettingsFormProps {
 	email: string;
 	image: string;
 	userId: string;
+	initialDescription: string;
 	initialTheme: ThemeOption;
 	initialSocials: SocialLinks;
 	initialCommentNotification: boolean;
 	initialUpdateNotification: boolean;
 }
 
+const MAX_DESCRIPTION = 200;
+
 export default function SettingsForm({
 	name,
 	email,
 	image,
+	initialDescription,
 	initialTheme,
 	initialSocials,
 	initialCommentNotification,
@@ -57,6 +61,7 @@ export default function SettingsForm({
 	const { setTheme } = useTheme();
 	const { back } = useRouter();
 	const [username, setUsername] = useState(name);
+	const [description, setDescription] = useState(initialDescription);
 	const [commentNotification, setCommentNotification] = useState(initialCommentNotification);
 	const [updateNotification, setUpdateNotification] = useState(initialUpdateNotification);
 	const [selectedTheme, setSelectedTheme] = useState<ThemeOption>(initialTheme);
@@ -73,6 +78,7 @@ export default function SettingsForm({
 		try {
 			await updateSettings({
 				name: username,
+				description,
 				socials,
 				theme: selectedTheme,
 				comment_notification: commentNotification,
@@ -88,6 +94,7 @@ export default function SettingsForm({
 
 	const handleCancel = () => {
 		setUsername(name);
+		setDescription(initialDescription);
 		setSocials(initialSocials);
 		setCommentNotification(initialCommentNotification);
 		setUpdateNotification(initialUpdateNotification);
@@ -118,7 +125,7 @@ export default function SettingsForm({
 							<AvatarEditOverlay />
 						</div>
 					</ImageUpload>
-					<div className="flex-1 min-w-0 w-full">
+					<div className="flex-1 min-w-0 w-full flex flex-col gap-3">
 						<Input
 							type="text"
 							className="w-full h-12 border-none bg-muted px-5 rounded-full text-[15px] font-medium outline-none"
@@ -126,7 +133,22 @@ export default function SettingsForm({
 							onChange={e => setUsername(e.target.value)}
 							placeholder="이름을 입력하세요"
 						/>
-						<p className="text-xs text-muted-foreground mt-2 ml-3">공개 프로필에 표시될 이름입니다.</p>
+						<div>
+							<textarea
+								className="w-full bg-muted px-5 py-3.5 rounded-2xl text-[15px] font-medium outline-none resize-none leading-relaxed placeholder:text-muted-foreground"
+								rows={3}
+								maxLength={MAX_DESCRIPTION}
+								value={description}
+								onChange={e => setDescription(e.target.value)}
+								placeholder="자기소개를 입력하세요"
+							/>
+							<div className="flex justify-between mt-1.5 px-1">
+								<p className="text-xs text-muted-foreground">프로필 소개 탭에 표시됩니다.</p>
+								<span className={`text-xs ${description.length >= MAX_DESCRIPTION ? 'text-destructive' : 'text-muted-foreground'}`}>
+									{description.length}/{MAX_DESCRIPTION}
+								</span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</section>

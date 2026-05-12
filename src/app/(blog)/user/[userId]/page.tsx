@@ -1,11 +1,9 @@
 import UserProfileSection from '@/app/(blog)/user/components/user-profile-section';
 import UserProfileTabNav from '@/app/(blog)/user/components/user-profile-tab-nav';
-import PostList from '@/components/post/post-list';
-import PostSkeleton from './components/skeleton/post-skeleton';
+import UserTabContent from './components/user-tab-content';
 import { userService } from '@/services/user.service';
 import { ApiError } from '@/utils/db';
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
 import { Metadata } from 'next';
 
 export const revalidate = 60;
@@ -13,10 +11,7 @@ export const revalidate = 60;
 export async function generateStaticParams() {
 	try {
 		const users = (await userService.findAll()) as Array<{ user_id: string }>;
-
-		return users.map(({ user_id }) => ({
-			userId: user_id
-		}));
+		return users.map(({ user_id }) => ({ userId: user_id }));
 	} catch {
 		return [];
 	}
@@ -24,31 +19,31 @@ export async function generateStaticParams() {
 
 type Props = {
 	params: Promise<{ userId: string }>;
-	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+	searchParams?: Promise<{ tab?: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { userId } = await params;
-
 	return {
 		title: `${userId}의 포스트`,
 		description: `${userId}의 포스트입니다.`
 	};
 }
 
-export default async function Page({ params }: { params: Promise<{ userId: string }> }) {
-	const userId = (await params).userId;
+export default async function Page({ params, searchParams }: Props) {
+	const { userId } = await params;
+	const { tab } = (await searchParams) ?? {};
 
 	let user;
 	try {
 		user = await userService.findUserById(userId);
-		console.log('user', user);
 	} catch (error) {
 		if (error instanceof ApiError && error.status === 404) {
 			notFound();
 		}
 		throw error;
 	}
+
 	return (
 		<>
 			<div className="border-b border-border">
@@ -59,21 +54,7 @@ export default async function Page({ params }: { params: Promise<{ userId: strin
 				/>
 			</div>
 			<UserProfileTabNav userId={userId} />
-			<section className="min-h-125">
-				<Suspense fallback={<PostFallback />}>
-					<PostList userId={userId} />
-				</Suspense>
-			</section>
+			<UserTabContent tab={tab} user={user} />
 		</>
-	);
-}
-
-function PostFallback() {
-	return (
-		<div>
-			{Array.from({ length: 10 }).map((_, index) => {
-				return <PostSkeleton key={index} />;
-			})}
-		</div>
 	);
 }

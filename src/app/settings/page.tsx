@@ -38,6 +38,7 @@ export default async function SettingsPage() {
 					email={user.email ?? ''}
 					image={user.image ?? ''}
 					userId={user.user_id ?? ''}
+					initialDescription={user.blog?.description ?? ''}
 					initialTheme={initialTheme}
 					initialSocials={initialSocials}
 					initialCommentNotification={initialCommentNotification}

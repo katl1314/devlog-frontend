@@ -72,11 +72,7 @@ export default async function UserSidebarNav({ userId }: { userId: string }) {
 			<div className="mt-3">
 				<SidebarUserMenu isSignedIn={!!user?.id}>
 					<SignedIn>
-						<SignOnUserMenu
-							image={user?.image}
-							id={user?.id}
-							name={user?.name}
-						/>
+						<SignOnUserMenu image={user?.image} id={user?.id} name={user?.name} />
 					</SignedIn>
 					<SignedOut>
 						<NotSignOnUserMenu />

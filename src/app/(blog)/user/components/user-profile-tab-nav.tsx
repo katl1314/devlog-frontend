@@ -4,9 +4,9 @@ import { useSearchParams } from 'next/navigation';
 import NavTabs from '@/components/ui/nav-tabs';
 
 const getTabs = (userId: string) => [
-	{ label: '포스트', href: `/user/${userId}`, tab: null },
-	{ label: '시리즈', href: `/user/${userId}?tab=series`, tab: 'series' },
-	{ label: '소개', href: `/user/${userId}?tab=about`, tab: 'about' }
+	{ label: '포스트', href: `/@${userId}`, tab: null },
+	{ label: '시리즈', href: `/@${userId}?tab=series`, tab: 'series' },
+	{ label: '소개', href: `/@${userId}?tab=about`, tab: 'about' }
 ];
 
 export default function UserProfileTabNav({ userId }: { userId: string }) {

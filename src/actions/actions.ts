@@ -132,12 +132,14 @@ export const savePost = async (_: any, formData: FormData) => {
 
 export const updateSettings = async ({
 	name,
+	description,
 	socials,
 	theme,
 	comment_notification,
 	update_notification
 }: {
 	name: string;
+	description: string;
 	socials: Record<string, string>;
 	theme: string;
 	comment_notification: boolean;
@@ -147,7 +149,7 @@ export const updateSettings = async ({
 	if (!session?.user || !session.accessToken) throw new Error('Unauthorized');
 
 	const userId = session.user.id!;
-	await userService.update(userId, { user_name: name, socials }, session.accessToken);
+	await userService.update(userId, { user_name: name, blog_description: description, socials }, session.accessToken);
 	await userService.updateSettings(
 		userId,
 		{
