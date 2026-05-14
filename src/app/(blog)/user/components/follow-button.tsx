@@ -43,7 +43,7 @@ export default function FollowButton({ targetUserId, onFollowChange }: FollowBut
 		<Button
 			variant={following ? 'outline' : 'default'}
 			size="sm"
-			className="font-semibold cursor-pointer"
+			className={`font-semibold cursor-pointer ${!following ? 'dark:bg-neutral-300 dark:text-neutral-900 dark:hover:bg-neutral-300' : ''}`}
 			onClick={handleClick}
 			disabled={loading}
 		>

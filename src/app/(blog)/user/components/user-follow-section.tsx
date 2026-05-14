@@ -23,16 +23,14 @@ export default function UserFollowSection({
 	};
 
 	return (
-		<div className="flex gap-2 text-sm">
+		<div className="flex items-center justify-between w-full text-sm">
 			<div className="flex items-center gap-4 text-muted-foreground">
 				<FollowListDialog type="followers" targetUserId={targetUserId} count={followerCount} label="팔로워" />
 				<FollowListDialog type="followings" targetUserId={targetUserId} count={initialFollowingCount} label="팔로잉" />
 			</div>
-			<div className="">
-				<ClientNotOwnerGuard ownerId={targetUserId}>
-					<FollowButton targetUserId={targetUserId} onFollowChange={handleFollowChange} />
-				</ClientNotOwnerGuard>
-			</div>
+			<ClientNotOwnerGuard ownerId={targetUserId}>
+				<FollowButton targetUserId={targetUserId} onFollowChange={handleFollowChange} />
+			</ClientNotOwnerGuard>
 		</div>
 	);
 }

@@ -15,18 +15,21 @@ import Link from 'next/link';
 
 const profileNavItems = (userId: string) => [
 	{
+		id: 'post',
 		href: `/@${userId}`,
 		icon: <TbFileText size={22} />,
 		label: '포스트',
 		match: [`/@${userId}`, `/user/${userId}`]
 	},
 	{
+		id: 'series',
 		href: `/@${userId}?tab=series`,
 		icon: <TbLayoutList size={22} />,
 		label: '시리즈',
 		match: []
 	},
 	{
+		id: 'about',
 		href: `/@${userId}?tab=about`,
 		icon: <TbUser size={22} />,
 		label: '소개',

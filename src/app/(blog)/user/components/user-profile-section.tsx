@@ -50,23 +50,22 @@ export default function UserProfileSection({
 					<span className="text-xl font-bold leading-tight">{user_name}</span>
 					<span className="text-sm text-muted-foreground">@{user_id}</span>
 					{blog?.description && <span className="text-sm text-muted-foreground">{blog.description}</span>}
+					{SOCIAL_ICONS.some(({ key }) => socials?.[key]) && (
+						<div className="flex items-center gap-3 text-muted-foreground mt-1">
+							{SOCIAL_ICONS.map(({ key, Icon }) => {
+								const href = socials?.[key];
+								if (!href) return null;
+								return <SocialLink key={key} href={href} Icon={Icon} />;
+							})}
+						</div>
+					)}
 				</div>
 			</div>
-
-			<div className="flex items-center justify-between">
-				<div className="flex items-center gap-3 text-muted-foreground">
-					{SOCIAL_ICONS.map(({ key, Icon }) => {
-						const href = socials?.[key];
-						if (!href) return null;
-						return <SocialLink key={key} href={href} Icon={Icon} />;
-					})}
-				</div>
-				<UserFollowSection
-					targetUserId={user_id}
-					initialFollowerCount={followerCount}
-					initialFollowingCount={followingCount}
-				/>
-			</div>
+			<UserFollowSection
+				targetUserId={user_id}
+				initialFollowerCount={followerCount}
+				initialFollowingCount={followingCount}
+			/>
 		</div>
 	);
 }
