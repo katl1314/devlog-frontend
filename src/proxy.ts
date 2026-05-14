@@ -6,7 +6,7 @@ import { isEmpty } from './utils';
 const matchersForAuth = ['/write', '/notifications', '/following', '/settings']; // 비로그인 시 접근하면 로그인 화면으로 이동한다.
 const matchersForSignIn = ['/signup', '/auth']; // 로그인 관련 화면
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
 	const url = req.nextUrl.clone();
 	const pathname = url.pathname;
 
