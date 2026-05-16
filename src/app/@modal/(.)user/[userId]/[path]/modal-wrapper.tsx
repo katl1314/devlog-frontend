@@ -33,7 +33,7 @@ export default function ModalWrapper({ children }: { children: React.ReactNode }
 
 	return createPortal(
 		<div
-			className="fixed inset-0 z-100 flex md:items-center md:justify-center md:bg-black/75 md:p-6"
+			className="fixed inset-0 z-100 flex md:items-center md:justify-center md:bg-black/50 md:p-6"
 			onClick={onClickBackdrop}
 			role="dialog"
 			aria-modal="true"
