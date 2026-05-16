@@ -8,13 +8,15 @@ import SidebarNavItems from './sidebar-nav-items';
 import NavbarLogo from './navbar-logo';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { isEmpty } from '@/utils';
+
+type OnActive = (id: string) => boolean;
 
 export default function SidebarNav() {
 	const session = useSession();
-	const { slug } = useParams();
+	const pathname = usePathname();
 	const user = session.data?.user;
-
 	const navItems = [
 		{
 			id: 'new',
@@ -40,13 +42,18 @@ export default function SidebarNav() {
 		{ id: 'following', href: '/following', label: '팔로잉', icon: <BiGroup size={22} />, match: ['/following'] }
 	];
 
+	const onActive = (id: string) => {
+		const item = navItems.find(i => i.id === id);
+		return !!item?.match.includes(pathname);
+	};
+
 	return (
 		<nav className="flex flex-col h-screen sticky top-0 overflow-y-auto py-6 px-3 xl:px-5">
 			<Link href="/" className="flex items-center gap-3 mb-8 px-2 xl:px-1">
 				<NavbarLogo />
 			</Link>
 
-			<SidebarNavItems items={navItems} onActive={id => id === slug} />
+			<SidebarNavItems items={navItems} onActive={onActive} />
 
 			<div className="mt-4">
 				<Link
