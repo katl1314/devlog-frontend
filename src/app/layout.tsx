@@ -10,7 +10,7 @@ import { Themes } from '@/hooks/theme';
 import './globals.css';
 
 const inter = Roboto({
-	weight: '400',
+	weight: ['400', '500', '600', '700'],
 	subsets: ['latin']
 });
 

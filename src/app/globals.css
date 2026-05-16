@@ -53,10 +53,10 @@ a {
 	--secondary-foreground: oklch(0.975 0 0);
 	--muted: oklch(0.97 0 0);
 	--muted-foreground: oklch(0.556 0 0);
-	--accent: oklch(0.97 0 0);
+	--accent: oklch(0.948 0.012 145);
 	--accent-foreground: oklch(0.205 0 0);
 	--destructive: oklch(0.577 0.245 27.325);
-	--destructive-foreground: oklch(0.577 0.245 27.325);
+	--destructive-foreground: oklch(0.985 0 0);
 	--border: oklch(0.922 0 0);
 	--input: oklch(0.922 0 0);
 	--ring: oklch(0.708 0 0);
@@ -83,10 +83,18 @@ a {
 	--tool-active-bg: oklch(0.8294 0 0);
 	--black: oklch(0 0 0);
 	--white: oklch(100% 0 0);
-	--purple-light: rgba(88, 5, 255, 0.05);
-	--link: #2563eb;
-	--gray-3: rgba(61, 37, 20, 0.12);
+	--purple-light: oklch(0.45 0.31 293 / 0.05);
+	--link: oklch(0.55 0.24 263);
+	--gray-3: oklch(0.32 0.04 55 / 0.12);
 	--placeholder: oklch(0.556 0 0);
+
+	/* 의미 상태 토큰 */
+	--success: oklch(0.623 0.18 145);
+	--success-foreground: oklch(0.985 0 0);
+	--warning: oklch(0.75 0.18 75);
+	--warning-foreground: oklch(0.205 0 0);
+	--info: oklch(0.6 0.18 250);
+	--info-foreground: oklch(0.985 0 0);
 }
 /*
   ---break---
@@ -107,7 +115,7 @@ a {
 	--accent: oklch(0.269 0 0);
 	--accent-foreground: oklch(0.985 0 0);
 	--destructive: oklch(0.396 0.141 25.723);
-	--destructive-foreground: oklch(0.637 0.237 25.331);
+	--destructive-foreground: oklch(0.985 0 0);
 	--border: oklch(0.269 0 0);
 	--input: oklch(0.269 0 0);
 	--ring: oklch(0.439 0 0);
@@ -134,6 +142,15 @@ a {
 	--placeholder: oklch(0.708 0 0);
 	--login-button: oklch(0.97 0 0);
 	--login-button-foreground: oklch(0.205 0 0);
+
+	/* 의미 상태 토큰 */
+	--success: oklch(0.55 0.16 145);
+	--success-foreground: oklch(0.985 0 0);
+	--warning: oklch(0.65 0.16 75);
+	--warning-foreground: oklch(0.205 0 0);
+	--info: oklch(0.52 0.16 250);
+	--info-foreground: oklch(0.985 0 0);
+
 	div.tabview > .active {
 		color: oklch(70.5% 0 286);
 	}
@@ -178,6 +195,12 @@ a {
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
+	--color-success: var(--success);
+	--color-success-foreground: var(--success-foreground);
+	--color-warning: var(--warning);
+	--color-warning-foreground: var(--warning-foreground);
+	--color-info: var(--info);
+	--color-info-foreground: var(--info-foreground);
 }
 /*
   ---break---

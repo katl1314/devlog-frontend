@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { FlatCompat } from '@eslint/eslintrc';
@@ -9,30 +12,27 @@ const compat = new FlatCompat({
 	baseDirectory: __dirname
 });
 
-const eslintConfig = [
-	...compat.extends('next/core-web-vitals', 'next/typescript'),
-	{
-		rules: {
-			'react/no-unescaped-entities': 'off',
-			'@next/next/no-page-custom-font': 'off',
-			'no-unused-vars': 'warn', // 일반 JS용
-			'no-unused-expressions': 'off',
-			'@typescript-eslint/no-unused-expressions': 'off',
-			'@typescript-eslint/no-explicit-any': 'off',
-			'react-hooks/rules-of-hooks': 'error',
-			'@typescript-eslint/no-unused-vars': [
-				'warn',
-				{
-					args: 'all',
-					argsIgnorePattern: '^_',
-					varsIgnorePattern: '^_',
-					caughtErrorsIgnorePattern: '^_',
-					destructuredArrayIgnorePattern: '^_',
-					ignoreRestSiblings: true
-				}
-			]
-		}
-	}
-];
+const eslintConfig = [...compat.extends('next/core-web-vitals', 'next/typescript'), {
+    rules: {
+        'react/no-unescaped-entities': 'off',
+        '@next/next/no-page-custom-font': 'off',
+        'no-unused-vars': 'warn', // 일반 JS용
+        'no-unused-expressions': 'off',
+        '@typescript-eslint/no-unused-expressions': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        'react-hooks/rules-of-hooks': 'error',
+        '@typescript-eslint/no-unused-vars': [
+            'warn',
+            {
+                args: 'all',
+                argsIgnorePattern: '^_',
+                varsIgnorePattern: '^_',
+                caughtErrorsIgnorePattern: '^_',
+                destructuredArrayIgnorePattern: '^_',
+                ignoreRestSiblings: true
+            }
+        ]
+    }
+}, ...storybook.configs["flat/recommended"]];
 
 export default eslintConfig;
