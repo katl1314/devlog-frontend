@@ -136,30 +136,99 @@ CSS 변수(시맨틱 토큰)만 사용한다. 임의 Tailwind 색상(`blue-500`,
 
 ## 2. 컴포넌트 설계 패턴
 
-> 상세 패턴(Compound Component, Props 원칙, 안티패턴)은 [`component-design-guide.md`](component-design-guide.md)를 따른다.
-> 이 섹션은 해당 가이드에 없는 보완 규칙만 다룬다.
+**핵심 철학**: 상태와 UI를 분리하지 말고, 책임 단위로 묶어라.
 
-### 2-1. CVA(class-variance-authority) 사용 기준
+컴포넌트가 "어떻게 보이는가"와 "어떤 상태를 갖는가"는 같은 단위에서 관리되어야 한다.
+소비자(부모)에게 FileReader, ref, useState 같은 구현 세부사항을 노출하지 않는다.
 
-variant가 **2개 이상의 독립 변형**이 필요할 때만 CVA를 도입한다. 단일 스타일이면 `cn()`으로 충분하다.
+### 2-1. Compound Component 패턴
+
+연관된 UI 조각들이 공유 상태를 필요로 할 때 사용한다.
+
+**구조**
+
+```
+<Parent>           ← Context 소유, 상태 및 로직 관리
+  <Parent.A />     ← Context 소비, 특정 조건에서만 렌더
+  <Parent.B />     ← Context 소비, 특정 조건에서만 렌더
+</Parent>
+```
+
+**규칙**
+
+- `Parent`는 Context를 통해 상태를 공급한다 — prop drilling 없이
+- `Parent.A`, `Parent.B`는 Context를 읽어 스스로 렌더 여부를 결정한다
+- `useParent` hook을 export해 트리 내 커스텀 컴포넌트도 Context에 접근할 수 있게 한다
+- 소비자는 상태 관리 로직(useState, useRef, FileReader 등)을 직접 구현하지 않는다
+
+**예시: ImageUpload**
 
 ```tsx
-// 도입 기준 충족 (variant × size 조합)
-const buttonVariants = cva('inline-flex items-center ...', {
-  variants: {
-    variant: { default: '...', destructive: '...', ghost: '...' },
-    size:    { default: '...', sm: '...', lg: '...' },
-  },
-  defaultVariants: { variant: 'default', size: 'default' },
-});
+<ImageUpload initialUrl={image} onFileChange={setFile}>
+  <ImageUpload.Upload className="...">   {/* previewUrl 없을 때 렌더 */}
+    <FiUploadCloud />
+    <span>이미지 업로드</span>
+  </ImageUpload.Upload>
+  <ImageUpload.Preview />               {/* previewUrl 있을 때 렌더 */}
+</ImageUpload>
+```
 
-// 도입 불필요 — cn()으로 충분
-function Badge({ className }: { className?: string }) {
-  return <span className={cn('rounded-full px-2 text-xs', className)} />;
+소비자가 직접 구현하지 않는 것들: `useState(previewUrl)`, `useRef(fileInputRef)`, `FileReader` + `onloadend` 콜백, 조건 분기 — 모두 `ImageUpload` 내부에 캡슐화된다.
+
+트리 내 커스텀 컴포넌트가 Context 접근이 필요한 경우:
+
+```tsx
+import { useImageUpload } from '@/components/image-upload';
+
+function AvatarEditOverlay() {
+  const { triggerInput } = useImageUpload();
+  return <div onClick={triggerInput}>편집</div>;
 }
 ```
 
-### 2-2. Guard 컴포넌트 패턴
+### 2-2. Props 설계 원칙
+
+**인터페이스 선언 순서**
+
+```tsx
+interface ComponentProps {
+  // 1. 필수 데이터 props
+  title: string;
+  userId: string;
+
+  // 2. 선택적 데이터 props
+  description?: string;
+
+  // 3. 이벤트 핸들러
+  onSubmit?: (data: FormData) => void;
+
+  // 4. className 항상 마지막
+  className?: string;
+}
+
+// 금지
+interface BadProps {
+  data: any;           // any 금지
+  onClick: Function;   // Function 타입 금지 — 구체적 시그니처 사용
+}
+```
+
+**className**: 모든 UI 컴포넌트는 `className` prop을 허용해 소비자가 레이아웃·스타일을 제어할 수 있게 한다.
+
+**children**: 기본 UI가 있되, `children`을 전달하면 완전히 교체할 수 있어야 한다.
+
+```tsx
+<ImageUpload.Upload />                   // 기본 UI
+<ImageUpload.Upload><Custom /></ImageUpload.Upload>  // 커스텀 UI로 교체
+```
+
+**동작 변형**: boolean prop으로 표현한다.
+
+```tsx
+<ImageUpload.Preview allowReupload />  // 클릭 시 재업로드 허용
+```
+
+### 2-3. Guard 컴포넌트 패턴
 
 조건부 렌더링에 `&&` 연산자를 사용하지 않는다. Guard 컴포넌트로 분리한다.
 
@@ -181,7 +250,27 @@ function OwnerGuard({ userId, children }: { userId: string; children: ReactNode 
 
 Guard 이름 규칙: `[조건]Guard` (예: `AuthGuard`, `OwnerGuard`, `AdminGuard`)
 
-### 2-3. Server vs Client Component
+### 2-4. CVA(class-variance-authority) 사용 기준
+
+variant가 **2개 이상의 독립 변형**이 필요할 때만 CVA를 도입한다. 단일 스타일이면 `cn()`으로 충분하다.
+
+```tsx
+// 도입 기준 충족 (variant × size 조합)
+const buttonVariants = cva('inline-flex items-center ...', {
+  variants: {
+    variant: { default: '...', destructive: '...', ghost: '...' },
+    size:    { default: '...', sm: '...', lg: '...' },
+  },
+  defaultVariants: { variant: 'default', size: 'default' },
+});
+
+// 도입 불필요 — cn()으로 충분
+function Badge({ className }: { className?: string }) {
+  return <span className={cn('rounded-full px-2 text-xs', className)} />;
+}
+```
+
+### 2-5. Server vs Client Component
 
 - `'use client'`는 트리의 **최하위 leaf 컴포넌트**에만 붙인다.
 - 데이터 페칭은 Server Component 우선, 클라이언트 상태가 필요한 경우에만 `'use client'` 도입.
@@ -196,33 +285,7 @@ app/
                 └── LikeButton.tsx  ← 'use client' (상호작용 필요)
 ```
 
-### 2-4. Props 인터페이스 규칙
-
-```tsx
-// 규칙
-interface ComponentProps {
-  // 1. 필수 데이터 props 먼저
-  title: string;
-  userId: string;
-
-  // 2. 선택적 데이터 props
-  description?: string;
-
-  // 3. 이벤트 핸들러
-  onSubmit?: (data: FormData) => void;
-
-  // 4. className 항상 마지막
-  className?: string;
-}
-
-// 금지
-interface BadProps {
-  data: any;           // any 금지
-  onClick: Function;   // Function 타입 금지 — 구체적 시그니처 사용
-}
-```
-
-### 2-5. Skeleton / Loading 패턴
+### 2-6. Skeleton / Loading 패턴
 
 각 데이터 컴포넌트는 대응하는 Skeleton을 함께 제공한다.
 
@@ -234,7 +297,6 @@ components/
 ```
 
 ```tsx
-// post-card-skeleton.tsx
 export function PostCardSkeleton() {
   return (
     <div className="px-4 py-4 border-b border-border">
@@ -248,6 +310,25 @@ export function PostCardSkeleton() {
   );
 }
 ```
+
+### 2-7. 안티패턴
+
+**소비자에게 구현 세부사항 노출 (금지)**
+
+```tsx
+// 나쁜 예 — settings-form.tsx가 직접 FileReader를 관리
+const [previewUrl, setPreviewUrl] = useState(image);
+const fileInputRef = useRef<HTMLInputElement>(null);
+useEffect(() => {
+  const reader = new FileReader();
+  reader.onloadend = e => setPreviewUrl(e.target?.result as string);
+  reader.readAsDataURL(avatarFile);
+}, [avatarFile]);
+```
+
+**중복 구현 (금지)**: 같은 기능(이미지 업로드 + 미리보기 등)을 여러 페이지에서 각자 구현하지 않는다. 공통 compound component를 만들어 재사용한다.
+
+**역할 없는 wrapper (금지)**: 상태도 없고 로직도 없이 단순히 조건부 렌더만 하는 컴포넌트는 만들지 않는다. 조건부 렌더 책임은 compound component의 subcomponent가 스스로 갖는다.
 
 ---
 
