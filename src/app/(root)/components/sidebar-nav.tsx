@@ -1,31 +1,43 @@
+'use client';
+
 import { MdOutlineAccessTime, MdOutlineTrendingUp } from 'react-icons/md';
 import { BiBell, BiGroup } from 'react-icons/bi';
 import { IoCreateOutline } from 'react-icons/io5';
 import SidebarUserMenu, { SignedIn, SignedOut, SignOnUserMenu, NotSignOnUserMenu } from './sidebar-user-menu';
 import SidebarNavItems from './sidebar-nav-items';
 import NavbarLogo from './navbar-logo';
-import { auth } from '@/auth';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useParams } from 'next/navigation';
 
-export default async function SidebarNav() {
-	const session = await auth();
-	const user = session?.user;
+export default function SidebarNav() {
+	const session = useSession();
+	const { slug } = useParams();
+	const user = session.data?.user;
 
 	const navItems = [
 		{
+			id: 'new',
 			href: '/new',
 			label: '홈 피드',
 			icon: <MdOutlineAccessTime size={22} />,
 			match: ['/', '/new']
 		},
 		{
+			id: 'trends',
 			href: '/trends',
 			label: '트렌드',
 			icon: <MdOutlineTrendingUp size={22} />,
 			match: ['/trends']
 		},
-		{ href: '/notifications', label: '알림', icon: <BiBell size={22} />, match: ['/notifications'] },
-		{ href: '/following', label: '팔로잉', icon: <BiGroup size={22} />, match: ['/following'] }
+		{
+			id: 'notifications',
+			href: '/notifications',
+			label: '알림',
+			icon: <BiBell size={22} />,
+			match: ['/notifications']
+		},
+		{ id: 'following', href: '/following', label: '팔로잉', icon: <BiGroup size={22} />, match: ['/following'] }
 	];
 
 	return (
@@ -34,7 +46,7 @@ export default async function SidebarNav() {
 				<NavbarLogo />
 			</Link>
 
-			<SidebarNavItems items={navItems} />
+			<SidebarNavItems items={navItems} onActive={id => id === slug} />
 
 			<div className="mt-4">
 				<Link

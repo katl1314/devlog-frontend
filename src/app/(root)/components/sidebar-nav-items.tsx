@@ -1,6 +1,5 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 interface NavigationItem {
@@ -11,13 +10,16 @@ interface NavigationItem {
 	match: string[];
 }
 
-export default function SidebarNavItems({ items }: { items: NavigationItem[] }) {
-	const searchParams = useSearchParams();
-	const tab = searchParams.get('tab') || 'post';
+interface SidebarNavItems {
+	items: NavigationItem[];
+	onActive: (id: string) => boolean;
+}
+
+export default function SidebarNavItems({ items, onActive }: SidebarNavItems) {
 	return (
 		<div className="flex flex-col gap-1 flex-1">
 			{items.map(item => {
-				const isActive = item.id === tab;
+				const isActive = onActive(item.id);
 				return (
 					<Link
 						key={item.label}

@@ -1,3 +1,5 @@
+'use client';
+
 import SidebarUserMenu, {
 	SignedIn,
 	SignedOut,
@@ -10,8 +12,9 @@ import NavbarLogo from '@/app/(root)/components/navbar-logo';
 import { Separator } from '@/components/ui/separator';
 import { MdOutlineAccessTime } from 'react-icons/md';
 import { IoCreateOutline } from 'react-icons/io5';
-import { auth } from '@/auth';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 
 const profileNavItems = (userId: string) => [
 	{
@@ -37,9 +40,10 @@ const profileNavItems = (userId: string) => [
 	}
 ];
 
-export default async function UserSidebarNav({ userId }: { userId: string }) {
-	const session = await auth();
-	const user = session?.user;
+export default function UserSidebarNav({ userId }: { userId: string }) {
+	const session = useSession();
+	const searchParams = useSearchParams();
+	const user = session.data?.user;
 
 	return (
 		<nav className="flex flex-col h-screen sticky top-0 overflow-y-auto py-6 px-3 xl:px-5">
@@ -59,7 +63,13 @@ export default async function UserSidebarNav({ userId }: { userId: string }) {
 
 			<Separator className="mb-3" />
 
-			<SidebarNavItems items={profileNavItems(userId)} />
+			<SidebarNavItems
+				items={profileNavItems(userId)}
+				onActive={id => {
+					const tab = searchParams.get('tab') || 'post';
+					return tab === id;
+				}}
+			/>
 
 			<div className="mt-4">
 				<Link

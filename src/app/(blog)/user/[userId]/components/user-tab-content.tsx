@@ -1,4 +1,5 @@
 import UserAboutSection from '@/app/(blog)/user/components/user-about-section';
+import UserSeriesSection from '@/app/(blog)/user/components/user-series-section';
 import PostList from '@/components/post/post-list';
 import PostSkeleton from './skeleton/post-skeleton';
 import { Suspense } from 'react';
@@ -16,7 +17,7 @@ const TAB_RENDERERS: Record<string, (user: User) => React.ReactNode> = {
 	about: user => (
 		<UserAboutSection description={user.blog?.description} socials={user.socials} created_at={user.created_at} />
 	),
-	series: () => <>Series</>,
+	series: user => <UserSeriesSection userId={user.user_id} />,
 	post: user => (
 		<section className="min-h-125">
 			<Suspense fallback={<PostFallback />}>
