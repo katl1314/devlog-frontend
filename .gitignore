@@ -54,4 +54,5 @@ frontend.iml
 CLAUDE.md
 settings.local.json
 .claude
+.mcp.json
 report/.next

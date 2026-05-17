@@ -46,7 +46,7 @@ export default function ModalWrapper({ children }: { children: React.ReactNode }
 			>
 				<FiX size={24} />
 			</button>
-			<div className="relative flex flex-col w-full h-full md:h-auto md:max-w-4xl md:max-h-[90vh] bg-background md:border md:border-border md:rounded-lg overflow-hidden">
+			<div className="relative flex flex-col w-full h-full md:h-auto md:max-w-5xl md:max-h-[95vh] bg-background md:border md:border-border md:rounded-lg overflow-hidden">
 				<div className="flex-1 overflow-y-auto scrollbar-thin p-6">{children}</div>
 			</div>
 		</div>,
