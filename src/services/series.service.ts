@@ -6,6 +6,7 @@ export interface Series {
 	name: string;
 	description: string | null;
 	thumbnail: string | null;
+	post_count?: number;
 	created_at: string;
 	updated_at: string;
 }

@@ -64,5 +64,6 @@ export const apiClient = async (
 		);
 	}
 
-	return await res.json();
+	const text = await res.text();
+	return text ? JSON.parse(text) : null;
 };

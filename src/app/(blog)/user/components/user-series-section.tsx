@@ -7,13 +7,8 @@ import { useEffect, useState } from 'react';
 import { seriesService, Series } from '@/services/series.service';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { ConfirmDialog } from '@/components/confirm-dialog';
 
 export default function UserSeriesSection({ userId }: { userId: string }) {
 	const { data: session } = useSession();
@@ -38,7 +33,7 @@ export default function UserSeriesSection({ userId }: { userId: string }) {
 		<div className="p-4 sm:p-6">
 			{isOwner && (
 				<div className="mb-4 flex justify-end">
-					<SeriesFormDialog onSuccess={loadSeries} accessToken={session!.accessToken}>
+					<SeriesFormDialog onSuccess={loadSeries} accessToken={session!.accessToken!}>
 						<Button size="sm" className="gap-1.5 cursor-pointer">
 							<Plus size={15} /> 시리즈 추가
 						</Button>
@@ -84,12 +79,11 @@ function SeriesCard({ series, userId, isOwner, accessToken, onMutate }: SeriesCa
 	const updatedAt = new Date(series.updated_at).toLocaleDateString('ko-KR', {
 		year: 'numeric',
 		month: 'long',
-		day: 'numeric',
+		day: 'numeric'
 	});
 
 	const handleDelete = async () => {
 		if (!accessToken) return;
-		if (!confirm(`"${series.name}" 시리즈를 삭제하시겠습니까?\n포스트는 시리즈에서 제외되지만 삭제되지 않습니다.`)) return;
 		await seriesService.remove(series.id, accessToken);
 		onMutate();
 	};
@@ -113,28 +107,32 @@ function SeriesCard({ series, userId, isOwner, accessToken, onMutate }: SeriesCa
 					<h3 className="font-bold text-[15px] leading-snug text-foreground mb-2 line-clamp-2 group-hover:text-blue-500 transition-colors">
 						{series.name}
 					</h3>
-					<p className="text-xs text-muted-foreground">{updatedAt}</p>
+					<div className="flex items-center justify-between">
+						<p className="text-xs text-muted-foreground">{updatedAt}</p>
+						<p className="text-xs font-medium text-muted-foreground">{series.post_count ?? 0}개의 포스트</p>
+					</div>
 				</div>
 			</a>
 
 			{/* 오너 액션 버튼 */}
 			{isOwner && accessToken && (
 				<div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-					<SeriesFormDialog
-						series={series}
-						onSuccess={onMutate}
-						accessToken={accessToken}
-					>
+					<SeriesFormDialog series={series} onSuccess={onMutate} accessToken={accessToken}>
 						<button className="p-1.5 rounded-lg bg-background/80 backdrop-blur hover:bg-background border border-border cursor-pointer">
 							<Pencil size={13} />
 						</button>
 					</SeriesFormDialog>
-					<button
-						onClick={handleDelete}
-						className="p-1.5 rounded-lg bg-background/80 backdrop-blur hover:bg-background border border-border cursor-pointer text-red-500"
+					<ConfirmDialog
+						title={`${series.name} 삭제`}
+						description="포스트는 삭제되지 않고 시리즈에서만 제외됩니다."
+						confirmText="삭제"
+						variant="destructive"
+						onConfirm={handleDelete}
 					>
-						<Trash2 size={13} />
-					</button>
+						<button className="p-1.5 rounded-lg bg-background/80 backdrop-blur hover:bg-background border border-border cursor-pointer text-red-500">
+							<Trash2 size={13} />
+						</button>
+					</ConfirmDialog>
 				</div>
 			)}
 		</div>
@@ -166,7 +164,11 @@ function SeriesFormDialog({ series, onSuccess, accessToken, children }: SeriesFo
 		setSubmitting(true);
 		try {
 			if (series) {
-				await seriesService.update(series.id, { name: name.trim(), description: description.trim() || undefined }, accessToken);
+				await seriesService.update(
+					series.id,
+					{ name: name.trim(), description: description.trim() || undefined },
+					accessToken
+				);
 			} else {
 				await seriesService.create({ name: name.trim(), description: description.trim() || undefined }, accessToken);
 			}

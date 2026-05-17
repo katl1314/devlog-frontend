@@ -1,5 +1,4 @@
 import { seriesService } from '@/services/series.service';
-import { postService } from '@/services/post.service';
 import { BookOpen, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import PostCard from '@/components/post/post-card';
@@ -52,7 +51,7 @@ export default async function UserSeriesDetail({ seriesId, userId }: Props) {
 			) : (
 				<div className="divide-y divide-border">
 					{posts.map((post: any) => (
-						<PostCard key={post.id} post={post} />
+						<PostCard key={post.id} {...post} />
 					))}
 				</div>
 			)}
