@@ -11,9 +11,10 @@ export const authService = {
 
 	/** 이메일/비밀번호 로그인 */
 	async signInWithCredentials(email: string, password: string) {
+		const token = Buffer.from(`${email}:${password}`).toString('base64');
 		return apiClient('/auth/signIn/credentials', {
 			method: 'POST',
-			body: JSON.stringify({ email, password })
+			headers: { Authorization: `Basic ${token}` }
 		});
 	},
 

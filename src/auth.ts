@@ -64,15 +64,16 @@ export const { handlers, auth } = NextAuth({
 			async authorize({ email, password }) {
 				if (!email || !password) return null;
 				try {
-					const user = await authService.signInWithCredentials(
-						email as string,
-						password as string
-					);
+					const { userId, email: userEmail, user_name, avatar_url } =
+						await authService.signInWithCredentials(
+							email as string,
+							password as string
+						);
 					return {
-						id: user.user_id,
-						email: user.email,
-						name: user.user_name,
-						image: user.avatar_url,
+						id: userId,
+						email: userEmail,
+						name: user_name,
+						image: avatar_url,
 						role: 'user'
 					};
 				} catch {
