@@ -19,7 +19,7 @@ export async function generateStaticParams() {
 
 type Props = {
 	params: Promise<{ userId: string }>;
-	searchParams?: Promise<{ tab?: string }>;
+	searchParams?: Promise<{ tab?: string; id?: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params, searchParams }: Props) {
 	const { userId } = await params;
-	const { tab } = (await searchParams) ?? {};
+	const { tab, id } = (await searchParams) ?? {};
 
 	let user;
 	try {
@@ -54,7 +54,7 @@ export default async function Page({ params, searchParams }: Props) {
 				/>
 			</div>
 			<UserProfileTabNav userId={userId} />
-			<UserTabContent tab={tab} user={user} />
+			<UserTabContent tab={tab} seriesId={id} user={user} />
 		</>
 	);
 }

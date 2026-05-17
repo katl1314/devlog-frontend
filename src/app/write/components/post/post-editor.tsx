@@ -21,8 +21,8 @@ const Editor = dynamic(() => import('@/components/editor/editor'), {
 	ssr: false
 });
 
-export default function PostEditor({ blog }: any) {
-	const { title, content, visibility, tags, path, summary, file, setTitle, setContent, setTags, reset } = usePost();
+export default function PostEditor({ blog, user_id }: any) {
+	const { title, content, visibility, tags, path, summary, file, seriesId, setTitle, setContent, setTags, reset } = usePost();
 	const [state, formAction] = useActionState(savePost, { status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
 
@@ -67,6 +67,7 @@ export default function PostEditor({ blog }: any) {
 			formData.set('path', postPath);
 			formData.set('summary', summary ?? '');
 			formData.set('tags', JSON.stringify(tags));
+			if (seriesId != null) formData.set('series_id', seriesId);
 
 			startTransition(() => {
 				formAction(formData);
@@ -81,8 +82,8 @@ export default function PostEditor({ blog }: any) {
 		<>
 			{/* 팝업 (로직 유지) */}
 			<Modal open={isModalOpen} onAfterClose={() => setModalOpen(false)} className="w-full md:min-w-[700px] md:w-[50%]">
-				<form onSubmit={handleSubmit}>
-					<PostSetting {...blog} />
+				<form onSubmit={handleSubmit} className="py-2">
+					<PostSetting url_slug={blog.url_slug} userId={user_id} />
 				</form>
 			</Modal>
 
@@ -126,14 +127,14 @@ export default function PostEditor({ blog }: any) {
 						id="temp_save"
 						type="button"
 						variant="ghost"
-						className="text-neutral-600 font-bold hover:bg-neutral-100"
+						className="text-muted-foreground font-bold hover:bg-muted hover:text-foreground"
 					>
 						임시저장
 					</Button>
 					<Button
 						type="button"
 						onClick={() => setModalOpen(true)}
-						className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6"
+						className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 shadow-lg shadow-indigo-200 hover:shadow-indigo-300 transition-all duration-200 active:scale-95"
 					>
 						다음
 					</Button>

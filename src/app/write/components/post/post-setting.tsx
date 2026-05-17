@@ -1,13 +1,14 @@
 'use client';
 
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler, useEffect, useState } from 'react';
 import { usePost } from '@/hooks/post';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { FiGlobe, FiLock, FiUploadCloud } from 'react-icons/fi';
 import ImageUpload from '@/components/image-upload';
+import { seriesService, Series } from '@/services/series.service';
 
-export default function PostSetting({ url_slug }: { url_slug: string }) {
+export default function PostSetting({ url_slug, userId }: { url_slug: string; userId: string }) {
 	const {
 		summary,
 		setSummary,
@@ -15,17 +16,26 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 		setVisibility,
 		path,
 		setPath,
-		setFile
+		setFile,
+		seriesId,
+		setSeriesId
 	} = usePost();
+
+	const [seriesList, setSeriesList] = useState<Series[]>([]);
+
+	useEffect(() => {
+		if (!userId) return;
+		seriesService.findByUserId(userId).then(setSeriesList).catch(() => {});
+	}, [userId]);
 
 	const handlePathChange: ChangeEventHandler<HTMLInputElement> = ev =>
 		setPath(ev.target.value.replace(/\s+/g, '-').toLowerCase());
 
 	return (
-		<div className="flex flex-col md:flex-row w-full h-auto md:h-[550px] overflow-hidden rounded-2xl bg-background shadow-xl border border-border">
+		<div className="flex flex-col md:flex-row w-full h-auto md:h-137.5 overflow-hidden rounded-2xl bg-background shadow-xl border border-border">
 			{/* --- 좌측: 썸네일 영역 --- */}
-			<div className="w-full md:w-2/5 bg-muted border-b md:border-b-0 md:border-r border-border flex flex-col items-center justify-center p-6 md:p-8 relative min-h-[250px] md:min-h-auto">
-				<div className="absolute inset-0 opacity-40 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:20px_20px]" />
+			<div className="w-full md:w-2/5 bg-muted border-b md:border-b-0 md:border-r border-border flex flex-col items-center justify-center p-6 md:p-8 relative min-h-62.5 md:min-h-auto">
+				<div className="absolute inset-0 opacity-40 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] bg-size-[20px_20px]" />
 
 				<div className="relative z-10 w-full flex flex-col items-center">
 					<h3 className="text-lg font-bold text-foreground mb-4 md:mb-6">
@@ -53,7 +63,7 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 
 			{/* --- 우측: 설정 폼 영역 --- */}
 			<div className="w-full md:w-3/5 p-6 md:p-8 flex flex-col bg-background">
-				<div className="flex-1 space-y-5 md:space-y-7">
+				<div className="flex-1 space-y-5 md:space-y-6">
 					{/* 1. 공개 범위 설정 */}
 					<div className="space-y-2 md:space-y-3">
 						<Label className="text-sm font-bold text-foreground">
@@ -85,7 +95,24 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 						</div>
 					</div>
 
-					{/* 2. URL 설정 */}
+					{/* 2. 시리즈 선택 */}
+					<div className="space-y-2 md:space-y-3">
+						<Label className="text-sm font-bold text-foreground">시리즈</Label>
+						<select
+							value={seriesId ?? ''}
+							onChange={ev => setSeriesId(ev.target.value || null)}
+							className="w-full bg-muted rounded-lg border border-transparent focus:border-indigo-500 focus:bg-background focus:ring-4 focus:ring-indigo-500/10 px-4 py-3 text-sm text-foreground outline-none transition-all duration-200 cursor-pointer"
+						>
+							<option value="">시리즈 없음</option>
+							{seriesList.map(s => (
+								<option key={s.id} value={s.id}>
+									{s.name}
+								</option>
+							))}
+						</select>
+					</div>
+
+					{/* 3. URL 설정 */}
 					<div className="space-y-2 md:space-y-3">
 						<Label className="text-sm font-bold text-foreground">URL 설정</Label>
 						<div className="flex items-center bg-muted rounded-lg px-4 border border-transparent focus-within:border-indigo-500 focus-within:bg-background focus-within:ring-4 focus-within:ring-indigo-500/10 transition-all duration-200">
@@ -102,7 +129,7 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 						</div>
 					</div>
 
-					{/* 3. 포스트 요약 */}
+					{/* 4. 포스트 요약 */}
 					<div className="space-y-2 md:space-y-3">
 						<div className="flex justify-between items-end">
 							<Label className="text-sm font-bold text-foreground">
@@ -118,13 +145,13 @@ export default function PostSetting({ url_slug }: { url_slug: string }) {
 							value={summary}
 							onChange={ev => setSummary(ev.target.value)}
 							placeholder="이 포스트를 짧게 소개해보세요."
-							className="w-full h-24 md:h-28 bg-muted rounded-lg border border-transparent focus:border-indigo-500 focus:bg-background focus:ring-4 focus:ring-indigo-500/10 p-4 text-sm resize-none transition-all duration-200 placeholder:text-muted-foreground outline-none"
+							className="w-full h-20 md:h-24 bg-muted rounded-lg border border-transparent focus:border-indigo-500 focus:bg-background focus:ring-4 focus:ring-indigo-500/10 p-4 text-sm resize-none transition-all duration-200 placeholder:text-muted-foreground outline-none"
 							maxLength={150}
 						/>
 					</div>
 				</div>
 
-				{/* 4. 하단 버튼 그룹 */}
+				{/* 5. 하단 버튼 그룹 */}
 				<div className="flex justify-end gap-3 pt-6 mt-2 border-t border-border">
 					<Button
 						variant="ghost"

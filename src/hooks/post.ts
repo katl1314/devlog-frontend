@@ -8,7 +8,8 @@ const initialState = {
 	visibility: true,
 	summary: '',
 	path: '',
-	file: null as File | null
+	file: null as File | null,
+	seriesId: null as string | null
 };
 
 interface Post {
@@ -20,14 +21,16 @@ interface Post {
 	thumbnail: string;
 	summary: string;
 	file: File | undefined | null;
+	seriesId: string | null;
 	setTitle: (title: string) => void;
 	setContent: (content: string) => void;
 	setTags: (tags: string[]) => void;
 	setThumbnail: (thumbnail: string) => void;
 	setVisibility: (visibility: boolean) => void;
-	setSummary: (sumary: string) => void;
+	setSummary: (summary: string) => void;
 	setPath: (path: string) => void;
 	setFile: (file: File) => void;
+	setSeriesId: (seriesId: string | null) => void;
 	reset: () => void;
 }
 
@@ -41,5 +44,6 @@ export const usePost = create<Post>(set => ({
 	setSummary: summary => set({ summary }),
 	setPath: path => set({ path }),
 	setFile: file => set({ file }),
+	setSeriesId: seriesId => set({ seriesId }),
 	reset: () => set(initialState)
 }));
