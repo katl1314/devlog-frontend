@@ -190,7 +190,7 @@ function Item({
 			className={cn(
 				'flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-medium transition-colors cursor-pointer text-left w-full',
 				variant === 'default' && 'hover:bg-muted',
-				variant === 'destructive' && 'text-destructive hover:bg-destructive/10',
+				variant === 'destructive' && 'hover:bg-muted',
 				className
 			)}
 			onClick={handleClick}

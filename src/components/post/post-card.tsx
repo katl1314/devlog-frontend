@@ -49,7 +49,7 @@ export default function PostCard({
 				<div className="flex justify-between items-start gap-4">
 					{/* 텍스트 */}
 					<div className="flex-1 min-w-0">
-						<h3 className="text-[17px] font-bold leading-snug text-foreground mb-1.5 line-clamp-2 tracking-tight group-hover:text-blue-500 transition-colors">
+						<h3 className="text-[17px] font-bold leading-snug text-foreground mb-1.5 line-clamp-2 tracking-tight group-hover:text-foreground/70 transition-colors">
 							{title}
 						</h3>
 						<p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
@@ -58,7 +58,7 @@ export default function PostCard({
 					</div>
 					{/* 썸네일 */}
 					{thumbnail && (
-						<div className="relative w-[88px] h-[88px] shrink-0 rounded-xl overflow-hidden">
+						<div className="relative w-22 h-22 shrink-0 rounded-xl overflow-hidden">
 							<Image
 								src={thumbnail}
 								alt={title}
@@ -71,11 +71,11 @@ export default function PostCard({
 
 				{/* 푸터 */}
 				<div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
-					<div className="flex items-center gap-1.5 hover:text-rose-500 transition-colors">
+					<div className="flex items-center gap-1.5 hover:text-foreground transition-colors">
 						<GoHeart size={15} />
 						<span>{likes.length}</span>
 					</div>
-					<div className="flex items-center gap-1.5 hover:text-blue-500 transition-colors">
+					<div className="flex items-center gap-1.5 hover:text-foreground transition-colors">
 						<GoComment size={15} />
 						<span>{comments.length}</span>
 					</div>

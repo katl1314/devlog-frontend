@@ -323,7 +323,7 @@ function Item({ comment }: ItemProps) {
 						<button
 							type="button"
 							onClick={() => deleteComment(comment.id)}
-							className="text-sm text-muted-foreground hover:text-destructive cursor-pointer"
+							className="text-sm text-muted-foreground hover:text-foreground cursor-pointer"
 						>
 							삭제
 						</button>

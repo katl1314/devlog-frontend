@@ -58,7 +58,7 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 					key={tag}
 					className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-muted text-foreground hover:bg-muted/70 transition-colors duration-200 cursor-default animate-in fade-in zoom-in-95"
 				>
-					<span className="text-emerald-500 mr-1 font-bold">#</span>
+					<span className="text-muted-foreground mr-1">#</span>
 					{tag}
 				</span>
 			))}
@@ -77,7 +77,7 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 					<button
 						type="button"
 						onClick={() => addTag(inputValue)}
-						className="shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500 text-white hover:bg-emerald-600 transition-colors cursor-pointer"
+						className="shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-foreground text-background hover:bg-foreground/80 transition-colors cursor-pointer"
 					>
 						<FiPlus size={14} />
 					</button>

@@ -43,8 +43,8 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 					</h3>
 
 					<ImageUpload onFileChange={file => file && setFile(file)}>
-						<ImageUpload.Upload className="w-full aspect-video bg-background rounded-xl border-2 border-dashed border-muted-foreground/30 flex flex-col items-center justify-center text-muted-foreground gap-3 group hover:border-indigo-400 hover:text-indigo-500 transition-all duration-300 cursor-pointer">
-							<div className="p-3 md:p-4 rounded-full bg-muted group-hover:bg-indigo-50 transition-colors">
+						<ImageUpload.Upload className="w-full aspect-video bg-background rounded-xl border-2 border-dashed border-muted-foreground/30 flex flex-col items-center justify-center text-muted-foreground gap-3 group hover:border-foreground/30 hover:text-foreground transition-all duration-300 cursor-pointer">
+							<div className="p-3 md:p-4 rounded-full bg-muted group-hover:bg-muted/60 transition-colors">
 								<FiUploadCloud size={28} className="md:w-8 md:h-8" />
 							</div>
 							<span className="text-xs md:text-sm font-semibold">

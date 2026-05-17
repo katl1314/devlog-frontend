@@ -112,7 +112,7 @@ const DesktopMenu = ({ image, id: userId, name, onAction }: UserMenuProps) => {
 					</DropdownMenuItem>
 					<DropdownMenuSeparator className="my-1" />
 					<DropdownMenuItem
-						className="flex items-center gap-2.5 focus:bg-destructive/10 cursor-pointer rounded-xl px-3 py-2.5 text-sm"
+						className="flex items-center gap-2.5 cursor-pointer rounded-xl px-3 py-2.5 text-sm"
 						onClick={() => onAction('logout')}
 					>
 						<BiLogOut size={16} />

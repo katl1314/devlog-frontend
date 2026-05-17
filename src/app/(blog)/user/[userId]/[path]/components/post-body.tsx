@@ -146,7 +146,7 @@ const MarkdownView = ({ content }: { content: string }) => {
 				),
 				a: ({ node, ...props }) => (
 					<a
-						className="text-[#12b886] font-medium hover:text-[#0ca678] hover:underline transition-colors duration-200"
+						className="text-foreground font-medium hover:text-foreground/70 hover:underline transition-colors duration-200"
 						{...props}
 					/>
 				)

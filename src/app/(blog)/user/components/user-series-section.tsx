@@ -104,7 +104,7 @@ function SeriesCard({ series, userId, isOwner, accessToken, onMutate }: SeriesCa
 
 				{/* 정보 */}
 				<div className="p-4">
-					<h3 className="font-bold text-[15px] leading-snug text-foreground mb-2 line-clamp-2 group-hover:text-blue-500 transition-colors">
+					<h3 className="font-bold text-[15px] leading-snug text-foreground mb-2 line-clamp-2 group-hover:text-foreground/70 transition-colors">
 						{series.name}
 					</h3>
 					<div className="flex items-center justify-between">
