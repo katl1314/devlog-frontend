@@ -167,14 +167,19 @@ export const { handlers, auth } = NextAuth({
 		async session({ session, token }) {
 			// 클라이언트에서 사용할 세션 필드 구성
 			if (token && session.user) {
-				const user = await userService.findUserById(token.userId);
-				session.user.id = token.userId;
-				session.user.userId = token.userId;
-				session.user.role = token.role;
-				session.user.name = user.user_name;
-				session.user.image = token.image;
-				session.accessToken = token.accessToken;
-				session.refreshToken = token.refreshToken;
+				try {
+					const user = await userService.findUserById(token.userId);
+					session.user.id = token.userId;
+					session.user.userId = token.userId;
+					session.user.role = token.role;
+					session.user.name = user.user_name;
+					session.user.image = token.image;
+					session.accessToken = token.accessToken;
+					session.refreshToken = token.refreshToken;
+				} catch {
+					// 유저 없음(404) 또는 백엔드 장애 → 세션 무효화
+					return null as any;
+				}
 			}
 			return session;
 		}

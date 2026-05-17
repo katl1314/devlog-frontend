@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { BookOpen, Plus, Pencil, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
@@ -91,7 +92,7 @@ function SeriesCard({ series, userId, isOwner, accessToken, onMutate }: SeriesCa
 	return (
 		<div className="group bg-muted border border-border rounded-2xl overflow-hidden hover:border-foreground/20 transition-colors relative">
 			{/* 썸네일 */}
-			<a href={`/@${userId}?tab=series&id=${series.id}`} className="block">
+			<Link href={`/@${userId}?tab=series&id=${series.id}`} className="block">
 				<div className="relative w-full aspect-video bg-background">
 					{series.thumbnail ? (
 						<Image src={series.thumbnail} alt={series.name} fill className="object-cover" />
@@ -112,7 +113,7 @@ function SeriesCard({ series, userId, isOwner, accessToken, onMutate }: SeriesCa
 						<p className="text-xs font-medium text-muted-foreground">{series.post_count ?? 0}개의 포스트</p>
 					</div>
 				</div>
-			</a>
+			</Link>
 
 			{/* 오너 액션 버튼 */}
 			{isOwner && accessToken && (
