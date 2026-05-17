@@ -82,7 +82,7 @@ export default function PostEditor({ blog, user_id }: any) {
 		<>
 			{/* 팝업 (로직 유지) */}
 			<Modal open={isModalOpen} onAfterClose={() => setModalOpen(false)} className="w-full md:min-w-[700px] md:w-[50%]">
-				<form onSubmit={handleSubmit} className="py-2">
+				<form onSubmit={handleSubmit}>
 					<PostSetting url_slug={blog.url_slug} userId={user_id} />
 				</form>
 			</Modal>
@@ -134,7 +134,7 @@ export default function PostEditor({ blog, user_id }: any) {
 					<Button
 						type="button"
 						onClick={() => setModalOpen(true)}
-						className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 shadow-lg shadow-indigo-200 hover:shadow-indigo-300 transition-all duration-200 active:scale-95"
+						className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 transition-all duration-200 active:scale-95"
 					>
 						다음
 					</Button>

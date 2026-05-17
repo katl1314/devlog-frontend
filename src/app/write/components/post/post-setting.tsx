@@ -32,7 +32,7 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 		setPath(ev.target.value.replace(/\s+/g, '-').toLowerCase());
 
 	return (
-		<div className="flex flex-col md:flex-row w-full h-auto md:h-137.5 overflow-hidden rounded-2xl bg-background shadow-xl border border-border">
+		<div className="flex flex-col md:flex-row w-full h-auto md:h-137.5 overflow-hidden">
 			{/* --- 좌측: 썸네일 영역 --- */}
 			<div className="w-full md:w-2/5 bg-muted border-b md:border-b-0 md:border-r border-border flex flex-col items-center justify-center p-6 md:p-8 relative min-h-62.5 md:min-h-auto">
 				<div className="absolute inset-0 opacity-40 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] bg-size-[20px_20px]" />
@@ -152,7 +152,7 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 				</div>
 
 				{/* 5. 하단 버튼 그룹 */}
-				<div className="flex justify-end gap-3 pt-6 mt-2 border-t border-border">
+				<div className="flex justify-end gap-3 pt-5 pb-4 mt-2 border-t border-border">
 					<Button
 						variant="ghost"
 						className="text-muted-foreground hover:bg-muted hover:text-foreground font-semibold px-5"
@@ -161,7 +161,7 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 					</Button>
 					<Button
 						type="submit"
-						className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-2.5 rounded-lg shadow-lg shadow-indigo-200 hover:shadow-indigo-300 transition-all duration-200 transform active:scale-95"
+						className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-2.5 rounded-lg transition-all duration-200 active:scale-95"
 					>
 						게시하기
 					</Button>
