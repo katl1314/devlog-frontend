@@ -42,7 +42,7 @@ export default async function RootLayout({
 	}
 
 	return (
-		<html lang="ko">
+		<html lang="ko" suppressHydrationWarning>
 			<body className={`${inter.className} relative`}>
 				<Providers session={session}>
 					<ThemeProvider initialTheme={initialTheme} />
