@@ -104,11 +104,8 @@ export const { handlers, auth } = NextAuth({
 	},
 	callbacks: {
 		async signIn({ user, account }) {
-			// credentials 계정은 authorize()에서 이미 검증됨
-			if (
-				account?.provider === 'signup-complete' ||
-				account?.provider === 'credentials'
-			) {
+			// signup-complete: 회원가입 완료 직후, 별도 검증 불필요
+			if (account?.provider === 'signup-complete') {
 				return true;
 			}
 			try {
@@ -116,14 +113,39 @@ export const { handlers, auth } = NextAuth({
 				try {
 					dbUser = await userService.findUserByEmail(user.email!);
 				} catch {
-					// 404 → 신규 유저 → 회원가입 플로우
+					// credentials: authorize()에서 이미 검증된 계정 → 404는 예외 상황
+					if (account?.provider === 'credentials') return false;
+					// OAuth: 신규 유저 → 회원가입 플로우
 					return await signUp(user, account);
 				}
-				const registered = String(dbUser.provider ?? '').toUpperCase();
-				const incoming = String(account?.provider ?? '').toUpperCase();
-				if (registered && incoming && registered !== incoming) {
-					return `/auth?error=provider_mismatch&registered=${encodeURIComponent(registered.toLowerCase())}`;
+
+				// 탈퇴 유예 계정 처리 (모든 provider 공통)
+				if ((dbUser as any).deleted_at) {
+					const elapsed = Date.now() - new Date((dbUser as any).deleted_at).getTime();
+					if (elapsed > 7 * 24 * 60 * 60 * 1000) {
+						return false; // 7일 경과: 로그인 거부
+					}
+					const cookieStore = await cookies();
+					const restoreInfo = stringToBase64(
+						JSON.stringify({ email: dbUser.email, deletedAt: (dbUser as any).deleted_at })
+					);
+					cookieStore.set('restore-token', restoreInfo, {
+						httpOnly: true,
+						maxAge: 15 * 60,
+						path: '/'
+					});
+					return '/auth/restore';
 				}
+
+				// credentials: provider 불일치 체크 불필요
+				if (account?.provider !== 'credentials') {
+					const registered = String(dbUser.provider ?? '').toUpperCase();
+					const incoming = String(account?.provider ?? '').toUpperCase();
+					if (registered && incoming && registered !== incoming) {
+						return `/auth?error=provider_mismatch&registered=${encodeURIComponent(registered.toLowerCase())}`;
+					}
+				}
+
 				return true;
 			} catch {
 				return false;
@@ -176,6 +198,7 @@ export const { handlers, auth } = NextAuth({
 					session.user.image = token.image;
 					session.accessToken = token.accessToken;
 					session.refreshToken = token.refreshToken;
+					(session.user as any).deletedAt = (user as any).deleted_at ?? null;
 				} catch {
 					// 유저 없음(404) 또는 백엔드 장애 → 세션 무효화
 					return null as any;

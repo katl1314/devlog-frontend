@@ -3,7 +3,7 @@
 import { RegisterSchema, RegisterType } from '@/app/schema';
 import { userService } from '@/services/user.service';
 import { postService } from '@/services/post.service';
-import { isEmpty, parseFormData } from '@/utils';
+import { isEmpty, parseFormData, stringToBase64 } from '@/utils';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { auth } from '@/auth';
@@ -109,6 +109,25 @@ export const checkEmail = async (email: string): Promise<boolean> => {
 	return userService.has(email);
 };
 
+export const checkWithdrawal = async (email: string): Promise<boolean> => {
+	try {
+		const user = await userService.findUserByEmail(email);
+		const deletedAt = (user as any).deleted_at;
+		if (!deletedAt) return false;
+		const elapsed = Date.now() - new Date(deletedAt).getTime();
+		if (elapsed > 7 * 24 * 60 * 60 * 1000) return false;
+		const cookieStore = await cookies();
+		cookieStore.set('restore-token', stringToBase64(JSON.stringify({ email: (user as any).email, deletedAt })), {
+			httpOnly: true,
+			maxAge: 15 * 60,
+			path: '/'
+		});
+		return true;
+	} catch {
+		return false;
+	}
+};
+
 export const savePost = async (_: any, formData: FormData) => {
 	try {
 		const formObj = parseFormData(formData, { tags: 'object' });
@@ -171,5 +190,26 @@ export const deletePostAction = async (postId?: number) => {
 		revalidatePath('/', 'layout');
 	} catch {
 		return;
+	}
+};
+
+export const deleteAccount = async (): Promise<void> => {
+	const session = await auth();
+	if (!session?.user || !session.accessToken) throw new Error('Unauthorized');
+
+	await userService.deleteAccount(session.accessToken);
+};
+
+export const restoreUser = async (): Promise<{ ok: boolean; message?: string }> => {
+	try {
+		const cookieStore = await cookies();
+		const token = cookieStore.get('restore-token')?.value;
+		if (!token) return { ok: false, message: '복구 정보가 없습니다.' };
+
+		await userService.restore(token);
+		cookieStore.delete('restore-token');
+		return { ok: true };
+	} catch {
+		return { ok: false, message: '계정 복구에 실패했습니다.' };
 	}
 };

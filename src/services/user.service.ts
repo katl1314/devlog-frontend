@@ -26,7 +26,7 @@ export const userService = {
 
 	/** 이메일로 사용자 조회 */
 	async findUserByEmail(email: string) {
-		return apiClient(`/auth/users/email/${email}`, {
+		return apiClient(`/auth/users/email/${encodeURIComponent(email)}`, {
 			method: 'GET',
 			headers: { cache: 'no-store' }
 		});
@@ -110,5 +110,21 @@ export const userService = {
 	/** 팔로잉 목록 조회 */
 	async getFollowings(userId: string): Promise<{ user_id: string; user_name: string; avatar_url: string }[]> {
 		return apiClient(`/auth/users/${userId}/followings`, { method: 'GET' });
+	},
+
+	/** 회원 탈퇴 (인증 필수) */
+	async withdraw(accessToken: string): Promise<void> {
+		return apiClient(`/auth/users/me`, {
+			method: 'DELETE',
+			accessToken
+		});
+	},
+
+	/** 탈퇴 계정 복구 */
+	async restore(token: string): Promise<{ success: boolean }> {
+		return apiClient(`/auth/users/restore`, {
+			method: 'POST',
+			body: JSON.stringify({ token })
+		});
 	}
 };

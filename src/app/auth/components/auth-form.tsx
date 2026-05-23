@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Logo from '@/components/logo';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { checkEmail } from '@/actions/actions';
+import { checkEmail, checkWithdrawal } from '@/actions/actions';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -121,6 +121,11 @@ export default function AuthForm({
 	const handleEmailSubmit = async (e: React.BaseSyntheticEvent) => {
 		e.preventDefault();
 		setIsSubmitting(true);
+		const withdrawn = await checkWithdrawal(email);
+		if (withdrawn) {
+			window.location.href = '/auth/restore';
+			return;
+		}
 		const exists = await checkEmail(email);
 		setIsSubmitting(false);
 		if (exists) {

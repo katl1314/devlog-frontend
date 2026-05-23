@@ -17,6 +17,10 @@ export async function middleware(req: NextRequest) {
 			// 반드시 절대좌표이어야 한다.
 			return NextResponse.redirect(new URL(`/auth?callbackUrl=${pathname}`, req.url));
 		}
+		// 탈퇴 유예 계정은 복구 페이지로 리다이렉트 (복구 페이지 자체는 제외)
+		if (pathname !== '/auth/restore' && (session?.user as any)?.deletedAt) {
+			return NextResponse.redirect(new URL('/auth/restore', req.url));
+		}
 	}
 	// 인증 후 회원가입 및 로그인 접근 제어!
 	if (isMatch(pathname, matchersForSignIn)) {
@@ -45,5 +49,5 @@ function isMatch(pathname: string, urls: string[]) {
 
 // 미들웨어 적용 대상 경로
 export const config = {
-	matcher: ['/', '/@:userId', '/new', '/write', '/auth', '/@:userId/:slug', '/notifications', '/following', '/settings']
+	matcher: ['/', '/@:userId', '/new', '/write', '/auth', '/auth/restore', '/@:userId/:slug', '/notifications', '/following', '/settings']
 };

@@ -9,6 +9,7 @@ import { FiPlus } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import DeleteAccountDialog from './delete-account-dialog';
 
 type ThemeOption = Themes;
 
@@ -255,11 +256,9 @@ export default function SettingsForm({
 			{/* 회원 탈퇴 */}
 			<section className="mb-10">
 				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">회원 탈퇴</h3>
-				<Button type="button" variant="destructive" className="px-6 py-3 h-auto rounded-[10px] font-bold">
-					회원 탈퇴
-				</Button>
+				<DeleteAccountDialog />
 				<p className="text-xs text-muted-foreground mt-3">
-					탈퇴 시 작성하신 포스트 및 댓글이 모두 삭제되며 복구되지 않습니다.
+					탈퇴 시 작성하신 포스트 및 댓글이 모두 숨김 처리되며, 7일 후 완전히 삭제됩니다.
 				</p>
 			</section>
 
