@@ -3,7 +3,7 @@
 ## 구조
 
 ```
-nginx :80
+nginx :90
 ├── /api/auth/*              → Next.js (NextAuth 콜백)
 ├── /auth/(signIn|access|users)/*  → NestJS
 ├── /(post|blog|tag|comment|common)/*  → NestJS
@@ -76,6 +76,20 @@ docker compose build --no-cache backend
 docker compose up -d backend
 docker compose restart nginx
 ```
+
+### nginx 설정만 변경된 경우
+
+```bash
+cd c:/dev/dev.log
+docker compose restart nginx
+```
+
+> nginx는 `nginx.conf`를 볼륨으로 마운트하므로 재시작만으로 변경사항이 반영됩니다. 빌드 불필요.
+
+> **포트 매핑을 변경한 경우** (`docker-compose.yml`의 `ports`)에는 `restart`로는 반영되지 않습니다. 컨테이너를 재생성해야 합니다.
+> ```bash
+> docker compose up -d nginx
+> ```
 
 ### 전체 재빌드
 
