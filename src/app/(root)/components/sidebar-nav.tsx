@@ -1,11 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { MdOutlineAccessTime, MdOutlineTrendingUp } from 'react-icons/md';
-import { BiBell, BiGroup } from 'react-icons/bi';
+import { BiBell, BiGroup, BiSearch } from 'react-icons/bi';
 import { IoCreateOutline } from 'react-icons/io5';
 import SidebarUserMenu, { SignedIn, SignedOut, SignOnUserMenu, NotSignOnUserMenu } from './sidebar-user-menu';
 import SidebarNavItems from './sidebar-nav-items';
 import NavbarLogo from './navbar-logo';
+import SearchOverlay from './search-overlay';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
@@ -17,6 +19,7 @@ export default function SidebarNav() {
 	const session = useSession();
 	const pathname = usePathname();
 	const user = session.data?.user;
+	const [searchOpen, setSearchOpen] = useState(false);
 	const navItems = [
 		{
 			id: 'new',
@@ -55,6 +58,18 @@ export default function SidebarNav() {
 
 			<SidebarNavItems items={navItems} onActive={onActive} />
 
+			<button
+				onClick={() => setSearchOpen(true)}
+				className="flex items-center gap-4 px-3 py-3 rounded-2xl transition-colors font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 group"
+			>
+				<span className="flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+					<BiSearch size={22} />
+				</span>
+				<span className="hidden xl:block text-[15px]">검색</span>
+			</button>
+
+			{searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
+
 			<div className="mt-4">
 				<Link
 					href={user ? '/write' : '/auth'}
@@ -75,6 +90,7 @@ export default function SidebarNav() {
 					</SignedOut>
 				</SidebarUserMenu>
 			</div>
+
 		</nav>
 	);
 }

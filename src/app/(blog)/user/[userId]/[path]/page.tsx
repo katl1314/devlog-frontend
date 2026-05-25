@@ -1,5 +1,5 @@
-import { userService } from '@/services/user.service';
 import PostDetailContent from './components/post-detail-content';
+import { userService } from '@/services/user.service';
 
 export async function generateStaticParams() {
 	try {

@@ -1,23 +1,26 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { restoreUser } from '@/actions/actions';
 import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 
 export default function RestoreActions() {
 	const router = useRouter();
+	const [error, setError] = useState<string | null>(null);
 	const [isPendingRestore, startRestoreTransition] = useTransition();
 	const [isPendingSignOut, startSignOutTransition] = useTransition();
-	const [error, setError] = useState<string | null>(null);
 
 	const handleRestore = () => {
+		setError(null);
 		startRestoreTransition(async () => {
 			const result = await restoreUser();
 			if (result.ok) {
 				toast.success('계정이 복구됐습니다. 다시 로그인해 주세요.');
+				router.refresh();
 				router.push('/auth');
 			} else {
 				setError(result.message ?? '계정 복구에 실패했습니다.');
@@ -26,6 +29,7 @@ export default function RestoreActions() {
 	};
 
 	const handleSignOut = () => {
+		setError(null);
 		startSignOutTransition(async () => {
 			await signOut({ callbackUrl: '/' });
 		});

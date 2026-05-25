@@ -11,7 +11,7 @@ import { auth } from '@/auth';
 interface PostDetailContentProps {
 	path: string;
 	userId: string;
-	isModal: boolean;
+	isModal?: boolean;
 }
 
 export default async function PostDetailContent({ path, userId, isModal = false }: PostDetailContentProps) {

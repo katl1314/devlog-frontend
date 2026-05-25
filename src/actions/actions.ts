@@ -197,7 +197,7 @@ export const deleteAccount = async (): Promise<void> => {
 	const session = await auth();
 	if (!session?.user || !session.accessToken) throw new Error('Unauthorized');
 
-	await userService.deleteAccount(session.accessToken);
+	await userService.withdraw(session.accessToken);
 };
 
 export const restoreUser = async (): Promise<{ ok: boolean; message?: string }> => {

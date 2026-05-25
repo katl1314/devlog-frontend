@@ -1,8 +1,3 @@
-'use client';
-
-import { useState } from 'react';
-import { BiSearch } from 'react-icons/bi';
-
 // 현재 미사용
 // const trendingTopics = [
 // 	{ category: '디자인', name: '글래스모피즘 UI', stats: '14.2K 아티클' },
@@ -13,28 +8,8 @@ import { BiSearch } from 'react-icons/bi';
 // ];
 
 export default function SidebarWidgets() {
-	const [query, setQuery] = useState('');
-
 	return (
 		<div className="sticky top-0 flex flex-col gap-5 py-6 px-5 h-screen overflow-y-auto justify-between">
-			{/* 검색 */}
-			<div
-				className={`flex items-center gap-3 bg-muted rounded-full px-4 py-3 border transition-all ${
-					query
-						? 'border-blue-500 ring-2 ring-blue-500/10 bg-card'
-						: 'border-transparent'
-				}`}
-			>
-				<BiSearch size={18} className="text-muted-foreground shrink-0" />
-				<input
-					type="text"
-					value={query}
-					onChange={e => setQuery(e.target.value)}
-					placeholder="인사이트, 에디터 검색..."
-					className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
-				/>
-			</div>
-
 			{/* 프리미엄 배너 */}
 			{/* <div className="rounded-2xl p-5 text-white flex flex-col gap-4 bg-gradient-to-br from-blue-500 to-purple-600 shadow-md">
 				<div>
@@ -79,18 +54,10 @@ export default function SidebarWidgets() {
 
 			{/* 푸터 */}
 			<footer className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted-foreground px-1">
-				<a href="#" className="hover:underline">
-					소개
-				</a>
-				<a href="#" className="hover:underline">
-					도움말
-				</a>
-				<a href="#" className="hover:underline">
-					이용약관
-				</a>
-				<a href="#" className="hover:underline">
-					개인정보
-				</a>
+				<a href="#" className="hover:underline">소개</a>
+				<a href="#" className="hover:underline">도움말</a>
+				<a href="#" className="hover:underline">이용약관</a>
+				<a href="#" className="hover:underline">개인정보</a>
 				<p className="w-full mt-1">© 2026 Dev.log Platform</p>
 			</footer>
 		</div>
