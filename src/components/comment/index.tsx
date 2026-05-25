@@ -12,6 +12,7 @@ import { MAX_COMMENT_LEVEL } from '@/utils/consts';
 import UserAvatar from '@/components/user-avatar';
 import { useSession } from 'next-auth/react';
 import { Textarea } from '../ui/textarea';
+import { Button } from '../ui/button';
 import { apiClient } from '@/utils/db';
 import { getTimeDiff } from '@/utils';
 
@@ -222,22 +223,23 @@ function Form({ parentId, onClose, placeholder, className }: FormProps) {
 			/>
 			<div className="flex justify-end gap-2">
 				{onClose && (
-					<button
+					<Button
 						type="button"
+						variant="ghost"
 						onClick={onClose}
-						className="rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted cursor-pointer"
+						className="px-3 py-1.5 h-auto text-sm text-muted-foreground"
 					>
 						취소
-					</button>
+					</Button>
 				)}
-				<button
+				<Button
 					type="button"
 					onClick={handleSubmit}
 					disabled={!content.trim() || submitting}
-					className="rounded-md bg-foreground px-3 py-1.5 text-sm text-background disabled:opacity-40 cursor-pointer"
+					className="px-3 py-1.5 h-auto text-sm"
 				>
 					{submitting ? '등록 중...' : '등록'}
-				</button>
+				</Button>
 			</div>
 		</div>
 	);
@@ -311,22 +313,24 @@ function Item({ comment }: ItemProps) {
 
 				<div className="flex items-center gap-3 pl-11">
 					{canReply && (
-						<button
+						<Button
 							type="button"
+							variant="ghost"
 							onClick={() => setReplyingTo(isReplying ? null : comment.id)}
-							className="text-sm text-muted-foreground hover:text-foreground cursor-pointer"
+							className="h-auto p-0 text-sm text-muted-foreground hover:text-foreground hover:bg-transparent"
 						>
 							{isReplying ? '취소' : '답글'}
-						</button>
+						</Button>
 					)}
 					{isOwner && (
-						<button
+						<Button
 							type="button"
+							variant="ghost"
 							onClick={() => deleteComment(comment.id)}
-							className="text-sm text-muted-foreground hover:text-foreground cursor-pointer"
+							className="h-auto p-0 text-sm text-muted-foreground hover:text-foreground hover:bg-transparent"
 						>
 							삭제
-						</button>
+						</Button>
 					)}
 				</div>
 

@@ -4,6 +4,7 @@ import { createContext, useContext, useRef, useState } from 'react';
 import { FiUploadCloud } from 'react-icons/fi';
 import { RxMinus } from 'react-icons/rx';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 
 interface ImageUploadContextValue {
 	previewUrl: string;
@@ -124,16 +125,17 @@ function Preview({ className, allowReupload = false, children, width, height }: 
 			)}
 			{children ??
 				(!allowReupload && (
-					<button
+					<Button
 						type="button"
+						variant="ghost"
 						onClick={e => {
 							e.stopPropagation();
 							clearImage();
 						}}
-						className="hidden group-hover:flex absolute top-[-10px] left-[-10px] w-[25px] h-[25px] rounded-full bg-neutral-400 items-center justify-center cursor-pointer"
+						className="hidden group-hover:flex absolute top-[-10px] left-[-10px] w-[25px] h-[25px] p-0 rounded-full bg-neutral-400 hover:bg-neutral-400/80"
 					>
 						<RxMinus color="white" />
-					</button>
+					</Button>
 				))}
 		</div>
 	);

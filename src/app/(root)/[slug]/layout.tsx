@@ -6,8 +6,7 @@ import NavTabs from '@/components/ui/nav-tabs';
 export default function Layout({ children }: { children: ReactNode }) {
 	return (
 		<>
-			<div className="sticky top-0 z-10 flex items-center justify-between px-6 h-[60px] bg-background/80 backdrop-blur-xl border-b border-border/50">
-				<h2 className="text-lg font-bold tracking-tight">홈 피드</h2>
+			<div className="sticky top-0 z-10 flex items-center justify-end px-6 h-15 bg-background/80 backdrop-blur-xl border-b border-border/50">
 				<div className="flex gap-1">
 					<NavTabs type="segment">
 						<NavTabs.List>

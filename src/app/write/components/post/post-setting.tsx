@@ -70,28 +70,30 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 							공개 범위
 						</Label>
 						<div className="flex p-1.5 bg-muted rounded-lg">
-							<button
+							<Button
 								type="button"
+								variant="ghost"
 								onClick={() => setVisibility(true)}
-								className={`flex-1 flex items-center justify-center gap-2 py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 cursor-pointer ${
+								className={`flex-1 h-auto py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${
 									visibility
-										? 'bg-background text-indigo-600 shadow-sm'
+										? 'bg-background text-indigo-600 shadow-sm hover:bg-background hover:text-indigo-600'
 										: 'text-muted-foreground hover:text-foreground'
 								}`}
 							>
 								<FiGlobe size={16} /> 전체 공개
-							</button>
-							<button
+							</Button>
+							<Button
 								type="button"
+								variant="ghost"
 								onClick={() => setVisibility(false)}
-								className={`flex-1 flex items-center justify-center gap-2 py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 cursor-pointer ${
+								className={`flex-1 h-auto py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${
 									!visibility
-										? 'bg-background text-indigo-600 shadow-sm'
+										? 'bg-background text-indigo-600 shadow-sm hover:bg-background hover:text-indigo-600'
 										: 'text-muted-foreground hover:text-foreground'
 								}`}
 							>
 								<FiLock size={16} /> 비공개
-							</button>
+							</Button>
 						</div>
 					</div>
 

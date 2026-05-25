@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useState, MouseEventHandler, useCallback } from '
 import { createPortal } from 'react-dom';
 import { cn } from '@/utils';
 import { FiX } from 'react-icons/fi'; // 닫기 아이콘 (선택사항)
+import { Button } from '@/components/ui/button';
 
 interface ModalProps {
   open: boolean;
@@ -84,12 +85,13 @@ export default function Modal({
       >
         {/* (옵션) 우측 상단 닫기 버튼 */}
         {showCloseButton && (
-          <button
+          <Button
+            variant="ghost"
             onClick={onAfterClose}
-            className="absolute right-4 top-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors z-10"
+            className="absolute right-4 top-4 p-2 h-auto text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full z-10"
           >
-            <FiX size={20} />
-          </button>
+            <FiX size={20} className="size-5" />
+          </Button>
         )}
 
         {children}

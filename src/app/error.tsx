@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 
 type IError = {
 	error: Error & { digest?: string };
@@ -14,7 +15,7 @@ export default function Error({ error, reset }: IError) {
 	return (
 		<div>
 			<h2>Something went wrong!</h2>
-			<button onClick={() => reset()}>Try Again</button>
+			<Button onClick={() => reset()}>Try Again</Button>
 		</div>
 	);
 }

@@ -11,9 +11,7 @@ import SearchOverlay from './search-overlay';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
-import { isEmpty } from '@/utils';
-
-type OnActive = (id: string) => boolean;
+import { Button } from '@/components/ui/button';
 
 export default function SidebarNav() {
 	const session = useSession();
@@ -58,15 +56,16 @@ export default function SidebarNav() {
 
 			<SidebarNavItems items={navItems} onActive={onActive} />
 
-			<button
+			<Button
+				variant="ghost"
 				onClick={() => setSearchOpen(true)}
-				className="flex items-center gap-4 px-3 py-3 rounded-2xl transition-colors font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 group"
+				className="w-full justify-start gap-4 px-3 py-3 h-auto rounded-2xl font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 group"
 			>
 				<span className="flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-					<BiSearch size={22} />
+					<BiSearch size={22} className="size-5.5" />
 				</span>
 				<span className="hidden xl:block text-[15px]">검색</span>
-			</button>
+			</Button>
 
 			{searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
 
@@ -90,7 +89,6 @@ export default function SidebarNav() {
 					</SignedOut>
 				</SidebarUserMenu>
 			</div>
-
 		</nav>
 	);
 }

@@ -1,5 +1,6 @@
 'use client';
 import { ChangeEventHandler, useActionState, useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { formInitialState, ProviderType, RegisterType } from '@/app/schema';
 import { createUser } from '@/actions/actions';
 import { signIn } from 'next-auth/react';
@@ -168,14 +169,14 @@ export default function ProfileSetupForm({ user, provider }: IProfileSetupFormPr
 			<input type="hidden" name="provider" value={provider} />
 			<input type="hidden" name="image" value={user.image} />
 
-			<button
+			<Button
 				type="submit"
 				disabled={isSubmitDisabled}
-				className="w-full flex items-center justify-center gap-2 bg-foreground text-background rounded-md py-2.5 text-sm font-medium hover:opacity-90 disabled:opacity-50 transition-opacity cursor-pointer"
+				className="w-full py-2.5 text-sm font-medium hover:opacity-90 disabled:opacity-50 transition-opacity"
 			>
 				{isPending && <LoadingSpinner />}
 				{isPending ? '처리 중...' : '가입하기'}
-			</button>
+			</Button>
 		</form>
 	);
 }

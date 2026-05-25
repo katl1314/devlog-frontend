@@ -13,6 +13,7 @@ import {
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { BiUser, BiLogOut, BiCog } from 'react-icons/bi';
 import BottomSheetDialog from '@/components/bottom-sheet-dialog';
@@ -86,9 +87,9 @@ const DesktopMenu = ({ image, id: userId, name, onAction }: UserMenuProps) => {
 			</div>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<button className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-muted transition-colors shrink-0 cursor-pointer">
-						<BsThreeDotsVertical size={16} />
-					</button>
+					<Button variant="ghost" className="w-8 h-8 rounded-full hover:bg-muted shrink-0">
+						<BsThreeDotsVertical size={16} className="size-4" />
+					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent
 					side="top"

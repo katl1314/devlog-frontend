@@ -13,6 +13,7 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@/utils';
+import { Button } from '@/components/ui/button';
 
 const LONG_PRESS_MS = 500;
 interface BottomSheetDialogContextValue {
@@ -186,9 +187,10 @@ function Item({
 	};
 
 	return (
-		<button
+		<Button
+			variant="ghost"
 			className={cn(
-				'flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-medium transition-colors cursor-pointer text-left w-full',
+				'flex items-center gap-3 px-4 py-3.5 h-auto rounded-2xl text-sm font-medium transition-colors text-left w-full justify-start',
 				variant === 'default' && 'hover:bg-muted',
 				variant === 'destructive' && 'hover:bg-muted',
 				className
@@ -197,7 +199,7 @@ function Item({
 		>
 			{icon}
 			{children}
-		</button>
+		</Button>
 	);
 }
 

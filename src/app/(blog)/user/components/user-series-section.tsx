@@ -119,9 +119,9 @@ function SeriesCard({ series, userId, isOwner, accessToken, onMutate }: SeriesCa
 			{isOwner && accessToken && (
 				<div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
 					<SeriesFormDialog series={series} onSuccess={onMutate} accessToken={accessToken}>
-						<button className="p-1.5 rounded-lg bg-background/80 backdrop-blur hover:bg-background border border-border cursor-pointer">
-							<Pencil size={13} />
-						</button>
+						<Button variant="ghost" className="h-auto p-1.5 rounded-lg bg-background/80 backdrop-blur hover:bg-background border border-border">
+							<Pencil size={13} className="size-3.25" />
+						</Button>
 					</SeriesFormDialog>
 					<ConfirmDialog
 						title={`${series.name} 삭제`}
@@ -130,9 +130,9 @@ function SeriesCard({ series, userId, isOwner, accessToken, onMutate }: SeriesCa
 						variant="destructive"
 						onConfirm={handleDelete}
 					>
-						<button className="p-1.5 rounded-lg bg-background/80 backdrop-blur hover:bg-background border border-border cursor-pointer text-red-500">
-							<Trash2 size={13} />
-						</button>
+						<Button variant="ghost" className="h-auto p-1.5 rounded-lg bg-background/80 backdrop-blur hover:bg-background border border-border text-red-500 hover:text-red-500">
+							<Trash2 size={13} className="size-3.25" />
+						</Button>
 					</ConfirmDialog>
 				</div>
 			)}

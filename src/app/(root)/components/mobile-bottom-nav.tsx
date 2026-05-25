@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 import { MdOutlineAccessTime } from 'react-icons/md';
 import { IoCreateOutline } from 'react-icons/io5';
 import { BiUser, BiLogOut, BiCog, BiGroup, BiBell } from 'react-icons/bi';
@@ -73,9 +74,9 @@ export default function MobileBottomNav() {
 					{/* 프로필 탭 */}
 					{user ? (
 						<BottomSheetDialog.Trigger mode="longPress" onShortPress={() => router.push(`/@${userId}`)}>
-							<button className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground cursor-pointer select-none">
+							<Button variant="ghost" className="flex-col gap-0.5 flex-1 h-full text-xs text-muted-foreground select-none p-0 rounded-none">
 								<UserAvatar src={user.image} userId={userId} className="w-7.5 h-7.5" />
-							</button>
+							</Button>
 						</BottomSheetDialog.Trigger>
 					) : (
 						<Link

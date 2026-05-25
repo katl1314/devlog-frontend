@@ -5,6 +5,7 @@ import { BiSearch } from 'react-icons/bi';
 import { IoClose } from 'react-icons/io5';
 import Logo from './logo';
 import NavbarLogo from './navbar-logo';
+import { Button } from '@/components/ui/button';
 
 export default function Header() {
 	const [searchOpen, setSearchOpen] = useState(false);
@@ -23,13 +24,14 @@ export default function Header() {
 						<NavbarLogo />
 					</Logo>
 				</h3>
-				<button
+				<Button
+					variant="ghost"
 					onClick={() => setSearchOpen(v => !v)}
-					className="p-2 rounded-full hover:bg-muted transition-colors cursor-pointer"
 					aria-label="검색"
+					className="p-2 h-auto rounded-full hover:bg-muted"
 				>
-					{searchOpen ? <IoClose size={22} /> : <BiSearch size={22} />}
-				</button>
+					{searchOpen ? <IoClose size={22} className="size-5.5" /> : <BiSearch size={22} className="size-5.5" />}
+				</Button>
 			</div>
 
 			{searchOpen && (

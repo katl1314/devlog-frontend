@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { userService } from '@/services/user.service';
 import UserAvatar from '@/components/user-avatar';
 import Link from 'next/link';
@@ -34,9 +35,9 @@ export default function FollowListDialog({ type, targetUserId, count, label }: F
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<button className="cursor-pointer hover:underline">
+				<Button variant="ghost" className="h-auto p-0 text-sm font-normal hover:underline hover:bg-transparent">
 					<strong className="text-foreground font-semibold">{count}</strong> {label}
-				</button>
+				</Button>
 			</DialogTrigger>
 			<DialogContent className="flex flex-col gap-0 p-0 sm:max-w-lg h-[85vh] sm:h-150">
 				<DialogHeader className="px-6 pt-6 pb-4 border-b shrink-0">

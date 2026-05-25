@@ -3,6 +3,7 @@
 import { KeyboardEventHandler, useState } from 'react';
 import { toast } from 'sonner';
 import { FiPlus } from 'react-icons/fi';
+import { Button } from '@/components/ui/button';
 
 interface ITagEditor {
 	onChange: (tags: string[]) => void;
@@ -74,13 +75,13 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 					placeholder="태그 입력 후 Enter, , 또는 + 클릭"
 				/>
 				{inputValue.trim() && (
-					<button
+					<Button
 						type="button"
 						onClick={() => addTag(inputValue)}
-						className="shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-foreground text-background hover:bg-foreground/80 transition-colors cursor-pointer"
+						className="shrink-0 w-6 h-6 rounded-full bg-foreground text-background hover:bg-foreground/80 hover:text-background"
 					>
-						<FiPlus size={14} />
-					</button>
+						<FiPlus size={14} className="size-3.5" />
+					</Button>
 				)}
 			</div>
 		</div>
