@@ -35,6 +35,8 @@ export default async function PostDetailContent({ path, userId, isModal = false 
 	return (
 		<PostContextProvider
 			postId={post.id}
+			userId={userId}
+			path={path}
 			isModal={isModal}
 			initIsLiked={isLike}
 			initLikeCount={(post.likes ?? []).length}

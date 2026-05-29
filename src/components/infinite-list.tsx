@@ -27,7 +27,7 @@ interface InfiniteListProps {
 
 function InfiniteList({ queryKey, queryFn, children }: InfiniteListProps) {
 	const { data, lastPostRef } = useFetch({
-		initialPageParam: 0,
+		initialPageParam: null,
 		queryKey,
 		queryFn,
 		getNextPageParam: lastPage => lastPage.nextCursor ?? undefined

@@ -72,7 +72,7 @@ export default function TagEditor({ tags, onChange, max = 5 }: ITagEditor) {
 					onChange={e => setInputValue(e.target.value)}
 					onKeyDown={handleKeyDown}
 					className="flex-1 bg-transparent outline-none text-lg text-foreground placeholder:text-muted-foreground placeholder:font-light"
-					placeholder="태그 입력 후 Enter, , 또는 + 클릭"
+					placeholder="태그 입력 후 Enter 또는 + 클릭"
 				/>
 				{inputValue.trim() && (
 					<Button

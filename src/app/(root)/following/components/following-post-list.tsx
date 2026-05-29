@@ -13,8 +13,8 @@ export default function FollowingPostList() {
 
 	const queryKey = ['posts', 'following'];
 
-	const queryFn = ({ pageParam = 0 }: { pageParam?: unknown }) => {
-		const cursor = pageParam as number;
+	const queryFn = ({ pageParam = null }: { pageParam?: unknown }) => {
+		const cursor = pageParam as string | null;
 		return postService.getFollowingFeed(cursor, accessToken).then(res => ({
 			posts: res.data,
 			nextCursor: res.cursor.after

@@ -21,7 +21,7 @@ export const postService = {
 	},
 
 	/** 포스트 삭제 (인증 필수, 본인만 가능) */
-	async delete(postId?: number, accessToken?: string) {
+	async delete(postId?: string, accessToken?: string) {
 		if (isEmpty(postId)) return;
 
 		return apiClient(`/post/${postId}`, {
@@ -31,19 +31,27 @@ export const postService = {
 	},
 
 	/** 포스트 목록 조회 (커서 페이지네이션) */
-	async getList(cursor: number, accessToken?: string) {
+	async getList(cursor: string | null, accessToken?: string) {
 		return apiClient('/post', {
 			method: 'GET',
-			params: { cursor: String(cursor) },
+			params: { ...(cursor ? { cursor } : {}) },
 			accessToken
 		});
 	},
 
 	/** 특정 사용자의 포스트 목록 조회 */
-	async getListByUser(userId: string, cursor: number, accessToken?: string) {
+	async getListByUser(userId: string, cursor: string | null, accessToken?: string) {
 		return apiClient('/post', {
 			method: 'GET',
-			params: { userId, cursor: String(cursor) },
+			params: { userId, ...(cursor ? { cursor } : {}) },
+			accessToken
+		});
+	},
+
+	/** UUID로 포스트 단건 조회 */
+	async findPostById(id: string, accessToken?: string) {
+		return apiClient(`/post/${id}`, {
+			method: 'GET',
 			accessToken
 		});
 	},
@@ -65,7 +73,7 @@ export const postService = {
 	},
 
 	/** 좋아요 등록/취소 */
-	async like(postId: number, isLiked: boolean, accessToken: string) {
+	async like(postId: string, isLiked: boolean, accessToken: string) {
 		return apiClient(`/post/${postId}/like`, {
 			method: isLiked ? 'POST' : 'DELETE',
 			accessToken
@@ -73,10 +81,10 @@ export const postService = {
 	},
 
 	/** 팔로잉 피드 조회 (인증 필수) */
-	async getFollowingFeed(cursor: number, accessToken: string) {
+	async getFollowingFeed(cursor: string | null, accessToken: string) {
 		return apiClient('/post/following', {
 			method: 'GET',
-			params: { cursor: String(cursor) },
+			params: { ...(cursor ? { cursor } : {}) },
 			accessToken
 		});
 	}

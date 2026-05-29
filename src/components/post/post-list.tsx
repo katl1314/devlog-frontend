@@ -16,8 +16,8 @@ export default function PostList({ userId }: PostListProps) {
 
 	const queryKey = ['posts', userId ?? 'all', accessToken ? 'auth' : 'anon'];
 
-	const queryFn = ({ pageParam = 0 }: { pageParam?: unknown }) => {
-		const cursor = pageParam as number;
+	const queryFn = ({ pageParam = null }: { pageParam?: unknown }) => {
+		const cursor = pageParam as string | null;
 		const request = userId
 			? postService.getListByUser(userId, cursor, accessToken)
 			: postService.getList(cursor, accessToken);

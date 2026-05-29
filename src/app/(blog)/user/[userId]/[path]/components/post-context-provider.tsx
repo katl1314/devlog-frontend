@@ -13,6 +13,8 @@ interface PostContext {
 	setCommentCount: (count: number) => void;
 	commentCount: number;
 	isModal: boolean;
+	path: string;
+	userId: string;
 }
 
 export const PostContext = createContext<PostContext>({
@@ -21,7 +23,9 @@ export const PostContext = createContext<PostContext>({
 	toggleLike: async () => {},
 	setCommentCount: (count: number) => {},
 	commentCount: 0,
-	isModal: false
+	isModal: false,
+	path: '',
+	userId: ''
 });
 
 type IPostContextProviderProps = PropsWithChildren & {
@@ -30,6 +34,8 @@ type IPostContextProviderProps = PropsWithChildren & {
 	initCommentCount: number; // 댓글 개수
 	postId: number; // 포스트 ID
 	isModal: boolean;
+	path: string;
+	userId: string;
 };
 
 export default function PostContextProvider({
@@ -38,7 +44,9 @@ export default function PostContextProvider({
 	isModal,
 	initIsLiked,
 	initLikeCount,
-	initCommentCount
+	initCommentCount,
+	path,
+	userId
 }: IPostContextProviderProps) {
 	const [isLiked, setIsLiked] = useState(initIsLiked || false);
 	const [likeCount, setLikeCount] = useState(initLikeCount || 0);
@@ -68,12 +76,14 @@ export default function PostContextProvider({
 			<PostContext.Provider
 				value={{
 					postId,
+					userId,
 					isLiked,
 					isModal,
 					likeCount,
 					commentCount,
 					toggleLike,
-					setCommentCount
+					setCommentCount,
+					path
 				}}
 			>
 				{children}
