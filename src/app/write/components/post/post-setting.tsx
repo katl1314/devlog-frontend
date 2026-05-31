@@ -9,23 +9,16 @@ import ImageUpload from '@/components/image-upload';
 import { seriesService, Series } from '@/services/series.service';
 
 export default function PostSetting({ url_slug, userId }: { url_slug: string; userId: string }) {
-	const {
-		summary,
-		setSummary,
-		visibility,
-		setVisibility,
-		path,
-		setPath,
-		setFile,
-		seriesId,
-		setSeriesId
-	} = usePost();
+	const { summary, setSummary, visibility, setVisibility, path, setPath, setFile, seriesId, setSeriesId } = usePost();
 
 	const [seriesList, setSeriesList] = useState<Series[]>([]);
 
 	useEffect(() => {
 		if (!userId) return;
-		seriesService.findByUserId(userId).then(setSeriesList).catch(() => {});
+		seriesService
+			.findByUserId(userId)
+			.then(setSeriesList)
+			.catch(() => {});
 	}, [userId]);
 
 	const handlePathChange: ChangeEventHandler<HTMLInputElement> = ev =>
@@ -38,18 +31,14 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 				<div className="absolute inset-0 opacity-40 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] bg-size-[20px_20px]" />
 
 				<div className="relative z-10 w-full flex flex-col items-center">
-					<h3 className="text-lg font-bold text-foreground mb-4 md:mb-6">
-						포스트 미리보기
-					</h3>
+					<h3 className="text-lg font-bold text-foreground mb-4 md:mb-6">포스트 미리보기</h3>
 
 					<ImageUpload onFileChange={file => file && setFile(file)}>
 						<ImageUpload.Upload className="w-full aspect-video bg-background rounded-xl border-2 border-dashed border-muted-foreground/30 flex flex-col items-center justify-center text-muted-foreground gap-3 group hover:border-foreground/30 hover:text-foreground transition-all duration-300 cursor-pointer">
 							<div className="p-3 md:p-4 rounded-full bg-muted group-hover:bg-muted/60 transition-colors">
 								<FiUploadCloud size={28} className="md:w-8 md:h-8" />
 							</div>
-							<span className="text-xs md:text-sm font-semibold">
-								썸네일 업로드
-							</span>
+							<span className="text-xs md:text-sm font-semibold">썸네일 업로드</span>
 						</ImageUpload.Upload>
 						<ImageUpload.Preview className="w-full aspect-video rounded-xl overflow-hidden" />
 					</ImageUpload>
@@ -66,13 +55,12 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 				<div className="flex-1 space-y-5 md:space-y-6">
 					{/* 1. 공개 범위 설정 */}
 					<div className="space-y-2 md:space-y-3">
-						<Label className="text-sm font-bold text-foreground">
-							공개 범위
-						</Label>
+						<Label className="text-sm font-bold text-foreground">공개 범위</Label>
 						<div className="flex p-1.5 bg-muted rounded-lg">
 							<Button
 								type="button"
 								variant="ghost"
+								name="visibility"
 								onClick={() => setVisibility(true)}
 								className={`flex-1 h-auto py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${
 									visibility
@@ -85,6 +73,7 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 							<Button
 								type="button"
 								variant="ghost"
+								name="visibility"
 								onClick={() => setVisibility(false)}
 								className={`flex-1 h-auto py-2 md:py-2.5 text-sm font-semibold rounded-md transition-all duration-200 ${
 									!visibility
@@ -134,9 +123,7 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 					{/* 4. 포스트 요약 */}
 					<div className="space-y-2 md:space-y-3">
 						<div className="flex justify-between items-end">
-							<Label className="text-sm font-bold text-foreground">
-								포스트 소개
-							</Label>
+							<Label className="text-sm font-bold text-foreground">포스트 소개</Label>
 							<span
 								className={`text-xs font-medium ${summary?.length > 150 ? 'text-red-500' : 'text-muted-foreground'}`}
 							>
@@ -145,6 +132,7 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 						</div>
 						<textarea
 							value={summary}
+							name="summary"
 							onChange={ev => setSummary(ev.target.value)}
 							placeholder="이 포스트를 짧게 소개해보세요."
 							className="w-full h-20 md:h-24 bg-muted rounded-lg border border-transparent focus:border-indigo-500 focus:bg-background focus:ring-4 focus:ring-indigo-500/10 p-4 text-sm resize-none transition-all duration-200 placeholder:text-muted-foreground outline-none"

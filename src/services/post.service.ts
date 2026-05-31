@@ -48,6 +48,15 @@ export const postService = {
 		});
 	},
 
+	/** 포스트 수정 (인증 필수, 본인만 가능) */
+	async update(id: string, post: unknown, accessToken: string) {
+		return apiClient(`/post/${id}`, {
+			method: 'PATCH',
+			accessToken,
+			body: JSON.stringify(post)
+		});
+	},
+
 	/** UUID로 포스트 단건 조회 */
 	async findPostById(id: string, accessToken?: string) {
 		return apiClient(`/post/${id}`, {

@@ -21,16 +21,44 @@ const Editor = dynamic(() => import('@/components/editor/editor'), {
 	ssr: false
 });
 
-export default function PostEditor({ blog, user_id }: any) {
-	const { title, content, visibility, tags, path, summary, file, seriesId, setTitle, setContent, setTags, reset } = usePost();
+interface PostEditorProps {
+	user: { blog: { url_slug: string }; user_id: string };
+	post?: {
+		id: string;
+		title: string;
+		content: string;
+		tags: { name: string }[];
+		visibility: boolean;
+		path: string;
+		summary: string;
+		thumbnail: string;
+		series_id: string | null;
+	};
+}
+
+export default function PostEditor({ user, post }: PostEditorProps) {
+	const { blog, user_id } = user;
+	const { title, content, tags, setTitle, setContent, setTags, initialize, reset, getFormData } = usePost();
 	const [state, formAction] = useActionState(savePost, { status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
 
 	useEffect(() => {
+		if (post) {
+			initialize({
+				title: post.title,
+				content: post.content,
+				tags: post.tags.map(t => t.name) ?? [],
+				visibility: post.visibility,
+				path: post.path.replace(/^\//, ''),
+				summary: post.summary,
+				thumbnail: post.thumbnail,
+				seriesId: post.series_id
+			});
+		}
 		return () => {
 			reset();
 		};
-	}, [reset]);
+	}, [post, initialize, reset]);
 
 	useEffect(() => {
 		if (state?.status === 'ok') {
@@ -47,7 +75,6 @@ export default function PostEditor({ blog, user_id }: any) {
 		(ev: SyntheticEvent<HTMLFormElement>) => {
 			ev.preventDefault();
 			const error = validatePost({ title, content });
-
 			if (error) {
 				toast(error, {
 					position: 'top-right',
@@ -57,25 +84,14 @@ export default function PostEditor({ blog, user_id }: any) {
 				return;
 			}
 
-			const postPath = path ? `/${path}` : `/${title}`;
-			const formData = new FormData();
-
-			formData.set('title', title);
-			formData.set('content', content);
-			formData.set('visibility', String(visibility));
-			formData.set('file', file ?? '');
-			formData.set('path', postPath);
-			formData.set('summary', summary ?? '');
-			formData.set('tags', JSON.stringify(tags));
-			if (seriesId != null) formData.set('series_id', seriesId);
-
+			const formData = getFormData(post?.id);
 			startTransition(() => {
 				formAction(formData);
 			});
 
 			setModalOpen(false);
 		},
-		[title, content, file, visibility, summary, tags, path, formAction]
+		[post, title, content, getFormData, formAction]
 	);
 
 	return (
@@ -95,6 +111,7 @@ export default function PostEditor({ blog, user_id }: any) {
 						className="w-full text-3xl md:text-5xl font-extrabold text-foreground placeholder:text-muted-foreground border-none outline-none bg-transparent leading-tight"
 						placeholder="제목을 입력하세요"
 						id="title"
+						name="title"
 						value={title}
 						onChange={ev => setTitle(ev.target.value)}
 						autoComplete="off"
@@ -109,7 +126,7 @@ export default function PostEditor({ blog, user_id }: any) {
 
 					{/* 본문 에디터 영역 */}
 					<div className="min-h-[500px]">
-						<Editor setContent={setContent} content={content} />
+						<Editor setContent={setContent} content={content} name="content" />
 					</div>
 				</div>
 			</main>

@@ -23,12 +23,13 @@ import Strikethrough from '@tiptap/extension-strike';
 import { useEffect } from 'react';
 
 interface IEditor {
+	name: string;
 	content: string;
 	placeholder?: string;
 	setContent: (content: string) => void;
 }
 
-export default function Editor({ content, setContent, placeholder = '무엇이든 입력하세요.' }: IEditor) {
+export default function Editor({ name, content, setContent, placeholder = '무엇이든 입력하세요.' }: IEditor) {
 	const editor = useEditor({
 		immediatelyRender: false,
 		extensions: [
@@ -135,7 +136,7 @@ export default function Editor({ content, setContent, placeholder = '무엇이�
 	return (
 		<div className="markdown-body px-3">
 			<ControlPanel editor={editor!} />
-			<EditorContent editor={editor} />
+			<EditorContent name={name} editor={editor} />
 		</div>
 	);
 }

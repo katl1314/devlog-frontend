@@ -135,13 +135,12 @@ export const savePost = async (_: any, formData: FormData) => {
 		if (!session?.accessToken) throw new Error('Unauthorized');
 		// TODO 썸네일 이미지 처리할 것.
 
-		const result = await postService.create(
-			{
-				...formObj,
-				thumbnail: ''
-			},
-			session.accessToken
-		);
+		const { id, ...postData } = formObj as { id?: string; [key: string]: unknown };
+		const payload = { ...postData, thumbnail: '' };
+
+		const result = id
+			? await postService.update(id, payload, session.accessToken)
+			: await postService.create(payload, session.accessToken);
 
 		return { status: 'ok', callbackUrl: result.callbackUrl };
 	} catch (status: unknown) {
@@ -181,7 +180,7 @@ export const updateSettings = async ({
 	revalidatePath('/settings');
 };
 
-export const deletePostAction = async (postId?: number) => {
+export const deletePostAction = async (postId?: string) => {
 	if (isEmpty(postId)) return;
 
 	try {
