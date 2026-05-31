@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 
 interface PostContext {
-	postId?: number;
+	postId?: string;
 	likeCount: number;
 	isLiked: boolean;
 	toggleLike: () => Promise<void>;
@@ -32,7 +32,7 @@ type IPostContextProviderProps = PropsWithChildren & {
 	initIsLiked: boolean; // 좋아요 선택 여부
 	initLikeCount: number; // 좋아요 개수
 	initCommentCount: number; // 댓글 개수
-	postId: number; // 포스트 ID
+	postId: string; // 포스트 ID
 	isModal: boolean;
 	path: string;
 	userId: string;

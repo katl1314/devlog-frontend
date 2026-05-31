@@ -7,12 +7,16 @@ import SidebarUserMenu, {
 	NotSignOnUserMenu
 } from '@/app/(root)/components/sidebar-user-menu';
 import SidebarNavItems from '@/app/(root)/components/sidebar-nav-items';
+import SearchOverlay from '@/app/(root)/components/search-overlay';
 import { TbFileText, TbLayoutList, TbUser } from 'react-icons/tb';
 import NavbarLogo from '@/app/(root)/components/navbar-logo';
 import { Separator } from '@/components/ui/separator';
 import { MdOutlineAccessTime } from 'react-icons/md';
 import { IoCreateOutline } from 'react-icons/io5';
+import { BiSearch } from 'react-icons/bi';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 
@@ -44,6 +48,7 @@ export default function UserSidebarNav({ userId }: { userId: string }) {
 	const session = useSession();
 	const searchParams = useSearchParams();
 	const user = session.data?.user;
+	const [searchOpen, setSearchOpen] = useState(false);
 
 	return (
 		<nav className="flex flex-col h-screen sticky top-0 overflow-y-auto py-6 px-3 xl:px-5">
@@ -70,6 +75,19 @@ export default function UserSidebarNav({ userId }: { userId: string }) {
 					return tab === id;
 				}}
 			/>
+
+			<Button
+				variant="ghost"
+				onClick={() => setSearchOpen(true)}
+				className="w-full justify-start gap-4 px-3 py-3 h-auto rounded-2xl font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 group"
+			>
+				<span className="flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+					<BiSearch size={22} className="size-5.5" />
+				</span>
+				<span className="hidden xl:block text-[15px]">검색</span>
+			</Button>
+
+			{searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
 
 			<div className="mt-4">
 				<Link

@@ -4,7 +4,7 @@ import UserSidebarNav from '@/app/(blog)/user/components/user-sidebar-nav';
 
 export default async function Layout({
 	children,
-	params,
+	params
 }: {
 	children: React.ReactNode;
 	params: Promise<{ userId: string }>;
@@ -17,14 +17,12 @@ export default async function Layout({
 			<MobileBottomNav />
 			<div className="flex justify-center min-h-screen pb-14 md:pb-0">
 				{/* Left Sidebar - md 이상에서 표시 */}
-				<aside className="hidden md:block md:w-[72px] xl:w-[260px] shrink-0 border-r border-border">
+				<aside className="hidden md:block md:w-18 xl:w-65 shrink-0">
 					<UserSidebarNav userId={userId} />
 				</aside>
 
 				{/* Main Feed - 최대 너비 제한으로 양옆 여백 확보 */}
-				<div className="w-full max-w-[780px] border-r border-border bg-background">
-					{children}
-				</div>
+				<div className="w-full max-w-195 bg-background">{children}</div>
 
 				{/* Right Sidebar - 2xl 이상에서 표시 */}
 				<aside className="hidden 2xl:block w-[320px] shrink-0">

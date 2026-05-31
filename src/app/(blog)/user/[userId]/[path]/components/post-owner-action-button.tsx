@@ -9,10 +9,10 @@ import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 
 const PostOwnerActionButton = () => {
-	const { postId, isModal, path, userId } = useContext(PostContext);
+	const { postId, isModal } = useContext(PostContext);
 	const router = useRouter();
 	const queryClient = useQueryClient();
-	console.log('postId >>> ', postId);
+
 	const handleDeletePost = async () => {
 		await deletePostAction(postId);
 		await queryClient.invalidateQueries({ queryKey: ['posts'] });
@@ -25,7 +25,7 @@ const PostOwnerActionButton = () => {
 
 	const handleUpdatePost = () => {
 		if (isModal) {
-			router.back(); // 모달 닫기
+			router.back();
 			setTimeout(() => router.push(`/write?id=${postId}`), 100);
 		} else {
 			router.push(`/write?id=${postId}`);
@@ -33,10 +33,10 @@ const PostOwnerActionButton = () => {
 	};
 
 	return (
-		<div>
+		<div className="flex items-center gap-2">
 			<Button
 				variant="link"
-				className="px-2 text-muted-foreground hover:text-foreground transition-colors"
+				className="h-auto px-1 py-0 text-sm font-normal leading-none text-muted-foreground hover:text-foreground transition-colors"
 				onClick={handleUpdatePost}
 			>
 				수정
@@ -49,7 +49,7 @@ const PostOwnerActionButton = () => {
 				variant="default"
 				onConfirm={handleDeletePost}
 			>
-				<Button variant="link" className="px-2 text-muted-foreground hover:text-foreground transition-colors">
+				<Button variant="link" className="h-auto px-1 py-0 text-sm font-normal leading-none text-muted-foreground hover:text-foreground transition-colors">
 					삭제
 				</Button>
 			</ConfirmDialog>
