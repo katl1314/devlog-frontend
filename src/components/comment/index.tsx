@@ -49,6 +49,8 @@ interface CommentContextValue {
 	setReplyingTo: (id: string | null) => void;
 	/** 댓글 또는 대댓글 작성 */
 	addComment: (content: string, parentId?: string) => Promise<void>;
+	/** 본인 댓글 수정 */
+	updateComment: (commentId: string, content: string) => Promise<void>;
 	/** 본인 댓글 삭제 */
 	deleteComment: (commentId: string) => Promise<void>;
 	/** 현재 로그인한 유저 ID (비로그인이면 null) */
@@ -109,6 +111,19 @@ function CommentModule({
 		[accessToken, postId, refetch]
 	);
 
+	const updateComment = useCallback(
+		async (commentId: string, content: string) => {
+			if (!accessToken) return;
+			await apiClient(`/comment/${commentId}`, {
+				method: 'PATCH',
+				accessToken,
+				body: JSON.stringify({ content })
+			});
+			await refetch();
+		},
+		[accessToken, refetch]
+	);
+
 	/**
 	 * 댓글을 삭제한다 (soft delete).
 	 * 삭제 완료 후 서버에서 최신 트리를 다시 불러온다.
@@ -136,6 +151,7 @@ function CommentModule({
 				replyingTo,
 				setReplyingTo,
 				addComment,
+				updateComment,
 				deleteComment,
 				currentUserId
 			}}
@@ -280,18 +296,31 @@ interface ItemProps {
 
 /** 단일 댓글 + 자식 댓글을 재귀적으로 렌더링한다 */
 function Item({ comment }: ItemProps) {
-	const { replyingTo, setReplyingTo, deleteComment, currentUserId } =
+	const { replyingTo, setReplyingTo, updateComment, deleteComment, currentUserId } =
 		useComment();
 	const isReplying = replyingTo === comment.id;
 	const isOwner = currentUserId === comment.user.user_id;
 	const canReply = comment.level < MAX_COMMENT_LEVEL;
 	const hasChildren = comment.children.length > 0;
 
+	const [isEditing, setIsEditing] = useState(false);
+	const [editContent, setEditContent] = useState(comment.content);
+	const [submitting, setSubmitting] = useState(false);
+	const [expanded, setExpanded] = useState(false);
+
+	const handleEditSubmit = async () => {
+		if (!editContent.trim() || submitting) return;
+		setSubmitting(true);
+		try {
+			await updateComment(comment.id, editContent.trim());
+			setIsEditing(false);
+		} finally {
+			setSubmitting(false);
+		}
+	};
+
 	return (
-		<div className="relative">
-			{hasChildren && (
-				<div className="absolute left-4.5 top-11 bottom-0 w-px bg-border" />
-			)}
+		<div>
 
 			{/* 댓글 본문 */}
 			<div className="flex flex-col gap-2 mt-2">
@@ -309,10 +338,39 @@ function Item({ comment }: ItemProps) {
 					</span>
 				</div>
 
-				<p className="text-base leading-relaxed pl-11">{comment.content}</p>
+				{isEditing ? (
+					<div className="pl-11 flex flex-col gap-2">
+						<Textarea
+							value={editContent}
+							onChange={e => setEditContent(e.target.value)}
+							rows={3}
+							className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-ring"
+						/>
+						<div className="flex justify-end gap-2">
+							<Button
+								type="button"
+								variant="ghost"
+								onClick={() => { setIsEditing(false); setEditContent(comment.content); }}
+								className="px-3 py-1.5 h-auto text-sm text-muted-foreground"
+							>
+								취소
+							</Button>
+							<Button
+								type="button"
+								onClick={handleEditSubmit}
+								disabled={!editContent.trim() || submitting}
+								className="px-3 py-1.5 h-auto text-sm"
+							>
+								{submitting ? '저장 중...' : '저장'}
+							</Button>
+						</div>
+					</div>
+				) : (
+					<p className="text-base leading-relaxed pl-11">{comment.content}</p>
+				)}
 
 				<div className="flex items-center gap-3 pl-11">
-					{canReply && (
+					{canReply && !isEditing && (
 						<Button
 							type="button"
 							variant="ghost"
@@ -322,14 +380,36 @@ function Item({ comment }: ItemProps) {
 							{isReplying ? '취소' : '답글'}
 						</Button>
 					)}
-					{isOwner && (
+					{isOwner && !isEditing && (
+						<>
+							<Button
+								type="button"
+								variant="ghost"
+								onClick={() => setIsEditing(true)}
+								className="h-auto p-0 text-sm text-muted-foreground hover:text-foreground hover:bg-transparent"
+							>
+								수정
+							</Button>
+							<Button
+								type="button"
+								variant="ghost"
+								onClick={() => deleteComment(comment.id)}
+								className="h-auto p-0 text-sm text-muted-foreground hover:text-foreground hover:bg-transparent"
+							>
+								삭제
+							</Button>
+						</>
+					)}
+					{hasChildren && !isEditing && (
 						<Button
 							type="button"
 							variant="ghost"
-							onClick={() => deleteComment(comment.id)}
+							onClick={() => setExpanded(prev => !prev)}
 							className="h-auto p-0 text-sm text-muted-foreground hover:text-foreground hover:bg-transparent"
 						>
-							삭제
+							{expanded
+								? '답글 숨기기'
+								: `답글 ${comment.children.length}개 보기`}
 						</Button>
 					)}
 				</div>
@@ -346,26 +426,11 @@ function Item({ comment }: ItemProps) {
 			</div>
 
 			{/* 자식 댓글 재귀 렌더링 */}
-			{hasChildren && (
-				<div className="mt-1 ml-11 flex flex-col">
-					{comment.children.map((child, index) => {
-						const isLast = index === comment.children.length - 1;
-						return (
-							<div key={child.id} className="relative">
-								<div
-									className="absolute top-0 h-6.5 w-6.5 border-l border-b border-border"
-									style={{ left: '-26px' }}
-								/>
-								{isLast && (
-									<div
-										className="absolute bottom-0 w-px bg-background"
-										style={{ left: '-26px', top: '26px' }}
-									/>
-								)}
-								<Item comment={child} />
-							</div>
-						);
-					})}
+			{hasChildren && expanded && (
+				<div className="mt-3 ml-4.5 pl-6 border-l-2 border-border/40 flex flex-col gap-4">
+					{comment.children.map(child => (
+						<Item key={child.id} comment={child} />
+					))}
 				</div>
 			)}
 		</div>
