@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Providers from '@/components/providers';
-import { Roboto } from 'next/font/google';
+import { Inter, Noto_Sans_KR } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import ThemeProvider from '@/components/theme/theme-provider';
 import { auth } from '@/auth';
@@ -9,9 +9,15 @@ import { userService } from '@/services/user.service';
 import { Themes } from '@/hooks/theme';
 import './globals.css';
 
-const inter = Roboto({
-	weight: ['400', '500', '600', '700'],
-	subsets: ['latin']
+const inter = Inter({
+	subsets: ['latin'],
+	variable: '--font-inter',
+});
+
+const notoSansKR = Noto_Sans_KR({
+	weight: ['400', '500', '700'],
+	subsets: ['latin'],
+	variable: '--font-noto-sans-kr',
 });
 
 export const metadata: Metadata = {
@@ -43,7 +49,7 @@ export default async function RootLayout({
 
 	return (
 		<html lang="ko" suppressHydrationWarning>
-			<body className={`${inter.className} relative`}>
+			<body className={`${inter.variable} ${notoSansKR.variable} relative`}>
 				<Providers session={session}>
 					<ThemeProvider initialTheme={initialTheme} />
 					{children}

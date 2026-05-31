@@ -3,9 +3,8 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { MdOutlineAccessTime } from 'react-icons/md';
 import { IoCreateOutline } from 'react-icons/io5';
-import { BiUser, BiLogOut, BiCog, BiGroup, BiBell } from 'react-icons/bi';
+import { BiUser, BiLogOut, BiCog, BiGroup, BiBell, BiHome } from 'react-icons/bi';
 import { cn } from '@/utils';
 import { useSession, signOut } from 'next-auth/react';
 import UserAvatar from '@/components/user-avatar';
@@ -15,7 +14,7 @@ const navItems = [
 	{
 		id: 'home',
 		href: '/new',
-		icon: MdOutlineAccessTime,
+		icon: BiHome,
 		label: '홈',
 		match: ['/', '/new']
 	},
@@ -61,12 +60,11 @@ export default function MobileBottomNav() {
 								key={id}
 								href={href}
 								className={cn(
-									'flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs transition-colors',
+									'flex items-center justify-center flex-1 h-full transition-colors',
 									isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
 								)}
 							>
-								<Icon size={26} />
-								<span className="text-[10px] font-medium">{label}</span>
+								<Icon size={24} />
 							</Link>
 						);
 					})}
@@ -81,10 +79,9 @@ export default function MobileBottomNav() {
 					) : (
 						<Link
 							href={`/auth?callbackUrl=${encodeURIComponent(pathname)}`}
-							className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full text-xs text-muted-foreground hover:text-foreground transition-colors"
+							className="flex items-center justify-center flex-1 h-full text-muted-foreground hover:text-foreground transition-colors"
 						>
-							<BiUser size={26} />
-							<span className="text-[10px] font-medium">프로필</span>
+							<BiUser size={24} />
 						</Link>
 					)}
 				</div>
