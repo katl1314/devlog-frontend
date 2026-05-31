@@ -1,14 +1,8 @@
 import UserAvatar from '@/components/user-avatar';
-import FollowButton from './follow-button';
 import Link from 'next/link';
-import { auth } from '@/auth';
 import { userService } from '@/services/user.service';
 
 export default async function UserProfile({ user_id, user_name, avatar_url, blog }: any) {
-	const session = await auth();
-	const currentUserId = (session?.user as any)?.userId as string | undefined;
-	const isOwner = currentUserId === user_id;
-
 	const { followerCount, followingCount } = await userService
 		.getFollowCounts(user_id)
 		.catch(() => ({ followerCount: 0, followingCount: 0 }));
