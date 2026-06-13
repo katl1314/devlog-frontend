@@ -23,7 +23,7 @@ interface PostHeaderProps {
 export default function PostHeader({ title, created_at, tags = [], user, isModal }: PostHeaderProps) {
 	const { avatar_url, user_id } = user;
 	return (
-		<section className="mb-12">
+		<section className="mb-6">
 			<h1 className="text-4xl font-extrabold mb-5 leading-tight break-keep text-foreground">{title}</h1>
 			<div className="flex justify-between items-center mb-6">
 				<div className="flex items-center gap-2.5">

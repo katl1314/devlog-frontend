@@ -20,6 +20,7 @@ import CodeBlock from '@tiptap/extension-code-block';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Blockquote from '@tiptap/extension-blockquote';
 import Strikethrough from '@tiptap/extension-strike';
+import { Markdown } from 'tiptap-markdown';
 import { useEffect } from 'react';
 
 interface IEditor {
@@ -53,6 +54,7 @@ export default function Editor({ name, content, setContent, placeholder = 'ë¬´ì—
 				exitOnArrowDown: true,
 				defaultLanguage: 'plaintext'
 			}),
+			Markdown,
 			Placeholder.configure({
 				placeholder
 			}),
@@ -117,7 +119,7 @@ export default function Editor({ name, content, setContent, placeholder = 'ë¬´ì—
 		],
 		content: content,
 		onUpdate: function ({ editor }) {
-			setContent(editor.view.dom.innerHTML);
+			setContent(editor.storage.markdown.getMarkdown());
 		},
 
 		editorProps: {
