@@ -1,6 +1,7 @@
 import UserProfile from '@/app/(blog)/user/components/user-profile';
 import Thumbnail from '@/app/(blog)/user/components/thumbnail';
 import ReactMarkdown from 'react-markdown';
+import Image from 'next/image';
 
 export default function PostBody(post: any) {
 	const dummyMarkdown = post.content;
@@ -56,6 +57,20 @@ const MarkdownView = ({ content }: { content: string }) => {
 						{...props}
 					/>
 				),
+				img: ({ src, alt }) =>
+					src?.startsWith('/api/image/') ? (
+						<Image
+							src={src}
+							alt={alt ?? ''}
+							width={0}
+							height={0}
+							sizes="100vw"
+							className="w-full h-auto my-4 rounded"
+						/>
+					) : (
+						// eslint-disable-next-line @next/next/no-img-element
+						<img src={src} alt={alt ?? ''} className="max-w-full h-auto my-4 rounded" />
+					),
 			}}
 		>
 			{content}

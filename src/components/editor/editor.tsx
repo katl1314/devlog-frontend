@@ -20,6 +20,7 @@ import CodeBlock from '@tiptap/extension-code-block';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Blockquote from '@tiptap/extension-blockquote';
 import Strikethrough from '@tiptap/extension-strike';
+import Image from '@tiptap/extension-image';
 import { Markdown } from 'tiptap-markdown';
 import { useEffect } from 'react';
 
@@ -28,9 +29,10 @@ interface IEditor {
 	content: string;
 	placeholder?: string;
 	setContent: (content: string) => void;
+	onImageUpload?: (file: File) => Promise<string>;
 }
 
-export default function Editor({ name, content, setContent, placeholder = '무엇이든 입력하세요.' }: IEditor) {
+export default function Editor({ name, content, setContent, placeholder = '무엇이든 입력하세요.', onImageUpload }: IEditor) {
 	const editor = useEditor({
 		immediatelyRender: false,
 		extensions: [
@@ -54,6 +56,7 @@ export default function Editor({ name, content, setContent, placeholder = '무�
 				exitOnArrowDown: true,
 				defaultLanguage: 'plaintext'
 			}),
+			Image.configure({ inline: false, allowBase64: false }),
 			Markdown,
 			Placeholder.configure({
 				placeholder
@@ -67,12 +70,10 @@ export default function Editor({ name, content, setContent, placeholder = '무�
 					try {
 						const parsedUrl = url.includes(':') ? new URL(url) : new URL(`${ctx.defaultProtocol}://${url}`);
 
-						// use default validation
 						if (!ctx.defaultValidate(parsedUrl.href)) {
 							return false;
 						}
 
-						// 허용하지 않은 프로토콜
 						const disallowedProtocols = ['ftp', 'file', 'mnailto'];
 						const protocol = parsedUrl.protocol.replace(':', '');
 
@@ -80,14 +81,12 @@ export default function Editor({ name, content, setContent, placeholder = '무�
 							return false;
 						}
 
-						// only allow protocols specified in ctx.protocols
 						const allowedProtocols = ctx.protocols.map(p => (typeof p === 'string' ? p : p.scheme));
 
 						if (!allowedProtocols.includes(protocol)) {
 							return false;
 						}
 
-						// disallowed domains
 						const disallowedDomains = ['example-phishing.com', 'malicious-site.net'];
 						const domain = parsedUrl.hostname;
 
@@ -95,21 +94,16 @@ export default function Editor({ name, content, setContent, placeholder = '무�
 							return false;
 						}
 
-						// all checks have passed
 						return true;
 					} catch {
-						return false; // 에러 발생하면 false
+						return false;
 					}
 				},
 				shouldAutoLink: url => {
 					try {
-						// construct URL
 						const parsedUrl = url.includes(':') ? new URL(url) : new URL(`https://${url}`);
-
-						// only auto-link if the domain is not in the disallowed list
 						const disallowedDomains = ['example-no-autolink.com', 'another-no-autolink.com'];
 						const domain = parsedUrl.hostname;
-
 						return !disallowedDomains.includes(domain);
 					} catch {
 						return false;
@@ -121,10 +115,29 @@ export default function Editor({ name, content, setContent, placeholder = '무�
 		onUpdate: function ({ editor }) {
 			setContent(editor.storage.markdown.getMarkdown());
 		},
-
 		editorProps: {
 			attributes: {
 				class: 'flex-1 max-h-[calc(100vh-400px)] py-3 overflow-auto'
+			},
+			handlePaste: (view, event) => {
+				if (!onImageUpload) return false;
+				const items = Array.from(event.clipboardData?.items ?? []);
+				const imageItem = items.find(item => item.type.startsWith('image/'));
+				if (!imageItem) return false;
+
+				const file = imageItem.getAsFile();
+				if (!file) return false;
+
+				onImageUpload(file)
+					.then(url => {
+						const { schema, tr, selection } = view.state;
+						const node = schema.nodes.image?.create({ src: url });
+						if (node) view.dispatch(tr.replaceSelectionWith(node));
+					})
+					.catch(() => {
+						// toast는 onImageUpload(handleImageUpload)에서 표시됨
+					});
+				return true;
 			}
 		}
 	});
@@ -137,7 +150,7 @@ export default function Editor({ name, content, setContent, placeholder = '무�
 
 	return (
 		<div className="markdown-body px-3">
-			<ControlPanel editor={editor!} />
+			<ControlPanel editor={editor!} onImageUpload={onImageUpload} />
 			<EditorContent name={name} editor={editor} />
 		</div>
 	);

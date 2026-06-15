@@ -13,38 +13,56 @@ import {
 	RiCodeBlock,
 	RiDoubleQuotesR,
 	RiLink,
-	RiStrikethrough2
+	RiStrikethrough2,
+	RiImageAddLine
 } from 'react-icons/ri';
 import { cn } from '@/utils';
 import { useTheme } from '@/hooks/theme';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
-export default function ControlPanel({ editor }: { editor: Editor }) {
+interface IControlPanel {
+	editor: Editor;
+	onImageUpload?: (file: File) => Promise<string>;
+}
+
+export default function ControlPanel({ editor, onImageUpload }: IControlPanel) {
 	const { theme } = useTheme();
 	const fill = theme === 'dark' ? 'white' : 'black';
-	// editer.isActive(group, condition);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const setLink = useCallback(() => {
 		const previousUrl = editor?.getAttributes('link').href;
 		const url = window.prompt('URL', previousUrl);
 
-		// cancelled
 		if (url === null) {
 			return;
 		}
 
-		// empty
 		if (url === '') {
 			editor?.chain().focus().extendMarkRange('link').unsetLink().run();
-
 			return;
 		}
 
-		// update link
 		try {
 			editor?.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
 		} catch (e) {}
 	}, [editor]);
+
+	const handleImageSelect = useCallback(
+		async (e: React.ChangeEvent<HTMLInputElement>) => {
+			const file = e.target.files?.[0];
+			if (!file || !onImageUpload) return;
+			try {
+				const url = await onImageUpload(file);
+				editor.chain().focus().setImage({ src: url }).run();
+			} catch {
+				// toast는 onImageUpload(handleImageUpload)에서 표시됨
+			} finally {
+				e.target.value = '';
+			}
+		},
+		[editor, onImageUpload]
+	);
 
 	return (
 		<div className="control-group mb-1 flex gap-4 items-center">
@@ -85,7 +103,7 @@ export default function ControlPanel({ editor }: { editor: Editor }) {
 				>
 					<RiH4 size={20} fill={fill} />
 				</Label>
-				<div className="w-[1px] h-[20px] bg-neutral-300"></div>
+				<div className="w-px h-5 bg-neutral-300"></div>
 			</div>
 			<div className="flex gap-4 items-center">
 				<Label
@@ -115,7 +133,7 @@ export default function ControlPanel({ editor }: { editor: Editor }) {
 				>
 					<RiStrikethrough2 size={20} fill={fill} />
 				</Label>
-				<div className="w-[1px] h-[20px] bg-neutral-300"></div>
+				<div className="w-px h-5 bg-neutral-300"></div>
 			</div>
 
 			<div className="flex gap-4 items-center">
@@ -151,8 +169,29 @@ export default function ControlPanel({ editor }: { editor: Editor }) {
 				<Label title="Link" aria-description="Link" onClick={setLink} tabIndex={0}>
 					<RiLink size={20} fill={fill} />
 				</Label>
-				<div className="w-[1px] h-[20px] bg-neutral-300"></div>
+				<div className="w-px h-5 bg-neutral-300"></div>
 			</div>
+
+			{onImageUpload && (
+				<div className="flex gap-4 items-center">
+					<input
+						ref={fileInputRef}
+						type="file"
+						accept="image/*"
+						className="hidden"
+						onChange={handleImageSelect}
+					/>
+					<Label
+						title="Image"
+						aria-description="Image Upload"
+						onClick={() => fileInputRef.current?.click()}
+						className="tool"
+						tabIndex={0}
+					>
+						<RiImageAddLine size={20} fill={fill} />
+					</Label>
+				</div>
+			)}
 		</div>
 	);
 }

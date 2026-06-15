@@ -39,6 +39,20 @@ interface PostEditorProps {
 export default function PostEditor({ user, post }: PostEditorProps) {
 	const { blog, user_id } = user;
 	const { title, content, tags, setTitle, setContent, setTags, initialize, reset, getFormData } = usePost();
+
+	const handleImageUpload = async (file: File): Promise<string> => {
+		const formData = new FormData();
+		formData.set('image', file);
+		const res = await fetch('/api/image', { method: 'POST', body: formData });
+		if (!res.ok) {
+			const body = await res.json().catch(() => ({})) as { message?: string };
+			const message = body.message ?? '이미지 업로드에 실패했습니다.';
+			toast.error(message, { position: 'top-right', duration: 3000 });
+			throw new Error(message);
+		}
+		const data = (await res.json()) as { url: string };
+		return data.url;
+	};
 	const [state, formAction] = useActionState(savePost, { status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
 
@@ -126,7 +140,7 @@ export default function PostEditor({ user, post }: PostEditorProps) {
 
 					{/* 본문 에디터 영역 */}
 					<div className="min-h-[500px]">
-						<Editor setContent={setContent} content={content} name="content" />
+						<Editor setContent={setContent} content={content} name="content" onImageUpload={handleImageUpload} />
 					</div>
 				</div>
 			</main>
