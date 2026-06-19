@@ -9,7 +9,8 @@ import ImageUpload from '@/components/image-upload';
 import { seriesService, Series } from '@/services/series.service';
 
 export default function PostSetting({ url_slug, userId }: { url_slug: string; userId: string }) {
-	const { summary, setSummary, visibility, setVisibility, path, setPath, setFile, seriesId, setSeriesId } = usePost();
+	const { summary, setSummary, visibility, setVisibility, path, setPath, setThumbnail, seriesId, setSeriesId } =
+		usePost();
 
 	const [seriesList, setSeriesList] = useState<Series[]>([]);
 
@@ -33,7 +34,7 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 				<div className="relative z-10 w-full flex flex-col items-center">
 					<h3 className="text-lg font-bold text-foreground mb-4 md:mb-6">포스트 미리보기</h3>
 
-					<ImageUpload onFileChange={file => file && setFile(file)}>
+					<ImageUpload onFileChange={file => file && setThumbnail(file)}>
 						<ImageUpload.Upload className="w-full aspect-video bg-background rounded-xl border-2 border-dashed border-muted-foreground/30 flex flex-col items-center justify-center text-muted-foreground gap-3 group hover:border-foreground/30 hover:text-foreground transition-all duration-300 cursor-pointer">
 							<div className="p-3 md:p-4 rounded-full bg-muted group-hover:bg-muted/60 transition-colors">
 								<FiUploadCloud size={28} className="md:w-8 md:h-8" />

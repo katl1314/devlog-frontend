@@ -18,28 +18,37 @@ interface PostHeaderProps {
 		avatar_url: string;
 	};
 	isModal: boolean;
+	hasThumbnail?: boolean;
 }
 
-export default function PostHeader({ title, created_at, tags = [], user, isModal }: PostHeaderProps) {
+export default function PostHeader({ title, created_at, tags = [], user, isModal, hasThumbnail = false }: PostHeaderProps) {
 	const { avatar_url, user_id } = user;
 	return (
-		<section className="mb-6">
-			<h1 className="text-4xl font-extrabold mb-5 leading-tight break-keep text-foreground">{title}</h1>
-			<div className="flex justify-between items-center mb-6">
-				<div className="flex items-center gap-2.5">
-					<UserAvatar src={avatar_url} userId={user_id} className="w-8 h-8" />
-					<div className="flex items-center gap-1.5 text-sm text-muted-foreground font-medium">
-						<PostAuthorLink userId={user_id} isModal={isModal} />
-						<span className="text-border">·</span>
-						<Label className="text-muted-foreground font-normal">{getTimeDiff(created_at)}</Label>
-					</div>
+		<section className="mb-6 border-b border-border">
+			{!hasThumbnail && (
+				<div className="w-full h-80 relative bg-linear-to-br from-slate-700 via-slate-600 to-slate-500 flex flex-col justify-end p-8 mb-4">
+					{tags.length > 0 && (
+						<div className="flex flex-wrap gap-2 mb-3">
+							{tags.map((tag: any, i: number) => (
+								<span key={i} className="text-xs bg-white/20 text-white px-3 py-1 rounded-full font-medium backdrop-blur-sm">
+									#{tag.name}
+								</span>
+							))}
+						</div>
+					)}
+					<h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight break-keep mb-3">{title}</h1>
+					<p className="text-sm text-white/75 font-medium">{user.user_name} · {getTimeDiff(created_at)}</p>
 				</div>
+			)}
+			<div className="flex items-center mb-4 px-4">
+				<PostActions />
 				<PostOwnerActions userId={user_id}>
-					<PostOwnerActionButton />
+					<>
+						<div className="w-px h-4 bg-border mx-2 shrink-0" />
+						<PostOwnerActionButton />
+					</>
 				</PostOwnerActions>
 			</div>
-			{tags.length > 0 && <TagViewer tags={tags} />}
-			<PostActions />
 		</section>
 	);
 }

@@ -3,6 +3,7 @@
 import { RegisterSchema, RegisterType } from '@/app/schema';
 import { userService } from '@/services/user.service';
 import { postService } from '@/services/post.service';
+import { imageService } from '@/services/image.service';
 import { isEmpty, parseFormData, stringToBase64 } from '@/utils';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
@@ -130,13 +131,20 @@ export const checkWithdrawal = async (email: string): Promise<boolean> => {
 
 export const savePost = async (_: any, formData: FormData) => {
 	try {
+		const thumbnailRaw = formData.get('thumbnail');
+		const isFile = thumbnailRaw instanceof File && thumbnailRaw.size > 0;
+		formData.delete('thumbnail');
+
 		const formObj = parseFormData(formData, { tags: 'object' });
 		const session = await auth();
 		if (!session?.accessToken) throw new Error('Unauthorized');
-		// TODO 썸네일 이미지 처리할 것.
+
+		const thumbnailUrl = isFile
+			? await imageService.upload(thumbnailRaw as File, session.accessToken)
+			: '';
 
 		const { id, ...postData } = formObj as { id?: string; [key: string]: unknown };
-		const payload = { ...postData, thumbnail: '' };
+		const payload = { ...postData, thumbnail: thumbnailUrl };
 
 		const result = id
 			? await postService.update(id, payload, session.accessToken)

@@ -19,7 +19,7 @@ export default function PostFooter({ id, comments }: PostFooterProps) {
 		[setCommentCount]
 	);
 	return (
-		<div className="mt-5 mb-12" id="comments">
+		<div className="mt-5 mb-12 px-4" id="comments">
 			<CommentModule
 				postId={id}
 				initialComments={comments}

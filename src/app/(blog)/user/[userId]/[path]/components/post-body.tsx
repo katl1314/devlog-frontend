@@ -1,14 +1,12 @@
 import UserProfile from '@/app/(blog)/user/components/user-profile';
-import Thumbnail from '@/app/(blog)/user/components/thumbnail';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 
 export default function PostBody(post: any) {
 	const dummyMarkdown = post.content;
 	return (
-		<div className="flex relative">
-			<main id="content__entry_point" className="flex-1 w-full min-w-0 pb-8">
-				<Thumbnail thumbnail={post.thumbnail} />
+		<div className="flex relative flex-col">
+			<main id="content__entry_point" className="flex-1 w-full min-w-0 pb-8 px-4">
 				<MarkdownView content={dummyMarkdown} />
 				<UserProfile {...post.user} />
 			</main>

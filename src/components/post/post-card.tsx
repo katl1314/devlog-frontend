@@ -60,7 +60,7 @@ export default function PostCard({
 					{thumbnail && (
 						<div className="relative w-22 h-22 shrink-0 rounded-xl overflow-hidden">
 							<Image
-								src={thumbnail}
+								src={thumbnail.startsWith('/') ? thumbnail : `/api/image/${thumbnail}`}
 								alt={title}
 								fill
 								className="object-cover"

@@ -31,7 +31,7 @@ interface PostEditorProps {
 		visibility: boolean;
 		path: string;
 		summary: string;
-		thumbnail: string;
+		thumbnail: File | undefined | null;
 		series_id: string | null;
 	};
 }
@@ -45,7 +45,7 @@ export default function PostEditor({ user, post }: PostEditorProps) {
 		formData.set('image', file);
 		const res = await fetch('/api/image', { method: 'POST', body: formData });
 		if (!res.ok) {
-			const body = await res.json().catch(() => ({})) as { message?: string };
+			const body = (await res.json().catch(() => ({}))) as { message?: string };
 			const message = body.message ?? '이미지 업로드에 실패했습니다.';
 			toast.error(message, { position: 'top-right', duration: 3000 });
 			throw new Error(message);

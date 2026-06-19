@@ -47,9 +47,9 @@ export default function PostActions() {
 	};
 
 	return (
-		<div className="flex items-center justify-between py-4 border-t border-border mt-5">
+		<div className="flex items-center justify-between flex-1 py-2">
 			{/* 좌측: 좋아요, 댓글 */}
-			<div className="flex items-center gap-4">
+			<div className="flex items-center gap-6">
 				<button
 					onClick={toggleLike}
 					className={cn(
@@ -70,50 +70,32 @@ export default function PostActions() {
 				</button>
 			</div>
 
-			{/* 우측: 공유, 더보기 */}
-			<div className="flex items-center gap-1">
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
-							<ShareIcon />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end" className="w-48 z-200">
-						<DropdownMenuItem onClick={handleCopyLink} className="gap-2">
-							<BiLink size={16} /> 링크 복사
-						</DropdownMenuItem>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem onClick={() => handleShareSNS('twitter')} className="gap-2">
-							<BiLogoTwitter size={16} /> Twitter / X
-						</DropdownMenuItem>
-						<DropdownMenuItem onClick={() => handleShareSNS('facebook')} className="gap-2">
-							<BiLogoFacebook size={16} /> Facebook
-						</DropdownMenuItem>
-						<DropdownMenuItem onClick={() => handleShareSNS('linkedin')} className="gap-2">
-							<BiLogoLinkedin size={16} /> LinkedIn
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
-							<BsThreeDots size={16} />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end" className="w-44 z-200">
-						<DropdownMenuItem className="gap-2 text-destructive focus:text-destructive">신고하기</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			</div>
+			{/* 우측: 더보기 (공유 + 신고 통합) */}
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground">
+						<BsThreeDots size={16} />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end" className="w-48 z-200">
+					<DropdownMenuItem onClick={handleCopyLink} className="gap-2">
+						<BiLink size={16} /> 링크 복사
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem onClick={() => handleShareSNS('twitter')} className="gap-2">
+						<BiLogoTwitter size={16} /> Twitter / X
+					</DropdownMenuItem>
+					<DropdownMenuItem onClick={() => handleShareSNS('facebook')} className="gap-2">
+						<BiLogoFacebook size={16} /> Facebook
+					</DropdownMenuItem>
+					<DropdownMenuItem onClick={() => handleShareSNS('linkedin')} className="gap-2">
+						<BiLogoLinkedin size={16} /> LinkedIn
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem className="gap-2 text-destructive focus:text-destructive">신고하기</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
 		</div>
 	);
 }
 
-const ShareIcon = () => (
-	<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-		<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-		<polyline points="16 6 12 2 8 6" />
-		<line x1="12" y1="2" x2="12" y2="15" />
-	</svg>
-);

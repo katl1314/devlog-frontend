@@ -44,8 +44,9 @@ export const apiClient = async (
 			: (process.env.NEXT_PUBLIC_SERVER_URL ?? '');
 	const url = `${baseUrl}${endpoint}${queryString}`;
 
+	const isFormData = other.body instanceof FormData;
 	const finalHeaders: Record<string, string> = {
-		'Content-Type': 'application/json',
+		...(isFormData ? {} : { 'Content-Type': 'application/json' }),
 		...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
 		...headers
 	};

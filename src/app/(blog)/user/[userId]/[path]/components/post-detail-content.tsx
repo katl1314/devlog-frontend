@@ -5,6 +5,7 @@ import { apiClient } from '@/utils/db';
 import PostHeader from './post-header';
 import PostFooter from './post-footer';
 import PostBody from './post-body';
+import Thumbnail from '@/app/(blog)/user/components/thumbnail';
 import { isEmpty } from '@/utils';
 import { auth } from '@/auth';
 
@@ -43,7 +44,14 @@ export default async function PostDetailContent({ path, userId, isModal = false 
 			initCommentCount={(post.comments ?? []).length}
 		>
 			<div className="pb-24 lg:pb-8">
-				<PostHeader {...post} isModal={isModal} />
+				<Thumbnail
+					thumbnail={post.thumbnail}
+					title={post.title}
+					tags={post.tags}
+					user={post.user}
+					created_at={post.created_at}
+				/>
+				<PostHeader {...post} isModal={isModal} hasThumbnail={!!post.thumbnail} />
 				<PostBody {...post} />
 				<PostFooter {...post} comments={comments} />
 			</div>

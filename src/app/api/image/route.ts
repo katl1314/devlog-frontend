@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json(error, { status: res.status });
 	}
 
-	const data = (await res.json()) as { url: string };
-	const key = data.url.replace('/image/', '');
-	return NextResponse.json({ url: `/api/image/${key}` });
+	const data = (await res.json()) as { key: string };
+	return NextResponse.json({ url: `/api/image/${data.key}` });
 }

@@ -3,5 +3,5 @@ export default async function Layout({
 }: {
 	children: React.ReactNode;
 }) {
-	return <main className="relative p-2 py-4">{children}</main>;
+	return <main className="relative py-4">{children}</main>;
 }
