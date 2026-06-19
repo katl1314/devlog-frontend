@@ -1,10 +1,6 @@
 import PostOwnerActionButton from './post-owner-action-button';
-import { TagViewer } from '@/components/tag/tag-viewer';
-import PostOwnerActions from './post-owner-actions';
-import { Label } from '@/components/ui/label';
+import OwnerOnly from '@/components/owner-only';
 import PostActions from './post-actions';
-import PostAuthorLink from './post-author-link';
-import UserAvatar from '@/components/user-avatar';
 import { getTimeDiff } from '@/utils';
 
 interface PostHeaderProps {
@@ -42,12 +38,10 @@ export default function PostHeader({ title, created_at, tags = [], user, isModal
 			)}
 			<div className="flex items-center mb-4 px-4">
 				<PostActions />
-				<PostOwnerActions userId={user_id}>
-					<>
-						<div className="w-px h-4 bg-border mx-2 shrink-0" />
-						<PostOwnerActionButton />
-					</>
-				</PostOwnerActions>
+				<OwnerOnly userId={user_id}>
+					<div className="w-px h-4 bg-border mx-2 shrink-0" />
+					<PostOwnerActionButton />
+				</OwnerOnly>
 			</div>
 		</section>
 	);

@@ -22,6 +22,7 @@ import {
 	BiLogoTwitter
 } from 'react-icons/bi';
 import { BsThreeDots } from 'react-icons/bs';
+import AuthOnly from '@/components/auth-only';
 
 export default function PostActions() {
 	const { isLiked, likeCount, commentCount, toggleLike } = useContext(PostContext);
@@ -91,8 +92,10 @@ export default function PostActions() {
 					<DropdownMenuItem onClick={() => handleShareSNS('linkedin')} className="gap-2">
 						<BiLogoLinkedin size={16} /> LinkedIn
 					</DropdownMenuItem>
-					<DropdownMenuSeparator />
-					<DropdownMenuItem className="gap-2 text-destructive focus:text-destructive">신고하기</DropdownMenuItem>
+					<AuthOnly>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem className="gap-2 text-destructive focus:text-destructive">신고하기</DropdownMenuItem>
+					</AuthOnly>
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</div>
