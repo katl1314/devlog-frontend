@@ -1,13 +1,6 @@
 'use client';
 
-import {
-	createContext,
-	useContext,
-	useEffect,
-	useState,
-	useCallback,
-	PropsWithChildren
-} from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, PropsWithChildren } from 'react';
 import { MAX_COMMENT_LEVEL } from '@/utils/consts';
 import UserAvatar from '@/components/user-avatar';
 import { useSession } from 'next-auth/react';
@@ -75,12 +68,7 @@ interface CommentModuleProps extends PropsWithChildren {
 	onCountChange: (comments: number) => void;
 }
 
-function CommentModule({
-	postId,
-	initialComments,
-	children,
-	onCountChange
-}: CommentModuleProps) {
+function CommentModule({ postId, initialComments, children, onCountChange }: CommentModuleProps) {
 	const [comments, setComments] = useState<CommentTree[]>(initialComments);
 	const [replyingTo, setReplyingTo] = useState<string | null>(null);
 	const { data: session } = useSession();
@@ -170,11 +158,7 @@ function Count({ className }: { className?: string }) {
 	const { comments } = useComment();
 	const total = countAll(comments);
 
-	return (
-		<div className={`font-bold text-lg ${className ?? ''}`}>
-			{total}개의 댓글
-		</div>
-	);
+	return <div className={`font-bold text-lg ${className ?? ''}`}>{total}개의 댓글</div>;
 }
 
 function countAll(comments: CommentTree[]): number {
@@ -229,33 +213,35 @@ function Form({ parentId, onClose, placeholder, className }: FormProps) {
 	}
 
 	return (
-		<div className={`flex flex-col gap-2 ${className ?? ''}`}>
-			<Textarea
-				value={content}
-				onChange={e => setContent(e.target.value)}
-				placeholder={placeholder ?? '댓글을 입력하세요...'}
-				rows={3}
-				className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-ring"
-			/>
-			<div className="flex justify-end gap-2">
-				{onClose && (
+		<div className={className ?? ''}>
+			<div className="border border-border rounded-[10px] overflow-hidden transition-colors focus-within:border-muted-foreground/50 group">
+				<Textarea
+					value={content}
+					onChange={e => setContent(e.target.value)}
+					placeholder={placeholder ?? '댓글을 입력하세요...'}
+					rows={1}
+					className="border-none rounded-none px-3 py-2.5 text-sm bg-background min-h-11 focus:min-h-20 transition-[min-height] duration-200 outline-none"
+				/>
+				<div className="hidden group-focus-within:flex items-center justify-end gap-2 px-2.5 py-2 bg-muted border-t border-border">
+					{onClose && (
+						<Button
+							type="button"
+							variant="ghost"
+							onClick={onClose}
+							className="px-3 py-1.5 h-auto text-sm text-muted-foreground"
+						>
+							취소
+						</Button>
+					)}
 					<Button
 						type="button"
-						variant="ghost"
-						onClick={onClose}
-						className="px-3 py-1.5 h-auto text-sm text-muted-foreground"
+						onClick={handleSubmit}
+						disabled={!content.trim() || submitting}
+						className="px-3 py-1.5 h-auto text-sm"
 					>
-						취소
+						{submitting ? '등록 중...' : '등록'}
 					</Button>
-				)}
-				<Button
-					type="button"
-					onClick={handleSubmit}
-					disabled={!content.trim() || submitting}
-					className="px-3 py-1.5 h-auto text-sm"
-				>
-					{submitting ? '등록 중...' : '등록'}
-				</Button>
+				</div>
 			</div>
 		</div>
 	);
@@ -296,8 +282,7 @@ interface ItemProps {
 
 /** 단일 댓글 + 자식 댓글을 재귀적으로 렌더링한다 */
 function Item({ comment }: ItemProps) {
-	const { replyingTo, setReplyingTo, updateComment, deleteComment, currentUserId } =
-		useComment();
+	const { replyingTo, setReplyingTo, updateComment, deleteComment, currentUserId } = useComment();
 	const isReplying = replyingTo === comment.id;
 	const isOwner = currentUserId === comment.user.user_id;
 	const canReply = comment.level < MAX_COMMENT_LEVEL;
@@ -321,7 +306,6 @@ function Item({ comment }: ItemProps) {
 
 	return (
 		<div>
-
 			{/* 댓글 본문 */}
 			<div className="flex flex-col gap-2 mt-2">
 				<div className="flex items-center gap-2">
@@ -330,12 +314,8 @@ function Item({ comment }: ItemProps) {
 						userId={comment.user?.user_id ?? 'U'}
 						className="w-9 h-9 shrink-0"
 					/>
-					<span className="text-base font-medium">
-						{comment.user?.user_name}
-					</span>
-					<span className="text-sm text-muted-foreground">
-						{getTimeDiff(comment.created_at)}
-					</span>
+					<span className="text-base font-medium">{comment.user?.user_name}</span>
+					<span className="text-sm text-muted-foreground">{getTimeDiff(comment.created_at)}</span>
 				</div>
 
 				{isEditing ? (
@@ -350,7 +330,10 @@ function Item({ comment }: ItemProps) {
 							<Button
 								type="button"
 								variant="ghost"
-								onClick={() => { setIsEditing(false); setEditContent(comment.content); }}
+								onClick={() => {
+									setIsEditing(false);
+									setEditContent(comment.content);
+								}}
 								className="px-3 py-1.5 h-auto text-sm text-muted-foreground"
 							>
 								취소
@@ -407,9 +390,7 @@ function Item({ comment }: ItemProps) {
 							onClick={() => setExpanded(prev => !prev)}
 							className="h-auto p-0 text-sm text-muted-foreground hover:text-foreground hover:bg-transparent"
 						>
-							{expanded
-								? '답글 숨기기'
-								: `답글 ${comment.children.length}개 보기`}
+							{expanded ? '답글 숨기기' : `답글 ${comment.children.length}개 보기`}
 						</Button>
 					)}
 				</div>
