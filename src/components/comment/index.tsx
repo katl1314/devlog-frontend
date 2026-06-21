@@ -315,7 +315,7 @@ function Item({ comment }: ItemProps) {
 						className="w-9 h-9 shrink-0"
 					/>
 					<span className="text-base font-medium">{comment.user?.user_name}</span>
-					<span className="text-sm text-muted-foreground">{getTimeDiff(comment.created_at)}</span>
+					<span className="text-sm text-muted-foreground" suppressHydrationWarning>{getTimeDiff(comment.created_at)}</span>
 				</div>
 
 				{isEditing ? (
