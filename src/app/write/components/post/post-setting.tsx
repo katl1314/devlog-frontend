@@ -4,14 +4,23 @@ import { ChangeEventHandler, useEffect, useState } from 'react';
 import { usePost } from '@/hooks/post';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { FiGlobe, FiLock, FiUploadCloud } from 'react-icons/fi';
-import ImageUpload from '@/components/image-upload';
+import { FiGlobe, FiLock, FiUploadCloud, FiX } from 'react-icons/fi';
+import ImageUpload, { useImageUpload } from '@/components/image-upload';
 import { seriesService, Series } from '@/services/series.service';
 
-export default function PostSetting({ url_slug, userId }: { url_slug: string; userId: string }) {
-	const { summary, setSummary, visibility, setVisibility, path, setPath, setThumbnail, seriesId, setSeriesId } =
-		usePost();
-
+export default function PostSetting({ url_slug, userId, thumbnailUrl }: { url_slug: string; userId: string; thumbnailUrl?: string }) {
+	const {
+		summary,
+		setSummary,
+		visibility,
+		setVisibility,
+		path,
+		setPath,
+		setThumbnail,
+		seriesId,
+		setSeriesId
+	} = usePost();
+	const initialThumbnailUrl = thumbnailUrl ? (thumbnailUrl.startsWith('/') ? thumbnailUrl : `/api/image/${thumbnailUrl}`) : '';
 	const [seriesList, setSeriesList] = useState<Series[]>([]);
 
 	useEffect(() => {
@@ -34,14 +43,20 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 				<div className="relative z-10 w-full flex flex-col items-center">
 					<h3 className="text-lg font-bold text-foreground mb-4 md:mb-6">포스트 미리보기</h3>
 
-					<ImageUpload onFileChange={file => file && setThumbnail(file)}>
+					<ImageUpload initialUrl={initialThumbnailUrl} onFileChange={file => file && setThumbnail(file)}>
 						<ImageUpload.Upload className="w-full aspect-video bg-background rounded-xl border-2 border-dashed border-muted-foreground/30 flex flex-col items-center justify-center text-muted-foreground gap-3 group hover:border-foreground/30 hover:text-foreground transition-all duration-300 cursor-pointer">
 							<div className="p-3 md:p-4 rounded-full bg-muted group-hover:bg-muted/60 transition-colors">
 								<FiUploadCloud size={28} className="md:w-8 md:h-8" />
 							</div>
 							<span className="text-xs md:text-sm font-semibold">썸네일 업로드</span>
 						</ImageUpload.Upload>
-						<ImageUpload.Preview className="w-full aspect-video rounded-xl overflow-hidden" />
+						<div className="relative w-full aspect-video group">
+							<div className="w-full h-full rounded-xl overflow-hidden relative">
+								<ImageUpload.Preview allowReupload className="w-full h-full" sizes="(max-width: 768px) 100vw, 40vw" />
+								<ThumbnailEditOverlay />
+							</div>
+							<ThumbnailDeleteButton />
+						</div>
 					</ImageUpload>
 
 					<p className="mt-4 text-xs text-muted-foreground text-center leading-relaxed hidden md:block">
@@ -159,5 +174,31 @@ export default function PostSetting({ url_slug, userId }: { url_slug: string; us
 				</div>
 			</div>
 		</div>
+	);
+}
+
+function ThumbnailEditOverlay() {
+	const { triggerInput } = useImageUpload();
+	return (
+		<div
+			onClick={triggerInput}
+			className="absolute inset-0 bg-black/40 text-white flex justify-center items-center text-sm font-semibold opacity-0 group-hover:opacity-100 transition cursor-pointer"
+		>
+			변경
+		</div>
+	);
+}
+
+function ThumbnailDeleteButton() {
+	const { clearImage, previewUrl } = useImageUpload();
+	if (!previewUrl) return null;
+	return (
+		<button
+			type="button"
+			onClick={clearImage}
+			className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-neutral-700 hover:bg-neutral-600 flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-sm z-10"
+		>
+			<FiX size={12} color="white" />
+		</button>
 	);
 }

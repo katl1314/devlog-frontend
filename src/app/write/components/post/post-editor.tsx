@@ -31,14 +31,14 @@ interface PostEditorProps {
 		visibility: boolean;
 		path: string;
 		summary: string;
-		thumbnail: File | undefined | null;
+		thumbnail: string | null;
 		series_id: string | null;
 	};
 }
 
 export default function PostEditor({ user, post }: PostEditorProps) {
 	const { blog, user_id } = user;
-	const { title, content, tags, setTitle, setContent, setTags, initialize, reset, getFormData } = usePost();
+	const { title, content, tags, thumbnail, setTitle, setContent, setTags, initialize, reset, getFormData } = usePost();
 
 	const handleImageUpload = async (file: File): Promise<string> => {
 		const formData = new FormData();
@@ -65,7 +65,6 @@ export default function PostEditor({ user, post }: PostEditorProps) {
 				visibility: post.visibility,
 				path: post.path.replace(/^\//, ''),
 				summary: post.summary,
-				thumbnail: post.thumbnail,
 				seriesId: post.series_id
 			});
 		}
@@ -99,21 +98,24 @@ export default function PostEditor({ user, post }: PostEditorProps) {
 			}
 
 			const formData = getFormData(post?.id);
+			if (!thumbnail && post?.thumbnail) {
+				formData.set('thumbnail', post.thumbnail);
+			}
 			startTransition(() => {
 				formAction(formData);
 			});
 
 			setModalOpen(false);
 		},
-		[post, title, content, getFormData, formAction]
+		[post, title, content, thumbnail, getFormData, formAction]
 	);
 
 	return (
 		<>
 			{/* 팝업 (로직 유지) */}
-			<Modal open={isModalOpen} onAfterClose={() => setModalOpen(false)} className="w-full md:min-w-[700px] md:w-[50%]">
+			<Modal open={isModalOpen} onAfterClose={() => setModalOpen(false)} className="w-full md:min-w-175 md:w-[50%]">
 				<form onSubmit={handleSubmit}>
-					<PostSetting url_slug={blog.url_slug} userId={user_id} />
+					<PostSetting url_slug={blog.url_slug} userId={user_id} thumbnailUrl={post?.thumbnail ?? undefined} />
 				</form>
 			</Modal>
 
@@ -139,7 +141,7 @@ export default function PostEditor({ user, post }: PostEditorProps) {
 					</div>
 
 					{/* 본문 에디터 영역 */}
-					<div className="min-h-[500px]">
+					<div className="min-h-125">
 						<Editor setContent={setContent} content={content} name="content" onImageUpload={handleImageUpload} />
 					</div>
 				</div>

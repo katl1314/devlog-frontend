@@ -26,23 +26,3 @@ export default async function Page({ searchParams }: IProps) {
 		</div>
 	);
 }
-
-/**
- *{
- *  id: '931f45fe-4622-42a1-9fcc-de9ee9378ac1',
- *  user_id: 'test',
- *  path: '/1',
- *  title: '테스트',
- *  summary: '11',
- *  content: '<p>ㅌㅌㅌㅌㅌ</p>',
- *  thumbnail: '',
- *  status: 'publish',
- *  visibility: true,
- *  series_id: null,
- *  series_order: null,
- *  created_at: '2026-05-29T06:23:02.802Z',
- *  updated_at: '2026-05-29T06:23:02.802Z',
- *  deleted_at: null
- *}
- **
- */
