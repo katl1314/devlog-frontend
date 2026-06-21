@@ -154,7 +154,7 @@ export const { handlers, auth } = NextAuth({
 		},
 		async jwt({ token, user, account, trigger, session }) {
 			// update() 호출 시 image 갱신
-			if (trigger === 'update' && session?.image) {
+			if (trigger === 'update' && session?.image !== undefined) {
 				token.image = session.image;
 			}
 			if (user) {

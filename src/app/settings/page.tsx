@@ -7,7 +7,6 @@ import { auth } from '@/auth';
 
 export default async function SettingsPage() {
 	const session = (await auth()) as Session & { accessToken: string };
-
 	const user = await userService.findUserById(session.user.id!);
 
 	let initialTheme: Themes = 'system';
@@ -36,7 +35,7 @@ export default async function SettingsPage() {
 				<SettingsForm
 					name={user.user_name ?? ''}
 					email={user.email ?? ''}
-					image={user.image ?? ''}
+					avatarUrl={user.avatar_url ?? ''}
 					userId={user.user_id ?? ''}
 					initialDescription={user.blog?.description ?? ''}
 					initialTheme={initialTheme}

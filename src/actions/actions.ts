@@ -177,7 +177,7 @@ export const updateSettings = async ({
 	const userId = session.user.id!;
 	await userService.update(
 		userId,
-		{ user_name: name, blog_description: description, socials, ...(avatar_url ? { avatar_url } : {}) },
+		{ user_name: name, blog_description: description, socials, ...(avatar_url !== undefined ? { avatar_url } : {}) },
 		session.accessToken
 	);
 	await userService.updateSettings(

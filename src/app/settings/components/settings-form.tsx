@@ -5,7 +5,7 @@ import { Themes, useTheme } from '@/hooks/theme';
 import { updateSettings, uploadImage } from '@/actions/actions';
 import { toast } from 'sonner';
 import ImageUpload, { useImageUpload } from '@/components/image-upload';
-import { FiPlus } from 'react-icons/fi';
+import { FiPlus, FiX } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -39,7 +39,7 @@ export const EMPTY_SOCIALS: SocialLinks = {
 interface SettingsFormProps {
 	name: string;
 	email: string;
-	image: string;
+	avatarUrl: string;
 	userId: string;
 	initialDescription: string;
 	initialTheme: ThemeOption;
@@ -53,7 +53,7 @@ const MAX_DESCRIPTION = 200;
 export default function SettingsForm({
 	name,
 	email,
-	image,
+	avatarUrl,
 	initialDescription,
 	initialTheme,
 	initialSocials,
@@ -64,7 +64,7 @@ export default function SettingsForm({
 	const { setTheme } = useTheme();
 	const { back } = useRouter();
 	const [username, setUsername] = useState(name);
-	const [avatarUrl, setAvatarUrl] = useState(image ?? '');
+	const [avatarImage, setAvatarImage] = useState(avatarUrl ?? '');
 	const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
 	const [description, setDescription] = useState(initialDescription);
 	const [commentNotification, setCommentNotification] = useState(initialCommentNotification);
@@ -88,10 +88,10 @@ export default function SettingsForm({
 				theme: selectedTheme,
 				comment_notification: commentNotification,
 				update_notification: updateNotification,
-				avatar_url: avatarUrl
+				avatar_url: avatarImage
 			});
-			if (avatarUrl !== image) {
-				await update({ image: avatarUrl });
+			if (avatarUrl !== avatarImage) {
+				await update({ image: avatarImage });
 			}
 			toast.success('변경사항이 저장됐습니다.');
 		} catch {
@@ -114,7 +114,7 @@ export default function SettingsForm({
 	// 이미지 업로드
 	const handleAvatarChange = async (file: File | null) => {
 		if (!file) {
-			setAvatarUrl('');
+			setAvatarImage('');
 			return;
 		}
 		setIsUploadingAvatar(true); // 업로딩 중
@@ -122,7 +122,7 @@ export default function SettingsForm({
 			const formData = new FormData();
 			formData.set('image', file);
 			const url = await uploadImage(formData);
-			setAvatarUrl(url);
+			setAvatarImage(url);
 		} catch {
 			toast.error('이미지 업로드에 실패했습니다.');
 		} finally {
@@ -145,12 +145,15 @@ export default function SettingsForm({
 				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">기본 프로필</h3>
 				<div className="flex flex-col items-center sm:flex-row sm:items-center gap-4 sm:gap-6">
 					<ImageUpload initialUrl={avatarUrl} onFileChange={isUploadingAvatar ? undefined : handleAvatarChange}>
-						<div className="relative w-32 h-32 rounded-4xl bg-muted overflow-hidden shrink-0 group">
-							<ImageUpload.Upload className="w-full h-full flex items-center justify-center text-muted-foreground cursor-pointer">
-								<FiPlus size={28} strokeWidth={2.5} />
-							</ImageUpload.Upload>
-							<ImageUpload.Preview allowReupload width={128} height={128} />
-							<AvatarEditOverlay />
+						<div className="relative w-32 h-32 shrink-0 group">
+							<div className="relative w-full h-full rounded-4xl bg-muted overflow-hidden">
+								<ImageUpload.Upload className="w-full h-full flex items-center justify-center text-muted-foreground cursor-pointer">
+									<FiPlus size={28} strokeWidth={2.5} />
+								</ImageUpload.Upload>
+								<ImageUpload.Preview allowReupload width={128} height={128} />
+								<AvatarEditOverlay />
+							</div>
+							<AvatarDeleteButton />
 						</div>
 					</ImageUpload>
 					<div className="flex-1 min-w-0 w-full flex flex-col gap-3">
@@ -323,6 +326,20 @@ function AvatarEditOverlay() {
 		>
 			편집
 		</div>
+	);
+}
+
+function AvatarDeleteButton() {
+	const { clearImage, previewUrl } = useImageUpload();
+	if (!previewUrl) return null;
+	return (
+		<button
+			type="button"
+			onClick={clearImage}
+			className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-neutral-700 hover:bg-neutral-600 flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-sm z-10"
+		>
+			<FiX size={12} color="white" />
+		</button>
 	);
 }
 
