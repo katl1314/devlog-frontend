@@ -63,6 +63,7 @@ export default function PostCard({
 								src={thumbnail.startsWith('/') ? thumbnail : `/api/image/${thumbnail}`}
 								alt={title}
 								fill
+								sizes="88px"
 								className="object-cover"
 							/>
 						</div>

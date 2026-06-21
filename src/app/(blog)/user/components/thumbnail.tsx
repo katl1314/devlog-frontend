@@ -14,7 +14,7 @@ export default function Thumbnail({ thumbnail, title, tags = [], user, created_a
 	const src = thumbnail.startsWith('/') ? thumbnail : `/api/image/${thumbnail}`;
 	return (
 		<div className="w-full h-80 relative overflow-hidden mb-4">
-			<Image src={src} alt="썸네일 이미지" fill className="object-cover" />
+			<Image src={src} alt="썸네일 이미지" fill sizes="100vw" className="object-cover" />
 			<div className="absolute inset-0 bg-linear-to-b from-black/10 to-black/60" />
 			<div className="absolute inset-0 flex flex-col justify-end p-8">
 				{tags.length > 0 && (

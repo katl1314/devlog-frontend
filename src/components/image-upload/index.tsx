@@ -94,9 +94,10 @@ interface PreviewProps {
 	children?: React.ReactNode;
 	width?: number;
 	height?: number;
+	sizes?: string;
 }
 
-function Preview({ className, allowReupload = false, children, width, height }: PreviewProps) {
+function Preview({ className, allowReupload = false, children, width, height, sizes }: PreviewProps) {
 	const { previewUrl, clearImage, triggerInput } = useImageUpload();
 	if (!previewUrl) return null;
 
@@ -120,6 +121,7 @@ function Preview({ className, allowReupload = false, children, width, height }: 
 					src={previewUrl}
 					alt="preview"
 					fill
+					sizes={sizes ?? '100vw'}
 					className="object-cover"
 				/>
 			)}

@@ -95,7 +95,7 @@ function SeriesCard({ series, userId, isOwner, accessToken, onMutate }: SeriesCa
 			<Link href={`/@${userId}?tab=series&id=${series.id}`} className="block">
 				<div className="relative w-full aspect-video bg-background">
 					{series.thumbnail ? (
-						<Image src={series.thumbnail} alt={series.name} fill className="object-cover" />
+						<Image src={series.thumbnail} alt={series.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
 					) : (
 						<div className="absolute inset-0 flex items-center justify-center">
 							<BookOpen size={36} strokeWidth={1.2} className="text-muted-foreground/40" />
