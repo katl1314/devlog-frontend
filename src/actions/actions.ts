@@ -139,7 +139,11 @@ export const savePost = async (_: any, formData: FormData) => {
 		const session = await auth();
 		if (!session?.accessToken) throw new Error('Unauthorized');
 
-		const thumbnailUrl = isFile ? await imageService.upload(thumbnailRaw as File, session.accessToken) : '';
+		const thumbnailUrl = isFile
+			? await imageService.upload(thumbnailRaw as File, session.accessToken)
+			: typeof thumbnailRaw === 'string' && thumbnailRaw
+				? thumbnailRaw
+				: '';
 
 		const { id, ...postData } = formObj as { id?: string; [key: string]: unknown };
 		const payload = { ...postData, thumbnail: thumbnailUrl };
