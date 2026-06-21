@@ -92,6 +92,5 @@ export default function PostContextProvider({
 	} catch (e: unknown) {
 		// API 요청 중 에러가 발생하거나, 예외 처리가 발생했을때 처리합니다.
 		const error = e as Error;
-		console.log(error);
 	}
 }
