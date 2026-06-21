@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Themes, useTheme } from '@/hooks/theme';
-import { updateSettings } from '@/actions/actions';
+import { updateSettings, uploadImage } from '@/actions/actions';
 import { toast } from 'sonner';
 import ImageUpload, { useImageUpload } from '@/components/image-upload';
 import { FiPlus } from 'react-icons/fi';
@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import DeleteAccountDialog from './delete-account-dialog';
+import { useSession } from 'next-auth/react';
 
 type ThemeOption = Themes;
 
@@ -59,9 +60,12 @@ export default function SettingsForm({
 	initialCommentNotification,
 	initialUpdateNotification
 }: SettingsFormProps) {
+	const { update } = useSession();
 	const { setTheme } = useTheme();
 	const { back } = useRouter();
 	const [username, setUsername] = useState(name);
+	const [avatarUrl, setAvatarUrl] = useState(image ?? '');
+	const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
 	const [description, setDescription] = useState(initialDescription);
 	const [commentNotification, setCommentNotification] = useState(initialCommentNotification);
 	const [updateNotification, setUpdateNotification] = useState(initialUpdateNotification);
@@ -83,8 +87,12 @@ export default function SettingsForm({
 				socials,
 				theme: selectedTheme,
 				comment_notification: commentNotification,
-				update_notification: updateNotification
+				update_notification: updateNotification,
+				avatar_url: avatarUrl
 			});
+			if (avatarUrl !== image) {
+				await update({ image: avatarUrl });
+			}
 			toast.success('변경사항이 저장됐습니다.');
 		} catch {
 			toast.error('저장에 실패했습니다.');
@@ -103,6 +111,25 @@ export default function SettingsForm({
 		back();
 	};
 
+	// 이미지 업로드
+	const handleAvatarChange = async (file: File | null) => {
+		if (!file) {
+			setAvatarUrl('');
+			return;
+		}
+		setIsUploadingAvatar(true); // 업로딩 중
+		try {
+			const formData = new FormData();
+			formData.set('image', file);
+			const url = await uploadImage(formData);
+			setAvatarUrl(url);
+		} catch {
+			toast.error('이미지 업로드에 실패했습니다.');
+		} finally {
+			setIsUploadingAvatar(false);
+		}
+	};
+
 	return (
 		<main>
 			{/* 헤더 */}
@@ -117,7 +144,7 @@ export default function SettingsForm({
 			<section className="mb-10">
 				<h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-[0.5px] mb-4">기본 프로필</h3>
 				<div className="flex flex-col items-center sm:flex-row sm:items-center gap-4 sm:gap-6">
-					<ImageUpload initialUrl={image ?? ''} onFileChange={file => file && void file}>
+					<ImageUpload initialUrl={avatarUrl} onFileChange={isUploadingAvatar ? undefined : handleAvatarChange}>
 						<div className="relative w-32 h-32 rounded-4xl bg-muted overflow-hidden shrink-0 group">
 							<ImageUpload.Upload className="w-full h-full flex items-center justify-center text-muted-foreground cursor-pointer">
 								<FiPlus size={28} strokeWidth={2.5} />
@@ -145,7 +172,9 @@ export default function SettingsForm({
 							/>
 							<div className="flex justify-between mt-1.5 px-1">
 								<p className="text-xs text-muted-foreground">프로필 소개 탭에 표시됩니다.</p>
-								<span className={`text-xs ${description.length >= MAX_DESCRIPTION ? 'text-destructive' : 'text-muted-foreground'}`}>
+								<span
+									className={`text-xs ${description.length >= MAX_DESCRIPTION ? 'text-destructive' : 'text-muted-foreground'}`}
+								>
 									{description.length}/{MAX_DESCRIPTION}
 								</span>
 							</div>

@@ -139,9 +139,7 @@ export const savePost = async (_: any, formData: FormData) => {
 		const session = await auth();
 		if (!session?.accessToken) throw new Error('Unauthorized');
 
-		const thumbnailUrl = isFile
-			? await imageService.upload(thumbnailRaw as File, session.accessToken)
-			: '';
+		const thumbnailUrl = isFile ? await imageService.upload(thumbnailRaw as File, session.accessToken) : '';
 
 		const { id, ...postData } = formObj as { id?: string; [key: string]: unknown };
 		const payload = { ...postData, thumbnail: thumbnailUrl };
@@ -162,7 +160,8 @@ export const updateSettings = async ({
 	socials,
 	theme,
 	comment_notification,
-	update_notification
+	update_notification,
+	avatar_url
 }: {
 	name: string;
 	description: string;
@@ -170,12 +169,17 @@ export const updateSettings = async ({
 	theme: string;
 	comment_notification: boolean;
 	update_notification: boolean;
+	avatar_url?: string;
 }) => {
 	const session = await auth();
 	if (!session?.user || !session.accessToken) throw new Error('Unauthorized');
 
 	const userId = session.user.id!;
-	await userService.update(userId, { user_name: name, blog_description: description, socials }, session.accessToken);
+	await userService.update(
+		userId,
+		{ user_name: name, blog_description: description, socials, ...(avatar_url ? { avatar_url } : {}) },
+		session.accessToken
+	);
 	await userService.updateSettings(
 		userId,
 		{
@@ -198,6 +202,15 @@ export const deletePostAction = async (postId?: string) => {
 	} catch {
 		return;
 	}
+};
+
+export const uploadImage = async (formData: FormData): Promise<string> => {
+	const session = await auth();
+	if (!session?.accessToken) throw new Error('Unauthorized');
+
+	const file = formData.get('image') as File;
+	const key = await imageService.upload(file, session.accessToken);
+	return `/api/image/${key}`;
 };
 
 export const deleteAccount = async (): Promise<void> => {

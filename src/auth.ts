@@ -64,11 +64,12 @@ export const { handlers, auth } = NextAuth({
 			async authorize({ email, password }) {
 				if (!email || !password) return null;
 				try {
-					const { userId, email: userEmail, user_name, avatar_url } =
-						await authService.signInWithCredentials(
-							email as string,
-							password as string
-						);
+					const {
+						userId,
+						email: userEmail,
+						user_name,
+						avatar_url
+					} = await authService.signInWithCredentials(email as string, password as string);
 					return {
 						id: userId,
 						email: userEmail,
@@ -151,15 +152,17 @@ export const { handlers, auth } = NextAuth({
 				return false;
 			}
 		},
-		async jwt({ token, user, account }) {
+		async jwt({ token, user, account, trigger, session }) {
+			// update() 호출 시 image 갱신
+			if (trigger === 'update' && session?.image) {
+				token.image = session.image;
+			}
 			if (user) {
-				const isOAuth =
-					account?.provider === 'google' || account?.provider === 'github';
-				const { accessToken, refreshToken, userId } =
-					await authService.signIn({
-						...user,
-						...(isOAuth && { provider: account!.provider.toUpperCase() })
-					});
+				const isOAuth = account?.provider === 'google' || account?.provider === 'github';
+				const { accessToken, refreshToken, userId } = await authService.signIn({
+					...user,
+					...(isOAuth && { provider: account!.provider.toUpperCase() })
+				});
 				token.email = user.email!;
 				token.name = user.name!;
 				token.userId = userId;
@@ -173,9 +176,7 @@ export const { handlers, auth } = NextAuth({
 				const decoded = jwtDecode(token.accessToken);
 				if (decoded.exp && decoded.exp < Date.now() / 1000) {
 					try {
-						const { accessToken } = await authService.rotateToken(
-							token.refreshToken
-						);
+						const { accessToken } = await authService.rotateToken(token.refreshToken);
 						token.accessToken = accessToken;
 					} catch {
 						// refresh token 만료/무효 → 세션 무효화

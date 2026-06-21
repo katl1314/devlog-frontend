@@ -41,9 +41,13 @@ const MarkdownView = ({ content }: { content: string }) => {
 				code: ({ className, children, ...props }) => {
 					const isBlock = className?.includes('language-');
 					return isBlock ? (
-						<code className={className} {...props}>{children}</code>
+						<code className={className} {...props}>
+							{children}
+						</code>
 					) : (
-						<code className="px-1.5 py-0.5 bg-muted text-[0.9rem] font-[monospace] rounded" {...props}>{children}</code>
+						<code className="px-1.5 py-0.5 bg-muted text-[0.9rem] font-[monospace] rounded" {...props}>
+							{children}
+						</code>
 					);
 				},
 				hr: ({ ...props }) => <hr className="my-8 border-border" {...props} />,
@@ -55,20 +59,20 @@ const MarkdownView = ({ content }: { content: string }) => {
 						{...props}
 					/>
 				),
-				img: ({ src, alt }) =>
-					src?.startsWith('/api/image/') ? (
+				img: ({ src, alt }) => {
+					const srcStr = typeof src === 'string' ? src : undefined;
+					return (
 						<Image
-							src={src}
+							src={srcStr ?? ''}
 							alt={alt ?? ''}
 							width={0}
 							height={0}
 							sizes="100vw"
 							className="w-full h-auto my-4 rounded"
+							unoptimized={!srcStr?.startsWith('/api/image/')}
 						/>
-					) : (
-						// eslint-disable-next-line @next/next/no-img-element
-						<img src={src} alt={alt ?? ''} className="max-w-full h-auto my-4 rounded" />
-					),
+					);
+				}
 			}}
 		>
 			{content}
