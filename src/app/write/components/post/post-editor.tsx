@@ -3,7 +3,7 @@
 import { startTransition, useActionState, useEffect, useState, useCallback, SyntheticEvent } from 'react';
 import { validatePost } from '@/utils';
 import { FiArrowLeft } from 'react-icons/fi';
-import { savePost } from '@/actions/actions';
+import { savePost, uploadImage } from '@/actions/actions';
 import { GoAlert } from 'react-icons/go';
 import { usePost } from '@/hooks/post';
 import { Button } from '@/components/ui/button';
@@ -43,15 +43,13 @@ export default function PostEditor({ user, post }: PostEditorProps) {
 	const handleImageUpload = async (file: File): Promise<string> => {
 		const formData = new FormData();
 		formData.set('image', file);
-		const res = await fetch('/api/image', { method: 'POST', body: formData });
-		if (!res.ok) {
-			const body = (await res.json().catch(() => ({}))) as { message?: string };
-			const message = body.message ?? '이미지 업로드에 실패했습니다.';
+		try {
+			return await uploadImage(formData);
+		} catch (error) {
+			const message = (error as Error).message || '이미지 업로드에 실패했습니다.';
 			toast.error(message, { position: 'top-right', duration: 3000 });
-			throw new Error(message);
+			throw error;
 		}
-		const data = (await res.json()) as { url: string };
-		return data.url;
 	};
 	const [state, formAction] = useActionState(savePost, { status: '' });
 	const [isModalOpen, setModalOpen] = useState(false);
@@ -120,8 +118,8 @@ export default function PostEditor({ user, post }: PostEditorProps) {
 			</Modal>
 
 			{/* 메인 에디터 영역 */}
-			<main className="min-h-screen bg-background pb-32">
-				<div className="max-w-4xl mx-auto md:px-6 pt-10 md:pt-20">
+			<main className="min-h-screen bg-background">
+				<div className="max-w-4xl mx-auto pt-10 md:pt-20">
 					{/* 제목 입력 */}
 					<input
 						className="w-full text-3xl md:text-5xl font-extrabold text-foreground placeholder:text-muted-foreground border-none outline-none bg-transparent leading-tight"
@@ -133,15 +131,13 @@ export default function PostEditor({ user, post }: PostEditorProps) {
 						autoComplete="off"
 					/>
 
-					<Separator className="w-16 h-1.5 bg-foreground my-6 md:my-8" />
-
 					{/* 태그 영역 (기존 TagEditor 감싸기) */}
-					<div className="mb-8">
+					<div className="mb-5 mt-2">
 						<TagEditor tags={tags} onChange={setTags} />
 					</div>
 
 					{/* 본문 에디터 영역 */}
-					<div className="min-h-125">
+					<div className="min-h-145">
 						<Editor setContent={setContent} content={content} name="content" onImageUpload={handleImageUpload} />
 					</div>
 				</div>

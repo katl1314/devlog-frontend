@@ -143,7 +143,14 @@ function Preview({ className, allowReupload = false, children, width, height, si
 	);
 }
 
+function PreviewWrapper({ children, className }: { children: React.ReactNode; className?: string }) {
+	const { previewUrl } = useImageUpload();
+	if (!previewUrl) return null;
+	return <div className={className}>{children}</div>;
+}
+
 ImageUpload.Upload = Upload;
 ImageUpload.Preview = Preview;
+ImageUpload.PreviewWrapper = PreviewWrapper;
 
 export default ImageUpload;

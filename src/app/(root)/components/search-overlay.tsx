@@ -123,9 +123,7 @@ export default function SearchOverlay({ onClose }: Props) {
 				{/* 드롭다운 */}
 				{(showHistory || showSuggest || loading) && (
 					<div className="mt-2 bg-card border border-border rounded-2xl shadow-lg overflow-hidden">
-						{loading && (
-							<div className="px-4 py-3 text-sm text-muted-foreground">검색 중...</div>
-						)}
+						{loading && <div className="px-4 py-3 text-sm text-muted-foreground">검색 중...</div>}
 
 						{/* 검색 히스토리 */}
 						{!loading && showHistory && (
@@ -133,7 +131,10 @@ export default function SearchOverlay({ onClose }: Props) {
 								<div className="flex items-center justify-between px-4 pt-3 pb-1">
 									<span className="text-xs font-semibold text-muted-foreground">최근 검색</span>
 									<button
-										onClick={() => { searchService.clearHistory(); setHistory([]); }}
+										onClick={() => {
+											searchService.clearHistory();
+											setHistory([]);
+										}}
 										className="text-xs text-muted-foreground hover:text-foreground transition"
 									>
 										전체 삭제
@@ -185,7 +186,10 @@ export default function SearchOverlay({ onClose }: Props) {
 										{suggest!.posts.map(post => (
 											<div
 												key={post.id}
-												onClick={() => { onClose(); router.push(`/user/${post.userId}${post.path}`); }}
+												onClick={() => {
+													onClose();
+													router.push(`/@${post.userId}${post.path}`);
+												}}
 												className="flex items-center gap-3 px-4 py-2.5 hover:bg-muted cursor-pointer transition-colors"
 											>
 												<BiSearch size={14} className="text-muted-foreground shrink-0" />

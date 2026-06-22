@@ -150,8 +150,10 @@ export default function SettingsForm({
 								<ImageUpload.Upload className="w-full h-full flex items-center justify-center text-muted-foreground cursor-pointer">
 									<FiPlus size={28} strokeWidth={2.5} />
 								</ImageUpload.Upload>
-								<ImageUpload.Preview allowReupload width={128} height={128} />
-								<AvatarEditOverlay />
+								<ImageUpload.PreviewWrapper className="absolute inset-0">
+									<ImageUpload.Preview allowReupload width={128} height={128} className="w-full h-full" />
+									<AvatarEditOverlay />
+								</ImageUpload.PreviewWrapper>
 							</div>
 							<AvatarDeleteButton />
 						</div>
@@ -336,7 +338,7 @@ function AvatarDeleteButton() {
 		<button
 			type="button"
 			onClick={clearImage}
-			className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-neutral-700 hover:bg-neutral-600 flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-sm z-10"
+			className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-neutral-700 hover:bg-neutral-600 flex items-center justify-center sm:opacity-0 sm:group-hover:opacity-100 transition shadow-sm z-10"
 		>
 			<FiX size={12} color="white" />
 		</button>

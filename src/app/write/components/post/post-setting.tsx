@@ -50,13 +50,13 @@ export default function PostSetting({ url_slug, userId, thumbnailUrl }: { url_sl
 							</div>
 							<span className="text-xs md:text-sm font-semibold">썸네일 업로드</span>
 						</ImageUpload.Upload>
-						<div className="relative w-full aspect-video group">
+						<ImageUpload.PreviewWrapper className="relative w-full aspect-video group">
 							<div className="w-full h-full rounded-xl overflow-hidden relative">
 								<ImageUpload.Preview allowReupload className="w-full h-full" sizes="(max-width: 768px) 100vw, 40vw" />
 								<ThumbnailEditOverlay />
 							</div>
 							<ThumbnailDeleteButton />
-						</div>
+						</ImageUpload.PreviewWrapper>
 					</ImageUpload>
 
 					<p className="mt-4 text-xs text-muted-foreground text-center leading-relaxed hidden md:block">
@@ -196,7 +196,7 @@ function ThumbnailDeleteButton() {
 		<button
 			type="button"
 			onClick={clearImage}
-			className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-neutral-700 hover:bg-neutral-600 flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-sm z-10"
+			className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-neutral-700 hover:bg-neutral-600 flex items-center justify-center sm:opacity-0 sm:group-hover:opacity-100 transition shadow-sm z-10"
 		>
 			<FiX size={12} color="white" />
 		</button>

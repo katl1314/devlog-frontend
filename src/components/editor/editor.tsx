@@ -32,7 +32,13 @@ interface IEditor {
 	onImageUpload?: (file: File) => Promise<string>;
 }
 
-export default function Editor({ name, content, setContent, placeholder = '무엇이든 입력하세요.', onImageUpload }: IEditor) {
+export default function Editor({
+	name,
+	content,
+	setContent,
+	placeholder = '무엇이든 입력하세요.',
+	onImageUpload
+}: IEditor) {
 	const editor = useEditor({
 		immediatelyRender: false,
 		extensions: [
@@ -149,7 +155,7 @@ export default function Editor({ name, content, setContent, placeholder = '무�
 	});
 
 	return (
-		<div className="markdown-body px-3">
+		<div className="markdown-body px-2">
 			<ControlPanel editor={editor!} onImageUpload={onImageUpload} />
 			<EditorContent name={name} editor={editor} />
 		</div>

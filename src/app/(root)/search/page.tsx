@@ -22,11 +22,7 @@ export default function SearchPage() {
 		after ? setLoadingMore(true) : setLoading(true);
 		try {
 			const data = await searchService.search(query.trim(), after);
-			setResult(prev =>
-				after && prev
-					? { ...data, data: [...prev.data, ...data.data] }
-					: data
-			);
+			setResult(prev => (after && prev ? { ...data, data: [...prev.data, ...data.data] } : data));
 		} catch {
 			// 에러 시 현재 결과 유지
 		} finally {
@@ -54,9 +50,7 @@ export default function SearchPage() {
 				<h1 className="text-xl font-bold text-foreground">
 					<span className="text-blue-500">"{q}"</span> 검색 결과
 				</h1>
-				{result && (
-					<p className="text-sm text-muted-foreground mt-1">총 {result.count.toLocaleString()}건</p>
-				)}
+				{result && <p className="text-sm text-muted-foreground mt-1">총 {result.count.toLocaleString()}건</p>}
 			</div>
 
 			{result?.relatedTags && result.relatedTags.length > 0 && (
@@ -91,7 +85,7 @@ export default function SearchPage() {
 			{!loading && result && result.data.length > 0 && (
 				<div className="flex flex-col divide-y divide-border border border-border rounded-xl overflow-hidden">
 					{result.data.map(post => {
-						const href = `/user/${post.userId}${post.path}`;
+						const href = `/@${post.userId}${post.path}`;
 						return (
 							<Link
 								key={post.id}
@@ -101,12 +95,12 @@ export default function SearchPage() {
 								<div className="flex-1 min-w-0">
 									<p className="text-xs text-muted-foreground mb-1">{post.userId}</p>
 									<h2 className="text-base font-semibold text-foreground line-clamp-1 mb-1">{post.title}</h2>
-									{post.summary && (
-										<p className="text-sm text-muted-foreground line-clamp-2 mb-2">{post.summary}</p>
-									)}
+									{post.summary && <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{post.summary}</p>}
 									<div className="flex items-center gap-2 flex-wrap">
 										{post.tags.map(tag => (
-											<span key={tag} className="text-xs text-blue-500">#{tag}</span>
+											<span key={tag} className="text-xs text-blue-500">
+												#{tag}
+											</span>
 										))}
 										<span className="text-xs text-muted-foreground" suppressHydrationWarning>
 											{getTimeDiff(post.createdAt)}
