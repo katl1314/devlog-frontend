@@ -1,12 +1,67 @@
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import Link from 'next/link';
 import Image from 'next/image';
 import { searchService, SearchResult } from '@/services/search.service';
 import { getTimeDiff } from '@/utils';
+
+type SearchPost = SearchResult['data'][number];
+
+function SearchCard({ post }: { post: SearchPost }) {
+	const blogHref = `/@${post.userId}`;
+	const postHref = `/@${post.userId}${post.path}`;
+
+	return (
+		<article className="px-4 py-4 hover:bg-muted/30 transition-colors border-b border-border last:border-b-0">
+			<div className="flex items-center gap-2 mb-3">
+				<Link href={blogHref} className="text-sm font-semibold text-foreground hover:underline leading-none">
+					{post.userId}
+				</Link>
+				<span className="text-muted-foreground text-sm">·</span>
+				<span className="text-sm text-muted-foreground" suppressHydrationWarning>
+					{getTimeDiff(post.createdAt)}
+				</span>
+			</div>
+
+			<Link href={postHref} className="block group" scroll={false}>
+				<div className="flex justify-between items-start gap-4">
+					<div className="flex-1 min-w-0">
+						<h3 className="text-[17px] font-bold leading-snug text-foreground mb-1.5 line-clamp-2 tracking-tight group-hover:text-foreground/70 transition-colors">
+							{post.title}
+						</h3>
+						{post.summary && (
+							<p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{post.summary}</p>
+						)}
+					</div>
+					{post.thumbnail && (
+						<div className="relative w-22 h-22 shrink-0 rounded-xl overflow-hidden">
+							<Image
+								src={`/api/image/${post.thumbnail}`}
+								alt={post.title}
+								fill
+								sizes="88px"
+								className="object-cover"
+							/>
+						</div>
+					)}
+				</div>
+
+				{post.tags.length > 0 && (
+					<div className="flex flex-wrap gap-1.5 mt-3">
+						{post.tags.map(tag => (
+							<span key={tag} className="text-xs px-2.5 py-0.5 rounded-full bg-muted text-muted-foreground font-medium">
+								#{tag}
+							</span>
+						))}
+					</div>
+				)}
+			</Link>
+		</article>
+	);
+}
 
 export default function SearchPage() {
 	const searchParams = useSearchParams();
@@ -16,6 +71,7 @@ export default function SearchPage() {
 	const [result, setResult] = useState<SearchResult | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [loadingMore, setLoadingMore] = useState(false);
+	const sentinelRef = useRef<HTMLDivElement>(null);
 
 	const fetchSearch = useCallback(async (query: string, after?: string) => {
 		if (!query.trim()) return;
@@ -34,6 +90,20 @@ export default function SearchPage() {
 		setResult(null);
 		fetchSearch(q);
 	}, [q, fetchSearch]);
+
+	useEffect(() => {
+		const el = sentinelRef.current;
+		if (!el || !result?.hasNext || !result.cursor || loadingMore) return;
+
+		const observer = new IntersectionObserver(([entry]) => {
+			if (entry.isIntersecting) {
+				observer.disconnect();
+				fetchSearch(q, result.cursor!.after);
+			}
+		});
+		observer.observe(el);
+		return () => observer.disconnect();
+	}, [result, loadingMore, fetchSearch, q]);
 
 	if (!q) {
 		return (
@@ -83,55 +153,19 @@ export default function SearchPage() {
 			)}
 
 			{!loading && result && result.data.length > 0 && (
-				<div className="flex flex-col divide-y divide-border border border-border rounded-xl overflow-hidden">
-					{result.data.map(post => {
-						const href = `/@${post.userId}${post.path}`;
-						return (
-							<Link
-								key={post.id}
-								href={href}
-								className="flex items-start gap-4 px-5 py-4 hover:bg-muted/40 transition-colors"
-							>
-								<div className="flex-1 min-w-0">
-									<p className="text-xs text-muted-foreground mb-1">{post.userId}</p>
-									<h2 className="text-base font-semibold text-foreground line-clamp-1 mb-1">{post.title}</h2>
-									{post.summary && <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{post.summary}</p>}
-									<div className="flex items-center gap-2 flex-wrap">
-										{post.tags.map(tag => (
-											<span key={tag} className="text-xs text-blue-500">
-												#{tag}
-											</span>
-										))}
-										<span className="text-xs text-muted-foreground" suppressHydrationWarning>
-											{getTimeDiff(post.createdAt)}
-										</span>
-									</div>
-								</div>
-								{post.thumbnail && (
-									<div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-muted">
-										<Image
-											src={`/api/image/${post.thumbnail}`}
-											alt={post.title}
-											fill
-											sizes="80px"
-											className="object-cover"
-										/>
-									</div>
-								)}
-							</Link>
-						);
-					})}
+				<div>
+					{result.data.map(post => (
+						<SearchCard key={post.id} post={post} />
+					))}
 				</div>
 			)}
 
-			{!loading && result?.hasNext && result.cursor && (
-				<button
-					onClick={() => fetchSearch(q, result.cursor!.after)}
-					disabled={loadingMore}
-					className="w-full mt-4 py-3 rounded-xl border border-border text-sm text-muted-foreground hover:bg-muted transition disabled:opacity-50"
-				>
-					{loadingMore ? '불러오는 중...' : '더 보기'}
-				</button>
+			<div ref={sentinelRef} />
+
+			{loadingMore && (
+				<div className="flex justify-center py-6">
+					<div className="h-5 w-5 border-2 border-border border-t-foreground rounded-full animate-spin" />
+				</div>
 			)}
 		</div>
 	);
