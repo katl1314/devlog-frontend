@@ -146,7 +146,7 @@ export default function AuthForm({
 		if (result?.error) {
 			setLoginError('비밀번호가 올바르지 않습니다.');
 		} else {
-			window.location.href = result?.url ?? redirectTo;
+			router.push(redirectTo);
 		}
 	};
 
